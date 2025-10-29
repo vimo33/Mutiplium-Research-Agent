@@ -142,11 +142,12 @@ async def _search_tavily(query: str, *, max_results: int) -> dict[str, Any]:
         if not url:
             continue
         parsed = urlparse(url)
+        summary = item.get("content") or item.get("snippet") or ""
         results.append(
             {
                 "title": item.get("title") or parsed.hostname or url,
                 "url": url,
-                "summary": item.get("content") or item.get("snippet") or "",
+                "summary": summary[:2000],
                 "source": parsed.hostname or "",
                 "published_at": item.get("published_at"),
             }
@@ -190,11 +191,12 @@ async def _search_perplexity(query: str, *, max_results: int) -> dict[str, Any]:
         if not url:
             continue
         parsed = urlparse(url)
+        summary = item.get("snippet") or ""
         results.append(
             {
                 "title": item.get("title") or parsed.hostname or url,
                 "url": url,
-                "summary": item.get("snippet") or "",
+                "summary": summary[:2000],
                 "source": parsed.hostname or "",
                 "published_at": item.get("published_at"),
             }
@@ -209,7 +211,7 @@ async def _search_perplexity(query: str, *, max_results: int) -> dict[str, Any]:
                 {
                     "title": "Perplexity summary",
                     "url": "",
-                    "summary": summary,
+                    "summary": summary[:2000],
                     "source": "perplexity.ai",
                     "published_at": None,
                 }
@@ -242,7 +244,7 @@ async def _search_duckduckgo(query: str, *, max_results: int) -> dict[str, Any]:
             return
         parsed = urlparse(url)
         title = text.split(" - ", 1)[0]
-        summary = text
+        summary = text[:2000]
         results.append(
             {
                 "title": title,

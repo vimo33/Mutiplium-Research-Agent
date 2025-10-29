@@ -2,8 +2,7 @@ from __future__ import annotations
 
 import json
 import re
-from collections import Counter
-from typing import Any, Awaitable, Callable
+from typing import Any
 
 from multiplium.providers.base import BaseAgentProvider, ProviderRunResult
 
@@ -77,13 +76,12 @@ class GeminiAgentProvider(BaseAgentProvider):
         }
         total_input_tokens = 0
         total_output_tokens = 0
-        tool_usage_counter: Counter[str] = Counter()
+
+        google_search_tool = types.Tool(google_search=types.GoogleSearch())
 
         try:
             for segment_name in segment_names:
-                tool_functions, call_counter = self._build_tool_functions()
-                tools: list[Any] = list(tool_functions)
-                tools.append(types.Tool(google_search=types.GoogleSearch()))
+                tools = [google_search_tool]
 
                 config = types.GenerateContentConfig(
                     system_instruction=self._build_system_prompt(context, segment_name),
@@ -142,8 +140,6 @@ class GeminiAgentProvider(BaseAgentProvider):
                     )
 
                 findings.append(segment_data)
-                tool_usage_counter["mcp_tools"] += call_counter["count"]
-
                 usage_meta = response.usage_metadata or types.GenerateContentResponseUsageMetadata()
                 total_input_tokens += getattr(usage_meta, "prompt_token_count", 0)
                 total_output_tokens += getattr(usage_meta, "candidates_token_count", 0)
@@ -158,8 +154,8 @@ class GeminiAgentProvider(BaseAgentProvider):
         )
 
         telemetry = {
-            "tool_calls": sum(tool_usage_counter.values()),
-            "tool_usage": dict(tool_usage_counter),
+            "tool_calls": 0,
+            "tool_usage": {},
             "input_tokens": total_input_tokens,
             "output_tokens": total_output_tokens,
             "coverage": coverage_details,
