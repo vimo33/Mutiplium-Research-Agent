@@ -93,8 +93,7 @@ class GeminiAgentProvider(BaseAgentProvider):
                     tool_config=types.ToolConfig(
                         function_calling_config=types.FunctionCallingConfig(
                             mode=types.FunctionCallingConfigMode.AUTO
-                        ),
-                        google_search=types.GoogleSearchToolConfig(disable_attribution=False),
+                        )
                     ),
                 )
 
