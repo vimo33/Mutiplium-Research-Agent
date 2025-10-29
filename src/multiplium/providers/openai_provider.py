@@ -166,10 +166,14 @@ class OpenAIAgentProvider(BaseAgentProvider):
         )
 
     def _build_user_prompt(self, context: Any) -> str:
+        segment_names = self._extract_segment_names(context)
+        segment_list = "\n".join(f"- {name}" for name in segment_names) if segment_names else ""
         return (
             "Research each value-chain segment sequentially. "
             "Use tools for search, content retrieval, and quantitative lookups. "
             "Do not stop after covering the first segment—explicitly iterate through every segment in the order provided, verifying each has at least five well-sourced companies before presenting the final JSON. "
+            "\n\nSegments to cover:\n"
+            f"{segment_list}\n"
             "Return structured JSON with company list, KPI rationale, and source URLs."
         )
 
@@ -259,76 +263,10 @@ class OpenAIAgentProvider(BaseAgentProvider):
                 continue
 
             stats["segments_considered"] += 1
-            existing = {
-                self._normalize_company_name(c.get("company"))
-                for c in companies
-                if isinstance(c, dict) and c.get("company")
-            }
-
-            queries = self._generate_fallback_queries(segment.get("name"), context=context)
-            search_failures = 0
-            for query in queries:
-                try:
-                    search_result = await self.tool_manager.invoke(
-                        "search_web",
-                        query=query,
-                        max_results=max(required * 2, required - current_count),
-                    )
-                except Exception as exc:  # pragma: no cover - network/tool errors
-                    notes.append(f"Fallback search failed ({query}): {exc}")
-                    stats["failures"] += 1
-                    search_failures += 1
-                    continue
-
-                stats["segments_augmented"] += 1
-                for item in search_result.get("results", []):
-                    title = (item.get("title") or "").strip()
-                    if not title:
-                        continue
-                    normalized = self._normalize_company_name(title)
-                    if normalized in existing:
-                        continue
-
-                    company_entry = {
-                        "company": title,
-                        "summary": item.get("summary", ""),
-                        "kpi_alignment": [],
-                        "sources": [item.get("url")] if item.get("url") else [],
-                        "notes": f"Generated via search_web fallback (query: {query}).",
-                    }
-                    companies.append(company_entry)
-                    existing.add(normalized)
-                    stats["added_companies"] += 1
-                    current_count = len([c for c in companies if isinstance(c, dict)])
-                    if current_count >= required:
-                        break
-                if len([c for c in companies if isinstance(c, dict)]) >= required:
-                    break
-
-            if len([c for c in companies if isinstance(c, dict)]) < required:
-                anchors = self._extract_anchor_companies(segment.get("name"), context=context)
-                for anchor in anchors:
-                    normalized = self._normalize_company_name(anchor)
-                    if normalized in existing:
-                        continue
-                    companies.append(
-                        {
-                            "company": anchor,
-                            "summary": "Anchor company from thesis value-chain; requires validation.",
-                            "kpi_alignment": [],
-                            "sources": [],
-                            "notes": "Extracted from thesis anchors.",
-                        }
-                    )
-                    existing.add(normalized)
-                    stats["added_companies"] += 1
-                    if len([c for c in companies if isinstance(c, dict)]) >= required:
-                        break
-
-            if len([c for c in companies if isinstance(c, dict)]) < required:
-                notes.append(
-                    "Fallback search did not provide enough distinct companies; manual follow-up required."
-                )
+            notes.append(
+                "Segment is below the 5-company target. Collect additional primary sources before finalizing."
+            )
+            stats["failures"] += 1
 
         return stats
 
@@ -356,66 +294,6 @@ class OpenAIAgentProvider(BaseAgentProvider):
                 )
                 existing_names.add(name)
         return findings
-
-    def _generate_fallback_queries(self, segment_name: Any, *, context: Any) -> list[str]:
-        segment_text = segment_name.strip() if isinstance(segment_name, str) else ""
-        thesis = getattr(context, "thesis", "")
-        thesis_hint = thesis.splitlines()[0].strip() if isinstance(thesis, str) and thesis else ""
-        base_terms = [
-            "regenerative viticulture companies",
-            "vineyard technology startups",
-            "wine industry sustainability",
-            "precision agriculture viticulture",
-        ]
-        queries: list[str] = []
-        for term in base_terms:
-            parts = [segment_text or "viticulture value chain", term]
-            if thesis_hint:
-                parts.append(thesis_hint)
-            queries.append(" ".join(part for part in parts if part))
-
-        anchors = self._extract_anchor_companies(segment_name, context=context)
-        for anchor in anchors:
-            queries.append(f"{anchor} vineyard technology")
-            queries.append(f"{anchor} regenerative viticulture")
-
-        # Deduplicate while preserving order.
-        seen: set[str] = set()
-        unique_queries: list[str] = []
-        for query in queries:
-            if query not in seen:
-                seen.add(query)
-                unique_queries.append(query)
-        return unique_queries
-
-    def _extract_anchor_companies(self, segment_name: Any, *, context: Any) -> list[str]:
-        if not isinstance(segment_name, str) or not segment_name.strip():
-            return []
-
-        value_chain_entries = getattr(context, "value_chain", [])
-        full_text_parts: list[str] = []
-        for entry in value_chain_entries:
-            if isinstance(entry, dict):
-                raw = entry.get("raw")
-                if isinstance(raw, str):
-                    full_text_parts.append(raw)
-            elif isinstance(entry, str):
-                full_text_parts.append(entry)
-        full_text = "\n".join(full_text_parts)
-
-        pattern = rf"##\s*{re.escape(segment_name.strip())}(.*?)(?:\n##\s|$)"
-        match = re.search(pattern, full_text, flags=re.IGNORECASE | re.DOTALL)
-        if not match:
-            return []
-
-        segment_block = match.group(1)
-        anchor_match = re.search(r"Anchors:\s*(.*)", segment_block, flags=re.IGNORECASE)
-        if not anchor_match:
-            return []
-
-        anchors_line = anchor_match.group(1)
-        anchors = [anchor.strip(" -*_,") for anchor in anchors_line.split(",") if anchor.strip()]
-        return anchors
 
     def _extract_segment_names(self, context: Any) -> list[str]:
         value_chain_entries = getattr(context, "value_chain", [])
