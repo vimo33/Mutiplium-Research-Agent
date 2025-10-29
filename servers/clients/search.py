@@ -22,24 +22,28 @@ async def search_web(query: str, *, max_results: int = 5, freshness_days: int | 
     max_results = max(1, min(max_results, 10))
     aggregated: list[dict[str, Any]] = []
     sources_used: list[str] = []
+    provider_hits: dict[str, int] = {"tavily": 0, "perplexity": 0, "duckduckgo": 0}
 
     if TAVILY_API_KEY:
         tavily_payload = await _search_tavily(query=query, max_results=max_results)
         aggregated.extend(tavily_payload["results"])
         if tavily_payload["results"]:
             sources_used.append("Tavily")
+            provider_hits["tavily"] += len(tavily_payload["results"])
 
     if PERPLEXITY_API_KEY:
         perplexity_payload = await _search_perplexity(query=query, max_results=max_results)
         aggregated.extend(perplexity_payload["results"])
         if perplexity_payload["results"]:
             sources_used.append("Perplexity")
+            provider_hits["perplexity"] += len(perplexity_payload["results"])
 
     if not aggregated:
         duck_payload = await _search_duckduckgo(query=query, max_results=max_results)
         aggregated.extend(duck_payload["results"])
         if duck_payload["results"]:
             sources_used.append("DuckDuckGo")
+            provider_hits["duckduckgo"] += len(duck_payload["results"])
 
     seen_urls: set[str] = set()
     deduped: list[dict[str, Any]] = []
@@ -67,6 +71,7 @@ async def search_web(query: str, *, max_results: int = 5, freshness_days: int | 
         "fetched_at": datetime.now(timezone.utc).isoformat(),
         "results": deduped,
         "note": note,
+        "sources": provider_hits,
     }
 
 
