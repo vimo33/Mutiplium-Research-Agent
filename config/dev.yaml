@@ -1,0 +1,38 @@
+orchestrator:
+  sector: "Example Sector"
+  thesis_path: "data/thesis.md"
+  value_chain_path: "data/value_chain.md"
+  kpi_path: "data/kpis.md"
+  concurrency: 3
+  output_path: "reports/latest_report.json"
+  dry_run: false
+
+providers:
+  anthropic:
+    enabled: true
+    model: "claude-3-5-sonnet"
+    temperature: 0.15
+    max_steps: 12
+  openai:
+    enabled: true
+    model: "gpt-4.1"
+    temperature: 0.15
+    max_steps: 12
+  google:
+    enabled: true
+    model: "gemini-1.5-pro"
+    temperature: 0.15
+    max_steps: 12
+
+tools:
+  - name: "search_web"
+    endpoint: "http://localhost:7001/mcp/search"
+  - name: "fetch_content"
+    endpoint: "http://localhost:7001/mcp/fetch"
+    allow_domains: []
+  - name: "lookup_crunchbase"
+    endpoint: "http://localhost:7002/mcp/crunchbase"
+  - name: "lookup_patents"
+    endpoint: "http://localhost:7003/mcp/patents"
+  - name: "financial_metrics"
+    endpoint: "http://localhost:7004/mcp/financials"
