@@ -59,6 +59,20 @@ Internal MVP for running multi-LLM investment research across Anthropic Claude, 
    ```
    A consolidated JSON report is written to `reports/latest_report.json` by default. Override via `orchestrator.output_path` in the config file.
 
+## Deploying MCP Tool Servers to Render
+
+To avoid running the four tool services locally, deploy them as a single FastAPI app on [Render](https://render.com):
+
+1. The repository includes `servers/app.py`, `requirements.txt`, and `render.yaml`. Push these files to your Git remote.
+2. In Render, create a **Web Service** pointing at the repository. Render will install `requirements.txt` and start `uvicorn servers.app:app`.
+3. Configure environment variables (e.g., `FMP_API_KEY`) in the Render dashboard under the service's **Environment** tab.
+4. After the service deploys, note the base URL (e.g., `https://multiplium-mcp-tools.onrender.com`) and update `config/dev.yaml` tool endpoints to point at:
+   - `https://<host>/search/mcp/search`
+   - `https://<host>/search/mcp/fetch`
+   - `https://<host>/crunchbase/mcp/crunchbase`
+   - `https://<host>/patents/mcp/patents`
+   - `https://<host>/financials/mcp/financials`
+
 > **Note**: SDKs evolve quickly—pin versions that are validated in your environment:
 > - Anthropic Python SDK (`anthropic`)
 > - OpenAI Agents SDK (`openai-agents`)

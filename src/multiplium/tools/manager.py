@@ -113,9 +113,24 @@ class ToolManager:
         async def _handler(*args: Any, **kwargs: Any) -> Any:
             payload = {"name": spec.name, "args": args, "kwargs": kwargs}
             async with self._lock:
-                response = await self._client.post(spec.mcp_endpoint, json=payload)
-            response.raise_for_status()
-            return response.json()
+                try:
+                    response = await self._client.post(spec.mcp_endpoint, json=payload)
+                    response.raise_for_status()
+                except httpx.HTTPStatusError as exc:
+                    content = _safe_response_json(response)
+                    return {
+                        "error": f"HTTP {response.status_code} from tool endpoint: {exc}",
+                        "status_code": response.status_code,
+                        "endpoint": spec.mcp_endpoint,
+                        "response": content,
+                    }
+                except httpx.HTTPError as exc:
+                    return {
+                        "error": f"Tool endpoint request failed: {exc}",
+                        "endpoint": spec.mcp_endpoint,
+                    }
+            data = _safe_response_json(response)
+            return data
 
         return _handler
 
@@ -138,3 +153,10 @@ async def _stub_tool(*args: Any, **kwargs: Any) -> dict[str, Any]:
         "args": args,
         "kwargs": kwargs,
     }
+
+
+def _safe_response_json(response: httpx.Response) -> Any:
+    try:
+        return response.json()
+    except ValueError:
+        return {"raw": response.text}

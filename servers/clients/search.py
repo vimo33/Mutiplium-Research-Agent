@@ -20,10 +20,27 @@ async def search_web(query: str, *, max_results: int = 5, freshness_days: int | 
         "no_html": "1",
         "no_redirect": "1",
     }
-    async with httpx.AsyncClient(timeout=10.0) as client:
-        response = await client.get(DUCKDUCKGO_API, params=params)
-    response.raise_for_status()
-    payload = response.json()
+    try:
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            response = await client.get(DUCKDUCKGO_API, params=params)
+        response.raise_for_status()
+        payload = response.json()
+    except httpx.HTTPError as exc:
+        return {
+            "query": query,
+            "max_results": max_results,
+            "results": [],
+            "fetched_at": datetime.now(timezone.utc).isoformat(),
+            "note": f"DuckDuckGo request failed: {exc}",
+        }
+    except Exception as exc:  # pragma: no cover - unexpected transport errors
+        return {
+            "query": query,
+            "max_results": max_results,
+            "results": [],
+            "fetched_at": datetime.now(timezone.utc).isoformat(),
+            "note": f"DuckDuckGo request encountered unexpected error: {exc}",
+        }
 
     results: list[dict[str, Any]] = []
 
@@ -71,8 +88,28 @@ async def fetch_page_content(url: str) -> dict[str, Any]:
     """Fetch page content via HTTP GET, returning text payload and metadata."""
 
     headers = {"User-Agent": "MultipliumFetcher/0.1"}
-    async with httpx.AsyncClient(timeout=15.0, follow_redirects=True, headers=headers) as client:
-        response = await client.get(url)
+    try:
+        async with httpx.AsyncClient(timeout=15.0, follow_redirects=True, headers=headers) as client:
+            response = await client.get(url)
+        response.raise_for_status()
+    except httpx.HTTPError as exc:
+        return {
+            "url": str(url),
+            "status_code": getattr(exc.response, "status_code", None),
+            "content_type": None,
+            "content": "",
+            "charset": None,
+            "error": f"fetch failed: {exc}",
+        }
+    except Exception as exc:  # pragma: no cover - unexpected transport errors
+        return {
+            "url": str(url),
+            "status_code": None,
+            "content_type": None,
+            "content": "",
+            "charset": None,
+            "error": f"fetch encountered unexpected error: {exc}",
+        }
 
     content_type = response.headers.get("content-type", "")
     text = response.text

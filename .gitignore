@@ -11,3 +11,4 @@ htmlcov/
 reports/*
 !reports/.gitkeep
 .DS_Store
+.venv/

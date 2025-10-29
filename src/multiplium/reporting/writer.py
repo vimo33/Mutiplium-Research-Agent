@@ -30,6 +30,7 @@ def write_report(
                 "status": result.status,
                 "findings": result.findings,
                 "telemetry": result.telemetry,
+                "tool_summary": result.telemetry.get("tool_summary"),
             }
             for result in provider_results
         ],

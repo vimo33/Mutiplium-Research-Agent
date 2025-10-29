@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: multiplium-mcp-tools
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn servers.app:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: FMP_API_KEY
+        sync: false
+      - key: OPENALEX_API_BASE
+        value: https://api.openalex.org/organizations
