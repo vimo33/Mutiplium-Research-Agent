@@ -21,7 +21,7 @@ def _default_json(value: Any) -> Any:
 class GeminiAgentProvider(BaseAgentProvider):
     """Google Gemini integration using the python-genai SDK with automatic function calling."""
 
-    _MIN_COMPANIES = 5
+    _MIN_COMPANIES = 10
 
     async def run(self, context: Any) -> ProviderRunResult:
         if self.dry_run:
@@ -197,7 +197,7 @@ class GeminiAgentProvider(BaseAgentProvider):
         return (
             "You are a Gemini-based research analyst collaborating with other LLM agents. "
             "Use the provided tools, including Google Search, to gather verifiable, up-to-date evidence. "
-            f"Focus exclusively on the value-chain segment '{segment_name}'. "
+            f"Focus exclusively on the value-chain segment '{segment_name}'. Produce at least ten unique company profiles with supporting citations. "
             "Do not fabricate sources; only cite URLs you have verified."
             f"\n\nInvestment thesis:\n{thesis}"
             f"\n\nKPIs:\n{json.dumps(kpis, indent=2)}"
@@ -209,8 +209,8 @@ class GeminiAgentProvider(BaseAgentProvider):
         return (
             f"Research the value-chain segment '{segment_name}'. "
             "Use search, document fetch, Crunchbase, patent, and financial tools as needed. "
-            f"Produce at least {self._MIN_COMPANIES} companies with concise summaries, explicit KPI alignment, and cited sources. "
-            "Only include companies with clear regenerative viticulture relevance."
+            f"Produce at least {self._MIN_COMPANIES} unique companies with concise summaries, explicit KPI alignment, and cited sources. "
+            "Ensure company names are unique; omit duplicates or generic vendors. Only include companies with clear regenerative viticulture relevance."
         )
 
     def _extract_segment_output(self, final_text: str, segment_name: str) -> dict[str, Any]:
@@ -228,10 +228,10 @@ class GeminiAgentProvider(BaseAgentProvider):
 
         segment = data.get("segment") if isinstance(data, dict) else None
         if isinstance(segment, dict):
-            companies = segment.get("companies") or []
+            companies = self._dedupe_companies(segment.get("companies") or [])
             return {
                 "name": segment.get("name") or segment_name,
-                "companies": [company for company in companies if isinstance(company, dict)],
+                "companies": companies,
                 "notes": segment.get("notes", []),
             }
 
@@ -259,6 +259,22 @@ class GeminiAgentProvider(BaseAgentProvider):
             if name:
                 names.append(name)
         return names
+
+    def _dedupe_companies(self, raw_companies: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        unique: list[dict[str, Any]] = []
+        seen: set[str] = set()
+        for item in raw_companies:
+            if not isinstance(item, dict):
+                continue
+            name = item.get("company")
+            if not isinstance(name, str):
+                continue
+            normalized = name.strip().lower()
+            if not normalized or normalized in seen:
+                continue
+            seen.add(normalized)
+            unique.append(item)
+        return unique
 
     def _format_tool_summary(self, telemetry: dict[str, Any]) -> str:
         tool_usage: dict[str, int] = telemetry.get("tool_usage") or {}

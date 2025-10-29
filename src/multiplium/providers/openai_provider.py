@@ -21,7 +21,7 @@ def _default_json(value: Any) -> Any:
 class OpenAIAgentProvider(BaseAgentProvider):
     """OpenAI Agents SDK integration."""
 
-    _MIN_COMPANIES = 5
+    _MIN_COMPANIES = 10
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
@@ -202,7 +202,7 @@ class OpenAIAgentProvider(BaseAgentProvider):
         return (
             "You are a senior investment research analyst working on a deep-dive project. "
             "Use the available tools to gather validated, up-to-date information from trusted sources. "
-            f"Focus exclusively on the value-chain segment '{segment_name}'. Produce at least five company profiles that include KPI alignment and cited sources. "
+            f"Focus exclusively on the value-chain segment '{segment_name}'. Produce at least ten unique company profiles that include KPI alignment and cited sources. "
             "Do not finish until you have assembled a well-supported list for this segment. "
             "If you lack sufficient evidence, continue researching with tools until you can confidently report."
             f"\n\nInvestment thesis:\n{thesis}"
@@ -215,7 +215,8 @@ class OpenAIAgentProvider(BaseAgentProvider):
     def _build_segment_user_prompt(self, segment_name: str, context: Any) -> str:
         return (
             f"Research the value-chain segment '{segment_name}'. "
-            "Use registered tools (`search_web`, `fetch_content`, `lookup_crunchbase`, `lookup_patents`, `financial_metrics`) to gather trustworthy evidence for at least five distinct companies. "
+            "Use registered tools (`search_web`, `fetch_content`, `lookup_crunchbase`, `lookup_patents`, `financial_metrics`) to gather trustworthy evidence for at least ten distinct companies. "
+            "Ensure company names are unique and remove duplicates before responding. "
             "For each company, capture a concise summary, explicit KPI alignment, and cite primary + independent sources. "
             "Return JSON exactly in the form:\n"
             '{"segment": {"name": "<segment_name>", "companies": [{"company": str, "summary": str, "kpi_alignment": [str], "sources": [str]}]}}'
@@ -244,10 +245,10 @@ class OpenAIAgentProvider(BaseAgentProvider):
         segment = data.get("segment") if isinstance(data, dict) else None
         if isinstance(segment, dict):
             name = segment.get("name") or segment_name
-            companies = segment.get("companies") or []
+            companies = self._dedupe_companies(segment.get("companies") or [])
             return {
                 "name": name,
-                "companies": [c for c in companies if isinstance(c, dict)],
+                "companies": companies,
                 "notes": segment.get("notes", []),
             }
 
@@ -313,6 +314,22 @@ class OpenAIAgentProvider(BaseAgentProvider):
             if name:
                 names.append(name)
         return names
+
+    def _dedupe_companies(self, raw_companies: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        unique: list[dict[str, Any]] = []
+        seen: set[str] = set()
+        for item in raw_companies:
+            if not isinstance(item, dict):
+                continue
+            name = item.get("company")
+            if not isinstance(name, str):
+                continue
+            normalized = name.strip().lower()
+            if not normalized or normalized in seen:
+                continue
+            seen.add(normalized)
+            unique.append(item)
+        return unique
 
     def _format_tool_summary(self, telemetry: dict[str, Any]) -> str:
         tool_usage: dict[str, int] = telemetry.get("tool_usage") or {}
