@@ -354,7 +354,7 @@ class OpenAIAgentProvider(BaseAgentProvider):
         for item in raw_companies:
             if not isinstance(item, dict):
                 continue
-            normalized = self._normalize_company_name(item.get("company"))
+            normalized = self._dedupe_company_name(item.get("company"))
             if not normalized or normalized in seen:
                 continue
             seen.add(normalized)
