@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import json
-from typing import Any, Awaitable, Callable, Iterable
+import re
+from collections import Counter
+from typing import Any, Awaitable, Callable
 
 from multiplium.providers.base import BaseAgentProvider, ProviderRunResult
 
@@ -18,6 +20,8 @@ def _default_json(value: Any) -> Any:
 
 class GeminiAgentProvider(BaseAgentProvider):
     """Google Gemini integration using the python-genai SDK with automatic function calling."""
+
+    _MIN_COMPANIES = 5
 
     async def run(self, context: Any) -> ProviderRunResult:
         if self.dry_run:
@@ -53,64 +57,120 @@ class GeminiAgentProvider(BaseAgentProvider):
                 telemetry={"error": "GOOGLE_GENAI_API_KEY not configured"},
             )
 
-        tool_functions, call_counter = self._build_tool_functions()
-
-        client = genai.Client(api_key=api_key)
-        response = None
-        usage = None
-        try:
-            config = types.GenerateContentConfig(
-                system_instruction=self._build_system_prompt(context),
-                temperature=self.config.temperature,
-                tools=tool_functions,
-                response_mime_type="application/json",
-                tool_config=types.ToolConfig(
-                    function_calling_config=types.FunctionCallingConfig(
-                        mode=types.FunctionCallingConfigMode.AUTO
-                    )
-                ),
-            )
-
-            contents = [
-                types.Content(
-                    role="user",
-                    parts=[types.Part.from_text(text=self._build_user_prompt(context))],
-                )
-            ]
-
-            response = await client.aio.models.generate_content(
-                model=self.config.model,
-                contents=contents,
-                config=config,
-            )
-            text_output = response.text or ""
-            usage = response.usage_metadata
-        except Exception as exc:  # pragma: no cover
+        segment_names = self._extract_segment_names(context)
+        if not segment_names:
             return ProviderRunResult(
                 provider=self.name,
                 model=self.config.model,
-                status="runtime_error",
+                status="configuration_error",
                 findings=[],
-                telemetry={"error": str(exc)},
+                telemetry={"error": "No value-chain segments defined for Gemini provider."},
             )
+
+        client = genai.Client(api_key=api_key)
+        findings: list[dict[str, Any]] = []
+        coverage_details = {
+            "segments_total": len(segment_names),
+            "segments_with_minimum": 0,
+            "minimum_companies": self._MIN_COMPANIES,
+            "segments_missing": [],
+        }
+        total_input_tokens = 0
+        total_output_tokens = 0
+        tool_usage_counter: Counter[str] = Counter()
+
+        try:
+            for segment_name in segment_names:
+                tool_functions, call_counter = self._build_tool_functions()
+                tools: list[Any] = list(tool_functions)
+                tools.append(types.Tool(google_search=types.GoogleSearch()))
+
+                config = types.GenerateContentConfig(
+                    system_instruction=self._build_system_prompt(context, segment_name),
+                    temperature=self.config.temperature,
+                    tools=tools,
+                    response_mime_type="application/json",
+                    tool_config=types.ToolConfig(
+                        function_calling_config=types.FunctionCallingConfig(
+                            mode=types.FunctionCallingConfigMode.AUTO
+                        ),
+                        google_search=types.GoogleSearchToolConfig(disable_attribution=False),
+                    ),
+                )
+
+                contents = [
+                    types.Content(
+                        role="user",
+                        parts=[
+                            types.Part.from_text(
+                                text=self._build_segment_user_prompt(segment_name, context)
+                            )
+                        ],
+                    )
+                ]
+
+                try:
+                    response = await client.aio.models.generate_content(
+                        model=self.config.model,
+                        contents=contents,
+                        config=config,
+                    )
+                except Exception as exc:  # pragma: no cover
+                    findings.append(
+                        {
+                            "name": segment_name,
+                            "companies": [],
+                            "notes": [f"Segment run failed: {exc}"],
+                        }
+                    )
+                    coverage_details["segments_missing"].append(
+                        {"segment": segment_name, "companies": 0}
+                    )
+                    continue
+
+                text_output = response.text or ""
+                segment_data = self._extract_segment_output(text_output, segment_name)
+                companies = segment_data.get("companies", [])
+
+                if len(companies) >= self._MIN_COMPANIES:
+                    coverage_details["segments_with_minimum"] += 1
+                else:
+                    coverage_details["segments_missing"].append(
+                        {"segment": segment_name, "companies": len(companies)}
+                    )
+                    segment_data.setdefault("notes", []).append(
+                        f"Segment returned {len(companies)} companies; minimum target is {self._MIN_COMPANIES}."
+                    )
+
+                findings.append(segment_data)
+                tool_usage_counter["mcp_tools"] += call_counter["count"]
+
+                usage_meta = response.usage_metadata or types.GenerateContentResponseUsageMetadata()
+                total_input_tokens += getattr(usage_meta, "prompt_token_count", 0)
+                total_output_tokens += getattr(usage_meta, "candidates_token_count", 0)
 
         finally:
             await client.aio.aclose()
             client.close()
 
-        usage_meta = usage or types.GenerateContentResponseUsageMetadata()
-        findings = self._extract_findings(text_output)
+        coverage_ok = (
+            coverage_details["segments_with_minimum"] == coverage_details["segments_total"]
+            and coverage_details["segments_total"] > 0
+        )
+
         telemetry = {
-            "tool_calls": call_counter["count"],
-            "candidates": len(response.candidates or []) if response else 0,
-            "input_tokens": getattr(usage_meta, "prompt_token_count", 0),
-            "output_tokens": getattr(usage_meta, "candidates_token_count", 0),
+            "tool_calls": sum(tool_usage_counter.values()),
+            "tool_usage": dict(tool_usage_counter),
+            "input_tokens": total_input_tokens,
+            "output_tokens": total_output_tokens,
+            "coverage": coverage_details,
         }
+        telemetry["tool_summary"] = self._format_tool_summary(telemetry)
 
         return ProviderRunResult(
             provider=self.name,
             model=self.config.model,
-            status="completed",
+            status="completed" if coverage_ok else "partial",
             findings=findings,
             telemetry=telemetry,
         )
@@ -131,37 +191,97 @@ class GeminiAgentProvider(BaseAgentProvider):
 
         return functions, counter
 
-    def _build_system_prompt(self, context: Any) -> str:
+    def _build_system_prompt(self, context: Any, segment_name: str) -> str:
         thesis = getattr(context, "thesis", "").strip()
-        value_chain = _default_json(getattr(context, "value_chain", []))
         kpis = _default_json(getattr(context, "kpis", {}))
         return (
             "You are a Gemini-based research analyst collaborating with other LLM agents. "
-            "Use registered tools to gather verifiable data, reason carefully, and output structured insights."
+            "Use the provided tools, including Google Search, to gather verifiable, up-to-date evidence. "
+            f"Focus exclusively on the value-chain segment '{segment_name}'. "
+            "Do not fabricate sources; only cite URLs you have verified."
             f"\n\nInvestment thesis:\n{thesis}"
-            f"\n\nValue chain context:\n{json.dumps(value_chain, indent=2)}"
             f"\n\nKPIs:\n{json.dumps(kpis, indent=2)}"
             "\n\nReturn JSON formatted as:"
-            '\n{"segments": [{"name": str, "companies": [{"company": str, "summary": str, "kpi_alignment": [str], "sources": [str]}]}]}'
+            '\n{"segment": {"name": str, "companies": [{"company": str, "summary": str, "kpi_alignment": [str], "sources": [str]}]}}'
         )
 
-    def _build_user_prompt(self, context: Any) -> str:
+    def _build_segment_user_prompt(self, segment_name: str, context: Any) -> str:
         return (
-            "Perform comprehensive research for each value-chain segment. "
-            "Leverage search, document fetch, Crunchbase, patent, and financial tools as needed. "
-            "Summarize 3-5 companies per segment with KPI rationale and provide citations."
+            f"Research the value-chain segment '{segment_name}'. "
+            "Use search, document fetch, Crunchbase, patent, and financial tools as needed. "
+            f"Produce at least {self._MIN_COMPANIES} companies with concise summaries, explicit KPI alignment, and cited sources. "
+            "Only include companies with clear regenerative viticulture relevance."
         )
 
-    def _extract_findings(self, final_text: str) -> list[dict[str, Any]]:
+    def _extract_segment_output(self, final_text: str, segment_name: str) -> dict[str, Any]:
         if not final_text.strip():
-            return []
+            return {"name": segment_name, "companies": [], "notes": ["Empty response from Gemini."]}
 
         try:
             data = json.loads(final_text)
         except json.JSONDecodeError:
-            return [{"raw": final_text}]
+            return {
+                "name": segment_name,
+                "companies": [],
+                "notes": [f"Unable to parse Gemini output: {final_text}"],
+            }
 
-        segments = data.get("segments")
-        if isinstance(segments, list):
-            return [segment for segment in segments if isinstance(segment, dict)]
-        return [{"raw": data}]
+        segment = data.get("segment") if isinstance(data, dict) else None
+        if isinstance(segment, dict):
+            companies = segment.get("companies") or []
+            return {
+                "name": segment.get("name") or segment_name,
+                "companies": [company for company in companies if isinstance(company, dict)],
+                "notes": segment.get("notes", []),
+            }
+
+        return {
+            "name": segment_name,
+            "companies": [],
+            "notes": [f"Unexpected Gemini output structure: {data}"],
+        }
+
+    def _extract_segment_names(self, context: Any) -> list[str]:
+        value_chain_entries = getattr(context, "value_chain", [])
+        full_text_parts: list[str] = []
+        for entry in value_chain_entries:
+            if isinstance(entry, dict):
+                raw = entry.get("raw")
+                if isinstance(raw, str):
+                    full_text_parts.append(raw)
+            elif isinstance(entry, str):
+                full_text_parts.append(entry)
+        full_text = "\n".join(full_text_parts)
+
+        names: list[str] = []
+        for match in re.finditer(r"^##\s*(.+)$", full_text, flags=re.MULTILINE):
+            name = match.group(1).strip()
+            if name:
+                names.append(name)
+        return names
+
+    def _format_tool_summary(self, telemetry: dict[str, Any]) -> str:
+        tool_usage: dict[str, int] = telemetry.get("tool_usage") or {}
+        total_tool_calls = telemetry.get("tool_calls", 0)
+        coverage_details = telemetry.get("coverage", {})
+
+        parts: list[str] = []
+        if tool_usage:
+            ordered = sorted(tool_usage.items(), key=lambda item: (-item[1], item[0]))
+            parts.append(
+                "tool calls: " + ", ".join(f"{name}×{count}" for name, count in ordered)
+            )
+        else:
+            parts.append(f"{total_tool_calls} tool calls")
+
+        deficits = coverage_details.get("segments_missing", [])
+        minimum = coverage_details.get("minimum_companies")
+        if deficits:
+            deficit_text = ", ".join(
+                f"{d.get('segment') or 'unknown'} ({d.get('companies', 0)})" for d in deficits
+            )
+            parts.append(f"segments below target: {deficit_text}")
+        elif coverage_details.get("segments_total"):
+            parts.append(f"all segments meet ≥{minimum} companies")
+
+        return "; ".join(parts)

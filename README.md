@@ -46,6 +46,7 @@ Internal MVP for running multi-LLM investment research across Anthropic Claude, 
    export FMP_API_KEY="demo"        # Replace with your own key for higher limits
    export TAVILY_API_KEY="..."      # Optional: richer search coverage
    export PERPLEXITY_API_KEY="..."  # Optional: augment search_web with Perplexity
+   export GOOGLE_GENAI_API_KEY="..." # Required for Gemini provider
    ```
    Run the uvicorn processes in separate terminals and keep them running while the orchestrator is executing. To launch all four servers in one shot, use the helper script (after `chmod +x scripts/start_tool_servers.sh`):
    ```bash
