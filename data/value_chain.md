@@ -4,7 +4,7 @@
 - **Focus:** Microbial soil intelligence, regenerative nutrient management, soil carbon measurement, biological amendments tailored to vineyards.
 - **Keywords:** microbiome, soil organic carbon, regenerative viticulture, soil biology analytics, microbial DNA, compost teas.
 - **Targets:** 10 companies spanning at least three continents and covering both analytics platforms and in-field intervention tools.
-- **Anchors:** Biome Makers (ES), Trace Genomics (US), Vivent Biosignals (CH), UpTerra (FR).
+- **Anchors:** Biome Makers (ES), Trace Genomics (US), Vivent Biosignals (CH), UpTerra (FR), Biorizon Biotech (ES), Symbiose (FR), Retallack Ecology (AU), Soil Heroes Padua (IT).
 - **Exclusion Keywords:** row crops, broadacre, corn, soy, wheat, sugarcane, tropical forestry offsets.
 - **Anti-Patterns:** Avoid generalist carbon/bio platforms with no documented vineyard deployments (e.g., Indigo Ag, InPlanet GmbH).
 - **Geographic Targets:**
@@ -28,7 +28,7 @@
 - **Focus:** Biological control, pheromone mating disruption, predictive pest modelling, real-time scouting, decision-support tools reducing pesticide reliance.
 - **Keywords:** IPM, biocontrol, pheromone traps, beneficial insects, disease forecasting, powdery mildew management, biodiversity enhancement.
 - **Targets:** 10 companies (minimum two outside North America) with documented pesticide reduction percentages or biodiversity outcomes.
-- **Anchors:** Semios (CA), Trapview (SI), UAV-IQ (US), Suterra (US/EU).
+- **Anchors:** Semios (CA), Trapview (SI), UAV-IQ (US), Suterra (US/EU), Andermatt Biocontrol (CH), Zonda Beneficials (NZ), Aerobotics (ZA/AU), Bioplanet (IT).
 - **Exclusion Keywords:** broadacre crops, generic horticulture without grape case studies, greenhouse-only IPM.
 - **Anti-Patterns:** Exclude mosquito/vector control vendors or orchard-only programmes.
 - **Geographic Targets:**
