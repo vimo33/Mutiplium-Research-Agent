@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from collections import Counter
+import re
 from typing import Any, Iterable
 
 from multiplium.providers.base import BaseAgentProvider, ProviderRunResult
@@ -91,6 +92,7 @@ class OpenAIAgentProvider(BaseAgentProvider):
             )
 
         findings = self._extract_findings(result.final_output)
+        findings = self._ensure_segment_scaffold(findings, context)
         fallback_stats = await self._ensure_company_coverage(findings, context)
         coverage_ok, coverage_details = self._assess_coverage(findings, minimum=5)
 
@@ -263,39 +265,65 @@ class OpenAIAgentProvider(BaseAgentProvider):
                 if isinstance(c, dict) and c.get("company")
             }
 
-            query = self._fallback_query(segment.get("name"), context=context)
-            try:
-                search_result = await self.tool_manager.invoke(
-                    "search_web",
-                    query=query,
-                    max_results=max(required * 2, required - current_count),
-                )
-            except Exception as exc:  # pragma: no cover - network/tool errors
-                notes.append(f"Fallback search failed: {exc}")
-                stats["failures"] += 1
-                continue
-
-            stats["segments_augmented"] += 1
-            for item in search_result.get("results", []):
-                title = (item.get("title") or "").strip()
-                if not title:
-                    continue
-                normalized = self._normalize_company_name(title)
-                if normalized in existing:
+            queries = self._generate_fallback_queries(segment.get("name"), context=context)
+            search_failures = 0
+            for query in queries:
+                try:
+                    search_result = await self.tool_manager.invoke(
+                        "search_web",
+                        query=query,
+                        max_results=max(required * 2, required - current_count),
+                    )
+                except Exception as exc:  # pragma: no cover - network/tool errors
+                    notes.append(f"Fallback search failed ({query}): {exc}")
+                    stats["failures"] += 1
+                    search_failures += 1
                     continue
 
-                company_entry = {
-                    "company": title,
-                    "summary": item.get("summary", ""),
-                    "kpi_alignment": [],
-                    "sources": [item.get("url")] if item.get("url") else [],
-                    "notes": "Generated via search_web fallback coverage.",
-                }
-                companies.append(company_entry)
-                existing.add(normalized)
-                stats["added_companies"] += 1
+                stats["segments_augmented"] += 1
+                for item in search_result.get("results", []):
+                    title = (item.get("title") or "").strip()
+                    if not title:
+                        continue
+                    normalized = self._normalize_company_name(title)
+                    if normalized in existing:
+                        continue
+
+                    company_entry = {
+                        "company": title,
+                        "summary": item.get("summary", ""),
+                        "kpi_alignment": [],
+                        "sources": [item.get("url")] if item.get("url") else [],
+                        "notes": f"Generated via search_web fallback (query: {query}).",
+                    }
+                    companies.append(company_entry)
+                    existing.add(normalized)
+                    stats["added_companies"] += 1
+                    current_count = len([c for c in companies if isinstance(c, dict)])
+                    if current_count >= required:
+                        break
                 if len([c for c in companies if isinstance(c, dict)]) >= required:
                     break
+
+            if len([c for c in companies if isinstance(c, dict)]) < required:
+                anchors = self._extract_anchor_companies(segment.get("name"), context=context)
+                for anchor in anchors:
+                    normalized = self._normalize_company_name(anchor)
+                    if normalized in existing:
+                        continue
+                    companies.append(
+                        {
+                            "company": anchor,
+                            "summary": "Anchor company from thesis value-chain; requires validation.",
+                            "kpi_alignment": [],
+                            "sources": [],
+                            "notes": "Extracted from thesis anchors.",
+                        }
+                    )
+                    existing.add(normalized)
+                    stats["added_companies"] += 1
+                    if len([c for c in companies if isinstance(c, dict)]) >= required:
+                        break
 
             if len([c for c in companies if isinstance(c, dict)]) < required:
                 notes.append(
@@ -304,21 +332,109 @@ class OpenAIAgentProvider(BaseAgentProvider):
 
         return stats
 
-    def _fallback_query(self, segment_name: Any, *, context: Any) -> str:
-        segment_part = ""
-        if isinstance(segment_name, str) and segment_name.strip():
-            segment_part = segment_name.strip()
+    def _ensure_segment_scaffold(
+        self,
+        findings: list[dict[str, Any]],
+        context: Any,
+    ) -> list[dict[str, Any]]:
+        existing_names = {
+            segment.get("name").strip()
+            for segment in findings
+            if isinstance(segment, dict) and isinstance(segment.get("name"), str)
+        }
+        segment_names = self._extract_segment_names(context)
+        for name in segment_names:
+            if name not in existing_names:
+                findings.append(
+                    {
+                        "name": name,
+                        "companies": [],
+                        "notes": [
+                            "Segment scaffolded from value-chain context; awaiting research findings."
+                        ],
+                    }
+                )
+                existing_names.add(name)
+        return findings
 
-        thesis_hint = ""
+    def _generate_fallback_queries(self, segment_name: Any, *, context: Any) -> list[str]:
+        segment_text = segment_name.strip() if isinstance(segment_name, str) else ""
         thesis = getattr(context, "thesis", "")
-        if isinstance(thesis, str) and thesis:
-            thesis_hint = thesis.splitlines()[0].strip()
+        thesis_hint = thesis.splitlines()[0].strip() if isinstance(thesis, str) and thesis else ""
+        base_terms = [
+            "regenerative viticulture companies",
+            "vineyard technology startups",
+            "wine industry sustainability",
+            "precision agriculture viticulture",
+        ]
+        queries: list[str] = []
+        for term in base_terms:
+            parts = [segment_text or "viticulture value chain", term]
+            if thesis_hint:
+                parts.append(thesis_hint)
+            queries.append(" ".join(part for part in parts if part))
 
-        base_terms = ["regenerative viticulture", "startup", "technology"]
-        parts = [segment_part or "value chain", *base_terms]
-        if thesis_hint:
-            parts.append(thesis_hint)
-        return " ".join(part for part in parts if part)
+        anchors = self._extract_anchor_companies(segment_name, context=context)
+        for anchor in anchors:
+            queries.append(f"{anchor} vineyard technology")
+            queries.append(f"{anchor} regenerative viticulture")
+
+        # Deduplicate while preserving order.
+        seen: set[str] = set()
+        unique_queries: list[str] = []
+        for query in queries:
+            if query not in seen:
+                seen.add(query)
+                unique_queries.append(query)
+        return unique_queries
+
+    def _extract_anchor_companies(self, segment_name: Any, *, context: Any) -> list[str]:
+        if not isinstance(segment_name, str) or not segment_name.strip():
+            return []
+
+        value_chain_entries = getattr(context, "value_chain", [])
+        full_text_parts: list[str] = []
+        for entry in value_chain_entries:
+            if isinstance(entry, dict):
+                raw = entry.get("raw")
+                if isinstance(raw, str):
+                    full_text_parts.append(raw)
+            elif isinstance(entry, str):
+                full_text_parts.append(entry)
+        full_text = "\n".join(full_text_parts)
+
+        pattern = rf"##\s*{re.escape(segment_name.strip())}(.*?)(?:\n##\s|$)"
+        match = re.search(pattern, full_text, flags=re.IGNORECASE | re.DOTALL)
+        if not match:
+            return []
+
+        segment_block = match.group(1)
+        anchor_match = re.search(r"Anchors:\s*(.*)", segment_block, flags=re.IGNORECASE)
+        if not anchor_match:
+            return []
+
+        anchors_line = anchor_match.group(1)
+        anchors = [anchor.strip(" -*_,") for anchor in anchors_line.split(",") if anchor.strip()]
+        return anchors
+
+    def _extract_segment_names(self, context: Any) -> list[str]:
+        value_chain_entries = getattr(context, "value_chain", [])
+        full_text_parts: list[str] = []
+        for entry in value_chain_entries:
+            if isinstance(entry, dict):
+                raw = entry.get("raw")
+                if isinstance(raw, str):
+                    full_text_parts.append(raw)
+            elif isinstance(entry, str):
+                full_text_parts.append(entry)
+        full_text = "\n".join(full_text_parts)
+
+        names = []
+        for match in re.finditer(r"^##\s*(.+)$", full_text, flags=re.MULTILINE):
+            name = match.group(1).strip()
+            if name:
+                names.append(name)
+        return names
 
     def _normalize_company_name(self, value: Any) -> str:
         if not isinstance(value, str):

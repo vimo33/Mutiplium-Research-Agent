@@ -17,8 +17,9 @@ def write_report(
 ) -> None:
     """Persist agent outputs to disk for analyst review."""
 
+    generated_at = datetime.now(timezone.utc)
     payload = {
-        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "generated_at": generated_at.isoformat(),
         "sector": sector,
         "thesis": getattr(context, "thesis", ""),
         "value_chain": getattr(context, "value_chain", []),
@@ -37,4 +38,11 @@ def write_report(
     }
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(json.dumps(payload, indent=2, ensure_ascii=True), encoding="utf-8")
+    report_json = json.dumps(payload, indent=2, ensure_ascii=True)
+    output_path.write_text(report_json, encoding="utf-8")
+
+    # Also persist a timestamped snapshot for historical runs.
+    timestamp_suffix = generated_at.strftime("%Y%m%dT%H%M%SZ")
+    timestamped_path = output_path.parent / f"report_{timestamp_suffix}{output_path.suffix}"
+    if timestamped_path != output_path:
+        timestamped_path.write_text(report_json, encoding="utf-8")

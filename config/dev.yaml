@@ -26,13 +26,13 @@ providers:
 
 tools:
   - name: "search_web"
-    endpoint: "http://localhost:7001/mcp/search"
+    endpoint: "https://multiplium.onrender.com/search/mcp/search"
   - name: "fetch_content"
-    endpoint: "http://localhost:7001/mcp/fetch"
+    endpoint: "https://multiplium.onrender.com/search/mcp/fetch"
     allow_domains: []
   - name: "lookup_crunchbase"
-    endpoint: "http://localhost:7002/mcp/crunchbase"
+    endpoint: "https://multiplium.onrender.com/crunchbase/mcp/crunchbase"
   - name: "lookup_patents"
-    endpoint: "http://localhost:7003/mcp/patents"
+    endpoint: "https://multiplium.onrender.com/patents/mcp/patents"
   - name: "financial_metrics"
-    endpoint: "http://localhost:7004/mcp/financials"
+    endpoint: "https://multiplium.onrender.com/financials/mcp/financials"
