@@ -20,7 +20,7 @@ providers:
     max_steps: 20
   google:
     enabled: true
-    model: "gemini-1.5-pro"
+    model: "gemini-1.5-pro-latest"
     temperature: 0.15
     max_steps: 12
 
