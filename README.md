@@ -44,6 +44,8 @@ Internal MVP for running multi-LLM investment research across Anthropic Claude, 
    Optional environment variables:
    ```bash
    export FMP_API_KEY="demo"        # Replace with your own key for higher limits
+   export TAVILY_API_KEY="..."      # Optional: richer search coverage
+   export PERPLEXITY_API_KEY="..."  # Optional: augment search_web with Perplexity
    ```
    Run the uvicorn processes in separate terminals and keep them running while the orchestrator is executing. To launch all four servers in one shot, use the helper script (after `chmod +x scripts/start_tool_servers.sh`):
    ```bash
@@ -66,6 +68,7 @@ To avoid running the four tool services locally, deploy them as a single FastAPI
 1. The repository includes `servers/app.py`, `requirements.txt`, and `render.yaml`. Push these files to your Git remote.
 2. In Render, create a **Web Service** pointing at the repository. Render will install `requirements.txt` and start `uvicorn servers.app:app`.
 3. Configure environment variables (e.g., `FMP_API_KEY`) in the Render dashboard under the service's **Environment** tab.
+   - `TAVILY_API_KEY` and `PERPLEXITY_API_KEY` are optional but recommended for broader search coverage.
 4. After the service deploys, note the base URL (e.g., `https://multiplium-mcp-tools.onrender.com`) and update `config/dev.yaml` tool endpoints to point at:
    - `https://<host>/search/mcp/search`
    - `https://<host>/search/mcp/fetch`
