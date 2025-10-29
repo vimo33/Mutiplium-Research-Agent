@@ -348,6 +348,11 @@ class OpenAIAgentProvider(BaseAgentProvider):
                 names.append(name)
         return names
 
+    def _dedupe_company_name(self, value: Any) -> str:
+        if not isinstance(value, str):
+            return ""
+        return value.strip().lower()
+
     def _dedupe_companies(self, raw_companies: list[dict[str, Any]]) -> list[dict[str, Any]]:
         unique: list[dict[str, Any]] = []
         seen: set[str] = set()
