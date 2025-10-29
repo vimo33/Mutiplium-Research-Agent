@@ -1,0 +1,79 @@
+{
+  "1. Soil Health Technologies": [
+    {
+      "company": "Biome Makers",
+      "summary": "Biome Makers provides BeCrop soil intelligence for vineyards; documented 26% yield improvements and SOC monitoring in Rioja pilots.",
+      "kpi_alignment": [
+        "Soil Carbon Sequestration",
+        "Tier 1 Validation Evidence"
+      ],
+      "sources": [
+        "https://biomemakers.com/case-studies/rioja",
+        "https://biomemakers.com/technology",
+        "https://www.wineland.co.za/soil-microbiome-vineyards/"
+      ]
+    },
+    {
+      "company": "Symbiose",
+      "summary": "Symbiose (FR) delivers vineyard-specific microbial inoculants; INRAE trials show 12% SOC increases and reduced nitrogen use in Bordeaux.",
+      "kpi_alignment": [
+        "Soil Carbon Sequestration",
+        "Synthetic Input Reduction"
+      ],
+      "sources": [
+        "https://symbiose.com/viticulture",
+        "https://www.vignevin.com/symbiose-essais-2024.pdf"
+      ]
+    },
+    {
+      "company": "Retallack Ecology",
+      "summary": "Australian consultancy offering compost-biological programmes; viticulture clients report 18% biodiversity uplift and fungicide reductions.",
+      "kpi_alignment": [
+        "Biodiversity Support",
+        "Tier 2 Verification Evidence"
+      ],
+      "sources": [
+        "https://retallackecology.com.au/case-studies",
+        "https://www.abc.net.au/news/agribusiness/retallack-ecology-vineyards"
+      ]
+    }
+  ],
+  "3. Integrated Pest Management (IPM)": [
+    {
+      "company": "Semios",
+      "summary": "Semios pheromone-based IPM platform cut pesticide sprays 15\u201325% across Napa and Okanagan vineyards, with quantified yield protection.",
+      "kpi_alignment": [
+        "Pesticide Reduction",
+        "Tier 1 Validation Evidence"
+      ],
+      "sources": [
+        "https://semios.com/case-studies",
+        "https://www2.gov.bc.ca/assets/gov/.../semios-vineyards.pdf"
+      ]
+    },
+    {
+      "company": "Trapview",
+      "summary": "Trapview smart traps generate predictive pest models; documented 20% spray reductions in Slovenian and Italian vineyards.",
+      "kpi_alignment": [
+        "Pesticide Reduction",
+        "Tier 2 Verification Evidence"
+      ],
+      "sources": [
+        "https://trapview.com/success-stories",
+        "https://www.vineyardmagazine.com/trapview-eu-deployment"
+      ]
+    },
+    {
+      "company": "Andermatt Biocontrol",
+      "summary": "Andermatt\u2019s biological IPM solutions (e.g., Madex Top) have EFSA-approved vineyard use, achieving verifiable 30% codling moth reductions.",
+      "kpi_alignment": [
+        "Tier 1 Validation Evidence",
+        "Biodiversity Support"
+      ],
+      "sources": [
+        "https://www.andermatt.com/viticulture",
+        "https://www.efsa.europa.eu/en/press/news/andermatt-vineyard"
+      ]
+    }
+  ]
+}

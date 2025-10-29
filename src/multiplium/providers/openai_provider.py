@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from collections import Counter
+from pathlib import Path
 import re
 from typing import Any, Iterable
 
@@ -73,6 +74,7 @@ class OpenAIAgentProvider(BaseAgentProvider):
                 telemetry={"error": "No segments defined in value-chain context."},
             )
 
+        seed_map = self._load_seed_companies()
         findings: list[dict[str, Any]] = []
         total_raw_responses = 0
         total_tool_calls = 0
@@ -86,14 +88,15 @@ class OpenAIAgentProvider(BaseAgentProvider):
         }
 
         for segment_name in segment_names:
+            seed_entries = seed_map.get(segment_name, [])
             agent = Agent(
                 name="OpenAI Investment Researcher",
-                instructions=self._build_system_prompt(context, segment_name),
+                instructions=self._build_system_prompt(context, segment_name, seed_entries),
                 model=self.config.model,
                 tools=self._build_function_tools(FunctionTool),
             )
 
-            user_prompt = self._build_segment_user_prompt(segment_name, context)
+            user_prompt = self._build_segment_user_prompt(segment_name, context, seed_entries)
             run_context = {
                 "segment": segment_name,
                 "sector": getattr(context, "sector", None),
@@ -121,7 +124,7 @@ class OpenAIAgentProvider(BaseAgentProvider):
                 )
                 continue
 
-            segment_data = self._extract_segment_output(result.final_output, segment_name)
+            segment_data = self._extract_segment_output(result.final_output, segment_name, seed_entries)
             if not segment_data.get("companies"):
                 segment_data.setdefault("notes", []).append(
                     "Segment is below the 5-company target. Collect additional primary sources before finalizing."
@@ -195,10 +198,21 @@ class OpenAIAgentProvider(BaseAgentProvider):
         self._tools_cached = tools
         return tools
 
-    def _build_system_prompt(self, context: Any, segment_name: str) -> str:
+    def _build_system_prompt(
+        self,
+        context: Any,
+        segment_name: str,
+        seed_companies: list[dict[str, Any]],
+    ) -> str:
         thesis = getattr(context, "thesis", "").strip()
         value_chain = _default_json(getattr(context, "value_chain", []))
         kpis = _default_json(getattr(context, "kpis", {}))
+        seed_section = ""
+        if seed_companies:
+            seed_section = (
+                "\n\nValidated vineyard companies to treat as high-confidence seeds:\n"
+                + json.dumps(seed_companies, indent=2)
+            )
         return (
             "You are a senior investment research analyst working on a deep-dive project. "
             "Use the available tools to gather validated, up-to-date information from trusted sources. "
@@ -208,21 +222,39 @@ class OpenAIAgentProvider(BaseAgentProvider):
             f"\n\nInvestment thesis:\n{thesis}"
             f"\n\nValue chain context:\n{json.dumps(value_chain, indent=2)}"
             f"\n\nKPI definitions:\n{json.dumps(kpis, indent=2)}"
+            f"{seed_section}"
             "\n\nOutput JSON strictly matching:"
             '\n{"segment": {"name": str, "companies": [{"company": str, "summary": str, "kpi_alignment": [str], "sources": [str]}]}}'
         )
 
-    def _build_segment_user_prompt(self, segment_name: str, context: Any) -> str:
+    def _build_segment_user_prompt(
+        self,
+        segment_name: str,
+        context: Any,
+        seed_companies: list[dict[str, Any]],
+    ) -> str:
+        seed_note = ""
+        if seed_companies:
+            names = ", ".join(company.get("company", "") for company in seed_companies)
+            seed_note = (
+                " You already have high-confidence vineyard deployments for the following companies: "
+                f"{names}. Verify their evidence and build upon them with new, non-duplicate findings."
+            )
         return (
             f"Research the value-chain segment '{segment_name}'. "
             "Use registered tools (`search_web`, `fetch_content`, `lookup_crunchbase`, `lookup_patents`, `financial_metrics`) to gather trustworthy evidence for at least ten distinct companies. "
             "Ensure company names are unique and remove duplicates before responding. "
-            "For each company, capture a concise summary, explicit KPI alignment, and cite primary + independent sources. "
-            "Return JSON exactly in the form:\n"
+            "For each company, capture a concise summary, explicit KPI alignment, and cite primary + independent sources." + seed_note +
+            "\nReturn JSON exactly in the form:\n"
             '{"segment": {"name": "<segment_name>", "companies": [{"company": str, "summary": str, "kpi_alignment": [str], "sources": [str]}]}}'
         )
 
-    def _extract_segment_output(self, final_output: Any, segment_name: str) -> dict[str, Any]:
+    def _extract_segment_output(
+        self,
+        final_output: Any,
+        segment_name: str,
+        seed_companies: list[dict[str, Any]],
+    ) -> dict[str, Any]:
         data: Any
         if isinstance(final_output, str):
             try:
@@ -246,6 +278,7 @@ class OpenAIAgentProvider(BaseAgentProvider):
         if isinstance(segment, dict):
             name = segment.get("name") or segment_name
             companies = self._dedupe_companies(segment.get("companies") or [])
+            companies = self._merge_seed_companies(companies, seed_companies)
             return {
                 "name": name,
                 "companies": companies,
@@ -321,15 +354,57 @@ class OpenAIAgentProvider(BaseAgentProvider):
         for item in raw_companies:
             if not isinstance(item, dict):
                 continue
-            name = item.get("company")
-            if not isinstance(name, str):
-                continue
-            normalized = name.strip().lower()
+            normalized = self._normalize_company_name(item.get("company"))
             if not normalized or normalized in seen:
                 continue
             seen.add(normalized)
             unique.append(item)
         return unique
+
+    def _load_seed_companies(self) -> dict[str, list[dict[str, Any]]]:
+        cache = getattr(self, "_seed_companies_cache", None)
+        if cache is not None:
+            return cache
+
+        path = Path(__file__).resolve().parents[3] / "seed_companies.json"
+        if not path.exists():
+            self._seed_companies_cache = {}
+            return self._seed_companies_cache
+
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            data = {}
+
+        if not isinstance(data, dict):
+            data = {}
+
+        normalised = {}
+        for key, value in data.items():
+            if isinstance(key, str) and isinstance(value, list):
+                normalised[key] = [entry for entry in value if isinstance(entry, dict)]
+
+        self._seed_companies_cache = normalised
+        return self._seed_companies_cache
+
+    def _merge_seed_companies(
+        self,
+        companies: list[dict[str, Any]],
+        seeds: list[dict[str, Any]],
+    ) -> list[dict[str, Any]]:
+        if not seeds:
+            return companies
+
+        seen = {self._normalize_company_name(item.get("company")) for item in companies if isinstance(item, dict)}
+        for seed in seeds:
+            if not isinstance(seed, dict):
+                continue
+            normalized = self._normalize_company_name(seed.get("company"))
+            if not normalized or normalized in seen:
+                continue
+            seen.add(normalized)
+            companies.append(seed)
+        return companies
 
     def _format_tool_summary(self, telemetry: dict[str, Any]) -> str:
         tool_usage: dict[str, int] = telemetry.get("tool_usage") or {}
