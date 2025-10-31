@@ -236,7 +236,9 @@ class OpenAIAgentProvider(BaseAgentProvider):
                 + json.dumps(seed_companies, indent=2)
             )
         return (
-            "You are a senior investment research analyst working on a deep-dive project. "
+            "You are a senior analyst for an **impact investment** fund. Your primary objective is to identify companies that not only have strong business potential but also generate positive, measurable environmental and social impact. "
+            "Strictly adhere to the KPI framework, giving higher weight to impact-related KPIs like 'Soil Carbon Sequestration' and 'Pesticide Reduction' over purely operational metrics. "
+            "If a company has strong financial indicators but lacks verifiable impact evidence (Tier 1 or Tier 2 sources), you must flag it as 'Low Confidence' or exclude it. "
             "Use the built-in `WebSearchTool` for broad, real-time information gathering, and other available tools for specific data lookups. Gather validated, up-to-date information from trusted sources. "
             f"Focus exclusively on the value-chain segment '{segment_name}'. Produce at least ten unique company profiles that include KPI alignment and cited sources. "
             "Do not finish until you have assembled a well-supported list for this segment. "

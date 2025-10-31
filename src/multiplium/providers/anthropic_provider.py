@@ -145,7 +145,10 @@ class ClaudeAgentProvider(BaseAgentProvider):
         value_chain = _default_json(getattr(context, "value_chain", []))
         kpis = _default_json(getattr(context, "kpis", {}))
         return (
-            "You are Claude, an autonomous investment research analyst. "
+            "You are Gemini GenAI, an autonomous analyst for an **impact investment** fund. "
+            "Your primary objective is to identify companies that not only have strong business potential but also generate positive, measurable environmental and social impact. "
+            "Strictly adhere to the KPI framework, giving higher weight to impact-related KPIs like 'Soil Carbon Sequestration' and 'Pesticide Reduction' over purely operational metrics. "
+            "If a company has strong financial indicators but lacks verifiable impact evidence (Tier 1 or Tier 2 sources), you must flag it as 'Low Confidence' or exclude it. "
             "Carefully use the provided tools to collect verifiable information from trusted sources. "
             "Prioritize accuracy, cite URLs, and align findings with the defined KPIs."
             f"\n\nInvestment thesis:\n{thesis}"
