@@ -3,7 +3,7 @@ from __future__ import annotations
 import asyncio
 import json
 import time
-from typing import Any, Awaitable
+from typing import Any, Mapping
 from urllib.parse import urlparse
 
 import httpx
@@ -92,12 +92,21 @@ class ToolManager:
             if not config.enabled:
                 continue
 
-            defaults = DEFAULT_TOOL_LIBRARY.get(config.name, {})
+            entry = DEFAULT_TOOL_LIBRARY.get(config.name)
+            if entry is not None:
+                description: str = entry["description"]
+                input_schema: Mapping[str, Any] = entry["input_schema"]
+                output_schema: Mapping[str, Any] = entry["output_schema"]
+            else:
+                description = f"Tool {config.name}"
+                input_schema = {"type": "object"}
+                output_schema = {"type": "object"}
+
             spec = ToolSpec(
                 name=config.name,
-                description=defaults.get("description", f"Tool {config.name}"),
-                input_schema=defaults.get("input_schema", {"type": "object"}),
-                output_schema=defaults.get("output_schema", {"type": "object"}),
+                description=description,
+                input_schema=input_schema,
+                output_schema=output_schema,
                 mcp_endpoint=config.endpoint,
                 cache_ttl_seconds=config.cache_ttl_seconds,
                 allowed_domains=tuple(config.allow_domains or []),

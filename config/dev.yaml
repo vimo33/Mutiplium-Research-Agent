@@ -20,7 +20,7 @@ providers:
     max_steps: 20
   google:
     enabled: true
-    model: "gemini-pro"
+    model: "gemini-2.5-flash"
     temperature: 0.15
     max_steps: 12
 

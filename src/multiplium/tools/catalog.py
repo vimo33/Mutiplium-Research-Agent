@@ -1,6 +1,15 @@
 from __future__ import annotations
 
-DEFAULT_TOOL_LIBRARY: dict[str, dict[str, object]] = {
+from typing import Any, TypedDict
+
+
+class ToolLibraryEntry(TypedDict):
+    description: str
+    input_schema: dict[str, Any]
+    output_schema: dict[str, Any]
+
+
+DEFAULT_TOOL_LIBRARY: dict[str, ToolLibraryEntry] = {
     "search_web": {
         "description": "Search trusted news and company sources for investment-relevant information.",
         "input_schema": {
@@ -188,4 +197,3 @@ DEFAULT_TOOL_LIBRARY: dict[str, dict[str, object]] = {
         },
     },
 }
-

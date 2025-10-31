@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 import re
-from typing import Any
+from typing import Any, TypedDict, cast
 
 from multiplium.providers.base import BaseAgentProvider, ProviderRunResult
 
@@ -22,15 +22,25 @@ class GeminiAgentProvider(BaseAgentProvider):
 
     _MIN_COMPANIES = 10
 
+    class SegmentDeficit(TypedDict):
+        segment: str
+        companies: int
+
+    class CoverageDetails(TypedDict):
+        segments_total: int
+        segments_with_minimum: int
+        minimum_companies: int
+        segments_missing: list["GeminiAgentProvider.SegmentDeficit"]
+
     async def run(self, context: Any) -> ProviderRunResult:
         if self.dry_run:
-            findings: list[dict[str, Any]] = [{"note": "Dry run placeholder"}]
+            placeholder_findings = [{"note": "Dry run placeholder"}]
             telemetry = {"steps": 0, "notes": "Dry run mode"}
             return ProviderRunResult(
                 provider=self.name,
                 model=self.config.model,
                 status="dry_run",
-                findings=findings,
+                findings=placeholder_findings,
                 telemetry=telemetry,
             )
 
@@ -46,14 +56,18 @@ class GeminiAgentProvider(BaseAgentProvider):
                 telemetry={"error": str(exc)},
             )
 
-        api_key = self.resolve_api_key("GOOGLE_GENAI_API_KEY")
+        api_key = (
+            self.resolve_api_key("GOOGLE_GENAI_API_KEY")
+            or self.resolve_api_key("GOOGLE_API_KEY")
+            or self.resolve_api_key("GEMINI_API_KEY")
+        )
         if not api_key:
             return ProviderRunResult(
                 provider=self.name,
                 model=self.config.model,
                 status="configuration_error",
                 findings=[],
-                telemetry={"error": "GOOGLE_GENAI_API_KEY not configured"},
+                telemetry={"error": "GOOGLE_GENAI_API_KEY / GOOGLE_API_KEY / GEMINI_API_KEY not configured"},
             )
 
         segment_names = self._extract_segment_names(context)
@@ -66,33 +80,25 @@ class GeminiAgentProvider(BaseAgentProvider):
                 telemetry={"error": "No value-chain segments defined for Gemini provider."},
             )
 
-        client = genai.Client(api_key=api_key)
+        http_options = types.HttpOptions(api_version="v1beta1")
+        client = cast(Any, genai.Client(api_key=api_key, http_options=http_options))
         findings: list[dict[str, Any]] = []
-        coverage_details = {
+        segments_missing: list[GeminiAgentProvider.SegmentDeficit] = []
+        coverage_details: GeminiAgentProvider.CoverageDetails = {
             "segments_total": len(segment_names),
             "segments_with_minimum": 0,
             "minimum_companies": self._MIN_COMPANIES,
-            "segments_missing": [],
+            "segments_missing": segments_missing,
         }
         total_input_tokens = 0
         total_output_tokens = 0
 
-        google_search_tool = types.Tool(google_search=types.GoogleSearch())
-
         try:
             for segment_name in segment_names:
-                tools = [google_search_tool]
-
                 config = types.GenerateContentConfig(
                     system_instruction=self._build_system_prompt(context, segment_name),
                     temperature=self.config.temperature,
-                    tools=tools,
                     response_mime_type="application/json",
-                    tool_config=types.ToolConfig(
-                        function_calling_config=types.FunctionCallingConfig(
-                            mode=types.FunctionCallingConfigMode.AUTO
-                        )
-                    ),
                 )
 
                 contents = [
@@ -135,7 +141,8 @@ class GeminiAgentProvider(BaseAgentProvider):
                     coverage_details["segments_missing"].append(
                         {"segment": segment_name, "companies": len(companies)}
                     )
-                    segment_data.setdefault("notes", []).append(
+                    notes = cast(list[str], segment_data.setdefault("notes", []))
+                    notes.append(
                         f"Segment returned {len(companies)} companies; minimum target is {self._MIN_COMPANIES}."
                     )
 
@@ -170,28 +177,12 @@ class GeminiAgentProvider(BaseAgentProvider):
             telemetry=telemetry,
         )
 
-    def _build_tool_functions(self) -> tuple[list[Callable[..., Awaitable[Any]]], dict[str, int]]:
-        counter = {"count": 0}
-        functions: list[Callable[..., Awaitable[Any]]] = []
-
-        for spec in self.tool_manager.iter_specs():
-
-            async def _tool_wrapper(*, spec_name=spec.name, **kwargs: Any) -> Any:
-                counter["count"] += 1
-                return await self.tool_manager.invoke(spec_name, **kwargs)
-
-            _tool_wrapper.__name__ = spec.name  # type: ignore[attr-defined]
-            _tool_wrapper.__doc__ = spec.description
-            functions.append(_tool_wrapper)
-
-        return functions, counter
-
     def _build_system_prompt(self, context: Any, segment_name: str) -> str:
         thesis = getattr(context, "thesis", "").strip()
         kpis = _default_json(getattr(context, "kpis", {}))
         return (
             "You are a Gemini-based research analyst collaborating with other LLM agents. "
-            "Use the provided tools, including Google Search, to gather verifiable, up-to-date evidence. "
+            "Use the provided tools to gather verifiable, up-to-date evidence from reputable sources. "
             f"Focus exclusively on the value-chain segment '{segment_name}'. Produce at least ten unique company profiles with supporting citations. "
             "Do not fabricate sources; only cite URLs you have verified."
             f"\n\nInvestment thesis:\n{thesis}"

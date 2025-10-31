@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import json
-from typing import Any, Iterable
+from typing import Any, Iterable, cast
 
 from multiplium.providers.base import BaseAgentProvider, ProviderRunResult
 
@@ -21,7 +21,7 @@ class ClaudeAgentProvider(BaseAgentProvider):
 
     async def run(self, context: Any) -> ProviderRunResult:
         if self.dry_run:
-            findings: list[dict[str, Any]] = [{"note": "Dry run placeholder"}]
+            findings = [{"note": "Dry run placeholder"}]
             telemetry = {"steps": 0, "notes": "Dry run mode"}
             return ProviderRunResult(
                 provider=self.name,
@@ -52,7 +52,7 @@ class ClaudeAgentProvider(BaseAgentProvider):
                 telemetry={"error": "ANTHROPIC_API_KEY not configured"},
             )
 
-        client = anthropic.AsyncAnthropic(api_key=api_key)
+        client = cast(Any, anthropic.AsyncAnthropic(api_key=api_key))
         specs = list(self.tool_manager.iter_specs())
         tool_names = {spec.name for spec in specs}
         tools = [
@@ -74,11 +74,13 @@ class ClaudeAgentProvider(BaseAgentProvider):
 
         try:
             for _ in range(self.config.max_steps):
+                messages_payload: Any = messages
+                tools_payload: Any = tools or anthropic.NOT_GIVEN
                 response = await client.messages.create(
                     model=self.config.model,
                     system=system_prompt,
-                    messages=messages,
-                    tools=tools or anthropic.NOT_GIVEN,
+                    messages=messages_payload,
+                    tools=tools_payload,
                     temperature=self.config.temperature,
                     max_tokens=4096,
                 )
@@ -86,20 +88,21 @@ class ClaudeAgentProvider(BaseAgentProvider):
                 usage["input_tokens"] += getattr(response.usage, "input_tokens", 0)
                 usage["output_tokens"] += getattr(response.usage, "output_tokens", 0)
 
-                assistant_blocks = [block.model_dump() for block in response.content]
+                response_blocks = list(cast(Iterable[Any], response.content))
+                assistant_blocks = [block.model_dump() for block in response_blocks]
                 messages.append({"role": "assistant", "content": assistant_blocks})
 
-                pending_tools = []
-                for block in response.content:
+                pending_tools: list[Any] = []
+                for block in response_blocks:
                     block_name = getattr(block, "name", None)
                     if (
                         getattr(block, "type", None) in {"tool_use", "server_tool_use"}
                         and block_name in tool_names
-                    ):
+                    ) and block_name is not None:
                         pending_tools.append(block)
 
                 if not pending_tools:
-                    final_text = self._collect_text_blocks(response.content)
+                    final_text = self._collect_text_blocks(response_blocks)
                     break
 
                 tool_results = []

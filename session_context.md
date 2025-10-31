@@ -1,25 +1,25 @@
 # Multiplium Session Context
 
 ## Current State
-- CLI orchestrator (`src/multiplium/orchestrator.py`) wraps Typer entrypoint, loads research context from `data/`, fans out across enabled providers, and persists consolidated JSON via `reporting.write_report`.
-- Configuration modeled with Pydantic (`src/multiplium/config.py`) and hydrated from YAML (`config/dev.yaml`), including per-provider settings, tool endpoint metadata, and file-system path expansion.
-- Provider adapters in `src/multiplium/providers/` implement Anthropic Claude, OpenAI Agents SDK, and Google Gemini integrations with shared dry-run fallbacks, API key resolution, and provider-specific tool bridging.
-- Tooling layer centers on `ToolManager` with deterministic caching, domain allowlists, and HTTP client reuse, backed by schemas in `tools/catalog.py` and dry-run stubs in `tools/stubs.py`.
-- Reference MCP tool servers live under `servers/`, exposing FastAPI apps for search/fetch (`DuckDuckGo` + direct fetch), organization lookup (OpenAlex), patent search (USPTO PatentsView), and financial metrics (Financial Modeling Prep), with a helper launcher `scripts/start_tool_servers.sh`.
-- Sample thesis, value-chain, and KPI inputs live in `data/`; `reports/latest_report.json` captures the most recent run output (currently generated from sample data).
-- Project metadata (`pyproject.toml`) targets Python 3.11+, pins core SDK dependencies, and defines optional dev tooling (pytest, ruff, mypy).
-- README documents end-to-end setup, including environment variables, server launch commands, and dry-run vs. live execution paths.
+- Orchestrator (`src/multiplium/orchestrator.py`) drives Typer CLI execution, loads thesis/value-chain context from `data/`, and now writes both `reports/latest_report.json` and timestamped snapshots via `multiplium.reporting.writer.write_report`.
+- Configuration stays centralized in `config/dev.yaml` with per-provider toggles, tool endpoints, and Render-friendly overrides surfaced through environment variables.
+- Provider adapters under `src/multiplium/providers/` include OpenAI Agents (primary), Anthropic, and Gemini. OpenAI flow enforces a ≥10 companies per segment target, merges high-confidence seeds from `seed_companies.json`, tracks tool usage, deduplicates results, and now sanitizes agent JSON before parsing to tolerate inline guidance. Gemini has been updated to the `gemini-2.5-flash` model via the refreshed `google-genai` client (API version `v1beta1`) and accepts API keys from `GOOGLE_GENAI_API_KEY`, `GOOGLE_API_KEY`, or `GEMINI_API_KEY`.
+- MCP tooling stack (`multiplium.tools.manager` + FastAPI servers in `servers/`) underpins search, content fetch, Crunchbase, patents, and financial metrics. The same apps are deployed to Render at `https://multiplium.onrender.com/{search,crunchbase,patents,financials}/mcp/...`. Perplexity ingestion now flattens the API's nested citation format (`servers/clients/search.py`) so search results surface correctly when `PERPLEXITY_API_KEY` is set.
+- Seed scaffolding for thin segments lives at repo root (`seed_companies.json`) and is referenced in prompts so seeded vineyard companies carry through outputs.
+- README and `AGENTS.md` call out environment preparation, Render deployment steps, and the need to export keys (`OPENAI_API_KEY`, `GOOGLE_GENAI_API_KEY`, `TAVILY_API_KEY`, etc.) before running live research.
+- Test suite now includes pytest-asyncio coverage for the tool manager (`tests/test_tool_manager.py`) plus a unit test for OpenAI JSON sanitization (`tests/test_openai_provider.py`); `tests/conftest.py` wires `src/` onto `sys.path`.
 
 ## Outstanding Work
-- Populate `.env` with Anthropic, OpenAI, Google GenAI, and tool-layer credentials; surface validation errors early during orchestrator launch.
-- Stand up long-running MCP services (or containerize) with retries, rate-limit guards, and richer error responses; evaluate caching strategy for API quotas.
-- Implement aggregation/consensus module to reconcile provider findings, apply scoring, and flag conflicts prior to analyst review.
-- Add structured tests (unit + async integration) covering `ToolManager`, provider adapters (with SDK mocks), config parsing, and server contract behaviors.
-- Layer in observability: structured logging enrichment, per-provider/tool cost tracking, and trace IDs across orchestrator + servers.
-- Harden report schema (versioning, output validation) and support historical report retention or datastore persistence.
+- Confirm live runs export the required API keys in both local shells and Render environment; latest failures were configuration errors for OpenAI and Gemini.
+- Exercise Gemini provider end-to-end using a valid Google AI Studio key (config now targets `gemini-1.5-pro`) and align model identifiers in reports once upgraded (target `2.5 Pro` when available).
+- Expand seed coverage and source quality for value-chain segments 1 (Soil Health) and 3 (IPM); audit `seed_companies.json` summaries/URLs for accuracy.
+- Build regression tests for provider output parsing and tool invocation counting so name normalization and report telemetry stay stable.
+- Improve network resilience on Render search client (`servers/clients/search.py`) to gracefully handle DNS failures and surface status codes in telemetry.
+- Revisit analyst fusion layer (consensus/scoring) after provider coverage stabilizes.
 
 ## Operational Notes
-- Run `pip install -e .` (or `poetry install`) with Python 3.11+; ensure `PYTHONPATH=src` when invoking scripts.
-- Launch tool servers individually with `uvicorn` or via `scripts/start_tool_servers.sh`; requires outbound network access to public APIs.
-- Orchestrator accepts `--dry-run` for stubbed tool responses; live mode expects servers online and credentials set.
-- Additions pending git history; repository initialization forthcoming so changes can be tracked via commits.
+- Preferred workflow: `pip install -e .` (Python 3.11) or reuse `.venv`, then `set -a; source .env; set +a` to export provider keys before running orchestration or servers.
+- Local MCP servers start via `PYTHONPATH=src scripts/start_tool_servers.sh`; the Render deployment auto-starts with `pip install -r requirements.txt` and serves FastAPI apps behind `/search`, `/crunchbase`, `/patents`, `/financials`.
+- Run `python -m multiplium.orchestrator --config config/dev.yaml --dry-run` for safe smoke tests; omit `--dry-run` for live research (requires remote or local MCP endpoints reachable).
+- Reports persist under `reports/`; every live run creates `latest_report.json` plus a timestamped `report_YYYYMMDDTHHMMSSZ.json` for audit trails.
+- Before pushing updates, run `ruff check src tests`, `mypy src`, and `pytest`; staging branch is `main` (GitHub remote `https://github.com/vimo33/Multiplium`).

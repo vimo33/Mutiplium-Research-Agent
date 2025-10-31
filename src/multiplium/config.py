@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import List, Optional
 
 import yaml
-from pydantic import BaseModel, Field, SecretStr, validator
+from pydantic import BaseModel, Field, SecretStr, field_validator
 
 
 class ProviderConfig(BaseModel):
@@ -44,7 +44,7 @@ class OrchestratorConfig(BaseModel):
     output_path: Path = Path("reports/latest_report.json")
     dry_run: bool = False
 
-    @validator("thesis_path", "value_chain_path", "kpi_path", "output_path", pre=True)
+    @field_validator("thesis_path", "value_chain_path", "kpi_path", "output_path", mode="before")
     def _expand_path(cls, value: str | Path) -> Path:
         return Path(value).expanduser().resolve()
 
@@ -64,4 +64,3 @@ def load_settings(path: Path) -> Settings:
         data = yaml.safe_load(stream)
 
     return Settings.model_validate(data)
-

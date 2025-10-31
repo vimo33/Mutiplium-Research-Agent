@@ -173,6 +173,7 @@ async def _search_perplexity(query: str, *, max_results: int) -> dict[str, Any]:
             },
             {"role": "user", "content": query},
         ],
+        "return_citations": True,
     }
     try:
         async with httpx.AsyncClient(timeout=15.0) as client:
@@ -184,40 +185,80 @@ async def _search_perplexity(query: str, *, max_results: int) -> dict[str, Any]:
     except Exception as exc:  # pragma: no cover
         return {"results": [], "note": f"Perplexity request encountered unexpected error: {exc}"}
 
-    results: list[dict[str, Any]] = []
-    citations = data.get("citations") or []
-    for item in citations[:max_results]:
-        url = item.get("url")
-        if not url:
-            continue
-        parsed = urlparse(url)
-        summary = item.get("snippet") or ""
-        results.append(
+    results = _extract_perplexity_results(data, max_results)
+
+    return {"results": results, "note": "Perplexity API search results."}
+
+
+def _extract_perplexity_results(data: dict[str, Any], max_results: int) -> list[dict[str, Any]]:
+    """Normalize Perplexity response payload into search result dictionaries."""
+
+    choices = data.get("choices") or []
+    if not isinstance(choices, list):
+        choices = []
+
+    aggregated_results: list[dict[str, Any]] = []
+    summary_text: str | None = None
+
+    for choice in choices:
+        message = choice.get("message", {}) if isinstance(choice, dict) else {}
+        content = message.get("content")
+        if isinstance(content, list) and not summary_text:
+            parts: list[str] = []
+            for part in content:
+                if isinstance(part, dict) and part.get("type") in {"output_text", "text"}:
+                    text = part.get("text")
+                    if isinstance(text, str):
+                        parts.append(text)
+                elif isinstance(part, str):
+                    parts.append(part)
+            if parts:
+                summary_text = "\n".join(parts).strip()
+        elif isinstance(content, str) and not summary_text:
+            summary_text = content.strip()
+
+        citations_blocks = message.get("citations") if isinstance(message, dict) else None
+        citations: list[dict[str, Any]] = []
+        if isinstance(citations_blocks, list):
+            for block in citations_blocks:
+                if isinstance(block, dict):
+                    inner = block.get("citations")
+                    if isinstance(inner, list):
+                        citations.extend([c for c in inner if isinstance(c, dict)])
+                    else:
+                        citations.append(block)
+
+        for citation in citations:
+            url = citation.get("url") or citation.get("source_url")
+            if not isinstance(url, str) or not url:
+                continue
+            parsed = urlparse(url)
+            snippet = citation.get("snippet") or citation.get("text") or ""
+            title = citation.get("title") or parsed.hostname or url
+            aggregated_results.append(
+                {
+                    "title": title,
+                    "url": url,
+                    "summary": snippet[:2000] if isinstance(snippet, str) else "",
+                    "source": parsed.hostname or "",
+                    "published_at": citation.get("published_at"),
+                }
+            )
+            if len(aggregated_results) >= max_results:
+                return aggregated_results
+
+    if not aggregated_results and summary_text:
+        aggregated_results.append(
             {
-                "title": item.get("title") or parsed.hostname or url,
-                "url": url,
-                "summary": summary[:2000],
-                "source": parsed.hostname or "",
-                "published_at": item.get("published_at"),
+                "title": "Perplexity summary",
+                "url": "",
+                "summary": summary_text[:2000],
+                "source": "perplexity.ai",
+                "published_at": None,
             }
         )
 
-    if not results:
-        choices = data.get("choices") or []
-        if choices:
-            message = choices[0].get("message", {})
-            summary = message.get("content", "")
-            results.append(
-                {
-                    "title": "Perplexity summary",
-                    "url": "",
-                    "summary": summary[:2000],
-                    "source": "perplexity.ai",
-                    "published_at": None,
-                }
-            )
-
-    return {"results": results[:max_results], "note": "Perplexity API search results."}
+    return aggregated_results[:max_results]
 
 
 async def _search_duckduckgo(query: str, *, max_results: int) -> dict[str, Any]:
