@@ -36,3 +36,7 @@ tools:
     endpoint: "https://multiplium.onrender.com/patents/mcp/patents"
   - name: "financial_metrics"
     endpoint: "https://multiplium.onrender.com/financials/mcp/financials"
+  - name: "lookup_esg_ratings"
+    endpoint: "http://127.0.0.1:7005/mcp/esg"
+  - name: "search_academic_papers"
+    endpoint: "http://127.0.0.1:7006/mcp/academic"

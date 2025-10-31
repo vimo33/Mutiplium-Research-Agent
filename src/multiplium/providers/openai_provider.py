@@ -37,6 +37,7 @@ class OpenAIAgentProvider(BaseAgentProvider):
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         self._tools_cached: list[Any] | None = None
+        self._web_search_tool_cls: Any | None = None
         self._seed_companies_cache: dict[str, list[dict[str, Any]]] | None = None
 
     async def run(self, context: Any) -> ProviderRunResult:
@@ -53,7 +54,7 @@ class OpenAIAgentProvider(BaseAgentProvider):
 
         try:
             from agents import Agent, Runner, set_default_openai_key
-            from agents.tool import FunctionTool
+            from agents.tool import FunctionTool, WebSearchTool
         except ImportError as exc:  # pragma: no cover
             return ProviderRunResult(
                 provider=self.name,
@@ -74,6 +75,7 @@ class OpenAIAgentProvider(BaseAgentProvider):
             )
 
         set_default_openai_key(api_key)
+        self._web_search_tool_cls = WebSearchTool
 
         segment_names = self._extract_segment_names(context)
         if not segment_names:
@@ -212,6 +214,9 @@ class OpenAIAgentProvider(BaseAgentProvider):
             )
             tools.append(tool)
 
+        if self._web_search_tool_cls is not None:
+            tools.append(self._web_search_tool_cls())
+
         self._tools_cached = tools
         return tools
 
@@ -232,7 +237,7 @@ class OpenAIAgentProvider(BaseAgentProvider):
             )
         return (
             "You are a senior investment research analyst working on a deep-dive project. "
-            "Use the available tools to gather validated, up-to-date information from trusted sources. "
+            "Use the built-in `WebSearchTool` for broad, real-time information gathering, and other available tools for specific data lookups. Gather validated, up-to-date information from trusted sources. "
             f"Focus exclusively on the value-chain segment '{segment_name}'. Produce at least ten unique company profiles that include KPI alignment and cited sources. "
             "Do not finish until you have assembled a well-supported list for this segment. "
             "If you lack sufficient evidence, continue researching with tools until you can confidently report."

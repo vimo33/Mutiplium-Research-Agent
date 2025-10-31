@@ -35,6 +35,8 @@ start_server "servers.search_service:app" 7001
 start_server "servers.crunchbase_service:app" 7002
 start_server "servers.patents_service:app" 7003
 start_server "servers.financials_service:app" 7004
+start_server "servers.esg_service:app" 7005
+start_server "servers.academic_search_service:app" 7006
 
 echo "All MCP services are running. Press Ctrl+C to stop."
 wait "${PIDS[@]}"

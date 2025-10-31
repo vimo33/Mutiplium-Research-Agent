@@ -10,6 +10,7 @@ Internal MVP for running multi-LLM investment research across Anthropic Claude, 
   - `providers/` – SDK-specific agent wrappers (Claude, OpenAI, Gemini)
   - `tools/` – shared MCP-compatible tool interfaces
   - `reporting/` – report serialization and persistence helpers
+- `servers/` – MCP reference implementations (search, Crunchbase, patents, financials, ESG, academic)
 - `config/` – default configuration files
 - `tests/` – unit and integration test suites (to be populated)
 
@@ -26,20 +27,23 @@ Internal MVP for running multi-LLM investment research across Anthropic Claude, 
    # or
    poetry install
    ```
-4. Prepare the MCP tool servers referenced in `config/dev.yaml` (search, fetch, Crunchbase, patents, financials). Each endpoint should accept JSON payloads of the form `{"name": <tool>, "args": [...], "kwargs": {...}}` and return JSON results. A lightweight FastAPI reference implementation lives under `servers/`:
+4. Prepare the MCP tool servers referenced in `config/dev.yaml` (search/fetch, Crunchbase, patents, financials, ESG, academic research). Each endpoint should accept JSON payloads of the form `{"name": <tool>, "args": [...], "kwargs": {...}}` and return JSON results. A lightweight FastAPI reference implementation lives under `servers/`:
    ```bash
-   pip install "fastapi>=0.111" "uvicorn[standard]>=0.30"
+   pip install -r servers/requirements.txt
    PYTHONPATH=src uvicorn servers.search_service:app --reload --port 7001
    PYTHONPATH=src uvicorn servers.crunchbase_service:app --reload --port 7002
    PYTHONPATH=src uvicorn servers.patents_service:app --reload --port 7003
    PYTHONPATH=src uvicorn servers.financials_service:app --reload --port 7004
+   PYTHONPATH=src uvicorn servers.esg_service:app --reload --port 7005
+   PYTHONPATH=src uvicorn servers.academic_search_service:app --reload --port 7006
    ```
-   These services reach out to free public APIs, so outbound network access is required:
-   - DuckDuckGo Instant Answer API for web search (`search_web`)
+   These services reach out to public APIs, so outbound network access is required:
+   - Tavily + Perplexity Search APIs for web research (`search_web`)
    - Direct HTTP fetch for page content (`fetch_content`)
    - OpenAlex Organizations API for company metadata (`lookup_crunchbase`)
    - USPTO PatentsView API for patent search (`lookup_patents`)
-   - Financial Modeling Prep API (demo key by default) for financial metrics (`financial_metrics`)
+   - Financial Modeling Prep API for financial metrics (`financial_metrics`) and ESG scoring (`lookup_esg_ratings`)
+   - OpenAlex Works API for peer-reviewed papers (`search_academic_papers`)
 
    Optional environment variables:
    ```bash
@@ -47,9 +51,10 @@ Internal MVP for running multi-LLM investment research across Anthropic Claude, 
    export TAVILY_API_KEY="..."      # Optional: richer search coverage
    export PERPLEXITY_API_KEY="..."  # Optional: augment search_web with Perplexity
    export GOOGLE_GENAI_API_KEY="..." # Required for Gemini provider
+   export GEMINI_API_KEY="..."       # Alternate env var recognised by google-genai SDK
    # Optional: edit seed_companies.json to inject high-confidence vineyard deployments
    ```
-   Run the uvicorn processes in separate terminals and keep them running while the orchestrator is executing. To launch all four servers in one shot, use the helper script (after `chmod +x scripts/start_tool_servers.sh`):
+   Run the uvicorn processes in separate terminals and keep them running while the orchestrator is executing. To launch all six servers in one shot, use the helper script (after `chmod +x scripts/start_tool_servers.sh`):
    ```bash
    scripts/start_tool_servers.sh
    ```
@@ -65,18 +70,19 @@ Internal MVP for running multi-LLM investment research across Anthropic Claude, 
 
 ## Deploying MCP Tool Servers to Render
 
-To avoid running the four tool services locally, deploy them as a single FastAPI app on [Render](https://render.com):
+To avoid running the six tool services locally, deploy them as a single FastAPI app on [Render](https://render.com):
 
 1. The repository includes `servers/app.py`, `requirements.txt`, and `render.yaml`. Push these files to your Git remote.
 2. In Render, create a **Web Service** pointing at the repository. Render will install `requirements.txt` and start `uvicorn servers.app:app`.
-3. Configure environment variables (e.g., `FMP_API_KEY`) in the Render dashboard under the service's **Environment** tab.
-   - `TAVILY_API_KEY` and `PERPLEXITY_API_KEY` are optional but recommended for broader search coverage.
+3. Configure environment variables (e.g., `FMP_API_KEY`, `TAVILY_API_KEY`, `PERPLEXITY_API_KEY`, `GOOGLE_GENAI_API_KEY`) in the Render dashboard under the service's **Environment** tab.
 4. After the service deploys, note the base URL (e.g., `https://multiplium-mcp-tools.onrender.com`) and update `config/dev.yaml` tool endpoints to point at:
    - `https://<host>/search/mcp/search`
    - `https://<host>/search/mcp/fetch`
    - `https://<host>/crunchbase/mcp/crunchbase`
    - `https://<host>/patents/mcp/patents`
    - `https://<host>/financials/mcp/financials`
+   - `https://<host>/esg/mcp/esg`
+   - `https://<host>/academic/mcp/academic`
 
 > **Note**: SDKs evolve quickly—pin versions that are validated in your environment:
 > - Anthropic Python SDK (`anthropic`)
@@ -93,7 +99,7 @@ To avoid running the four tool services locally, deploy them as a single FastAPI
 - Results from each provider (findings + telemetry) are persisted to JSON for downstream synthesis.
 
 ## Project Goals
-1. Build a shared tool layer (search, fetch, Crunchbase, patents, metrics) exposed via Model Context Protocol (MCP).
+1. Build a shared tool layer (search, fetch, Crunchbase, patents, metrics, ESG, academic research) exposed via Model Context Protocol (MCP).
 2. Integrate Claude, OpenAI, and Gemini agents that consume the same tool contracts and KPI context.
 3. Orchestrate agents in parallel, capture provenance for each fact, and synthesize consensus vs. unique findings.
 4. Deliver an auditable investment brief with source metadata, KPI alignment, and analyst hand-off notes.

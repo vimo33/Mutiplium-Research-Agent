@@ -8,16 +8,31 @@ from urllib.parse import urlparse
 
 import httpx
 
+try:  # pragma: no cover - optional import for local dev environments
+    from perplexity import Perplexity, PerplexityError  # type: ignore
+except ImportError:  # pragma: no cover
+    Perplexity = None  # type: ignore[assignment]
+
+    class PerplexityError(Exception):  # type: ignore[override]
+        """Fallback exception when perplexity SDK is unavailable."""
+
+
 DUCKDUCKGO_API = "https://api.duckduckgo.com/"
 TAVILY_API = "https://api.tavily.com/search"
-PERPLEXITY_API = "https://api.perplexity.ai/chat/completions"
 
 TAVILY_API_KEY = os.getenv("TAVILY_API_KEY")
 PERPLEXITY_API_KEY = os.getenv("PERPLEXITY_API_KEY")
 
 
-async def search_web(query: str, *, max_results: int = 5, freshness_days: int | None = None) -> dict[str, Any]:
-    """Aggregate search results across available providers (Tavily, Perplexity, DuckDuckGo)."""
+async def search_web(
+    query: str,
+    *,
+    max_results: int = 5,
+    search_depth: str = "basic",
+    include_domains: list[str] | None = None,
+    topic: str = "general",
+) -> dict[str, Any]:
+    """Aggregate search results across Tavily, Perplexity, and DuckDuckGo."""
 
     max_results = max(1, min(max_results, 10))
     aggregated: list[dict[str, Any]] = []
@@ -25,31 +40,37 @@ async def search_web(query: str, *, max_results: int = 5, freshness_days: int | 
     provider_hits: dict[str, int] = {"tavily": 0, "perplexity": 0, "duckduckgo": 0}
 
     if TAVILY_API_KEY:
-        tavily_payload = await _search_tavily(query=query, max_results=max_results)
+        tavily_payload = await _search_tavily(
+            query=query,
+            max_results=max_results,
+            search_depth=search_depth,
+            include_domains=include_domains,
+            topic=topic,
+        )
         aggregated.extend(tavily_payload["results"])
         if tavily_payload["results"]:
             sources_used.append("Tavily")
-            provider_hits["tavily"] += len(tavily_payload["results"])
+            provider_hits["tavily"] = len(tavily_payload["results"])
 
     if PERPLEXITY_API_KEY:
         perplexity_payload = await _search_perplexity(query=query, max_results=max_results)
         aggregated.extend(perplexity_payload["results"])
         if perplexity_payload["results"]:
             sources_used.append("Perplexity")
-            provider_hits["perplexity"] += len(perplexity_payload["results"])
+            provider_hits["perplexity"] = len(perplexity_payload["results"])
 
     if not aggregated:
         duck_payload = await _search_duckduckgo(query=query, max_results=max_results)
         aggregated.extend(duck_payload["results"])
         if duck_payload["results"]:
             sources_used.append("DuckDuckGo")
-            provider_hits["duckduckgo"] += len(duck_payload["results"])
+            provider_hits["duckduckgo"] = len(duck_payload["results"])
 
     seen_urls: set[str] = set()
     deduped: list[dict[str, Any]] = []
     for item in aggregated:
         url = item.get("url")
-        if not isinstance(url, str):
+        if not isinstance(url, str) or not url:
             continue
         normalized = url.strip()
         if normalized in seen_urls:
@@ -59,12 +80,7 @@ async def search_web(query: str, *, max_results: int = 5, freshness_days: int | 
         if len(deduped) >= max_results:
             break
 
-    note = (
-        f"Sources used: {', '.join(sources_used)}."
-        if sources_used
-        else "No search providers returned results; manual follow-up required."
-    )
-
+    note = f"Sources used: {', '.join(sources_used)}." if sources_used else "No search providers returned results."
     return {
         "query": query,
         "max_results": max_results,
@@ -84,51 +100,39 @@ async def fetch_page_content(url: str) -> dict[str, Any]:
             response = await client.get(url)
         response.raise_for_status()
     except httpx.HTTPError as exc:
-        return {
-            "url": str(url),
-            "status_code": getattr(exc.response, "status_code", None),
-            "content_type": None,
-            "content": "",
-            "charset": None,
-            "error": f"fetch failed: {exc}",
-        }
+        return {"url": str(url), "content": "", "error": f"fetch failed: {exc}"}
     except Exception as exc:  # pragma: no cover
-        return {
-            "url": str(url),
-            "status_code": None,
-            "content_type": None,
-            "content": "",
-            "charset": None,
-            "error": f"fetch encountered unexpected error: {exc}",
-        }
+        return {"url": str(url), "content": "", "error": f"fetch encountered unexpected error: {exc}"}
 
-    content_type = response.headers.get("content-type", "")
-    text = response.text
-
-    clean_text = re.sub(r"\s+", " ", text).strip()
-
-    return {
-        "url": str(url),
-        "status_code": response.status_code,
-        "content_type": content_type,
-        "content": clean_text,
-        "charset": response.encoding,
-    }
+    clean_text = re.sub(r"\s+", " ", response.text).strip()
+    return {"url": str(url), "content": clean_text}
 
 
-async def _search_tavily(query: str, *, max_results: int) -> dict[str, Any]:
+async def _search_tavily(
+    query: str,
+    *,
+    max_results: int,
+    search_depth: str,
+    include_domains: list[str] | None,
+    topic: str,
+) -> dict[str, Any]:
+    """Perform a Tavily search with advanced parameters."""
+
+    if not TAVILY_API_KEY:
+        return {"results": [], "note": "Tavily API key not configured."}
+
     payload = {
+        "api_key": TAVILY_API_KEY,
         "query": query,
         "max_results": max_results,
-        "search_depth": "advanced",
+        "search_depth": "advanced" if search_depth == "advanced" else "basic",
+        "include_domains": include_domains or None,
+        "topic": topic,
     }
-    headers = {
-        "Authorization": f"Bearer {TAVILY_API_KEY}",
-        "Content-Type": "application/json",
-    }
+
     try:
         async with httpx.AsyncClient(timeout=15.0) as client:
-            response = await client.post(TAVILY_API, headers=headers, json=payload)
+            response = await client.post(TAVILY_API, json=payload)
         response.raise_for_status()
         data = response.json()
     except httpx.HTTPError as exc:
@@ -137,137 +141,71 @@ async def _search_tavily(query: str, *, max_results: int) -> dict[str, Any]:
         return {"results": [], "note": f"Tavily request encountered unexpected error: {exc}"}
 
     results: list[dict[str, Any]] = []
-    for item in data.get("results", []):
+    for item in data.get("results", []) or []:
         url = item.get("url")
         if not url:
             continue
         parsed = urlparse(url)
-        summary = item.get("content") or item.get("snippet") or ""
         results.append(
             {
-                "title": item.get("title") or parsed.hostname or url,
+                "title": item.get("title", "") or parsed.hostname or url,
                 "url": url,
-                "summary": summary[:2000],
+                "summary": (item.get("content") or "")[:2000],
                 "source": parsed.hostname or "",
                 "published_at": item.get("published_at"),
             }
         )
+        if len(results) >= max_results:
+            break
 
-    return {"results": results[:max_results], "note": "Tavily API advanced search results."}
+    return {"results": results, "note": "Tavily API search results."}
 
 
 async def _search_perplexity(query: str, *, max_results: int) -> dict[str, Any]:
-    if not PERPLEXITY_API_KEY:
-        return {"results": [], "note": ""}
+    """Perform a search using the Perplexity Search API."""
 
-    headers = {
-        "Authorization": f"Bearer {PERPLEXITY_API_KEY}",
-        "Content-Type": "application/json",
-    }
-    payload = {
-        "model": "sonar-medium-online",
-        "messages": [
-            {
-                "role": "system",
-                "content": "Provide concise, well-sourced search results for investment research queries. Include reputable citations.",
-            },
-            {"role": "user", "content": query},
-        ],
-        "return_citations": True,
-    }
+    if not PERPLEXITY_API_KEY:
+        return {"results": [], "note": "Perplexity API key not configured."}
+    if Perplexity is None:
+        return {"results": [], "note": "Perplexity client not installed."}
+
+    client: Any | None = None
     try:
-        async with httpx.AsyncClient(timeout=15.0) as client:
-            response = await client.post(PERPLEXITY_API, headers=headers, json=payload)
-        response.raise_for_status()
-        data = response.json()
-    except httpx.HTTPError as exc:
+        client = Perplexity(api_key=PERPLEXITY_API_KEY)
+        search = await client.search.acreate(query=query, max_results=max_results)
+
+        results: list[dict[str, Any]] = []
+        for result in getattr(search, "results", []) or []:
+            if not result.url:
+                continue
+            parsed = urlparse(result.url)
+            summary = getattr(result, "content", "") or ""
+            results.append(
+                {
+                    "title": result.title or parsed.hostname or result.url,
+                    "url": result.url,
+                    "summary": summary[:2000],
+                    "source": parsed.hostname or "",
+                    "published_at": None,
+                }
+            )
+        return {"results": results[:max_results], "note": "Perplexity API search results."}
+    except PerplexityError as exc:
         return {"results": [], "note": f"Perplexity request failed: {exc}"}
     except Exception as exc:  # pragma: no cover
         return {"results": [], "note": f"Perplexity request encountered unexpected error: {exc}"}
-
-    results = _extract_perplexity_results(data, max_results)
-
-    return {"results": results, "note": "Perplexity API search results."}
-
-
-def _extract_perplexity_results(data: dict[str, Any], max_results: int) -> list[dict[str, Any]]:
-    """Normalize Perplexity response payload into search result dictionaries."""
-
-    choices = data.get("choices") or []
-    if not isinstance(choices, list):
-        choices = []
-
-    aggregated_results: list[dict[str, Any]] = []
-    summary_text: str | None = None
-
-    for choice in choices:
-        message = choice.get("message", {}) if isinstance(choice, dict) else {}
-        content = message.get("content")
-        if isinstance(content, list) and not summary_text:
-            parts: list[str] = []
-            for part in content:
-                if isinstance(part, dict) and part.get("type") in {"output_text", "text"}:
-                    text = part.get("text")
-                    if isinstance(text, str):
-                        parts.append(text)
-                elif isinstance(part, str):
-                    parts.append(part)
-            if parts:
-                summary_text = "\n".join(parts).strip()
-        elif isinstance(content, str) and not summary_text:
-            summary_text = content.strip()
-
-        citations_blocks = message.get("citations") if isinstance(message, dict) else None
-        citations: list[dict[str, Any]] = []
-        if isinstance(citations_blocks, list):
-            for block in citations_blocks:
-                if isinstance(block, dict):
-                    inner = block.get("citations")
-                    if isinstance(inner, list):
-                        citations.extend([c for c in inner if isinstance(c, dict)])
-                    else:
-                        citations.append(block)
-
-        for citation in citations:
-            url = citation.get("url") or citation.get("source_url")
-            if not isinstance(url, str) or not url:
-                continue
-            parsed = urlparse(url)
-            snippet = citation.get("snippet") or citation.get("text") or ""
-            title = citation.get("title") or parsed.hostname or url
-            aggregated_results.append(
-                {
-                    "title": title,
-                    "url": url,
-                    "summary": snippet[:2000] if isinstance(snippet, str) else "",
-                    "source": parsed.hostname or "",
-                    "published_at": citation.get("published_at"),
-                }
-            )
-            if len(aggregated_results) >= max_results:
-                return aggregated_results
-
-    if not aggregated_results and summary_text:
-        aggregated_results.append(
-            {
-                "title": "Perplexity summary",
-                "url": "",
-                "summary": summary_text[:2000],
-                "source": "perplexity.ai",
-                "published_at": None,
-            }
-        )
-
-    return aggregated_results[:max_results]
+    finally:
+        if client is not None:
+            try:
+                await client.aclose()  # type: ignore[attr-defined]
+            except Exception:
+                pass
 
 
 async def _search_duckduckgo(query: str, *, max_results: int) -> dict[str, Any]:
-    params = {
-        "q": query,
-        "format": "json",
-        "no_html": "1",
-        "no_redirect": "1",
-    }
+    """Perform a fallback search using the DuckDuckGo Instant Answer API."""
+
+    params = {"q": query, "format": "json", "no_html": "1", "no_redirect": "1"}
     try:
         async with httpx.AsyncClient(timeout=10.0) as client:
             response = await client.get(DUCKDUCKGO_API, params=params)
@@ -284,34 +222,26 @@ async def _search_duckduckgo(query: str, *, max_results: int) -> dict[str, Any]:
         if not url or not text:
             return
         parsed = urlparse(url)
-        title = text.split(" - ", 1)[0]
-        summary = text[:2000]
         results.append(
             {
-                "title": title,
+                "title": text.split(" - ")[0],
                 "url": url,
-                "summary": summary,
+                "summary": text[:2000],
                 "source": parsed.hostname or "",
                 "published_at": None,
             }
         )
 
-    for item in payload.get("Results", []):
+    for item in payload.get("Results", []) or []:
         _add_result(item.get("FirstURL", ""), item.get("Text", ""))
         if len(results) >= max_results:
             break
 
     if len(results) < max_results:
-        for topic in payload.get("RelatedTopics", []):
-            if "FirstURL" in topic and "Text" in topic:
-                _add_result(topic["FirstURL"], topic["Text"])
-            elif "Topics" in topic:
-                for nested in topic["Topics"]:
-                    _add_result(nested.get("FirstURL", ""), nested.get("Text", ""))
-            if len(results) >= max_results:
-                break
+        for item in payload.get("RelatedTopics", []) or []:
+            if isinstance(item, dict) and "FirstURL" in item:
+                _add_result(item.get("FirstURL", ""), item.get("Text", ""))
+                if len(results) >= max_results:
+                    break
 
-    return {
-        "results": results[:max_results],
-        "note": "DuckDuckGo instant answer API; results may emphasize encyclopedic sources.",
-    }
+    return {"results": results[:max_results], "note": "DuckDuckGo instant answer API results."}

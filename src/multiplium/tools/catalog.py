@@ -11,7 +11,7 @@ class ToolLibraryEntry(TypedDict):
 
 DEFAULT_TOOL_LIBRARY: dict[str, ToolLibraryEntry] = {
     "search_web": {
-        "description": "Search trusted news and company sources for investment-relevant information.",
+        "description": "Search trusted news and company sources for investment-relevant information. Use 'search_depth': 'advanced' for deeper, more comprehensive research on a topic. Use 'topic' to focus on 'finance' or 'news' sources.",
         "input_schema": {
             "type": "object",
             "properties": {
@@ -24,14 +24,24 @@ DEFAULT_TOOL_LIBRARY: dict[str, ToolLibraryEntry] = {
                     "minimum": 1,
                     "maximum": 10,
                     "default": 5,
-                    "description": "Maximum number of results to return ordered by relevance.",
+                    "description": "Maximum number of results to return.",
                 },
-                "freshness_days": {
-                    "type": "integer",
-                    "minimum": 1,
-                    "maximum": 365,
-                    "default": 90,
-                    "description": "Optional freshness window (days) to bias towards recent items.",
+                "search_depth": {
+                    "type": "string",
+                    "enum": ["basic", "advanced"],
+                    "default": "basic",
+                    "description": "Use 'advanced' for higher quality, more detailed search results on complex topics. Basic is faster for simple lookups.",
+                },
+                "include_domains": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": "A list of domains to specifically include in the search results (e.g., ['techcrunch.com', 'wsj.com']).",
+                },
+                "topic": {
+                    "type": "string",
+                    "enum": ["general", "news", "finance"],
+                    "default": "general",
+                    "description": "Set the topic to 'finance' or 'news' to focus the search on relevant sources.",
                 },
             },
             "required": ["query"],
@@ -48,16 +58,57 @@ DEFAULT_TOOL_LIBRARY: dict[str, ToolLibraryEntry] = {
                             "title": {"type": "string"},
                             "url": {"type": "string"},
                             "summary": {"type": "string"},
-                            "published_at": {"type": "string"},
-                            "source": {"type": "string"},
                         },
                         "required": ["title", "url"],
-                        "additionalProperties": True,
                     },
                 }
             },
-            "required": ["results"],
-            "additionalProperties": True,
+        },
+    },
+    "lookup_esg_ratings": {
+        "description": "Retrieve Environmental, Social, and Governance (ESG) ratings and data for a public company to assess its impact and sustainability performance.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "company": {
+                    "type": "string",
+                    "description": "Company name or ticker symbol.",
+                }
+            },
+            "required": ["company"],
+        },
+        "output_schema": {
+            "type": "object",
+            "properties": {
+                "esg_data": {"type": "object"}
+            },
+        },
+    },
+    "search_academic_papers": {
+        "description": "Search for peer-reviewed scientific papers, academic journals, and university studies to validate technological claims or research topics.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Keywords related to the technology, scientific concept, or research area.",
+                },
+                "max_results": {
+                    "type": "integer",
+                    "default": 5,
+                    "description": "Maximum number of papers to return.",
+                },
+            },
+            "required": ["query"],
+        },
+        "output_schema": {
+            "type": "object",
+            "properties": {
+                "papers": {
+                    "type": "array",
+                    "items": {"type": "object"},
+                }
+            },
         },
     },
     "fetch_content": {
