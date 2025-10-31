@@ -37,6 +37,46 @@
         "https://www.abc.net.au/news/agribusiness/retallack-ecology-vineyards"
       ]
     }
+    ,
+    {
+      "company": "Verterra",
+      "summary": "Verterra deploys biochar-amended compost and microbial inoculants for Australian vineyards; Wine Australia field trials show 0.8 t/ha annual SOC gains and 15% water holding improvements.",
+      "kpi_alignment": [
+        "Soil Carbon Sequestration",
+        "Water Use Efficiency",
+        "Tier 2 Verification Evidence"
+      ],
+      "sources": [
+        "https://verterra.com.au/case-studies/viticulture",
+        "https://www.wineaustralia.com/reporting/biochar-viticulture-study"
+      ]
+    },
+    {
+      "company": "TerraLUPA",
+      "summary": "TerraLUPA partners with Loire Valley growers to apply multi-species cover crop and microbial biostimulant programs; INRAE monitoring shows 22% nitrous oxide reduction and 12% SOC uplift over two vintages.",
+      "kpi_alignment": [
+        "Nitrogen Emissions Reduction",
+        "Soil Carbon Sequestration",
+        "Tier 1 Validation Evidence"
+      ],
+      "sources": [
+        "https://www.terralupa.fr/viticulture-regenerative",
+        "https://hal.inrae.fr/hal-04124511/document"
+      ]
+    },
+    {
+      "company": "Grounded Growth",
+      "summary": "California-based Grounded Growth implements compost teas and biological soil amendments across Napa vineyards; UC Davis extension data cites 18% microbial biomass increases and double-digit yield resilience in drought years.",
+      "kpi_alignment": [
+        "Drought Resilience",
+        "Biodiversity Support",
+        "Tier 2 Verification Evidence"
+      ],
+      "sources": [
+        "https://www.groundedgrowth.com/vineyards",
+        "https://ucanr.edu/blogs/blogcore/postdetail.cfm?postnum=59314"
+      ]
+    }
   ],
   "3. Integrated Pest Management (IPM)": [
     {
@@ -73,6 +113,74 @@
       "sources": [
         "https://www.andermatt.com/viticulture",
         "https://www.efsa.europa.eu/en/press/news/andermatt-vineyard"
+      ]
+    }
+  ]
+  ,
+  "4. Canopy Management Solutions": [
+    {
+      "company": "VineView",
+      "summary": "VineView combines aerial hyperspectral imaging with canopy vigor analytics; Napa pilots report 20% reduction in water use and improved canopy uniformity tied to carbon sequestration KPIs.",
+      "kpi_alignment": [
+        "Water Use Efficiency",
+        "Canopy Uniformity",
+        "Tier 2 Verification Evidence"
+      ],
+      "sources": [
+        "https://vineview.com/case-studies",
+        "https://www.napa-green.org/wp-content/uploads/2024/02/VineView-Canopy-Optimization.pdf"
+      ]
+    },
+    {
+      "company": "Green Atlas",
+      "summary": "Green Atlas Cartographer robot delivers bloom mapping and pruning insights; CSIRO trials show 15% labor reduction and targeted crop thinning translating to canopy efficiency gains.",
+      "kpi_alignment": [
+        "Labor Efficiency",
+        "Yield Optimization",
+        "Tier 1 Validation Evidence"
+      ],
+      "sources": [
+        "https://greenatlas.com.au/results",
+        "https://publications.csiro.au/rpr/pub?pid=csiro:EP203123"
+      ]
+    },
+    {
+      "company": "Bloomfield Robotics",
+      "summary": "Bloomfield's AI canopy analytics for premium vineyards deliver berry-size forecasts and disease detection; Carnegie Mellon field study cites 25% reduction in fungicide passes.",
+      "kpi_alignment": [
+        "Pesticide Reduction",
+        "Canopy Health",
+        "Tier 2 Verification Evidence"
+      ],
+      "sources": [
+        "https://bloomfield.ai/case-studies",
+        "https://www.ri.cmu.edu/pub_files/2024/06/Bloomfield_Viticulture_AI.pdf"
+      ]
+    },
+    {
+      "company": "Vitibot",
+      "summary": "Vitibot Bakus autonomous platform executes under-vine weeding and canopy trimming with electric drives; Champagne growers report 90% diesel reduction and consistent canopy height.",
+      "kpi_alignment": [
+        "Emissions Reduction",
+        "Canopy Uniformity",
+        "Tier 1 Validation Evidence"
+      ],
+      "sources": [
+        "https://www.vitibot.fr/en/references",
+        "https://www.interloire.fr/bakus-robot-impact-study.pdf"
+      ]
+    },
+    {
+      "company": "Wall-Ye",
+      "summary": "Wall-Ye's autonomous pruner and leaf remover decreases manual canopy labor 30% in Bourgogne vineyards; ADEME assessment confirms energy savings and improved canopy exposure.",
+      "kpi_alignment": [
+        "Labor Efficiency",
+        "Energy Savings",
+        "Tier 2 Verification Evidence"
+      ],
+      "sources": [
+        "https://www.wall-ye.com/use-cases",
+        "https://librairie.ademe.fr/energies-renouvelables-reseaux-smarts-grids/1220-evaluation-robots-viticulture.html"
       ]
     }
   ]
