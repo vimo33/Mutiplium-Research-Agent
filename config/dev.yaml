@@ -1,42 +1,80 @@
 orchestrator:
-  sector: "Example Sector"
-  thesis_path: "data/thesis.md"
-  value_chain_path: "data/value_chain.md"
-  kpi_path: "data/kpis.md"
-  concurrency: 3
-  output_path: "reports/latest_report.json"
+  sector: "Wine Industry Value Chain"  # Updated to reflect new wine-focused context
+  thesis_path: "data/new/thesis_wine.md"  # Wine value chain investment thesis
+  value_chain_path: "data/new/value_chain_wine.md"  # 8-stage wine value chain structure
+  kpi_path: "data/new/kpis_wine.md"  # Wine-specific KPI framework with quantified targets
+  concurrency: 3  # FULL RUN: All 3 providers in parallel (OpenAI, Google, Claude)
+  output_path: "reports/latest_report.json"  # Also saves timestamped copy to reports/new/
   dry_run: false
+
+# Architecture Notes:
+# - Discovery Phase: Providers use NATIVE search (OpenAI web, Google Grounding, Claude reasoning)
+# - Validation Phase: MCP tools (Tavily + Perplexity) for deep verification
+# - This avoids Tavily API exhaustion during discovery
+# - MCP tools used strategically for validation only
 
 providers:
   anthropic:
-    enabled: true
-    model: "claude-3-5-sonnet"
+    enabled: true  # ✅ FULL RUN - All segments with optimized caching
+    model: "claude-sonnet-4-5-20250929"  # Claude 4.5 Sonnet with web search
     temperature: 0.15
-    max_steps: 12
+    max_steps: 20  # FULL RUN: 20 turns, 30 web searches across all segments
   openai:
-    enabled: true
-    model: "gpt-4.1"
+    enabled: true  # ✅ FULL RUN - Uses native web search capabilities
+    model: "gpt-5"  # Latest GPT-5 (Aug 2025) - enhanced reasoning, 1M+ token context
+    temperature: 0.15
+    max_steps: 20  # FULL RUN: 20 turns for comprehensive coverage
+  google:
+    enabled: true  # ✅ FULL RUN - Uses Google Search grounding natively
+    model: "gemini-2.5-pro"  # Latest Gemini 2.5 Pro (Aug 2025) - strong reasoning + grounding
+    temperature: 0.15
+    max_steps: 20  # FULL RUN: 20 turns for comprehensive coverage
+  xai:
+    enabled: false  # Disable - not needed with 3 providers
+    model: "grok-beta"
     temperature: 0.15
     max_steps: 20
-  google:
-    enabled: true
-    model: "gemini-2.5-flash"
-    temperature: 0.15
-    max_steps: 12
 
 tools:
+  # Tavily MCP - Web search & content extraction
   - name: "search_web"
-    endpoint: "https://multiplium.onrender.com/search/mcp/search"
+    endpoint: "tavily_mcp"
   - name: "fetch_content"
-    endpoint: "https://multiplium.onrender.com/search/mcp/fetch"
+    endpoint: "tavily_mcp"
     allow_domains: []
+  - name: "extract_content"
+    endpoint: "tavily_mcp"
+  - name: "map_website"
+    endpoint: "tavily_mcp"
+  - name: "crawl_website"
+    endpoint: "tavily_mcp"
+  
+  # Perplexity MCP - AI-powered research (PARALLEL with Tavily for max coverage)
+  - name: "perplexity_search"
+    endpoint: "perplexity_mcp"
+  - name: "perplexity_ask"
+    endpoint: "perplexity_mcp"
+  - name: "perplexity_research"
+    endpoint: "perplexity_mcp"
+  - name: "perplexity_reason"
+    endpoint: "perplexity_mcp"
+  
+  # External Data Sources (Render deployment)
   - name: "lookup_crunchbase"
     endpoint: "https://multiplium.onrender.com/crunchbase/mcp/crunchbase"
   - name: "lookup_patents"
     endpoint: "https://multiplium.onrender.com/patents/mcp/patents"
   - name: "financial_metrics"
     endpoint: "https://multiplium.onrender.com/financials/mcp/financials"
+  
+  # Local MCP Services (run scripts/start_tool_servers.sh)
   - name: "lookup_esg_ratings"
     endpoint: "http://127.0.0.1:7005/mcp/esg"
   - name: "search_academic_papers"
     endpoint: "http://127.0.0.1:7006/mcp/academic"
+  - name: "lookup_sustainability_ratings"
+    endpoint: "http://127.0.0.1:7007/mcp/sustainability"
+  - name: "check_certifications"
+    endpoint: "http://127.0.0.1:7007/mcp/certifications"
+  - name: "calculate_sdg_alignment"
+    endpoint: "http://127.0.0.1:7007/mcp/sdg"

@@ -37,6 +37,7 @@ start_server "servers.patents_service:app" 7003
 start_server "servers.financials_service:app" 7004
 start_server "servers.esg_service:app" 7005
 start_server "servers.academic_search_service:app" 7006
+start_server "servers.sustainability_service:app" 7007
 
-echo "All MCP services are running. Press Ctrl+C to stop."
+echo "All 7 MCP services are running. Press Ctrl+C to stop."
 wait "${PIDS[@]}"

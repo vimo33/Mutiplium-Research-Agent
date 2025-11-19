@@ -9,6 +9,7 @@ from multiplium.tools.manager import ToolManager
 from .anthropic_provider import ClaudeAgentProvider
 from .google_provider import GeminiAgentProvider
 from .openai_provider import OpenAIAgentProvider
+from .xai_provider import XAIAgentProvider
 
 
 class ProviderFactory:
@@ -18,6 +19,7 @@ class ProviderFactory:
         "anthropic": ClaudeAgentProvider,
         "openai": OpenAIAgentProvider,
         "google": GeminiAgentProvider,
+        "xai": XAIAgentProvider,
     }
 
     def __init__(self, tool_manager: ToolManager, settings: Settings) -> None:

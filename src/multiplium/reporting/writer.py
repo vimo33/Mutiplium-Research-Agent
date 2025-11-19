@@ -41,8 +41,9 @@ def write_report(
     report_json = json.dumps(payload, indent=2, ensure_ascii=True)
     output_path.write_text(report_json, encoding="utf-8")
 
-    # Also persist a timestamped snapshot for historical runs.
+    # Persist timestamped snapshot to reports/new/ folder
     timestamp_suffix = generated_at.strftime("%Y%m%dT%H%M%SZ")
-    timestamped_path = output_path.parent / f"report_{timestamp_suffix}{output_path.suffix}"
-    if timestamped_path != output_path:
-        timestamped_path.write_text(report_json, encoding="utf-8")
+    new_reports_dir = output_path.parent / "new"
+    new_reports_dir.mkdir(parents=True, exist_ok=True)
+    timestamped_path = new_reports_dir / f"report_{timestamp_suffix}{output_path.suffix}"
+    timestamped_path.write_text(report_json, encoding="utf-8")

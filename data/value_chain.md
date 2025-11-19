@@ -13,16 +13,17 @@
   - ANZ: Retallack Ecology (AU).
 
 ## 2. Precision Irrigation Systems
-- **Focus:** Sensor-driven irrigation scheduling, fertigation optimisation, drought resilience modelling, automation hardware for vineyard blocks.
-- **Keywords:** precision irrigation, water stress monitoring, evapotranspiration modelling, fertigation control, deficit irrigation, trunk dendrometers.
-- **Targets:** 10 companies demonstrating ≥20% water savings or comparable metrics in vineyard deployments; aim for coverage across Mediterranean, South American, and Australian regions.
-- **Anchors:** SupPlant (IL), WiseConn (CL), Tule (US), Aqua4D (CH).
-- **Exclusion Keywords:** centre pivot, broadacre irrigation, row crop hydraulics.
-- **Anti-Patterns:** Drop solutions with only greenhouse or generic horticulture evidence unless vineyard case studies exist.
+- **Focus:** AI-powered, sensor-driven irrigation platforms with real-time monitoring and decision support for vineyard water management. REQUIRE smart/IoT-enabled systems, not traditional hardware.
+- **Keywords:** AI irrigation, smart vineyard irrigation, sensor-based vineyard water, IoT irrigation viticulture, real-time soil moisture monitoring, precision fertigation AI, trunk dendrometers, plant-based sensors.
+- **Targets:** 10 companies demonstrating ≥20% water savings with NAMED vineyard deployments; aim for coverage across Mediterranean, South American, and Australian regions. Each company must cite specific vineyard case studies.
+- **Anchors:** SupPlant (IL), WiseConn (CL), Tule (US), Aqua4D (CH), CropX (IL/US vineyard programs), Phytech (IL vine sensors).
+- **MANDATORY Requirements:** Must include sensors, AI/ML analysis, real-time monitoring, or decision support systems. Traditional drip irrigation hardware alone is EXCLUDED.
+- **Exclusion Keywords:** centre pivot, broadacre irrigation, row crop hydraulics, drip irrigation manufacturer, irrigation hardware, sprinkler systems.
+- **Anti-Patterns:** EXCLUDE traditional hardware manufacturers (Irritec, Netafim, Rivulis) unless they have documented smart sensor platforms with named vineyard deployments. Avoid companies with only greenhouse, landscaping, or generic horticulture evidence. Generic "up to 50% water savings" claims without vineyard-specific data are insufficient.
 - **Geographic Targets:**
-  - EU: Rivulis (EU vineyard division), Irritec (IT precision projects).
+  - EU: Fruition Sciences (FR vine monitoring), Manna Irrigation Intelligence (EU smart systems).
   - LATAM: Kilimo (AR/CL), WiseConn (CL) local deployments.
-  - ANZ: SWAN Systems (AU), Varicon (NZ vineyards).
+  - ANZ: SWAN Systems (AU), Goanna Ag (AU vine sensors).
 
 ## 3. Integrated Pest Management (IPM)
 - **Focus:** Biological control, pheromone mating disruption, predictive pest modelling, real-time scouting, decision-support tools reducing pesticide reliance.
@@ -49,13 +50,15 @@
   - ANZ: SmartMachine (NZ), Green Atlas (AU reference vineyards).
 
 ## 5. Carbon MRV & Traceability Platforms
-- **Focus:** Measurement, reporting, and verification of carbon sequestration; supply-chain traceability linking regenerative practices to bottle-level claims; carbon credit enablement.
-- **Keywords:** MRV, carbon accounting, vineyard traceability, blockchain provenance, remote sensing, carbon credits, regenerative certification.
-- **Targets:** 10 companies with verifiable carbon or traceability metrics, including at least two EU-based programs and one Latin American initiative.
-- **Anchors:** Regrow Ag (US), Soil Capital (BE), Circular Wine (IT), CarbonFarm (CL).
-- **Exclusion Keywords:** forestry offsets, livestock-focused MRV, generic supply chain tools without viticulture clients.
-- **Anti-Patterns:** Exclude platforms issuing unverifiable voluntary offsets or lacking third-party audits.
+- **Focus:** WINE-SPECIFIC platforms that combine (a) vineyard carbon measurement/verification AND (b) supply-chain traceability (QR codes, bottle-level tracking, blockchain provenance). Must serve wine industry specifically.
+- **Keywords:** wine carbon traceability, bottle tracking, vineyard carbon footprint, wine sustainability platform, carbon MRV viticulture, wine supply chain transparency, regenerative wine certification, wine blockchain, wine sustainability labels.
+- **CRITICAL Requirement:** Both carbon MRV + traceability components required. Generic soil carbon platforms WITHOUT wine industry integration are EXCLUDED. Platform must enable bottle-level or wine product-level sustainability claims.
+- **Targets:** 10 companies with verified wine/vineyard clients and traceability features; at least 50% non-US, including EU and LATAM programs.
+- **Anchors:** Re.Wine Carbognostic (Moldova), Circular Wine (IT), ODOS Tech (Europe), Atlas Vineyard Management (US), eVineyard (Slovenia), VineWatch (Europe), Regrow Ag viticulture programs (US), Soil Capital wine clients (Belgium).
+- **MANDATORY Requirements:** Must demonstrate (1) vineyard carbon measurement capabilities AND (2) wine supply chain traceability (QR, blockchain, or certification integration). At least one verified wine industry client required.
+- **Exclusion Keywords:** generic agri-tech carbon, forestry offsets, livestock MRV, row crop carbon credits, generic soil carbon measurement.
+- **Anti-Patterns:** EXCLUDE generic soil carbon platforms (Perennial, Yard Stick, Agreena, Seqana, Nori, Indigo Carbon) - these lack wine-specific features and traceability. Avoid pure carbon offset/credit platforms without supply chain integration. Reject platforms without documented wine industry clients.
 - **Geographic Targets:**
-  - EU: eVineyard (SI), Agricolus (IT), Circular Wine (IT).
+  - EU: Circular Wine (IT), SATEC (ES wine carbon), WinePilot/FoodPilot (EU wine sustainability).
   - LATAM: CarbonFarm (CL), Ucrop.it (AR wine programmes).
-  - ANZ: Sustainable Winegrowing NZ digital MRV partners.
+  - ANZ: Sustainable Winegrowing NZ digital MRV partners, wine-focused carbon platforms.

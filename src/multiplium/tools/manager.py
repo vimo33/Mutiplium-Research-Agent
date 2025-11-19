@@ -13,6 +13,17 @@ from multiplium.tools.catalog import DEFAULT_TOOL_LIBRARY
 from multiplium.tools.contracts import ToolHandler, ToolSpec
 from multiplium.tools.stubs import STUB_HANDLERS
 
+# Import MCP clients (only when not in dry run)
+try:
+    from multiplium.tools.tavily_mcp import TavilyMCPClient
+except ImportError:
+    TavilyMCPClient = None  # type: ignore[assignment,misc]
+
+try:
+    from multiplium.tools.perplexity_mcp import PerplexityMCPClient
+except ImportError:
+    PerplexityMCPClient = None  # type: ignore[assignment,misc]
+
 
 CacheValue = tuple[float, Any]
 
@@ -43,6 +54,8 @@ class ToolManager:
         self._dry_run = dry_run
         self._client = httpx.AsyncClient(timeout=default_timeout)
         self._lock = asyncio.Lock()
+        self._tavily_client: Any = None  # Lazy-initialized Tavily MCP client
+        self._perplexity_client: Any = None  # Lazy-initialized Perplexity MCP client
 
     def register(self, spec: ToolSpec, handler: ToolHandler) -> None:
         self._tools[spec.name] = handler
@@ -113,6 +126,12 @@ class ToolManager:
             )
             if dry_run:
                 handler = STUB_HANDLERS.get(config.name, _stub_tool)
+            elif config.endpoint == "tavily_mcp":
+                # Use Tavily MCP client for these tools
+                handler = manager._build_tavily_mcp_handler(spec)
+            elif config.endpoint == "perplexity_mcp":
+                # Use Perplexity MCP client for these tools
+                handler = manager._build_perplexity_mcp_handler(spec)
             else:
                 handler = manager._build_http_handler(spec)
             manager.register(spec=spec, handler=handler)
@@ -141,6 +160,86 @@ class ToolManager:
             data = _safe_response_json(response)
             return data
 
+        return _handler
+    
+    def _build_tavily_mcp_handler(self, spec: ToolSpec) -> ToolHandler:
+        """Build a handler that uses the Tavily MCP client."""
+        async def _handler(*args: Any, **kwargs: Any) -> Any:
+            if TavilyMCPClient is None:
+                return {
+                    "error": "Tavily MCP client not available. Install required dependencies.",
+                }
+            
+            # Lazy-initialize Tavily client
+            if self._tavily_client is None:
+                try:
+                    self._tavily_client = TavilyMCPClient()
+                except Exception as exc:
+                    return {
+                        "error": f"Failed to initialize Tavily MCP client: {exc}",
+                    }
+            
+            # Route to appropriate Tavily MCP method
+            try:
+                if spec.name == "search_web":
+                    return await self._tavily_client.search(**kwargs)
+                elif spec.name == "fetch_content":
+                    return await self._tavily_client.fetch_content(**kwargs)
+                elif spec.name == "extract_content":
+                    return await self._tavily_client.extract(**kwargs)
+                elif spec.name == "map_website":
+                    return await self._tavily_client.map_website(**kwargs)
+                elif spec.name == "crawl_website":
+                    return await self._tavily_client.crawl_website(**kwargs)
+                else:
+                    return {
+                        "error": f"Unknown Tavily MCP tool: {spec.name}",
+                    }
+            except Exception as exc:
+                return {
+                    "error": f"Tavily MCP call failed: {exc}",
+                    "tool": spec.name,
+                }
+        
+        return _handler
+    
+    def _build_perplexity_mcp_handler(self, spec: ToolSpec) -> ToolHandler:
+        """Build a handler that uses the Perplexity MCP client."""
+        async def _handler(*args: Any, **kwargs: Any) -> Any:
+            if PerplexityMCPClient is None:
+                return {
+                    "error": "Perplexity MCP client not available. Install required dependencies.",
+                }
+            
+            # Lazy-initialize Perplexity client
+            if self._perplexity_client is None:
+                try:
+                    self._perplexity_client = PerplexityMCPClient()
+                except Exception as exc:
+                    return {
+                        "error": f"Failed to initialize Perplexity MCP client: {exc}",
+                    }
+            
+            # Route to appropriate Perplexity MCP method
+            try:
+                if spec.name == "perplexity_search":
+                    return await self._perplexity_client.search(**kwargs)
+                elif spec.name == "perplexity_ask":
+                    return await self._perplexity_client.ask(**kwargs)
+                elif spec.name == "perplexity_research":
+                    return await self._perplexity_client.research(**kwargs)
+                elif spec.name == "perplexity_reason":
+                    return await self._perplexity_client.reason(**kwargs)
+                else:
+                    return {
+                        "error": f"Unknown Perplexity MCP tool: {spec.name}",
+                    }
+            except Exception as exc:
+                return {
+                    "error": f"Perplexity MCP call failed: {exc}",
+                    "tool": spec.name,
+                }
+        
         return _handler
 
     def _validate_allowed_domains(self, spec: ToolSpec, kwargs: dict[str, Any]) -> None:

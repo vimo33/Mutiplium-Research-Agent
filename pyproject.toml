@@ -10,14 +10,16 @@ dependencies = [
     "rich>=13.7",
     "structlog>=24.1",
     "pandas>=2.2",
-    "anthropic>=0.29",         # Validate version for Agent SDK features
-    "openai-agents>=0.2",      # Confirm package name from GitHub release
-    "google-genai>=0.6",       # Confirm version supporting tool execution
+    "anthropic>=0.29",
+    "openai>=1.0",            # For xAI provider
+    "openai-agents>=0.2",
+    "google-genai>=0.6",
     "httpx>=0.27",
     "aiohttp>=3.9",
     "tenacity>=8.4",
     "pyyaml>=6.0",
-    "google-genai>=0.6",
+    "uvicorn>=0.30",          # For tool servers
+    "fastapi>=0.110",         # For tool servers
 ]
 
 [project.optional-dependencies]

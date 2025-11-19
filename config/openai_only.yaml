@@ -1,0 +1,54 @@
+# OpenAI-only configuration for testing
+orchestrator:
+  sector: "Impact Investment"
+  thesis_path: "data/thesis.md"
+  value_chain_path: "data/value_chain.md"
+  kpi_path: "data/kpis.md"
+  concurrency: 1
+  output_path: "reports/latest_report.json"
+  dry_run: false
+
+providers:
+  anthropic:
+    enabled: false
+    model: "claude-3-5-sonnet-20241022"
+    temperature: 0.15
+    max_steps: 15
+  openai:
+    enabled: true
+    model: "gpt-4o"  # Full model with large context window
+    temperature: 0.15
+    max_steps: 60  # Increased for thorough research (10 companies per segment)
+  google:
+    enabled: false
+    model: "gemini-2.0-flash-exp"
+    temperature: 0.15
+    max_steps: 15
+  xai:
+    enabled: false
+    model: "grok-beta"
+    temperature: 0.15
+    max_steps: 20
+
+tools:
+  - name: "search_web"
+    endpoint: "http://127.0.0.1:7001/mcp/search"
+  - name: "fetch_content"
+    endpoint: "http://127.0.0.1:7001/mcp/fetch"
+  - name: "lookup_crunchbase"
+    endpoint: "http://127.0.0.1:7002/mcp/crunchbase"
+  - name: "lookup_patents"
+    endpoint: "http://127.0.0.1:7003/mcp/patents"
+  - name: "financial_metrics"
+    endpoint: "http://127.0.0.1:7004/mcp/financials"
+  - name: "lookup_esg_ratings"
+    endpoint: "http://127.0.0.1:7005/mcp/esg"
+  - name: "search_academic_papers"
+    endpoint: "http://127.0.0.1:7006/mcp/academic"
+  - name: "lookup_sustainability_ratings"
+    endpoint: "http://127.0.0.1:7007/mcp/sustainability"
+  - name: "check_certifications"
+    endpoint: "http://127.0.0.1:7007/mcp/certifications"
+  - name: "calculate_sdg_alignment"
+    endpoint: "http://127.0.0.1:7007/mcp/sdg"
+

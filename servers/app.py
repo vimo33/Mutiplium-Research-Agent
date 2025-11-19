@@ -8,6 +8,7 @@ from .esg_service import app as esg_app
 from .financials_service import app as financials_app
 from .patents_service import app as patents_app
 from .search_service import app as search_app
+from .sustainability_service import app as sustainability_app
 
 app = FastAPI(title="Multiplium MCP Tool Suite")
 
@@ -18,3 +19,4 @@ app.mount("/patents", patents_app)
 app.mount("/financials", financials_app)
 app.mount("/esg", esg_app)
 app.mount("/academic", academic_app)
+app.mount("/sustainability", sustainability_app)
