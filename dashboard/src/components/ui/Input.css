@@ -1,0 +1,139 @@
+/* Input Component Styles */
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.input-label {
+  font: var(--text-body);
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+  padding: var(--space-2) var(--space-4);
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-subtle);
+  color: var(--color-text-primary);
+  font: var(--text-body);
+  transition: 
+    background-color var(--duration-fast) var(--ease-enter),
+    box-shadow var(--duration-fast) var(--ease-enter);
+}
+
+.input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.input:hover:not(:disabled) {
+  background: var(--gray-100);
+}
+
+.input:focus {
+  outline: none;
+  background: var(--white);
+  box-shadow: 0 0 0 2px var(--color-focus-ring);
+}
+
+.input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Input with icons */
+.input--has-left-icon {
+  padding-left: 44px;
+}
+
+.input--has-right-icon {
+  padding-right: 44px;
+}
+
+.input-icon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
+.input-icon--left {
+  left: var(--space-3);
+}
+
+.input-icon--right {
+  right: var(--space-3);
+  pointer-events: auto;
+}
+
+/* Clear button */
+.input-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 50%;
+  background: var(--gray-200);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: 
+    background-color var(--duration-fast) var(--ease-enter),
+    color var(--duration-fast) var(--ease-enter);
+}
+
+.input-clear:hover {
+  background: var(--gray-300);
+  color: var(--color-text-primary);
+}
+
+.input-clear:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 1px;
+}
+
+/* Error state */
+.input-wrapper--error .input {
+  background: var(--color-danger-soft);
+}
+
+.input-wrapper--error .input:focus {
+  box-shadow: 0 0 0 2px var(--color-danger);
+}
+
+.input-error {
+  font: var(--text-caption);
+  color: var(--color-danger);
+}
+
+.input-hint {
+  font: var(--text-caption);
+  color: var(--color-text-muted);
+}
+
+/* Search input specifics */
+.search-input .input {
+  padding-top: var(--space-3);
+  padding-bottom: var(--space-3);
+}
+
+/* Hide browser search clear button */
+.input[type="search"]::-webkit-search-decoration,
+.input[type="search"]::-webkit-search-cancel-button,
+.input[type="search"]::-webkit-search-results-button,
+.input[type="search"]::-webkit-search-results-decoration {
+  display: none;
+}
+

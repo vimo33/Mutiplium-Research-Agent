@@ -1,0 +1,231 @@
+/* Company Card Component Styles */
+
+.company-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-height: 280px;
+}
+
+.company-card--compare {
+  box-shadow: 0 0 0 2px var(--color-info), var(--shadow-md);
+}
+
+/* Header */
+.company-card__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.company-card__header-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.company-card__star {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-subtle);
+  color: var(--gray-400);
+  cursor: pointer;
+  transition: 
+    background-color var(--duration-fast) var(--ease-enter),
+    color var(--duration-fast) var(--ease-enter),
+    transform var(--duration-instant) var(--ease-enter);
+}
+
+.company-card__star:hover {
+  background: var(--color-warning-soft);
+  color: var(--yellow-400);
+}
+
+.company-card__star--active {
+  background: var(--color-warning-soft);
+  color: var(--yellow-400);
+}
+
+.company-card__star:active {
+  transform: scale(0.9);
+}
+
+.company-card__name {
+  font: var(--text-title);
+  color: var(--color-text-primary);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.company-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding-left: calc(32px + var(--space-3)); /* Align with company name (star width + gap) */
+}
+
+/* Metrics */
+.company-card__metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  padding: var(--space-3) 0;
+  border-top: 1px solid var(--color-divider);
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.company-card__metric {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.company-card__metric-label {
+  font: var(--text-caption);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.company-card__metric-value {
+  font: var(--text-body-lg);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.company-card__metric-sub {
+  font: var(--text-caption);
+  color: var(--color-text-secondary);
+}
+
+/* Traction */
+.company-card__traction {
+  flex: 1;
+}
+
+.company-card__traction-label {
+  display: block;
+  font: var(--text-caption);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--space-2);
+}
+
+.company-card__traction-text {
+  font: var(--text-body);
+  color: var(--color-text-secondary);
+  font-style: italic;
+  margin-bottom: var(--space-2);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.company-card__traction-stats {
+  display: flex;
+  gap: var(--space-3);
+  font: var(--text-caption);
+  color: var(--color-text-muted);
+}
+
+.company-card__traction-stats span::before {
+  content: '•';
+  margin-right: var(--space-1);
+  color: var(--gray-300);
+}
+
+.company-card__traction-stats span:first-child::before {
+  display: none;
+}
+
+/* SWOT */
+.company-card__swot {
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-divider);
+}
+
+.company-card__swot-label {
+  display: block;
+  font: var(--text-caption);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--space-2);
+}
+
+.company-card__swot-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-2) var(--space-4);
+}
+
+.company-card__swot-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font: var(--text-caption);
+  color: var(--color-text-secondary);
+}
+
+/* Footer */
+.company-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-divider);
+  margin-top: auto;
+}
+
+.company-card__confidence {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.company-card__confidence-label {
+  font: var(--text-caption);
+  color: var(--color-text-muted);
+}
+
+.company-card__compare {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-secondary);
+  font: var(--text-caption);
+  cursor: pointer;
+  transition: 
+    background-color var(--duration-fast) var(--ease-enter),
+    color var(--duration-fast) var(--ease-enter);
+}
+
+.company-card__compare:hover {
+  background: var(--color-surface-subtle);
+}
+
+.company-card__compare--active {
+  background: var(--color-info-soft);
+  color: var(--color-info);
+}
+
+/* Hover effects */
+.company-card:hover .company-card__name {
+  color: var(--color-primary);
+}
+

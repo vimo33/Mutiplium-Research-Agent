@@ -1,14 +1,151 @@
+# ==========================================
+# Environment & Secrets (CRITICAL - NEVER COMMIT)
+# ==========================================
 .env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.secret
+*_secret*
+*_credentials*
+secrets/
+credentials/
+
+# ==========================================
+# Python
+# ==========================================
 __pycache__/
 *.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
 *.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+.conda/
+
+# Testing & Coverage
 .pytest_cache/
-.mypy_cache/
-.ruff_cache/
 .coverage
 coverage.xml
 htmlcov/
+.tox/
+.nox/
+.hypothesis/
+
+# Type checking & Linting
+.mypy_cache/
+.ruff_cache/
+.dmypy.json
+dmypy.json
+
+# ==========================================
+# IDE & Editor
+# ==========================================
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+*.sublime-project
+*.sublime-workspace
+.cursor/
+
+# ==========================================
+# OS
+# ==========================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.bak
+*.tmp
+*.temp
+
+# ==========================================
+# Logs & Debug Output (may contain secrets)
+# ==========================================
+logs/
+*.log
+*.out
+*.ndjson
+debug*.py
+*_debug.py
+
+# ==========================================
+# Runtime & Cache
+# ==========================================
+.cache/
+.npm-cache/
+*.pid
+*.seed
+*.pid.lock
+
+# ==========================================
+# Reports & Generated Data
+# ==========================================
 reports/*
 !reports/.gitkeep
-.DS_Store
-.venv/
+!reports/README.md
+data/runs/
+src/data/
+src/logs/
+src/multiplium/runs/
+
+# ==========================================
+# Node.js / Dashboard
+# ==========================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+dashboard/node_modules/
+dashboard/dist/
+*.tsbuildinfo
+
+# ==========================================
+# Build artifacts
+# ==========================================
+*.pyc
+*.pyo
+*.dll
+*.dylib
+
+# ==========================================
+# Jupyter Notebooks
+# ==========================================
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ==========================================
+# Temporary test files
+# ==========================================
+deep_research_test.log
+test_*.log

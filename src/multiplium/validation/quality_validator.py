@@ -36,13 +36,16 @@ class CompanyValidator:
         2. Check company legitimacy (Perplexity)
         3. Validate KPI claims (Tavily extract)
         4. Fill missing data (website, country, confidence)
-        5. Reject low-quality entries
+        5. Deduplicate companies (track duplicates in metadata)
+        6. Reject low-quality entries
         """
         if not companies:
             return []
 
         validated: list[dict[str, Any]] = []
         rejected_count = 0
+        seen_companies: dict[str, dict[str, Any]] = {}  # Track by normalized name
+        duplicate_count = 0
 
         for idx, company in enumerate(companies, 1):
             company_name = company.get("company", f"Unknown-{idx}")
@@ -55,19 +58,28 @@ class CompanyValidator:
 
             # Step 1: Quick vineyard verification (lightweight - just check sources)
             try:
-                # Quick check: Do sources mention vineyard keywords?
+                # Quick check: Do sources mention vineyard keywords OR early-stage wine indicators?
                 sources_text = " ".join(company.get("sources", [])).lower()
                 summary_text = company.get("summary", "").lower()
                 combined_text = sources_text + " " + summary_text
                 
+                # Primary: Direct vineyard evidence
                 vineyard_keywords = ["vineyard", "winery", "wine", "viticulture", "grape"]
                 has_vineyard_mention = any(kw in combined_text for kw in vineyard_keywords)
                 
-                if not has_vineyard_mention:
+                # Secondary: Early-stage wine industry indicators
+                early_stage_indicators = [
+                    "wine pilot", "wine trial", "wine partnership", 
+                    "wine innovation", "wine tech", "viteff", "vinexpo",
+                    "wine vision", "wine industry", "winegrowing"
+                ]
+                has_early_stage_indicator = any(ind in combined_text for ind in early_stage_indicators)
+                
+                if not has_vineyard_mention and not has_early_stage_indicator:
                     logger.warning(
                         "validation.rejected",
                         company=company_name,
-                        reason="No vineyard keywords in sources or summary",
+                        reason="No vineyard keywords or wine industry indicators in sources",
                     )
                     rejected_count += 1
                     continue
@@ -140,30 +152,100 @@ class CompanyValidator:
             enriched["confidence_0to1"] = self._calculate_confidence(enriched)
 
             # Adjusted threshold: 0.45 to balance quality and coverage
-            if enriched["confidence_0to1"] >= 0.45:
-                validated.append(enriched)
-                logger.info(
-                    "validation.accepted",
-                    company=company_name,
-                    confidence=enriched["confidence_0to1"],
-                )
-            else:
+            if enriched["confidence_0to1"] < 0.45:
                 logger.warning(
                     "validation.rejected",
                     company=company_name,
                     reason=f"Low confidence: {enriched['confidence_0to1']:.2f}",
                 )
                 rejected_count += 1
+                continue
+
+            # Step 5: Deduplication check
+            normalized_name = self._normalize_company_name(company_name)
+            
+            if normalized_name in seen_companies:
+                # Duplicate found - keep the one with higher confidence
+                existing = seen_companies[normalized_name]
+                duplicate_count += 1
+                
+                if enriched["confidence_0to1"] > existing["confidence_0to1"]:
+                    # Replace with higher confidence version
+                    logger.info(
+                        "validation.duplicate_replaced",
+                        company=company_name,
+                        existing_confidence=existing["confidence_0to1"],
+                        new_confidence=enriched["confidence_0to1"],
+                    )
+                    # Mark the existing one as duplicate
+                    existing["is_duplicate"] = True
+                    existing["duplicate_of"] = company_name
+                    # Add duplicate metadata to new one
+                    enriched["had_duplicate"] = True
+                    enriched["duplicate_sources"] = existing.get("sources", [])
+                    seen_companies[normalized_name] = enriched
+                else:
+                    # Keep existing, mark current as duplicate
+                    logger.info(
+                        "validation.duplicate_skipped",
+                        company=company_name,
+                        kept_company=existing.get("company"),
+                        existing_confidence=existing["confidence_0to1"],
+                    )
+                    enriched["is_duplicate"] = True
+                    enriched["duplicate_of"] = existing.get("company")
+                    # Add duplicate info to existing
+                    if "duplicates_found" not in existing:
+                        existing["duplicates_found"] = []
+                    existing["duplicates_found"].append({
+                        "name": company_name,
+                        "confidence": enriched["confidence_0to1"],
+                        "sources": enriched.get("sources", [])
+                    })
+                continue
+            else:
+                # New company - add to seen and validated
+                seen_companies[normalized_name] = enriched
+                validated.append(enriched)
+                logger.info(
+                    "validation.accepted",
+                    company=company_name,
+                    confidence=enriched["confidence_0to1"],
+                )
 
         logger.info(
             "validation.segment_complete",
             segment=segment,
             validated=len(validated),
             rejected=rejected_count,
+            duplicates=duplicate_count,
             total=len(companies),
         )
 
         return validated
+    
+    def _normalize_company_name(self, name: str) -> str:
+        """Normalize company name for deduplication."""
+        import re
+        
+        # Convert to lowercase
+        normalized = name.lower()
+        
+        # Remove common suffixes and legal entities
+        suffixes = [
+            r'\s+inc\.?$', r'\s+llc\.?$', r'\s+ltd\.?$', r'\s+gmbh\.?$',
+            r'\s+ag\.?$', r'\s+sa\.?$', r'\s+spa\.?$', r'\s+corp\.?$',
+            r'\s+corporation$', r'\s+limited$', r'\s+co\.?$',
+            r'\s+plc\.?$', r'\s+pty\.?$', r'\s+b\.?v\.?$'
+        ]
+        for suffix in suffixes:
+            normalized = re.sub(suffix, '', normalized)
+        
+        # Remove special characters and extra spaces
+        normalized = re.sub(r'[^a-z0-9\s]', '', normalized)
+        normalized = re.sub(r'\s+', ' ', normalized).strip()
+        
+        return normalized
 
     def _extract_website_from_sources(self, sources: list[str]) -> str:
         """Extract company website from sources URLs (lightweight, no API calls)."""

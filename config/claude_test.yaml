@@ -1,0 +1,67 @@
+orchestrator:
+  sector: "Wine Industry Value Chain"
+  thesis_path: "data/new/thesis_wine.md"
+  value_chain_path: "data/new/value_chain_wine.md"
+  kpi_path: "data/new/kpis_wine.md"
+  concurrency: 1  # Test Claude only
+  output_path: "reports/latest_report.json"
+  dry_run: false
+
+providers:
+  anthropic:
+    enabled: true  # ✅ TEST ONLY CLAUDE
+    model: "claude-sonnet-4-5-20250929"
+    temperature: 0.15
+    max_steps: 20
+    max_tool_uses: 30
+    max_conversation_turns: 20
+    output_by_turn: 18
+    max_tokens: 8192
+  openai:
+    enabled: false  # Disabled for test
+    model: "gpt-5"
+    temperature: 0.15
+    max_steps: 20
+    max_tool_uses: 30
+    max_conversation_turns: 20
+    output_by_turn: 18
+    max_tokens: 8192
+  google:
+    enabled: false  # Disabled for test
+    model: "gemini-2.5-pro"
+    temperature: 0.15
+    max_steps: 20
+    max_tool_uses: 30
+    max_conversation_turns: 20
+    output_by_turn: 18
+    max_tokens: 8192
+  xai:
+    enabled: false
+    model: "grok-beta"
+    temperature: 0.15
+    max_steps: 20
+
+tools:
+  # Tavily MCP - Web search & content extraction
+  - name: "search_web"
+    endpoint: "tavily_mcp"
+  - name: "fetch_content"
+    endpoint: "tavily_mcp"
+    allow_domains: []
+  - name: "extract_content"
+    endpoint: "tavily_mcp"
+  - name: "map_website"
+    endpoint: "tavily_mcp"
+  - name: "crawl_website"
+    endpoint: "tavily_mcp"
+  
+  # Perplexity MCP - AI-powered research
+  - name: "perplexity_search"
+    endpoint: "perplexity_mcp"
+  - name: "perplexity_ask"
+    endpoint: "perplexity_mcp"
+  - name: "perplexity_research"
+    endpoint: "perplexity_mcp"
+  - name: "perplexity_reason"
+    endpoint: "perplexity_mcp"
+

@@ -1,0 +1,99 @@
+/* Tag Component Styles */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  border-radius: var(--radius-pill);
+  font: var(--text-caption);
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background-color var(--duration-fast) var(--ease-enter);
+}
+
+/* Sizes */
+.tag--sm {
+  padding: 2px var(--space-2);
+  font-size: 11px;
+}
+
+.tag--md {
+  padding: var(--space-1) var(--space-3);
+}
+
+/* Variants */
+.tag--default {
+  background: var(--color-chip-bg);
+  color: var(--color-text-secondary);
+}
+
+.tag--primary {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.tag--success {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+
+.tag--warning {
+  background: var(--color-warning-soft);
+  color: var(--gray-700);
+}
+
+.tag--danger {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+
+.tag--info {
+  background: var(--color-info-soft);
+  color: var(--color-info);
+}
+
+/* Icon */
+.tag__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tag__icon svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* Removable */
+.tag--removable {
+  padding-right: var(--space-1);
+}
+
+.tag__remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-left: var(--space-1);
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  opacity: 0.6;
+  cursor: pointer;
+  transition: 
+    opacity var(--duration-fast) var(--ease-enter),
+    background-color var(--duration-fast) var(--ease-enter);
+}
+
+.tag__remove:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.tag__remove:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 1px;
+}
+

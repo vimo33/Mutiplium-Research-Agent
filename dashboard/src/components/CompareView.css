@@ -1,0 +1,235 @@
+/* Compare View Styles */
+
+.compare-view {
+  max-width: 100%;
+}
+
+.compare-view__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-6);
+}
+
+.compare-view__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.compare-view__title h1 {
+  font: var(--text-h1);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+/* Comparison Table */
+.compare-table-wrapper {
+  background: var(--color-card-bg);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-md);
+  overflow-x: auto;
+  margin-bottom: var(--space-8);
+}
+
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font: var(--text-body);
+}
+
+.compare-table th,
+.compare-table td {
+  padding: var(--space-4);
+  text-align: left;
+  border-bottom: 1px solid var(--color-divider);
+  vertical-align: middle;
+}
+
+.compare-table th {
+  background: var(--color-surface-subtle);
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+}
+
+.compare-table__label-cell {
+  width: 160px;
+  min-width: 160px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  background: var(--color-surface-subtle);
+  position: sticky;
+  left: 0;
+  z-index: 1;
+}
+
+.compare-table__company-cell {
+  min-width: 200px;
+}
+
+.compare-table__company-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.compare-table__company-name {
+  font: var(--text-title);
+  color: var(--color-text-primary);
+}
+
+.compare-table__star {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: var(--radius-xs);
+  background: transparent;
+  color: var(--gray-400);
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-enter);
+}
+
+.compare-table__star:hover {
+  color: var(--yellow-400);
+}
+
+.compare-table__star--active {
+  color: var(--yellow-400);
+}
+
+.compare-table__link {
+  display: flex;
+  align-items: center;
+  color: var(--color-text-muted);
+  margin-left: auto;
+}
+
+.compare-table__link:hover {
+  color: var(--color-primary);
+}
+
+.compare-table__value {
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.compare-table__value--highlight {
+  color: var(--color-success);
+  font-weight: 600;
+}
+
+.compare-table tbody tr:hover {
+  background: var(--gray-25);
+}
+
+.compare-table tbody tr:hover .compare-table__label-cell {
+  background: var(--gray-100);
+}
+
+/* Details Sections */
+.compare-view__details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.compare-view__section h2 {
+  font: var(--text-h2);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-4);
+}
+
+.compare-view__summaries,
+.compare-view__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-4);
+}
+
+.compare-view__summary-card,
+.compare-view__list-card {
+  background: var(--color-card-bg);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+}
+
+.compare-view__summary-card h3,
+.compare-view__list-card h3 {
+  font: var(--text-title);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.compare-view__summary-card p {
+  font: var(--text-body);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.compare-view__list-card ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.compare-view__list-card li {
+  position: relative;
+  padding-left: var(--space-4);
+  font: var(--text-body);
+  color: var(--color-text-secondary);
+}
+
+.compare-view__list-card li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--color-success);
+}
+
+.compare-view__list-card--risk li::before {
+  content: '⚠';
+  color: var(--color-danger);
+}
+
+.compare-view__risk-lists {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.compare-view__risk-lists h4 {
+  font: var(--text-caption);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: var(--space-2);
+}
+
+.compare-view__empty {
+  font: var(--text-caption);
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .compare-view__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+  }
+  
+  .compare-table__label-cell {
+    position: static;
+  }
+}
+

@@ -1,0 +1,93 @@
+/* Badge Component Styles */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-pill);
+  font: var(--text-caption);
+  font-weight: 500;
+  white-space: nowrap;
+  min-height: 22px;
+}
+
+/* Variants */
+.badge--default {
+  background: var(--color-badge-bg);
+  color: var(--color-text-secondary);
+}
+
+.badge--primary {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.badge--success {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+
+.badge--warning {
+  background: var(--color-warning-soft);
+  color: var(--gray-700);
+}
+
+.badge--danger {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+
+.badge--info {
+  background: var(--color-info-soft);
+  color: var(--color-info);
+}
+
+/* Removable badge */
+.badge--removable {
+  padding-right: var(--space-1);
+}
+
+.badge__remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-left: var(--space-1);
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  opacity: 0.6;
+  cursor: pointer;
+  transition: 
+    opacity var(--duration-fast) var(--ease-enter),
+    background-color var(--duration-fast) var(--ease-enter);
+}
+
+.badge__remove:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* Dot indicator */
+.badge__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.badge--dot {
+  padding-left: var(--space-2);
+}
+
+/* Number badge (for counts) */
+.badge--count {
+  min-width: 20px;
+  padding: 0 var(--space-2);
+  text-align: center;
+}
+

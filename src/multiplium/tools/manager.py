@@ -7,11 +7,21 @@ from typing import Any, Mapping
 from urllib.parse import urlparse
 
 import httpx
+import structlog
+from tenacity import (
+    retry,
+    stop_after_attempt,
+    wait_exponential,
+    retry_if_exception_type,
+    before_sleep_log,
+)
 
 from multiplium.config import ToolConfig
 from multiplium.tools.catalog import DEFAULT_TOOL_LIBRARY
 from multiplium.tools.contracts import ToolHandler, ToolSpec
 from multiplium.tools.stubs import STUB_HANDLERS
+
+logger = structlog.get_logger()
 
 # Import MCP clients (only when not in dry run)
 try:
@@ -67,23 +77,56 @@ class ToolManager:
     def iter_specs(self) -> list[ToolSpec]:
         return list(self._specs.values())
 
+    @retry(
+        retry=retry_if_exception_type((
+            httpx.HTTPError,
+            httpx.TimeoutException,
+            asyncio.TimeoutError,
+            ConnectionError,
+        )),
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=1, min=2, max=10),
+    )
     async def invoke(self, name: str, *args: Any, **kwargs: Any) -> Any:
+        """
+        Invoke a tool with automatic retry logic for transient failures.
+        
+        Retries up to 3 times with exponential backoff for:
+        - HTTP errors (5xx, network issues)
+        - Timeout errors
+        - Connection errors
+        
+        Caching is checked before retries to avoid redundant calls.
+        """
         handler = self.get(name)
         spec = self._specs[name]
         cache_key = _serialize_args_kwargs(*args, **kwargs)
         now = time.time()
 
+        # Check cache first (before any network call)
         if spec.cache_ttl_seconds > 0:
             cached = self._cache.get((name, cache_key))
             if cached:
                 expires_at, value = cached
                 if expires_at > now:
+                    logger.debug("tool.cache_hit", tool=name)
                     return value
 
         self._validate_allowed_domains(spec, kwargs)
 
-        result = await handler(*args, **kwargs)
+        # Execute handler (with automatic retry via decorator)
+        try:
+            result = await handler(*args, **kwargs)
+        except Exception as e:
+            logger.error(
+                "tool.invoke_failed",
+                tool=name,
+                error=str(e),
+                error_type=type(e).__name__,
+            )
+            raise
 
+        # Cache successful result
         if spec.cache_ttl_seconds > 0:
             self._cache[(name, cache_key)] = (now + spec.cache_ttl_seconds, result)
 

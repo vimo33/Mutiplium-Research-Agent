@@ -227,6 +227,8 @@ class OpenAIAgentProvider(BaseAgentProvider):
             "tool_usage": dict(usage_counter),
             "output_guardrails": total_guardrails,
             "coverage": coverage_details,
+            "input_tokens": 0,  # OpenAI Agents SDK doesn't expose token counts yet
+            "output_tokens": 0,  # Will be estimated post-run or from usage API
         }
         telemetry["tool_summary"] = self._format_tool_summary(telemetry)
 

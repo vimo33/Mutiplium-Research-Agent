@@ -15,20 +15,32 @@ orchestrator:
 
 providers:
   anthropic:
-    enabled: true  # ✅ FULL RUN - All segments with optimized caching
+    enabled: true  # ✅ FULL RUN - All segments with JSON-enforced output
     model: "claude-sonnet-4-5-20250929"  # Claude 4.5 Sonnet with web search
     temperature: 0.15
-    max_steps: 20  # FULL RUN: 20 turns, 30 web searches across all segments
+    max_steps: 20  # Maximum autonomous iterations
+    max_tool_uses: 30  # Maximum web searches (30 for full run)
+    max_conversation_turns: 20  # Force convergence after 20 turns
+    output_by_turn: 18  # Suggest output by turn 18
+    max_tokens: 8192  # Maximum response tokens
   openai:
     enabled: true  # ✅ FULL RUN - Uses native web search capabilities
     model: "gpt-5"  # Latest GPT-5 (Aug 2025) - enhanced reasoning, 1M+ token context
     temperature: 0.15
-    max_steps: 20  # FULL RUN: 20 turns for comprehensive coverage
+    max_steps: 20  # Maximum autonomous iterations
+    max_tool_uses: 30  # Maximum tool calls
+    max_conversation_turns: 20  # Force convergence
+    output_by_turn: 18  # Suggest output timing
+    max_tokens: 8192  # Maximum response tokens
   google:
     enabled: true  # ✅ FULL RUN - Uses Google Search grounding natively
     model: "gemini-2.5-pro"  # Latest Gemini 2.5 Pro (Aug 2025) - strong reasoning + grounding
     temperature: 0.15
-    max_steps: 20  # FULL RUN: 20 turns for comprehensive coverage
+    max_steps: 20  # Maximum autonomous iterations
+    max_tool_uses: 30  # Maximum tool calls
+    max_conversation_turns: 20  # Force convergence
+    output_by_turn: 18  # Suggest output timing
+    max_tokens: 8192  # Maximum response tokens
   xai:
     enabled: false  # Disable - not needed with 3 providers
     model: "grok-beta"

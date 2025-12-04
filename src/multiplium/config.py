@@ -19,6 +19,26 @@ class ProviderConfig(BaseModel):
     )
     retry_limit: int = Field(default=3, description="Max retries on transient SDK errors.")
     api_key: Optional[SecretStr] = None
+    
+    # Tool usage limits (moved from hardcoded values in providers)
+    max_tool_uses: int = Field(
+        default=30,
+        description="Maximum number of tool calls allowed (e.g., web searches).",
+    )
+    max_conversation_turns: int = Field(
+        default=20,
+        description="Maximum conversation turns before forcing output.",
+    )
+    output_by_turn: int = Field(
+        default=18,
+        description="Suggested turn number to start outputting results.",
+    )
+    
+    # Token limits
+    max_tokens: int = Field(
+        default=8192,
+        description="Maximum tokens in model response.",
+    )
 
 
 class ToolConfig(BaseModel):

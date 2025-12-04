@@ -1,0 +1,444 @@
+/* =============================================================================
+   MULTIPLIUM DASHBOARD - Main Layout Styles
+   ============================================================================= */
+
+/* Import design system */
+@import './styles/design-system.css';
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* -----------------------------------------------------------------------------
+   Main Layout
+   ----------------------------------------------------------------------------- */
+
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+  background: var(--color-app-bg);
+}
+
+.app-main {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* -----------------------------------------------------------------------------
+   Header
+   ----------------------------------------------------------------------------- */
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--color-app-bg);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding: var(--space-4) var(--space-6);
+}
+
+.app-header__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+}
+
+.app-header__left {
+  flex: 1;
+  max-width: 480px;
+}
+
+.app-header__right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* -----------------------------------------------------------------------------
+   Content Area
+   ----------------------------------------------------------------------------- */
+
+.app-content {
+  flex: 1;
+  padding: var(--space-6);
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* -----------------------------------------------------------------------------
+   Page Header
+   ----------------------------------------------------------------------------- */
+
+.page-header {
+  margin-bottom: var(--space-6);
+}
+
+.page-header__title {
+  font: var(--text-h1);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.page-header__subtitle {
+  font: var(--text-body-lg);
+  color: var(--color-text-secondary);
+}
+
+/* -----------------------------------------------------------------------------
+   Grid Layouts
+   ----------------------------------------------------------------------------- */
+
+.grid {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.grid--cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid--cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid--cols-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Responsive grid */
+.grid--auto {
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+}
+
+/* -----------------------------------------------------------------------------
+   Stats Grid
+   ----------------------------------------------------------------------------- */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-4);
+}
+
+.stat-card {
+  background: var(--color-card-bg);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-card__label {
+  font: var(--text-caption);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-1);
+}
+
+.stat-card__value {
+  font: var(--text-h2);
+  color: var(--color-text-primary);
+}
+
+.stat-card__change {
+  font: var(--text-caption);
+  margin-top: var(--space-2);
+}
+
+.stat-card__change--up {
+  color: var(--color-success);
+}
+
+.stat-card__change--down {
+  color: var(--color-danger);
+}
+
+/* -----------------------------------------------------------------------------
+   Filter Bar
+   ----------------------------------------------------------------------------- */
+
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  background: var(--color-card-bg);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: var(--space-5);
+}
+
+.filter-bar__search {
+  flex: 1;
+  max-width: 400px;
+}
+
+.filter-bar__filters {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.filter-bar__actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* -----------------------------------------------------------------------------
+   Company Grid
+   ----------------------------------------------------------------------------- */
+
+.company-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: var(--space-5);
+}
+
+/* -----------------------------------------------------------------------------
+   Empty State
+   ----------------------------------------------------------------------------- */
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-16) var(--space-6);
+  text-align: center;
+}
+
+.empty-state__icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: var(--space-4);
+  color: var(--color-text-muted);
+  opacity: 0.5;
+}
+
+.empty-state__title {
+  font: var(--text-h3);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.empty-state__message {
+  font: var(--text-body);
+  color: var(--color-text-muted);
+  max-width: 400px;
+}
+
+/* -----------------------------------------------------------------------------
+   Loading State
+   ----------------------------------------------------------------------------- */
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-16);
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-primary-soft);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-state__text {
+  margin-top: var(--space-4);
+  font: var(--text-body);
+  color: var(--color-text-muted);
+}
+
+/* -----------------------------------------------------------------------------
+   Slide-in Panel
+   ----------------------------------------------------------------------------- */
+
+.slide-panel-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: var(--z-overlay);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-base) var(--ease-exit);
+}
+
+.slide-panel-overlay--open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.slide-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 600px;
+  max-width: calc(100vw - var(--sidebar-width) - 40px);
+  background: var(--color-card-bg);
+  box-shadow: var(--shadow-lg);
+  z-index: var(--z-modal);
+  transform: translateX(100%);
+  transition: transform var(--duration-base) var(--ease-enter);
+  overflow-y: auto;
+}
+
+.slide-panel--open {
+  transform: translateX(0);
+}
+
+.slide-panel__header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-6);
+  background: var(--color-card-bg);
+  border-bottom: 1px solid var(--color-divider);
+  z-index: 1;
+}
+
+.slide-panel__title {
+  font: var(--text-h3);
+  color: var(--color-text-primary);
+}
+
+.slide-panel__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-enter);
+}
+
+.slide-panel__close:hover {
+  background: var(--color-surface-subtle);
+}
+
+.slide-panel__content {
+  padding: var(--space-6);
+}
+
+/* -----------------------------------------------------------------------------
+   Compare Mode
+   ----------------------------------------------------------------------------- */
+
+.compare-bar {
+  position: fixed;
+  bottom: 0;
+  left: var(--sidebar-width);
+  right: 0;
+  background: var(--color-card-bg);
+  border-top: 2px solid var(--color-primary);
+  padding: var(--space-4) var(--space-6);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+  z-index: var(--z-overlay);
+  transform: translateY(100%);
+  transition: transform var(--duration-base) var(--ease-enter);
+}
+
+.compare-bar--visible {
+  transform: translateY(0);
+}
+
+.compare-bar__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+}
+
+.compare-bar__info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.compare-bar__count {
+  font: var(--text-body-lg);
+  color: var(--color-text-primary);
+}
+
+.compare-bar__companies {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.compare-bar__actions {
+  display: flex;
+  gap: var(--space-3);
+}
+
+/* -----------------------------------------------------------------------------
+   Responsive Adjustments
+   ----------------------------------------------------------------------------- */
+
+@media (max-width: 1200px) {
+  .grid--cols-4 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .grid--cols-3,
+  .grid--cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .company-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar--open {
+    transform: translateX(0);
+  }
+
+  .app-main {
+    margin-left: 0;
+  }
+
+  .grid--cols-2,
+  .grid--cols-3,
+  .grid--cols-4 {
+    grid-template-columns: 1fr;
+  }
+
+  .compare-bar {
+    left: 0;
+  }
+
+  .slide-panel {
+    max-width: 100vw;
+  }
+}

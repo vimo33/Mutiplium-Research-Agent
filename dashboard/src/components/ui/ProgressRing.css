@@ -1,0 +1,126 @@
+/* Progress Ring Component Styles */
+
+.progress-ring {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-ring__svg {
+  transform: rotate(0deg);
+}
+
+.progress-ring__track {
+  stroke: var(--color-primary-soft);
+}
+
+.progress-ring__progress {
+  stroke: var(--color-primary);
+  transition: stroke-dashoffset var(--duration-slow) var(--ease-enter);
+}
+
+.progress-ring__label {
+  position: absolute;
+  font: var(--text-caption);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+/* Sizes */
+.progress-ring--sm .progress-ring__label {
+  font-size: 10px;
+}
+
+.progress-ring--lg .progress-ring__label {
+  font-size: 14px;
+}
+
+/* Confidence Ring Color Variants */
+.confidence-ring--high .progress-ring__track {
+  stroke: var(--color-success-soft);
+}
+
+.confidence-ring--high .progress-ring__progress {
+  stroke: var(--color-success);
+}
+
+.confidence-ring--medium .progress-ring__track {
+  stroke: var(--color-warning-soft);
+}
+
+.confidence-ring--medium .progress-ring__progress {
+  stroke: var(--yellow-400);
+}
+
+.confidence-ring--low .progress-ring__track {
+  stroke: var(--color-danger-soft);
+}
+
+.confidence-ring--low .progress-ring__progress {
+  stroke: var(--color-danger);
+}
+
+/* SWOT Dots */
+.swot-dots {
+  display: inline-flex;
+  gap: 3px;
+  align-items: center;
+}
+
+.swot-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transition: background-color var(--duration-fast) var(--ease-enter);
+}
+
+.swot-dot--empty {
+  background: var(--gray-200);
+}
+
+/* SWOT Variants - Filled dots */
+.swot-dots--strength .swot-dot--filled {
+  background: var(--color-success);
+}
+
+.swot-dots--weakness .swot-dot--filled {
+  background: var(--color-danger);
+}
+
+.swot-dots--opportunity .swot-dot--filled {
+  background: var(--color-info);
+}
+
+.swot-dots--threat .swot-dot--filled {
+  background: var(--yellow-400);
+}
+
+/* Progress bar alternative */
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--gray-100);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.progress-bar__fill {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: var(--radius-pill);
+  transition: width var(--duration-slow) var(--ease-enter);
+}
+
+.progress-bar--success .progress-bar__fill {
+  background: var(--color-success);
+}
+
+.progress-bar--warning .progress-bar__fill {
+  background: var(--yellow-400);
+}
+
+.progress-bar--danger .progress-bar__fill {
+  background: var(--color-danger);
+}
+

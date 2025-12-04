@@ -123,7 +123,7 @@ providers:
 1. Get API keys (see `FREE_API_ALTERNATIVES.md`)
 2. Add to `.env`:
    ```bash
-   ANTHROPIC_API_KEY=sk-ant-...
+   ANTHROPIC_API_KEY=your-anthropic-api-key
    GOOGLE_GENAI_API_KEY=...
    ```
 3. Enable in `config/dev.yaml`:

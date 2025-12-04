@@ -3,7 +3,11 @@ from __future__ import annotations
 import json
 from typing import Any, Iterable, cast
 
+import structlog
+
 from multiplium.providers.base import BaseAgentProvider, ProviderRunResult
+
+log = structlog.get_logger()
 
 
 def _default_json(value: Any) -> Any:
@@ -14,6 +18,22 @@ def _default_json(value: Any) -> Any:
     if isinstance(value, (list, tuple, set)):
         return [_default_json(v) for v in value]
     return str(value)
+
+
+def _decode_first_json_object(text: str) -> Any | None:
+    """Attempt to decode the first JSON object embedded in `text`."""
+    decoder = json.JSONDecoder()
+    idx = 0
+    while idx < len(text):
+        start = text.find("{", idx)
+        if start == -1:
+            break
+        try:
+            obj, offset = decoder.raw_decode(text[start:])
+            return obj
+        except json.JSONDecodeError:
+            idx = start + 1
+    return None
 
 
 class ClaudeAgentProvider(BaseAgentProvider):
@@ -52,7 +72,13 @@ class ClaudeAgentProvider(BaseAgentProvider):
                 telemetry={"error": "ANTHROPIC_API_KEY not configured"},
             )
 
-        client = cast(Any, anthropic.AsyncAnthropic(api_key=api_key))
+        # Use standard Anthropic client
+        # Note: Structured outputs beta may not be available on all accounts
+        # Relying on strong prompts + robust parsing instead
+        client = cast(Any, anthropic.AsyncAnthropic(
+            api_key=api_key,
+            timeout=300.0  # 5 minutes - simple timeout value
+        ))
         
         # Use native web search tool - no MCP tools
         # Web search is built-in and automatically cites sources
@@ -62,7 +88,7 @@ class ClaudeAgentProvider(BaseAgentProvider):
             {
                 "type": "web_search_20250305",
                 "name": "web_search",
-                "max_uses": 30,  # FULL RUN: 30 searches for all segments (6 per segment avg)
+                "max_uses": self.config.max_tool_uses,
             }
         ]
         tool_names = {"web_search"}
@@ -77,19 +103,72 @@ class ClaudeAgentProvider(BaseAgentProvider):
         usage = {"input_tokens": 0, "output_tokens": 0}
 
         try:
-            # FULL RUN: Cap at 20 turns to force convergence
-            max_turns = min(self.config.max_steps, 20)
-            for _ in range(max_turns):
+            # Cap turns to force convergence
+            max_turns = min(self.config.max_steps, self.config.max_conversation_turns)
+            for turn_num in range(max_turns):
                 messages_payload: Any = messages
                 tools_payload: Any = tools  # Native web search tool
+                
+                # On final turns, add explicit JSON reminder
+                if turn_num >= max_turns - 3:
+                    # Inject reminder into last user message to force JSON output
+                    if messages and messages[-1]["role"] == "user":
+                        last_user_msg = messages[-1]["content"]
+                        if isinstance(last_user_msg, str):
+                            messages[-1]["content"] = (
+                                last_user_msg + 
+                                "\n\n**CRITICAL REMINDER:** You MUST output ONLY valid JSON in this exact format with NO additional text, explanation, or markdown:\n"
+                                '{"segments": [{"name": "segment name", "companies": [{"company": "...", "summary": "...", ...}]}]}\n'
+                                "Start your response with { and end with }. No preamble, no explanation, ONLY JSON."
+                            )
+                
+                # No extra params - rely on strong prompts for JSON output
+                # Note: Anthropic's structured outputs beta is not universally available
+                # The robust parsing in _extract_findings handles various output formats
+                extra_params = {}
+                
+                # Calculate payload sizes
+                import json
+                system_size = len(json.dumps(system_blocks))
+                messages_size = len(json.dumps(messages_payload))
+                total_size = system_size + messages_size
+                
+                log.info(
+                    "anthropic.calling_api_now",
+                    turn=turn_num,
+                    model=self.config.model,
+                    system_blocks_count=len(system_blocks),
+                    message_count=len(messages_payload),
+                    total_size_kb=round(total_size / 1024, 1),
+                )
+                
+                import time
+                start_time = time.time()
+                log.info("anthropic.awaiting_response", message="About to await API call...")
+                
                 response = await client.messages.create(
                     model=self.config.model,
                     system=system_blocks,
                     messages=messages_payload,
                     tools=tools_payload,
                     temperature=self.config.temperature,
-                    max_tokens=8192,  # Increased for longer responses
+                    max_tokens=self.config.max_tokens,
+                    **extra_params,
                     # Note: token-efficient-tools is DEFAULT in Claude 4 models
+                )
+                
+                elapsed = time.time() - start_time
+                log.info(
+                    "anthropic.response_received",
+                    elapsed_seconds=round(elapsed, 2),
+                    message="API call completed successfully"
+                )
+                
+                log.debug(
+                    "anthropic.api_call_complete",
+                    turn=turn_num,
+                    stop_reason=response.stop_reason,
+                    content_blocks=len(response.content),
                 )
 
                 usage["input_tokens"] += getattr(response.usage, "input_tokens", 0)
@@ -100,8 +179,7 @@ class ClaudeAgentProvider(BaseAgentProvider):
 
                 response_blocks = list(cast(Iterable[Any], response.content))
                 assistant_blocks = [block.model_dump() for block in response_blocks]
-                messages.append({"role": "assistant", "content": assistant_blocks})
-
+                
                 # Check for web search tool use (server-side execution)
                 has_web_search = False
                 for block in response_blocks:
@@ -113,10 +191,16 @@ class ClaudeAgentProvider(BaseAgentProvider):
                         # Web search results are automatically added by API
                         has_web_search = True
 
+                # CRITICAL: Append assistant response to messages BEFORE collecting text
+                # This ensures we capture the full conversation including the latest turn
+                messages.append({"role": "assistant", "content": assistant_blocks})
+
                 # If no server tools, check if we have final text
                 has_text = any(getattr(b, "type", None) == "text" for b in response_blocks)
                 if has_text and not has_web_search:
-                    final_text = self._collect_text_blocks(response_blocks)
+                    # Final turn - collect from ENTIRE conversation including this turn
+                    # This ensures we don't truncate multi-turn responses
+                    final_text = self._collect_text_from_conversation(messages)
                     break
 
                 # Web search executes server-side, results automatically included
@@ -127,7 +211,33 @@ class ClaudeAgentProvider(BaseAgentProvider):
         finally:
             await client.close()
 
+        # DEBUG: Log the raw output to diagnose parsing issues
+        if final_text:
+            import hashlib
+            text_hash = hashlib.md5(final_text.encode()).hexdigest()[:8]
+            log.info(
+                "anthropic.raw_output_captured",
+                length=len(final_text),
+                hash=text_hash,
+                first_200=final_text[:200],
+                last_200=final_text[-200:],
+            )
+
         findings = self._extract_findings(final_text)
+        
+        # DEBUG: Log extraction results
+        log.info(
+            "anthropic.extraction_complete",
+            findings_count=len(findings),
+            findings_structure=[
+                {
+                    "type": "segment" if isinstance(f, dict) and "companies" in f else "raw",
+                    "companies": len(f.get("companies", [])) if isinstance(f, dict) and "companies" in f else 0,
+                    "keys": list(f.keys()) if isinstance(f, dict) else None
+                }
+                for f in findings
+            ]
+        )
         
         # Enhanced telemetry with ACTUAL cache metrics and web search usage
         cache_creation = usage.get("cache_creation_input_tokens", 0)
@@ -181,19 +291,46 @@ class ClaudeAgentProvider(BaseAgentProvider):
                 "3. TIER 1/2 SOURCES PREFERRED: Each company should have at least ONE Tier 1 or Tier 2 source.\n"
                 "4. QUANTIFIED METRICS: Prefer companies with specific percentages, hectares, tCO2e values, liters saved.\n"
                 "\n\n**RESEARCH APPROACH & WEB SEARCH STRATEGY:**\n"
-                "- You have 30 web searches to research ALL 5 segments (~6 searches per segment)\n"
+                "- You have 30 web searches to research ALL 8 value chain segments\n"
                 "- You have 20 conversational turns to complete the research\n"
-                "- Use web_search to find real-time information about vineyard technology companies\n"
-                "- SEARCH STRATEGY PER SEGMENT:\n"
-                "  * Search 1-2: Broad discovery (e.g., 'soil microbiome vineyard technology companies Europe')\n"
-                "  * Search 3-4: Targeted verification (e.g., 'Biome Makers vineyard case study quantified results')\n"
-                "  * Search 5-6: Gap filling for underrepresented regions (e.g., 'precision irrigation vineyard Chile Argentina')\n"
-                "- Search queries should combine: technology keywords + 'vineyard'/'wine'/'viticulture' + geography\n"
-                "- Examples: 'carbon MRV wine traceability platform Italy', 'IPM biocontrol vineyard Australia'\n"
-                "- For each company, provide: name, summary (2-3 sentences), KPI alignments with metrics, and 3-5 source URLs\n"
-                "- Target 10 companies per segment across 5 segments (50 total)\n"
-                "- Web search automatically cites sources - extract and include those URLs in your output\n"
-                "- PACE YOURSELF: Don't exhaust searches early - allocate them strategically across all segments"
+                "- Use web_search to find real-time information about wine industry technology companies\n"
+                "\n**SEARCH TERM VARIATIONS (use multiple per segment):**\n"
+                "- Primary: [technology] + vineyard OR wine OR viticulture\n"
+                "- Secondary: [technology] + agriculture wine OR winegrowing\n"
+                "- Company-specific: [specific product name] + wine deployment\n"
+                "- Early-stage: [technology] + wine pilot OR wine trial OR wine innovation\n"
+                "\n**GEOGRAPHIC DIVERSITY TARGET (70%+ non-US):**\n"
+                "Prioritize searches in major wine tech regions:\n"
+                "- 🇫🇷 France: Montpellier, Bordeaux, Champagne (search in French: 'technologie viticole', 'robot vigne')\n"
+                "- 🇮🇹 Italy: Verona, Sicily, Piedmont (search in Italian: 'tecnologia vinicola', 'robotica vigna')\n"
+                "- 🇪🇸 Spain: La Rioja, Catalonia, Ribera (search in Spanish: 'tecnología viñedo', 'robótica viticultura')\n"
+                "- 🇦🇺 Australia: Adelaide, Margaret River, Barossa\n"
+                "- 🇨🇱 Chile: Maipo, Colchagua, Casablanca\n"
+                "- 🇦🇷 Argentina: Mendoza, Salta\n"
+                "- 🇿🇦 South Africa: Stellenbosch, Paarl\n"
+                "- 🇳🇿 New Zealand: Marlborough, Central Otago\n"
+                "\n**WINE TRADE PUBLICATION SOURCES (prioritize):**\n"
+                "- Wines & Vines (US)\n"
+                "- Wine Business Monthly (US)\n"
+                "- The Drinks Business (UK)\n"
+                "- VitiBiz / Vitisphere (France)\n"
+                "- Meininger's International (Germany)\n"
+                "- Decanter / Harpers Wine & Spirit (UK)\n"
+                "- Wine Industry Advisor (US)\n"
+                "- Australian & New Zealand Grapegrower & Winemaker\n"
+                "\n**SEARCH STRATEGY PER SEGMENT:**\n"
+                "  * Search 1-2: Geographic discovery (e.g., 'robotique vigne France 2024', 'vineyard robotics Australia')\n"
+                "  * Search 3-4: Trade publication search (e.g., 'Wines Vines irrigation technology 2024')\n"
+                "  * Search 5-6: Technology-specific (e.g., 'UV-C wine sanitation', 'CO2 capture winery')\n"
+                "\n**INCLUDE EARLY-STAGE COMPANIES:**\n"
+                "Accept companies with ANY of:\n"
+                "- Pilot/trial with named winery (even if ongoing)\n"
+                "- Presentation at wine tech events (VitEff, VinExpo, Wine Vision)\n"
+                "- Wine industry partnership announcement\n"
+                "- Agriculture technology with clear wine application\n"
+                "\n- Target 10 companies per segment across 8 segments (80 total)\n"
+                "- Web search automatically cites sources - extract and include those URLs\n"
+                "- PACE YOURSELF: Allocate searches strategically across all segments"
             ),
         }
         
@@ -201,14 +338,16 @@ class ClaudeAgentProvider(BaseAgentProvider):
         thesis_block = {
             "type": "text",
             "text": f"\n\nInvestment thesis:\n{thesis}",
-            "cache_control": {"type": "ephemeral"},
+            # TEMP: Disabled cache control for debugging
+            # "cache_control": {"type": "ephemeral"},
         }
         
         # Value chain context (cached - large and stable)
         value_chain_block = {
             "type": "text",
             "text": f"\n\nValue chain context:\n{json.dumps(value_chain, indent=2)}",
-            "cache_control": {"type": "ephemeral"},
+            # TEMP: Disabled cache control for debugging
+            # "cache_control": {"type": "ephemeral"},
         }
         
         # KPI definitions (cached - large and stable)
@@ -216,25 +355,28 @@ class ClaudeAgentProvider(BaseAgentProvider):
             "type": "text",
             "text": (
                 f"\n\nKPI definitions:\n{json.dumps(kpis, indent=2)}"
-                "\n\n**REQUIRED OUTPUT FORMAT:**"
+                "\n\n**ABSOLUTELY REQUIRED OUTPUT FORMAT - JSON ONLY:**"
+                "\n\n⚠️ YOUR FINAL RESPONSE MUST BE VALID JSON WITH NO ADDITIONAL TEXT ⚠️"
+                "\nDo NOT include explanations, markdown, or commentary."
+                "\nDo NOT say 'Here is the JSON' or 'I found these companies'."
+                "\nDo NOT include ## headers or narrative text."
+                "\nSTART your final response with { and END with }"
+                "\n\nExact JSON structure required:"
                 '\n{"segments": [{"name": str, "companies": [{'
                 '\n  "company": str,'
-                '\n  "executive_summary": str (Solution, Impact, Maturity),'
-                '\n  "technology_solution": str (Tech & Value Chain mapping),'
-                '\n  "evidence_of_impact": str (Specific metrics),'
-                '\n  "key_clients": [str] (List of named clients),'
-                '\n  "team": str (Key founders/execs),'
-                '\n  "competitors": str (Differentiation),'
-                '\n  "financials": str (Turnover, EBITDA, Cost Structure - last 3 years if available, else "Not Disclosed"),'
-                '\n  "cap_table": str (Structure of capital if available, else "Not Disclosed"),'
-                '\n  "swot": {"strengths": [str], "weaknesses": [str], "opportunities": [str], "threats": [str]},'
+                '\n  "summary": str (brief description),'
+                '\n  "kpi_alignment": [str] (list of KPI impacts),'
                 '\n  "sources": [str] (3-5 URLs),'
                 '\n  "website": str (company official website URL),'
                 '\n  "country": str (headquarters country)'
                 '\n}]}]}'
-                '\n\n**CRITICAL:** Always include "website" (company\'s official URL) and "country" (HQ location) for every company.'
+                '\n\n**CRITICAL:** '
+                '\n1. Output ONLY valid JSON - no preamble, no explanation'
+                '\n2. Always include "website" and "country" for every company'
+                '\n3. On your FINAL turn, output the complete JSON object'
             ),
-            "cache_control": {"type": "ephemeral"},
+            # TEMP: Disabled cache control for debugging
+            # "cache_control": {"type": "ephemeral"},
         }
         
         return [base_instruction, thesis_block, value_chain_block, kpi_block]
@@ -256,7 +398,8 @@ class ClaudeAgentProvider(BaseAgentProvider):
             "   - **NEW KEYWORDS:** Include 'UV-C', 'robotics', 'CO2 capture', 'biomaterials' to capture niche technologies.\n"
             "2. **Verification (2-3 searches):** Targeted searches for top candidates to find evidence AND financial/SWOT data\n"
             "   - Example: 'SupPlant vineyard water savings case study quantified'\n"
-            "   - Example: 'Biome Makers revenue funding competitors'\n"
+            "   - Example: 'Biome Makers revenue funding competitors team'\n"
+            "   - **Deep research:** Search for company details (team, clients, financials, competitors)\n"
             "3. **Gap Filling (1-2 searches):** If coverage gaps exist, search underrepresented regions or value chain stages\n"
             "   - Example: 'WiseConn Chile vineyard deployment'\n"
             "   - Use anchor companies from value chain as leads\n\n"
@@ -264,11 +407,16 @@ class ClaudeAgentProvider(BaseAgentProvider):
             "- Turns 1-8: Research viticulture segments (Soil Health, Irrigation, IPM, Canopy) - 24 searches\n"
             "- Turns 9-12: Research other value chain stages (Vinification, Packaging, Logistics, etc.) - 6 searches\n"
             "- Turns 13-20: Synthesize, fill gaps, format JSON output\n\n"
-            "**OUTPUT FORMAT:**\n"
-            "Return complete JSON with all 5 segments and 50 companies (10 per segment).\n"
-            "For EACH company, include ALL the required fields defined in the system prompt (Executive Summary, Financials, SWOT, etc.).\n"
-            "If financial data is not public, explicitly state 'Not Disclosed' but try to find funding rounds or revenue estimates.\n"
-            "**CRITICAL:** website and country are REQUIRED fields. Extract them from your web search results or the first source URL."
+            "**CRITICAL FINAL OUTPUT:**\n"
+            "After completing your research (typically turns 15-18), you MUST output ONLY a valid JSON object.\n"
+            "NO markdown, NO explanations, NO narrative text - ONLY JSON.\n"
+            "\n"
+            "Your final message should start with { and end with }\n"
+            "Include ALL segments with 8-10 companies each.\n"
+            "For EACH company: name, summary, kpi_alignment, sources (3-5 URLs), website, country.\n"
+            "\n"
+            "Example of what your FINAL response should look like:\n"
+            '{"segments": [{"name": "1. Grape Production", "companies": [{"company": "Biome Makers", "summary": "...", "kpi_alignment": [...], "sources": [...], "website": "...", "country": "..."}]}]}'
         )
 
     def _collect_text_blocks(self, blocks: Iterable[Any]) -> str:
@@ -300,12 +448,23 @@ class ClaudeAgentProvider(BaseAgentProvider):
         
         import re
         
-        # TIER 1: Try parsing as direct JSON
+        # TIER 0: attempt to decode the first JSON object embedded in the text
+        candidate = _decode_first_json_object(final_text)
+        if isinstance(candidate, dict):
+            segments = candidate.get("segments")
+            if isinstance(segments, list) and segments:
+                structured_findings = []
+                for segment in segments:
+                    if isinstance(segment, dict) and "name" in segment and "companies" in segment:
+                        structured_findings.append(segment)
+                if structured_findings:
+                    return structured_findings
+        
+        # TIER 1: Try parsing as direct JSON without searching
         try:
             data = json.loads(final_text)
             segments = data.get("segments")
             if isinstance(segments, list):
-                # Validate each segment has required structure
                 structured_findings = []
                 for segment in segments:
                     if isinstance(segment, dict) and "name" in segment and "companies" in segment:

@@ -1,0 +1,453 @@
+{
+  "meta": {
+    "name": "Multiplium Design System (from screenshot analysis)",
+    "version": "1.0.0",
+    "created": "2025-12-02",
+    "author": "AI Creative Director",
+    "description": "High-level style guide and component blueprints derived from the provided UI screenshot. Optimized to let AI reproduce the look and feel consistently across the app."
+  },
+  "principles": {
+    "tone": [
+      "Optimistic",
+      "Friendly",
+      "Modern",
+      "Human-centered"
+    ],
+    "styleTraits": [
+      "Soft geometry with generous rounding",
+      "Clean white cards on a playful, lime backdrop",
+      "Low-contrast neutrals with a single purple accent",
+      "Quiet shadows and ample negative space",
+      "Subtle micro-interactions (quick, smooth)"
+    ],
+    "layoutRules": [
+      "Prefer modular cards arranged on a 12-column grid",
+      "Keep cards bright-white against the lime canvas",
+      "Emphasize hierarchy via type size, weight, and whitespace—avoid heavy borders",
+      "Use circular avatars and pill-shaped UI for friendliness",
+      "Edge softness: use large radii on cards; pill radii for controls"
+    ],
+    "contentRules": [
+      "Headlines concise and action-oriented",
+      "Body copy brief and descriptive; never exceed 3 lines per block",
+      "Use sentence case for UI; Title Case for primary headings",
+      "Emojis avoided; rely on icons and color cues"
+    ],
+    "accessibility": {
+      "minTextContrast": "WCAG AA (4.5:1 body, 3:1 large headings)",
+      "touchTargetMin": 44,
+      "focusVisible": true,
+      "focusStyle": "2px purple ring with 2px outward offset",
+      "motionReduce": "Disable non-essential transitions when prefers-reduced-motion is true"
+    }
+  },
+  "tokens": {
+    "colors": {
+      "palette": {
+        "lime": {
+          "50": "#F7FBD5",
+          "100": "#ECF6B2",
+          "200": "#DDEB73"
+        },
+        "violet": {
+          "400": "#7A6CFF",
+          "500": "#6B5CFF",
+          "600": "#5A4BE6"
+        },
+        "green": {
+          "400": "#43C97A",
+          "500": "#2EBE6B"
+        },
+        "gray": {
+          "25": "#FCFCFD",
+          "50": "#F8FAFC",
+          "100": "#F2F4F7",
+          "200": "#EAECF0",
+          "300": "#D0D5DD",
+          "400": "#98A2B3",
+          "500": "#667085",
+          "600": "#475467",
+          "700": "#344054",
+          "800": "#1D2939",
+          "900": "#101828"
+        },
+        "yellow": {
+          "400": "#F8DF5E"
+        },
+        "red": {
+          "500": "#F25555"
+        },
+        "blue": {
+          "500": "#3B82F6"
+        },
+        "white": "#FFFFFF",
+        "black": "#000000"
+      },
+      "roles": {
+        "appBackground": "{colors.palette.lime.100}",
+        "cardBackground": "{colors.palette.white}",
+        "floatingSurface": "{colors.palette.white}",
+        "surfaceSubtle": "{colors.palette.gray.50}",
+        "divider": "{colors.palette.gray.200}",
+        "borderSubtle": "{colors.palette.gray.200}",
+        "textPrimary": "{colors.palette.gray.900}",
+        "textSecondary": "{colors.palette.gray.600}",
+        "textMuted": "{colors.palette.gray.500}",
+        "primary": "{colors.palette.violet.500}",
+        "primarySoft": "#EEEAFD",
+        "success": "{colors.palette.green.500}",
+        "warning": "{colors.palette.yellow.400}",
+        "danger": "{colors.palette.red.500}",
+        "info": "{colors.palette.blue.500}",
+        "focusRing": "{colors.palette.violet.500}",
+        "chipBackground": "{colors.palette.gray.100}",
+        "badgeBackground": "{colors.palette.gray.50}"
+      }
+    },
+    "typography": {
+      "families": {
+        "sans": "Inter, 'Inter var', 'SF Pro Text', -apple-system, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif",
+        "rounded": "'SF Pro Rounded', Inter, -apple-system, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif"
+      },
+      "scale": {
+        "display": { "size": 40, "line": 48, "weight": 700, "tracking": -0.5 },
+        "h1": { "size": 28, "line": 34, "weight": 700, "tracking": -0.2 },
+        "h2": { "size": 24, "line": 30, "weight": 700 },
+        "h3": { "size": 20, "line": 26, "weight": 600 },
+        "title": { "size": 18, "line": 24, "weight": 600 },
+        "bodyL": { "size": 16, "line": 24, "weight": 500 },
+        "body": { "size": 14, "line": 22, "weight": 500 },
+        "caption": { "size": 12, "line": 16, "weight": 500 }
+      }
+    },
+    "spacing": {
+      "unit": 4,
+      "scale": {
+        "0": 0,
+        "1": 4,
+        "2": 8,
+        "3": 12,
+        "4": 16,
+        "5": 20,
+        "6": 24,
+        "7": 28,
+        "8": 32,
+        "10": 40,
+        "12": 48,
+        "16": 64,
+        "20": 80,
+        "24": 96
+      }
+    },
+    "radii": {
+      "xs": 6,
+      "sm": 8,
+      "md": 12,
+      "lg": 16,
+      "xl": 20,
+      "xxl": 24,
+      "card": 24,
+      "pill": 9999
+    },
+    "shadows": {
+      "xs": "0 1px 1px rgba(16,24,40,0.04)",
+      "sm": "0 1px 2px rgba(16,24,40,0.06)",
+      "md": "0 4px 12px rgba(16,24,40,0.08)",
+      "lg": "0 8px 24px rgba(16,24,40,0.10)"
+    },
+    "grid": {
+      "columns": 12,
+      "gutter": 24,
+      "maxContentWidth": 1200,
+      "pagePaddingX": 32,
+      "pagePaddingY": 32
+    },
+    "motion": {
+      "durations": {
+        "instant": 80,
+        "fast": 140,
+        "base": 180,
+        "slow": 240
+      },
+      "easing": {
+        "enter": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+        "exit": "cubic-bezier(0.4, 0.0, 0.2, 1)"
+      }
+    },
+    "iconography": {
+      "style": "Rounded, duotone optional, 1.5px stroke",
+      "sizes": { "sm": 16, "md": 20, "lg": 24 }
+    },
+    "zIndex": {
+      "dropdown": 1000,
+      "overlay": 1100,
+      "modal": 1200,
+      "toast": 1300
+    }
+  },
+  "components": {
+    "AppBackground": {
+      "description": "Full-bleed lime canvas that lifts white cards.",
+      "backgroundColor": "{colors.roles.appBackground}"
+    },
+    "Card": {
+      "description": "Primary container style used across the layout.",
+      "background": "{colors.roles.cardBackground}",
+      "radius": "{radii.card}",
+      "padding": { "x": 24, "y": 24 },
+      "shadow": "{shadows.md}",
+      "border": { "color": "transparent", "width": 0 }
+    },
+    "Section": {
+      "description": "Card-like section for grouped content (Integrations, Milestone).",
+      "titleTypography": "{typography.scale.h3}",
+      "headerSpacing": 12,
+      "contentSpacing": 16
+    },
+    "Heading": {
+      "h1": { "typography": "{typography.scale.h1}", "color": "{colors.roles.textPrimary}" },
+      "h2": { "typography": "{typography.scale.h2}", "color": "{colors.roles.textPrimary}" },
+      "h3": { "typography": "{typography.scale.h3}", "color": "{colors.roles.textPrimary}" }
+    },
+    "Text": {
+      "body": { "typography": "{typography.scale.body}", "color": "{colors.roles.textSecondary}" },
+      "muted": { "typography": "{typography.scale.caption}", "color": "{colors.roles.textMuted}" }
+    },
+    "Avatar": {
+      "sizes": { "xs": 20, "sm": 28, "md": 36, "lg": 48 },
+      "shape": "circle",
+      "border": { "width": 2, "color": "{colors.roles.cardBackground}" }
+    },
+    "AvatarStack": {
+      "description": "Overlapped avatars to show assignees.",
+      "gap": -8,
+      "maxVisible": 5,
+      "counterStyle": {
+        "background": "{colors.roles.chipBackground}",
+        "color": "{colors.roles.textSecondary}"
+      }
+    },
+    "IconButton": {
+      "sizes": { "sm": 28, "md": 36 },
+      "shape": "pill",
+      "paddingInline": 8,
+      "bg": "{colors.roles.surfaceSubtle}",
+      "iconColor": "{colors.roles.textSecondary}",
+      "hover": { "bg": "{colors.roles.primarySoft}" },
+      "focus": { "ringColor": "{colors.roles.focusRing}", "ringWidth": 2, "ringOffset": 2 }
+    },
+    "Button": {
+      "base": {
+        "radius": "{radii.pill}",
+        "font": "{typography.scale.body}",
+        "padding": { "y": 10, "x": 16 }
+      },
+      "variants": {
+        "primary": {
+          "bg": "{colors.roles.primary}",
+          "text": "{colors.palette.white}",
+          "hoverBg": "{colors.palette.violet.600}",
+          "focusRing": "{colors.roles.focusRing}"
+        },
+        "secondary": {
+          "bg": "{colors.roles.surfaceSubtle}",
+          "text": "{colors.roles.textPrimary}",
+          "hoverBg": "{colors.roles.primarySoft}"
+        },
+        "ghost": {
+          "bg": "transparent",
+          "text": "{colors.roles.textPrimary}",
+          "hoverBg": "{colors.roles.surfaceSubtle}"
+        },
+        "success": {
+          "bg": "{colors.palette.green.500}",
+          "text": "{colors.palette.white}"
+        },
+        "danger": {
+          "bg": "{colors.palette.red.500}",
+          "text": "{colors.palette.white}"
+        }
+      },
+      "sizes": {
+        "sm": { "padding": { "y": 8, "x": 12 }, "font": "{typography.scale.caption}" },
+        "md": { "padding": { "y": 10, "x": 16 }, "font": "{typography.scale.body}" }
+      }
+    },
+    "Tag": {
+      "description": "Rounded informational chips (e.g., skills).",
+      "bg": "{colors.roles.chipBackground}",
+      "text": "{colors.roles.textSecondary}",
+      "radius": "{radii.pill}",
+      "padding": { "y": 6, "x": 10 }
+    },
+    "Badge": {
+      "description": "Tiny numeric label (Unread count).",
+      "bg": "{colors.roles.badgeBackground}",
+      "text": "{colors.roles.textSecondary}",
+      "radius": "{radii.pill}",
+      "paddingInline": 8,
+      "height": 22
+    },
+    "Input": {
+      "description": "Rounded input/search field.",
+      "bg": "{colors.roles.surfaceSubtle}",
+      "text": "{colors.roles.textPrimary}",
+      "placeholder": "{colors.roles.textMuted}",
+      "radius": "{radii.pill}",
+      "padding": { "y": 10, "x": 14 },
+      "border": { "width": 0 },
+      "focus": { "ringColor": "{colors.roles.focusRing}", "ringWidth": 2, "ringOffset": 2 }
+    },
+    "ListItem": {
+      "description": "Notification row pattern.",
+      "avatarSize": "{components.Avatar.sizes.sm}",
+      "contentSpacing": 12,
+      "rightAccessory": "IconButton or Kebab",
+      "hover": { "bg": "{colors.roles.surfaceSubtle}" },
+      "divider": { "color": "{colors.roles.divider}" }
+    },
+    "KebabMenu": {
+      "button": {
+        "size": "{components.IconButton.sizes.sm}",
+        "icon": "more_horiz",
+        "bg": "{colors.roles.surfaceSubtle}"
+      }
+    },
+    "ProgressRing": {
+      "description": "Circular progress with purple accent.",
+      "size": 44,
+      "thickness": 6,
+      "trackColor": "{colors.roles.primarySoft}",
+      "progressColor": "{colors.roles.primary}",
+      "label": { "typography": "{typography.scale.caption}", "color": "{colors.roles.textSecondary}" }
+    },
+    "Toggle": {
+      "description": "Rounded iOS-style switch using violet accent.",
+      "track": {
+        "off": "#EDEBFA",
+        "on": "{colors.roles.primarySoft}"
+      },
+      "thumb": {
+        "size": 18,
+        "colorOff": "{colors.palette.white}",
+        "colorOn": "{colors.palette.white}"
+      },
+      "sizes": { "md": { "width": 44, "height": 24, "thumb": 18 } },
+      "states": {
+        "onTrackColor": "{colors.roles.primary}",
+        "offTrackColor": "#EDEBFA"
+      },
+      "focus": { "ringColor": "{colors.roles.focusRing}", "ringWidth": 2, "ringOffset": 2 }
+    },
+    "Calendar": {
+      "description": "Monthly calendar with day pills.",
+      "header": {
+        "titleTypography": "{typography.scale.h3}",
+        "navButtons": "{components.IconButton}"
+      },
+      "dayCell": {
+        "size": 36,
+        "radius": "{radii.pill}",
+        "typography": "{typography.scale.body}",
+        "default": {
+          "bg": "transparent",
+          "text": "{colors.roles.textPrimary}"
+        },
+        "muted": {
+          "text": "{colors.roles.textMuted}"
+        },
+        "selected": {
+          "bg": "{colors.palette.yellow.400}",
+          "text": "{colors.roles.textPrimary}"
+        },
+        "today": {
+          "outline": { "color": "{colors.roles.primary}", "width": 2 }
+        }
+      }
+    },
+    "SectionHeader": {
+      "description": "Row with title and optional action (e.g., View details).",
+      "titleTypography": "{typography.scale.h3}",
+      "action": "{components.Button.variants.secondary}"
+    },
+    "IntegrationRow": {
+      "description": "Icon + label + subcopy + toggle (e.g., Slack).",
+      "iconSize": 40,
+      "copy": {
+        "title": "{typography.scale.bodyL}",
+        "subcopy": "{typography.scale.caption}",
+        "color": "{colors.roles.textSecondary}"
+      },
+      "toggle": "{components.Toggle}"
+    },
+    "MilestoneCard": {
+      "description": "Due date + progress + assignee stack.",
+      "layout": {
+        "columns": 2,
+        "gap": 16
+      },
+      "progress": "{components.ProgressRing}",
+      "avatars": "{components.AvatarStack}"
+    },
+    "ProjectSummaryCard": {
+      "description": "Hero card with title, description, progress, and participant avatars.",
+      "shape": {
+        "cornerTreatment": "Rounded with one playful scallop in a corner",
+        "radius": "{radii.card}"
+      },
+      "progress": "{components.ProgressRing}",
+      "avatars": "{components.AvatarStack}"
+    },
+    "PaymentBadge": {
+      "description": "Rounded brand chips (Stripe, VISA, PayPal, Mastercard).",
+      "bg": "{colors.roles.surfaceSubtle}",
+      "radius": "{radii.pill}",
+      "height": 32,
+      "paddingInline": 12
+    }
+  },
+  "layout": {
+    "page": {
+      "canvas": "{colors.roles.appBackground}",
+      "gapBetweenCards": 20,
+      "columns": "{grid.columns}",
+      "gutter": "{grid.gutter}",
+      "maxContentWidth": "{grid.maxContentWidth}"
+    },
+    "cardSpacing": {
+      "outer": 24,
+      "inner": 16,
+      "stackGap": 12
+    },
+    "avatarSpacing": {
+      "stackOverlap": -8
+    }
+  },
+  "states": {
+    "hover": { "elevation": "{shadows.md}" },
+    "pressed": { "elevation": "{shadows.sm}", "scale": 0.98 },
+    "focus": { "ringColor": "{colors.roles.focusRing}", "ringWidth": 2, "ringOffset": 2 },
+    "disabled": { "opacity": 0.5, "cursor": "not-allowed" }
+  },
+  "ai_guidance": {
+    "do": [
+      "Use white cards with 24px radius and soft shadows over a lime canvas.",
+      "Limit strong color to a single violet accent and green for positive actions.",
+      "Prefer pill shapes for controls, chips, and selected calendar days.",
+      "Use Inter (or SF Pro) with bold headings and medium body weight.",
+      "Keep spacing generous: 16–24px inside cards; 20–24px gaps between cards."
+    ],
+    "dont": [
+      "Do not add heavy borders; use shadows and whitespace for separation.",
+      "Do not use multiple accent colors; keep violet as the primary accent.",
+      "Avoid sharp corners; keep geometry rounded."
+    ],
+    "defaults": {
+      "fontFamily": "{typography.families.sans}",
+      "textColor": "{colors.roles.textPrimary}",
+      "accentColor": "{colors.roles.primary}",
+      "cardStyle": "{components.Card}"
+    }
+  }
+}
+
