@@ -1,12 +1,14 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Sidebar } from "./components/Sidebar";
 import { DeepResearchView } from "./components/DeepResearchView";
 import { DiscoveryView } from "./components/DiscoveryView";
 import { RunsView } from "./components/RunsView";
+import { ReviewView } from "./components/ReviewView";
 import "./App.css";
 
-// Local storage key for shortlist persistence
+// Local storage keys
 const SHORTLIST_STORAGE_KEY = "multiplium_shortlist";
+const REVIEWS_STORAGE_KEY = "multiplium_reviews";
 
 // Default segments for wine value chain
 const DEFAULT_SEGMENTS = [
@@ -37,10 +39,48 @@ export default function App() {
     }
   });
 
+  // Review stats for sidebar (read from localStorage)
+  const [reviewStats, setReviewStats] = useState({ pending: 0, progress: 0 });
+
   // Persist shortlist to localStorage
   useEffect(() => {
     localStorage.setItem(SHORTLIST_STORAGE_KEY, JSON.stringify(shortlistedCompanies));
   }, [shortlistedCompanies]);
+
+  // Watch for review changes to update sidebar stats
+  useEffect(() => {
+    const updateReviewStats = () => {
+      try {
+        const stored = localStorage.getItem(REVIEWS_STORAGE_KEY);
+        if (stored) {
+          const reviews = JSON.parse(stored);
+          const entries = Object.values(reviews) as any[];
+          const total = entries.length;
+          const reviewed = entries.filter(r => r.status !== 'pending').length;
+          setReviewStats({
+            pending: total - reviewed,
+            progress: total > 0 ? Math.round((reviewed / total) * 100) : 0,
+          });
+        }
+      } catch {
+        // Ignore errors
+      }
+    };
+
+    // Initial load
+    updateReviewStats();
+
+    // Listen for storage changes (cross-tab sync)
+    window.addEventListener('storage', updateReviewStats);
+    
+    // Poll for changes in same tab (since localStorage events don't fire in same tab)
+    const interval = setInterval(updateReviewStats, 2000);
+    
+    return () => {
+      window.removeEventListener('storage', updateReviewStats);
+      clearInterval(interval);
+    };
+  }, []);
 
   // Segment toggle handlers
   const handleSegmentToggle = useCallback((segment: string) => {
@@ -73,9 +113,8 @@ export default function App() {
   }, []);
 
   const handleShortlistClick = useCallback((company: string) => {
-    // Could navigate to the company in the research view
-    setCurrentView("research");
-    // TODO: Could set a selected company state to auto-open that company's detail panel
+    // Navigate to the review view when clicking a shortlisted company
+    setCurrentView("review");
   }, []);
 
   // Render current view
@@ -86,6 +125,14 @@ export default function App() {
       case "discovery":
         return (
           <DiscoveryView
+            selectedSegments={selectedSegments}
+            shortlistedCompanies={shortlistedCompanies}
+            onToggleShortlist={handleToggleShortlist}
+          />
+        );
+      case "review":
+        return (
+          <ReviewView
             selectedSegments={selectedSegments}
             shortlistedCompanies={shortlistedCompanies}
             onToggleShortlist={handleToggleShortlist}
@@ -116,6 +163,8 @@ export default function App() {
         shortlistedCompanies={shortlistedCompanies}
         onShortlistClick={handleShortlistClick}
         onClearShortlist={handleClearShortlist}
+        reviewPendingCount={reviewStats.pending}
+        reviewProgress={reviewStats.progress}
       />
       <main className="app-main">
         <div className="app-content">

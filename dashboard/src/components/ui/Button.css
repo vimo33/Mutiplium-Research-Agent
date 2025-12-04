@@ -88,6 +88,15 @@
   filter: brightness(1.1);
 }
 
+.btn--warning {
+  background: var(--color-warning);
+  color: var(--gray-900);
+}
+
+.btn--warning:hover:not(:disabled) {
+  filter: brightness(1.05);
+}
+
 /* Full Width */
 .btn--full-width {
   width: 100%;
@@ -195,4 +204,5 @@
   width: var(--icon-sm);
   height: var(--icon-sm);
 }
+
 

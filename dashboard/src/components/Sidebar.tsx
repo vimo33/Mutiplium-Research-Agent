@@ -20,6 +20,8 @@ interface SidebarProps {
   shortlistedCompanies: string[];
   onShortlistClick: (company: string) => void;
   onClearShortlist: () => void;
+  reviewPendingCount?: number;
+  reviewProgress?: number;
 }
 
 // Icons as inline SVGs
@@ -45,6 +47,12 @@ const ResearchIcon = (
   </svg>
 );
 
+const ReviewIcon = (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M3 3h14v14H3zM7 7l2 2 4-4M7 13h6" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
 function StarIconSmall() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
@@ -57,6 +65,7 @@ const NAV_ITEMS: NavItem[] = [
   { id: 'runs', label: 'Dashboard', icon: DashboardIcon },
   { id: 'discovery', label: 'Discovery', icon: DiscoveryIcon },
   { id: 'research', label: 'Deep Research', icon: ResearchIcon },
+  { id: 'review', label: 'Review', icon: ReviewIcon },
 ];
 
 export function Sidebar({
@@ -70,6 +79,8 @@ export function Sidebar({
   shortlistedCompanies,
   onShortlistClick,
   onClearShortlist,
+  reviewPendingCount = 0,
+  reviewProgress = 0,
 }: SidebarProps) {
   const allSelected = segments.length > 0 && selectedSegments.length === segments.length;
   const someSelected = selectedSegments.length > 0 && selectedSegments.length < segments.length;
@@ -96,14 +107,25 @@ export function Sidebar({
               >
                 <span className="sidebar__nav-icon">{item.icon}</span>
                 <span className="sidebar__nav-label">{item.label}</span>
+                {item.id === 'review' && reviewPendingCount > 0 && (
+                  <span className="sidebar__nav-badge">{reviewPendingCount}</span>
+                )}
               </button>
+              {item.id === 'review' && currentView === 'review' && reviewProgress > 0 && (
+                <div className="sidebar__nav-progress">
+                  <div 
+                    className="sidebar__nav-progress-fill" 
+                    style={{ width: `${reviewProgress}%` }}
+                  />
+                </div>
+              )}
             </li>
           ))}
         </ul>
       </nav>
 
       {/* Segment Filters */}
-      {(currentView === 'discovery' || currentView === 'research') && segments.length > 0 && (
+      {(currentView === 'discovery' || currentView === 'research' || currentView === 'review') && segments.length > 0 && (
         <div className="sidebar__section">
           <div className="sidebar__section-header">
             <span className="sidebar__section-title">

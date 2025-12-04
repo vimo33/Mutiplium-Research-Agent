@@ -69,3 +69,4 @@ export function CardFooter({ children, className = '' }: CardFooterProps) {
   return <div className={`card-footer ${className}`}>{children}</div>;
 }
 
+

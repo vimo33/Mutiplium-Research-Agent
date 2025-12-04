@@ -40,6 +40,12 @@ class DeepResearchRequest(BaseModel):
     config_path: str = Field(default="config/dev.yaml", description="Path to orchestrator config")
 
 
+class EnrichRequest(BaseModel):
+    company_name: str = Field(description="Name of the company to enrich")
+    existing_data: dict = Field(default={}, description="Existing company data")
+    fields_to_enrich: list[str] = Field(default=[], description="Fields to fetch: website, team, financials, swot")
+
+
 @app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
@@ -305,4 +311,65 @@ def create_deep_research(request: DeepResearchRequest) -> dict[str, object]:
     
     snapshot = registry.load_snapshot(run_id)
     return {"run": snapshot.to_dict()}
+
+
+@app.post("/enrich")
+async def enrich_company(request: EnrichRequest) -> dict[str, object]:
+    """
+    Enrich company data using GPT-4o with native tool calling.
+    
+    This endpoint uses the OpenAI API to fetch missing company information
+    like website, team details, financials, etc.
+    """
+    from openai import AsyncOpenAI
+    
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        raise HTTPException(status_code=500, detail="OpenAI API key not configured")
+    
+    client = AsyncOpenAI(api_key=api_key)
+    
+    # Build the enrichment prompt
+    fields_needed = request.fields_to_enrich or ["website", "team", "financials"]
+    fields_str = ", ".join(fields_needed)
+    
+    prompt = f"""You are a company research assistant. Find the following information about {request.company_name}:
+
+Fields needed: {fields_str}
+
+Existing information:
+- Summary: {request.existing_data.get('summary', 'N/A')}
+- Website: {request.existing_data.get('website', 'N/A')}
+- Country: {request.existing_data.get('country', 'N/A')}
+
+Please provide accurate, verified information. For website, provide the official company URL.
+For team, provide team size estimate if available.
+For financials, provide any publicly known funding information.
+
+Return the information in JSON format with these keys (only include fields you have data for):
+- website: official company website URL
+- team_size: estimated team size (e.g., "50-100 employees")
+- funding: funding information if known (e.g., "$10M Series A")
+- summary: enhanced company summary if available
+"""
+    
+    try:
+        response = await client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a helpful research assistant that provides accurate company information. Always provide real, verifiable data. If you're not sure about something, don't include it."
+                },
+                {"role": "user", "content": prompt}
+            ],
+            response_format={"type": "json_object"},
+            max_tokens=500,
+        )
+        
+        result = json.loads(response.choices[0].message.content or "{}")
+        return result
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Enrichment failed: {str(e)}")
 

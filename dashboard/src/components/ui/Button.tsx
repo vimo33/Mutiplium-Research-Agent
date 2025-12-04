@@ -3,7 +3,7 @@ import './Button.css';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
-  variant?: 'primary' | 'secondary' | 'ghost' | 'success' | 'danger';
+  variant?: 'primary' | 'secondary' | 'ghost' | 'success' | 'danger' | 'warning';
   size?: 'sm' | 'md';
   icon?: ReactNode;
   iconPosition?: 'left' | 'right';
@@ -78,4 +78,5 @@ export function IconButton({
     </button>
   );
 }
+
 

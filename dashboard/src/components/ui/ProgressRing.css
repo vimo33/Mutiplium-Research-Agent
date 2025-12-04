@@ -36,6 +36,11 @@
   font-size: 14px;
 }
 
+.progress-ring--xl .progress-ring__label {
+  font-size: 18px;
+  font-weight: 700;
+}
+
 /* Confidence Ring Color Variants */
 .confidence-ring--high .progress-ring__track {
   stroke: var(--color-success-soft);
@@ -123,4 +128,5 @@
 .progress-bar--danger .progress-bar__fill {
   background: var(--color-danger);
 }
+
 

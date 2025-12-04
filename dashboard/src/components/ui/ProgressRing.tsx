@@ -2,7 +2,7 @@ import './ProgressRing.css';
 
 interface ProgressRingProps {
   progress: number; // 0 to 100
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   showLabel?: boolean;
   className?: string;
 }
@@ -17,6 +17,7 @@ export function ProgressRing({
     sm: { diameter: 32, strokeWidth: 4 },
     md: { diameter: 44, strokeWidth: 5 },
     lg: { diameter: 64, strokeWidth: 6 },
+    xl: { diameter: 80, strokeWidth: 8 },
   };
 
   const { diameter, strokeWidth } = sizes[size];
@@ -130,4 +131,5 @@ export function SwotDots({
     </div>
   );
 }
+
 
