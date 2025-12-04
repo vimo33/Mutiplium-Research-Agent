@@ -46,6 +46,93 @@ class EnrichRequest(BaseModel):
     fields_to_enrich: list[str] = Field(default=[], description="Fields to fetch: website, team, financials, swot")
 
 
+# ============================================================================
+# Project System Models
+# ============================================================================
+
+class ResearchBrief(BaseModel):
+    objective: str = Field(description="Research objective description")
+    target_stages: list[str] = Field(default=[], description="Target company stages")
+    investment_size: str = Field(default="", description="Target investment size")
+    geography: list[str] = Field(default=[], description="Geographic focus")
+    technologies: list[str] = Field(default=[], description="Target technologies")
+    additional_notes: str = Field(default="", description="Additional notes")
+
+
+class KPI(BaseModel):
+    name: str
+    target: str = ""
+    rationale: str = ""
+
+
+class ValueChainSegment(BaseModel):
+    segment: str
+    description: str = ""
+
+
+class ResearchFramework(BaseModel):
+    thesis: str = ""
+    kpis: list[KPI] = Field(default=[])
+    value_chain: list[ValueChainSegment] = Field(default=[])
+
+
+class ProjectStats(BaseModel):
+    total_companies: int = 0
+    enriched_companies: int = 0
+    approved: int = 0
+    rejected: int = 0
+    maybe: int = 0
+    pending: int = 0
+    flagged: int = 0
+
+
+class ProjectCreateRequest(BaseModel):
+    client_name: str = Field(description="Client/organization name")
+    project_name: str = Field(description="Project name")
+    brief: ResearchBrief = Field(description="Research brief")
+
+
+class ProjectUpdateRequest(BaseModel):
+    client_name: str | None = None
+    project_name: str | None = None
+    brief: ResearchBrief | None = None
+    framework: ResearchFramework | None = None
+    status: str | None = None
+    report_path: str | None = None
+    stats: ProjectStats | None = None
+
+
+class EnrichBriefRequest(BaseModel):
+    objective: str = Field(description="Research objective to enrich")
+
+
+class GenerateFrameworkRequest(BaseModel):
+    brief: ResearchBrief = Field(description="Research brief to generate framework from")
+    answers: dict = Field(default={}, description="Answers to clarifying questions")
+
+
+# Project storage (in-memory for now, would be DB in production)
+PROJECTS_FILE = WORKSPACE_ROOT / "data" / "projects.json"
+
+
+def load_projects() -> dict[str, dict]:
+    """Load projects from JSON file."""
+    if PROJECTS_FILE.exists():
+        try:
+            with PROJECTS_FILE.open("r") as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return {}
+
+
+def save_projects(projects: dict[str, dict]) -> None:
+    """Save projects to JSON file."""
+    PROJECTS_FILE.parent.mkdir(parents=True, exist_ok=True)
+    with PROJECTS_FILE.open("w") as f:
+        json.dump(projects, f, indent=2)
+
+
 @app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
@@ -312,6 +399,286 @@ def create_deep_research(request: DeepResearchRequest) -> dict[str, object]:
     snapshot = registry.load_snapshot(run_id)
     return {"run": snapshot.to_dict()}
 
+
+# ============================================================================
+# Project Endpoints
+# ============================================================================
+
+@app.get("/projects")
+def list_projects() -> dict[str, list[dict]]:
+    """List all research projects."""
+    projects = load_projects()
+    return {"projects": list(projects.values())}
+
+
+@app.post("/projects", status_code=201)
+def create_project(request: ProjectCreateRequest) -> dict[str, dict]:
+    """Create a new research project."""
+    from datetime import datetime
+    
+    project_id = uuid.uuid4().hex[:12]
+    now = datetime.utcnow().isoformat() + "Z"
+    
+    project = {
+        "id": project_id,
+        "client_name": request.client_name,
+        "project_name": request.project_name,
+        "brief": request.brief.model_dump(),
+        "framework": {"thesis": "", "kpis": [], "value_chain": []},
+        "status": "draft",
+        "report_path": None,
+        "test_run_report_path": None,
+        "stats": {
+            "total_companies": 0,
+            "enriched_companies": 0,
+            "approved": 0,
+            "rejected": 0,
+            "maybe": 0,
+            "pending": 0,
+            "flagged": 0,
+        },
+        "created_at": now,
+        "updated_at": now,
+    }
+    
+    projects = load_projects()
+    projects[project_id] = project
+    save_projects(projects)
+    
+    return {"project": project}
+
+
+@app.get("/projects/{project_id}")
+def get_project(project_id: str) -> dict[str, dict]:
+    """Get a single project by ID."""
+    projects = load_projects()
+    if project_id not in projects:
+        raise HTTPException(status_code=404, detail="Project not found")
+    return {"project": projects[project_id]}
+
+
+@app.put("/projects/{project_id}")
+def update_project(project_id: str, request: ProjectUpdateRequest) -> dict[str, dict]:
+    """Update a project."""
+    from datetime import datetime
+    
+    projects = load_projects()
+    if project_id not in projects:
+        raise HTTPException(status_code=404, detail="Project not found")
+    
+    project = projects[project_id]
+    
+    if request.client_name is not None:
+        project["client_name"] = request.client_name
+    if request.project_name is not None:
+        project["project_name"] = request.project_name
+    if request.brief is not None:
+        project["brief"] = request.brief.model_dump()
+    if request.framework is not None:
+        project["framework"] = request.framework.model_dump()
+    if request.status is not None:
+        project["status"] = request.status
+    if request.report_path is not None:
+        project["report_path"] = request.report_path
+    if request.stats is not None:
+        project["stats"] = request.stats.model_dump()
+    
+    project["updated_at"] = datetime.utcnow().isoformat() + "Z"
+    
+    projects[project_id] = project
+    save_projects(projects)
+    
+    return {"project": project}
+
+
+@app.delete("/projects/{project_id}")
+def delete_project(project_id: str) -> dict[str, str]:
+    """Delete a project."""
+    projects = load_projects()
+    if project_id not in projects:
+        raise HTTPException(status_code=404, detail="Project not found")
+    
+    del projects[project_id]
+    save_projects(projects)
+    
+    return {"status": "deleted"}
+
+
+@app.post("/projects/{project_id}/enrich-brief")
+async def enrich_project_brief(project_id: str, request: EnrichBriefRequest) -> dict[str, object]:
+    """Use GPT to generate clarifying questions based on the research brief."""
+    from openai import AsyncOpenAI
+    
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        raise HTTPException(status_code=500, detail="OpenAI API key not configured")
+    
+    client = AsyncOpenAI(api_key=api_key)
+    
+    prompt = f"""Based on this investment research objective, generate 4-5 clarifying questions to better understand the research scope:
+
+Research Objective: {request.objective}
+
+Generate questions about:
+1. Target company stages (seed, series A, etc.)
+2. Investment size preferences
+3. Geographic focus
+4. Business model preferences
+5. Any specific technologies or trends to focus on
+
+Return as JSON array with this structure:
+[
+  {{
+    "id": "unique_id",
+    "question": "The question text",
+    "type": "single_choice" | "multiple_choice" | "text",
+    "options": ["option1", "option2"] // only for choice types
+  }}
+]
+"""
+
+    try:
+        response = await client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": "You are an investment research assistant helping to scope research projects."},
+                {"role": "user", "content": prompt}
+            ],
+            response_format={"type": "json_object"},
+            max_tokens=800,
+        )
+        
+        result = json.loads(response.choices[0].message.content or '{"questions": []}')
+        return {"questions": result.get("questions", result if isinstance(result, list) else [])}
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Brief enrichment failed: {str(e)}")
+
+
+@app.post("/projects/{project_id}/generate-framework")
+async def generate_project_framework(project_id: str, request: GenerateFrameworkRequest) -> dict[str, object]:
+    """Use GPT to generate investment thesis, KPIs, and value chain segments."""
+    from openai import AsyncOpenAI
+    
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        raise HTTPException(status_code=500, detail="OpenAI API key not configured")
+    
+    client = AsyncOpenAI(api_key=api_key)
+    
+    brief = request.brief
+    answers = request.answers
+    
+    prompt = f"""Generate an investment research framework based on this brief:
+
+Research Objective: {brief.objective}
+Target Stages: {', '.join(brief.target_stages) if brief.target_stages else 'Not specified'}
+Investment Size: {brief.investment_size or 'Not specified'}
+Geography: {', '.join(brief.geography) if brief.geography else 'Not specified'}
+Technologies: {', '.join(brief.technologies) if brief.technologies else 'Not specified'}
+
+Additional Context from Questions:
+{json.dumps(answers, indent=2)}
+
+Generate:
+1. Investment Thesis (2-3 paragraphs explaining the opportunity)
+2. Key Performance Indicators (4-6 KPIs with targets)
+3. Value Chain Segments (6-8 segments to search for companies)
+
+Return as JSON:
+{{
+  "thesis": "The investment thesis text...",
+  "kpis": [
+    {{"name": "KPI Name", "target": ">50%", "rationale": "Why this matters"}}
+  ],
+  "value_chain": [
+    {{"segment": "Segment Name", "description": "What this segment covers"}}
+  ]
+}}
+"""
+
+    try:
+        response = await client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": "You are an expert investment analyst helping to structure research projects for venture capital and private equity firms."},
+                {"role": "user", "content": prompt}
+            ],
+            response_format={"type": "json_object"},
+            max_tokens=1500,
+        )
+        
+        result = json.loads(response.choices[0].message.content or "{}")
+        
+        # Update project with generated framework
+        projects = load_projects()
+        if project_id in projects:
+            from datetime import datetime
+            projects[project_id]["framework"] = result
+            projects[project_id]["updated_at"] = datetime.utcnow().isoformat() + "Z"
+            save_projects(projects)
+        
+        return {"framework": result}
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Framework generation failed: {str(e)}")
+
+
+@app.post("/projects/{project_id}/start-test-run")
+def start_project_test_run(project_id: str) -> dict[str, object]:
+    """Start a test run (3 companies per segment) for a project."""
+    from datetime import datetime
+    
+    projects = load_projects()
+    if project_id not in projects:
+        raise HTTPException(status_code=404, detail="Project not found")
+    
+    project = projects[project_id]
+    
+    # Update project status
+    project["status"] = "test_run"
+    project["updated_at"] = datetime.utcnow().isoformat() + "Z"
+    save_projects(projects)
+    
+    # In production, this would launch the actual research
+    # For now, return success and the frontend will poll for updates
+    return {
+        "status": "started",
+        "message": "Test run started (3 companies per segment)",
+        "project_id": project_id,
+    }
+
+
+@app.post("/projects/{project_id}/approve-test-run")
+def approve_project_test_run(project_id: str) -> dict[str, object]:
+    """Approve test run and start full research."""
+    from datetime import datetime
+    
+    projects = load_projects()
+    if project_id not in projects:
+        raise HTTPException(status_code=404, detail="Project not found")
+    
+    project = projects[project_id]
+    
+    if project["status"] != "pending_approval":
+        raise HTTPException(status_code=400, detail="Project is not pending approval")
+    
+    # Update project status
+    project["status"] = "researching"
+    project["updated_at"] = datetime.utcnow().isoformat() + "Z"
+    save_projects(projects)
+    
+    # In production, this would launch the full research run
+    return {
+        "status": "started",
+        "message": "Full research run started",
+        "project_id": project_id,
+    }
+
+
+# ============================================================================
+# Company Enrichment Endpoint
+# ============================================================================
 
 @app.post("/enrich")
 async def enrich_company(request: EnrichRequest) -> dict[str, object]:

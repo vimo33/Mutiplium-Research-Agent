@@ -4,6 +4,11 @@ import { DeepResearchView } from "./components/DeepResearchView";
 import { DiscoveryView } from "./components/DiscoveryView";
 import { RunsView } from "./components/RunsView";
 import { ReviewView } from "./components/ReviewView";
+import { ProjectsView } from "./components/ProjectsView";
+import { ProjectDetailView } from "./components/ProjectDetailView";
+import { NewResearchWizard } from "./components/wizard";
+import { useProjects } from "./hooks";
+import type { Project } from "./types";
 import "./App.css";
 
 // Local storage keys
@@ -22,9 +27,23 @@ const DEFAULT_SEGMENTS = [
   "Recycling & Aftermarket",
 ];
 
+type AppView = "projects" | "project-detail" | "runs" | "discovery" | "research" | "review";
+
 export default function App() {
-  // View state
-  const [currentView, setCurrentView] = useState<string>("research");
+  // View state - default to projects (home)
+  const [currentView, setCurrentView] = useState<AppView>("projects");
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [showWizard, setShowWizard] = useState(false);
+  
+  // Projects hook
+  const {
+    projects,
+    createProject,
+    updateProject,
+    deleteProject,
+    getProject,
+    getReviewProgress,
+  } = useProjects();
   
   // Segment filter state
   const [selectedSegments, setSelectedSegments] = useState<string[]>(DEFAULT_SEGMENTS);
@@ -117,9 +136,100 @@ export default function App() {
     setCurrentView("review");
   }, []);
 
+  // Project handlers
+  const handleSelectProject = useCallback((project: Project) => {
+    setSelectedProject(project);
+    setCurrentView("project-detail");
+    
+    // Update segments from project framework
+    if (project.framework.valueChain.length > 0) {
+      setSelectedSegments(project.framework.valueChain.map(vc => vc.segment));
+    }
+  }, []);
+
+  const handleReviewProject = useCallback((project: Project) => {
+    setSelectedProject(project);
+    setCurrentView("project-detail");
+  }, []);
+
+  const handleNewProject = useCallback(() => {
+    setShowWizard(true);
+  }, []);
+
+  const handleWizardComplete = useCallback((projectData: Partial<Project>) => {
+    const project = createProject(
+      projectData.clientName || '',
+      projectData.projectName || '',
+      projectData.brief
+    );
+    
+    // Update with framework
+    if (projectData.framework) {
+      updateProject(project.id, { framework: projectData.framework });
+    }
+    
+    setShowWizard(false);
+    setSelectedProject({ ...project, ...projectData } as Project);
+    setCurrentView("project-detail");
+  }, [createProject, updateProject]);
+
+  const handleUpdateProject = useCallback((updates: Partial<Project>) => {
+    if (selectedProject) {
+      updateProject(selectedProject.id, updates);
+      setSelectedProject({ ...selectedProject, ...updates });
+    }
+  }, [selectedProject, updateProject]);
+
+  const handleBackToProjects = useCallback(() => {
+    setSelectedProject(null);
+    setCurrentView("projects");
+  }, []);
+
+  // View change handler - wrapped to handle type
+  const handleViewChange = useCallback((view: string) => {
+    setCurrentView(view as AppView);
+    if (view === "projects") {
+      setSelectedProject(null);
+    }
+  }, []);
+
   // Render current view
   const renderView = () => {
+    // Show wizard overlay
+    if (showWizard) {
+      return (
+        <NewResearchWizard
+          onComplete={handleWizardComplete}
+          onCancel={() => setShowWizard(false)}
+        />
+      );
+    }
+
     switch (currentView) {
+      case "projects":
+        return (
+          <ProjectsView
+            projects={projects}
+            onSelectProject={handleSelectProject}
+            onReviewProject={handleReviewProject}
+            onNewProject={handleNewProject}
+            onDeleteProject={deleteProject}
+          />
+        );
+      case "project-detail":
+        if (!selectedProject) {
+          setCurrentView("projects");
+          return null;
+        }
+        return (
+          <ProjectDetailView
+            project={selectedProject}
+            onBack={handleBackToProjects}
+            onUpdateProject={handleUpdateProject}
+            shortlistedCompanies={shortlistedCompanies}
+            onToggleShortlist={handleToggleShortlist}
+          />
+        );
       case "runs":
         return <RunsView />;
       case "discovery":
@@ -150,23 +260,28 @@ export default function App() {
     }
   };
 
+  // Don't show sidebar for wizard or project detail
+  const showSidebar = !showWizard && currentView !== "project-detail";
+
   return (
     <div className="app-layout">
-      <Sidebar
-        currentView={currentView}
-        onViewChange={setCurrentView}
-        segments={DEFAULT_SEGMENTS}
-        selectedSegments={selectedSegments}
-        onSegmentToggle={handleSegmentToggle}
-        onSelectAllSegments={handleSelectAllSegments}
-        onClearSegments={handleClearSegments}
-        shortlistedCompanies={shortlistedCompanies}
-        onShortlistClick={handleShortlistClick}
-        onClearShortlist={handleClearShortlist}
-        reviewPendingCount={reviewStats.pending}
-        reviewProgress={reviewStats.progress}
-      />
-      <main className="app-main">
+      {showSidebar && (
+        <Sidebar
+          currentView={currentView}
+          onViewChange={handleViewChange}
+          segments={selectedSegments.length > 0 ? selectedSegments : DEFAULT_SEGMENTS}
+          selectedSegments={selectedSegments}
+          onSegmentToggle={handleSegmentToggle}
+          onSelectAllSegments={handleSelectAllSegments}
+          onClearSegments={handleClearSegments}
+          shortlistedCompanies={shortlistedCompanies}
+          onShortlistClick={handleShortlistClick}
+          onClearShortlist={handleClearShortlist}
+          reviewPendingCount={reviewStats.pending}
+          reviewProgress={reviewStats.progress}
+        />
+      )}
+      <main className={`app-main ${!showSidebar ? 'app-main--full' : ''}`}>
         <div className="app-content">
           {renderView()}
         </div>

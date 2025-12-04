@@ -25,6 +25,13 @@ interface SidebarProps {
 }
 
 // Icons as inline SVGs
+const ProjectsIcon = (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M3 5h14M3 5v10a2 2 0 002 2h10a2 2 0 002-2V5M3 5l2-2h10l2 2" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M7 9h6M7 12h4" strokeLinecap="round" />
+  </svg>
+);
+
 const DashboardIcon = (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
     <rect x="2" y="2" width="7" height="7" rx="1.5" />
@@ -62,7 +69,8 @@ function StarIconSmall() {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { id: 'runs', label: 'Dashboard', icon: DashboardIcon },
+  { id: 'projects', label: 'Projects', icon: ProjectsIcon },
+  { id: 'runs', label: 'Runs', icon: DashboardIcon },
   { id: 'discovery', label: 'Discovery', icon: DiscoveryIcon },
   { id: 'research', label: 'Deep Research', icon: ResearchIcon },
   { id: 'review', label: 'Review', icon: ReviewIcon },

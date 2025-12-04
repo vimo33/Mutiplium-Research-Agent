@@ -1,0 +1,215 @@
+.project-card {
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  overflow: hidden;
+}
+
+.project-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Status bar */
+.project-card__status-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  border-radius: var(--radius-md) 0 0 var(--radius-md);
+}
+
+.project-card__status-bar--draft {
+  background: var(--color-text-muted);
+}
+
+.project-card__status-bar--test_run,
+.project-card__status-bar--researching {
+  background: var(--color-primary);
+}
+
+.project-card__status-bar--pending_approval,
+.project-card__status-bar--ready_for_review {
+  background: var(--color-warning);
+}
+
+.project-card__status-bar--completed {
+  background: var(--color-success);
+}
+
+/* Header */
+.project-card__header {
+  margin-bottom: 16px;
+  padding-left: 8px;
+}
+
+.project-card__title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.project-card__title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.project-card__client {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.project-card__client svg {
+  opacity: 0.6;
+}
+
+/* Stats */
+.project-card__stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: var(--color-surface-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.project-card__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.project-card__stat svg {
+  color: var(--color-text-muted);
+  margin-bottom: 2px;
+}
+
+.project-card__stat-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+.project-card__stat-label {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.project-card__stat--approved .project-card__stat-value {
+  color: var(--color-success);
+}
+
+.project-card__stat--rejected .project-card__stat-value {
+  color: var(--color-danger);
+}
+
+.project-card__stat--pending .project-card__stat-value {
+  color: var(--color-warning);
+}
+
+/* Progress */
+.project-card__progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.project-card__progress-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--color-surface-subtle);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.project-card__progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.project-card__progress-text {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+/* Segments preview */
+.project-card__segments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+/* Footer */
+.project-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.project-card__date {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.project-card__date svg {
+  opacity: 0.6;
+}
+
+.project-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.project-card__details-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  background: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: color 0.15s, background 0.15s;
+}
+
+.project-card__details-btn:hover {
+  color: var(--color-primary);
+  background: var(--color-surface-subtle);
+}
+
+.project-card__details-btn svg {
+  transition: transform 0.15s;
+}
+
+.project-card__details-btn:hover svg {
+  transform: translateX(2px);
+}
+
