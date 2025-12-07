@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import type { Project, ResearchFramework, ProjectCost } from '../types';
 import { CompanyCard, CompanyData } from './CompanyCard';
 import { CompanyDetail } from './CompanyDetail';
@@ -8,9 +8,8 @@ import { ContextPopup } from './ContextPopup';
 import { ReportTab } from './ReportTab';
 import { useReviews } from '../hooks/useReviews';
 import { Button, Badge, SearchInput, ProgressRing, Toggle } from './ui';
+import { getApiBaseUrl, getAuthHeaders } from '../api';
 import './ProjectDetailView.css';
-
-const API_BASE = 'http://localhost:8000';
 
 interface ProjectDetailViewProps {
   project: Project;
@@ -112,7 +111,9 @@ export function ProjectDetailView({
   // Load project cost data
   useEffect(() => {
     if (project.id) {
-      fetch(`${API_BASE}/projects/${project.id}/cost`)
+      fetch(`${getApiBaseUrl()}/projects/${project.id}/cost`, {
+        headers: getAuthHeaders(),
+      })
         .then(res => res.json())
         .then(data => setProjectCost({
           totalCost: data.total_cost || 0,
@@ -130,7 +131,8 @@ export function ProjectDetailView({
     try {
       setLoading(true);
       const response = await fetch(
-        `http://localhost:8000/reports/${encodeURIComponent(reportPath)}/raw`
+        `${getApiBaseUrl()}/reports/${encodeURIComponent(reportPath)}/raw`,
+        { headers: getAuthHeaders() }
       );
       if (!response.ok) throw new Error('Failed to fetch report');
       const data = await response.json();

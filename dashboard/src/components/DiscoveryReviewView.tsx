@@ -1,9 +1,8 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import type { Project } from '../types';
 import { Button, Badge, SearchInput, Card, SegmentTag, CountryTag, ConfidenceBadge } from './ui';
+import { getApiBaseUrl, getAuthHeaders } from '../api';
 import './DiscoveryReviewView.css';
-
-const API_BASE = 'http://localhost:8000';
 
 interface DiscoveryCompany {
   company: string;
@@ -62,7 +61,9 @@ export function DiscoveryReviewView({
     try {
       setLoading(true);
       // Try to get discovery report path from project or discovery status
-      const statusResponse = await fetch(`${API_BASE}/projects/${project.id}/discovery-status`);
+      const statusResponse = await fetch(`${getApiBaseUrl()}/projects/${project.id}/discovery-status`, {
+        headers: getAuthHeaders(),
+      });
       if (!statusResponse.ok) throw new Error('Failed to fetch discovery status');
       
       const statusData = await statusResponse.json();
@@ -72,7 +73,9 @@ export function DiscoveryReviewView({
         throw new Error('No discovery report found');
       }
 
-      const response = await fetch(`${API_BASE}/reports/${encodeURIComponent(reportPath)}/raw`);
+      const response = await fetch(`${getApiBaseUrl()}/reports/${encodeURIComponent(reportPath)}/raw`, {
+        headers: getAuthHeaders(),
+      });
       if (!response.ok) throw new Error('Failed to fetch report');
       const data = await response.json();
 

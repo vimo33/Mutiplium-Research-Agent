@@ -1,9 +1,8 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import type { Project } from '../types';
 import { Button, ProgressRing, Badge } from './ui';
+import { getApiBaseUrl, getAuthHeaders } from '../api';
 import './DiscoveryProgress.css';
-
-const API_BASE = 'http://localhost:8000';
 
 interface DiscoveryProgressProps {
   project: Project;
@@ -89,7 +88,9 @@ export function DiscoveryProgress({ project, onComplete, onBack }: DiscoveryProg
   // Poll for status
   const fetchStatus = useCallback(async () => {
     try {
-      const response = await fetch(`${API_BASE}/projects/${project.id}/discovery-status`);
+      const response = await fetch(`${getApiBaseUrl()}/projects/${project.id}/discovery-status`, {
+        headers: getAuthHeaders(),
+      });
       if (response.ok) {
         const data = await response.json();
         setStatus(data);
@@ -146,9 +147,9 @@ export function DiscoveryProgress({ project, onComplete, onBack }: DiscoveryProg
     try {
       setRetrying(true);
       setError(null);
-      const response = await fetch(`${API_BASE}/projects/${project.id}/retry-discovery`, {
+      const response = await fetch(`${getApiBaseUrl()}/projects/${project.id}/retry-discovery`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
       });
       if (!response.ok) {
         const data = await response.json();

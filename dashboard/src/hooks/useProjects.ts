@@ -1,9 +1,8 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import type { Project, ProjectStatus, ResearchBrief, ResearchFramework, ProjectStats, KPI, ValueChainSegment } from '../types';
-import { listReports, fetchReportData, type Report } from '../api';
+import { listReports, fetchReportData, type Report, getApiBaseUrl, getAuthHeaders } from '../api';
 
 const PROJECTS_STORAGE_KEY = 'multiplium_projects';
-const API_BASE = 'http://localhost:8000';
 
 // Generate unique ID based on report path to ensure consistency
 function generateIdFromPath(path: string): string {
@@ -230,8 +229,15 @@ export function useProjects() {
     };
   }, []);
 
+  // Track if we've already loaded to prevent double-fetching
+  const hasLoaded = useRef(false);
+
   // Load projects from backend API and legacy reports on mount
   useEffect(() => {
+    // Prevent double-loading in React strict mode
+    if (hasLoaded.current) return;
+    hasLoaded.current = true;
+
     const loadAllProjects = async () => {
       try {
         setIsLoading(true);
@@ -240,7 +246,9 @@ export function useProjects() {
         // 1. Fetch projects from backend API
         let apiProjects: Project[] = [];
         try {
-          const response = await fetch(`${API_BASE}/projects`);
+          const response = await fetch(`${getApiBaseUrl()}/projects`, {
+            headers: getAuthHeaders(),
+          });
           if (response.ok) {
             const data = await response.json();
             if (data.projects && typeof data.projects === 'object') {
