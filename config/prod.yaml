@@ -1,0 +1,96 @@
+# Production Configuration
+# 
+# This config is used when the platform is deployed to the cloud.
+# All tool endpoints point to deployed Render services.
+# 
+# Usage:
+#   python -m multiplium.orchestrator --config config/prod.yaml
+
+orchestrator:
+  sector: "Investment Research"
+  thesis_path: "data/new/thesis_wine.md"
+  value_chain_path: "data/new/value_chain_wine.md"
+  kpi_path: "data/new/kpis_wine.md"
+  concurrency: 3
+  output_path: "reports/latest_report.json"
+  dry_run: false
+
+# Provider Configuration
+# Note: In production, API keys are set via environment variables
+providers:
+  anthropic:
+    enabled: false  # Enable if you have Anthropic API key
+    model: "claude-sonnet-4-5-20250929"
+    temperature: 0.15
+    max_steps: 20
+    max_tool_uses: 30
+    max_conversation_turns: 20
+    output_by_turn: 18
+    max_tokens: 8192
+  openai:
+    enabled: true
+    model: "gpt-4o"  # Use gpt-4o for production stability
+    temperature: 0.15
+    max_steps: 20
+    max_tool_uses: 30
+    max_conversation_turns: 20
+    output_by_turn: 18
+    max_tokens: 8192
+  google:
+    enabled: true
+    model: "gemini-2.5-pro"
+    temperature: 0.15
+    max_steps: 20
+    max_tool_uses: 30
+    max_conversation_turns: 20
+    output_by_turn: 18
+    max_tokens: 8192
+  xai:
+    enabled: false
+    model: "grok-beta"
+    temperature: 0.15
+    max_steps: 20
+
+# Tool Configuration
+# All endpoints point to deployed Render services
+tools:
+  # Tavily MCP - Web search & content extraction (via MCP server)
+  - name: "search_web"
+    endpoint: "tavily_mcp"
+  - name: "fetch_content"
+    endpoint: "tavily_mcp"
+  - name: "extract_content"
+    endpoint: "tavily_mcp"
+  - name: "map_website"
+    endpoint: "tavily_mcp"
+  - name: "crawl_website"
+    endpoint: "tavily_mcp"
+  
+  # Perplexity MCP - AI-powered research
+  - name: "perplexity_search"
+    endpoint: "perplexity_mcp"
+  - name: "perplexity_ask"
+    endpoint: "perplexity_mcp"
+  - name: "perplexity_research"
+    endpoint: "perplexity_mcp"
+  - name: "perplexity_reason"
+    endpoint: "perplexity_mcp"
+  
+  # External Data Sources (Deployed on Render)
+  # Update these URLs if your Render service names are different
+  - name: "lookup_crunchbase"
+    endpoint: "https://multiplium-mcp-tools.onrender.com/crunchbase/mcp/crunchbase"
+  - name: "lookup_patents"
+    endpoint: "https://multiplium-mcp-tools.onrender.com/patents/mcp/patents"
+  - name: "financial_metrics"
+    endpoint: "https://multiplium-mcp-tools.onrender.com/financials/mcp/financials"
+  - name: "lookup_esg_ratings"
+    endpoint: "https://multiplium-mcp-tools.onrender.com/esg/mcp/esg"
+  - name: "search_academic_papers"
+    endpoint: "https://multiplium-mcp-tools.onrender.com/academic/mcp/academic"
+  - name: "lookup_sustainability_ratings"
+    endpoint: "https://multiplium-mcp-tools.onrender.com/sustainability/mcp/sustainability"
+  - name: "check_certifications"
+    endpoint: "https://multiplium-mcp-tools.onrender.com/sustainability/mcp/certifications"
+  - name: "calculate_sdg_alignment"
+    endpoint: "https://multiplium-mcp-tools.onrender.com/sustainability/mcp/sdg"

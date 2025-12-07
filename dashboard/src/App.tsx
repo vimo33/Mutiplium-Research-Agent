@@ -6,8 +6,10 @@ import { ProjectDetailView } from "./components/ProjectDetailView";
 import { DiscoveryProgress } from "./components/DiscoveryProgress";
 import { DiscoveryReviewView } from "./components/DiscoveryReviewView";
 import { DiscoveryBrowser } from "./components/DiscoveryBrowser";
+import { ApiKeyPrompt } from "./components/ApiKeyPrompt";
 import { NewResearchWizard, ResumeProjectWizard } from "./components/wizard";
 import { useProjects } from "./hooks";
+import { hasApiKey, clearApiKey, getApiBaseUrl, getAuthHeaders } from "./api";
 import type { Project } from "./types";
 import "./App.css";
 
@@ -18,6 +20,20 @@ const REVIEWS_STORAGE_KEY = "multiplium_reviews";
 type AppView = "projects" | "archived" | "project-detail" | "runs" | "discovery" | "settings";
 
 export default function App() {
+  // Authentication state
+  const [isAuthenticated, setIsAuthenticated] = useState(() => hasApiKey());
+  
+  // Handle logout
+  const handleLogout = useCallback(() => {
+    clearApiKey();
+    setIsAuthenticated(false);
+  }, []);
+
+  // If not authenticated, show API key prompt
+  if (!isAuthenticated) {
+    return <ApiKeyPrompt onAuthenticated={() => setIsAuthenticated(true)} />;
+  }
+
   // View state - default to projects (home)
   const [currentView, setCurrentView] = useState<AppView>("projects");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -170,13 +186,18 @@ export default function App() {
     if (!selectedProject) return;
     
     try {
-      const response = await fetch(`http://localhost:8000/projects/${selectedProject.id}/start-deep-research`, {
+      const response = await fetch(`${getApiBaseUrl()}/projects/${selectedProject.id}/start-deep-research`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
         body: JSON.stringify({
           companies: selectedCompanies,
         }),
       });
+      
+      if (response.status === 401) {
+        handleLogout();
+        return;
+      }
       
       if (!response.ok) throw new Error('Failed to start deep research');
       
@@ -187,7 +208,7 @@ export default function App() {
       console.error('Failed to start deep research:', error);
       throw error;
     }
-  }, [selectedProject, updateProject]);
+  }, [selectedProject, updateProject, handleLogout]);
 
   // Handle skipping deep research
   const handleSkipDeepResearch = useCallback(() => {
@@ -212,15 +233,21 @@ export default function App() {
   // Handle initiating deep research from discovery browser
   const handleInitiateDeepResearch = useCallback(async (reportPath: string, companies: string[]) => {
     try {
-      const response = await fetch('http://localhost:8000/deep-research', {
+      const response = await fetch(`${getApiBaseUrl()}/deep-research`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
         body: JSON.stringify({
           report_path: reportPath,
           companies: companies,
           top_n: companies.length || 5,
         }),
       });
+      
+      if (response.status === 401) {
+        handleLogout();
+        return;
+      }
+      
       if (!response.ok) throw new Error('Failed to initiate deep research');
       const data = await response.json();
       // Navigate to runs view to see progress
@@ -230,7 +257,7 @@ export default function App() {
       console.error('Failed to initiate deep research:', error);
       throw error;
     }
-  }, []);
+  }, [handleLogout]);
 
   // View change handler
   const handleViewChange = useCallback((view: string) => {
@@ -348,6 +375,21 @@ export default function App() {
           <div className="settings-placeholder">
             <h2>Settings</h2>
             <p>Settings panel coming soon...</p>
+            <div style={{ marginTop: '2rem' }}>
+              <button 
+                onClick={handleLogout}
+                style={{
+                  padding: '0.75rem 1.5rem',
+                  background: 'var(--status-rejected)',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: 'var(--radius-md)',
+                  cursor: 'pointer',
+                }}
+              >
+                Sign Out
+              </button>
+            </div>
           </div>
         );
       default:

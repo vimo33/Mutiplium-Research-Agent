@@ -2,16 +2,109 @@ import type { RunEvent, RunSnapshot } from "./types";
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000";
 
+// =============================================================================
+// API Key Management
+// =============================================================================
+
+const API_KEY_STORAGE_KEY = "multiplium_api_key";
+
+/**
+ * Get the stored API key from localStorage.
+ */
+export function getApiKey(): string | null {
+  return localStorage.getItem(API_KEY_STORAGE_KEY);
+}
+
+/**
+ * Store the API key in localStorage.
+ */
+export function setApiKey(key: string): void {
+  localStorage.setItem(API_KEY_STORAGE_KEY, key);
+}
+
+/**
+ * Clear the stored API key.
+ */
+export function clearApiKey(): void {
+  localStorage.removeItem(API_KEY_STORAGE_KEY);
+}
+
+/**
+ * Check if an API key is stored.
+ */
+export function hasApiKey(): boolean {
+  return !!getApiKey();
+}
+
+// =============================================================================
+// API Request Helper
+// =============================================================================
+
+/**
+ * Build headers for API requests, including API key if available.
+ */
+function buildHeaders(additionalHeaders?: Record<string, string>): Record<string, string> {
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+    ...additionalHeaders,
+  };
+  
+  const apiKey = getApiKey();
+  if (apiKey) {
+    headers["X-API-Key"] = apiKey;
+  }
+  
+  return headers;
+}
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`${API_BASE}${path}`, {
-    headers: { "Content-Type": "application/json" },
     ...init,
+    headers: buildHeaders(init?.headers as Record<string, string>),
   });
+  
+  if (response.status === 401) {
+    // Clear invalid API key and throw specific error
+    clearApiKey();
+    throw new Error("Authentication required. Please enter your API key.");
+  }
+  
   if (!response.ok) {
     const message = await response.text();
     throw new Error(message || `Request failed: ${response.status}`);
   }
   return response.json() as Promise<T>;
+}
+
+/**
+ * Verify the API key is valid by calling the auth-check endpoint.
+ */
+export async function verifyApiKey(key: string): Promise<boolean> {
+  try {
+    const response = await fetch(`${API_BASE}/auth-check`, {
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-Key": key,
+      },
+    });
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Get the API base URL (useful for SSE connections).
+ */
+export function getApiBaseUrl(): string {
+  return API_BASE;
+}
+
+/**
+ * Get headers for fetch requests (useful for SSE/streaming).
+ */
+export function getAuthHeaders(): Record<string, string> {
+  return buildHeaders();
 }
 
 export async function fetchRuns(): Promise<RunSnapshot[]> {

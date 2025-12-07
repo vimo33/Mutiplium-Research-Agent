@@ -1,8 +1,9 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import type { KPI, ValueChainSegment } from '../types';
+import { getApiBaseUrl, getAuthHeaders } from '../api';
 
-// API base URL
-const API_BASE = 'http://localhost:8000';
+// API base URL from centralized config
+const API_BASE = getApiBaseUrl();
 
 // ============================================================================
 // Types
@@ -229,7 +230,7 @@ export function useChat(
 
       await fetch(`${API_BASE}/projects/${projectId}/chat/save`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
         body: JSON.stringify({
           messages: messagesToSave,
           artifacts: {
@@ -260,7 +261,9 @@ export function useChat(
 
     setIsLoading(true);
     try {
-      const response = await fetch(`${API_BASE}/projects/${projectId}/chat/load`);
+      const response = await fetch(`${API_BASE}/projects/${projectId}/chat/load`, {
+        headers: getAuthHeaders(),
+      });
       if (!response.ok) return false;
 
       const data = await response.json();
@@ -342,9 +345,7 @@ export function useChat(
 
       const response = await fetch(endpoint, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: getAuthHeaders(),
         body: JSON.stringify({
           session_id: sessionId,
           message: message.trim(),
@@ -445,6 +446,7 @@ export function useChat(
     // Delete session on backend
     fetch(`${API_BASE}/projects/chat/${sessionId}`, {
       method: 'DELETE',
+      headers: getAuthHeaders(),
     }).catch(() => {
       // Ignore errors
     });
@@ -458,9 +460,7 @@ export function useChat(
     try {
       const response = await fetch(`${API_BASE}/projects/chat/finalize`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: getAuthHeaders(),
         body: JSON.stringify({
           session_id: sessionId,
         }),

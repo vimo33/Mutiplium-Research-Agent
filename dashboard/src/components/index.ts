@@ -14,6 +14,9 @@ export { DiscoveryProgress } from './DiscoveryProgress';
 // Layout
 export { Sidebar } from './Sidebar';
 
+// Auth
+export { ApiKeyPrompt } from './ApiKeyPrompt';
+
 // Company
 export { CompanyCard } from './CompanyCard';
 export { CompanyDetail } from './CompanyDetail';

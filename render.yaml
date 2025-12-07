@@ -1,12 +1,80 @@
 services:
+  # ==========================================================================
+  # MCP Tool Servers (existing)
+  # ==========================================================================
   - type: web
     name: multiplium-mcp-tools
-    env: python
+    runtime: python
     plan: free
-    buildCommand: pip install -r requirements.txt
+    buildCommand: pip install -r servers/requirements.txt
     startCommand: uvicorn servers.app:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: FMP_API_KEY
         sync: false
+      - key: TAVILY_API_KEY
+        sync: false
+      - key: PERPLEXITY_API_KEY
+        sync: false
       - key: OPENALEX_API_BASE
         value: https://api.openalex.org/organizations
+
+  # ==========================================================================
+  # Dashboard API Server (new)
+  # ==========================================================================
+  - type: web
+    name: multiplium-dashboard-api
+    runtime: python
+    plan: free
+    buildCommand: pip install -e . && pip install uvicorn python-dotenv
+    startCommand: uvicorn servers.research_dashboard:app --host 0.0.0.0 --port $PORT
+    # Persistent disk for data storage (projects, runs, reports)
+    disk:
+      name: multiplium-data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      # Authentication
+      - key: DASHBOARD_API_KEY
+        sync: false
+      # Data storage root (persistent disk)
+      - key: DATA_ROOT
+        value: /data
+      # LLM API Keys
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: GOOGLE_API_KEY
+        sync: false
+      # Tool API Keys
+      - key: TAVILY_API_KEY
+        sync: false
+      - key: PERPLEXITY_API_KEY
+        sync: false
+      # CORS - restrict to your frontend domain in production
+      - key: ALLOWED_ORIGINS
+        value: https://multiplium-dashboard.onrender.com,http://localhost:5173
+      # Chat model (defaults to gpt-4o if gpt-5.1 unavailable)
+      - key: CHAT_MODEL
+        value: gpt-4o
+
+  # ==========================================================================
+  # Frontend Dashboard (Static Site)
+  # ==========================================================================
+  - type: web
+    name: multiplium-dashboard
+    runtime: static
+    buildCommand: cd dashboard && npm install && npm run build
+    staticPublishPath: dashboard/dist
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: public, max-age=0, must-revalidate
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      # API endpoint for the dashboard
+      - key: VITE_API_BASE_URL
+        value: https://multiplium-dashboard-api.onrender.com

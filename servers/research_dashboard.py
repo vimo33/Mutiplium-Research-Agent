@@ -12,24 +12,76 @@ from pathlib import Path
 from typing import AsyncGenerator
 
 import yaml
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import Depends, FastAPI, HTTPException, Request, Security
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
+from fastapi.security import APIKeyHeader
 from pydantic import BaseModel, Field
 
 from multiplium.runs import RunRegistry
 
+# =============================================================================
+# Configuration
+# =============================================================================
+
+# Use /data mount on Render (persistent disk) or local workspace
+DATA_ROOT = Path(os.getenv("DATA_ROOT", Path(__file__).resolve().parents[1]))
 WORKSPACE_ROOT = Path(__file__).resolve().parents[1]
 
-app = FastAPI(title="Multiplium Research Dashboard API")
+# =============================================================================
+# API Key Authentication
+# =============================================================================
+
+API_KEY_HEADER = APIKeyHeader(name="X-API-Key", auto_error=False)
+
+
+async def verify_api_key(api_key: str | None = Security(API_KEY_HEADER)) -> None:
+    """
+    Verify the API key from request header.
+    
+    If DASHBOARD_API_KEY env var is not set, authentication is disabled (dev mode).
+    If set, the X-API-Key header must match.
+    """
+    expected_key = os.getenv("DASHBOARD_API_KEY")
+    
+    # If no key configured, allow all requests (dev mode)
+    if not expected_key:
+        return
+    
+    # Key is configured, so require it
+    if not api_key:
+        raise HTTPException(
+            status_code=401,
+            detail="API key required. Include X-API-Key header.",
+        )
+    
+    if api_key != expected_key:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid API key",
+        )
+
+
+# =============================================================================
+# App Setup
+# =============================================================================
+
+app = FastAPI(
+    title="Multiplium Research Dashboard API",
+    description="Research orchestration platform for investment analysis",
+    version="1.0.0",
+)
+
+# CORS configuration - restrict in production
+ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "*").split(",")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-registry = RunRegistry(workspace_root=WORKSPACE_ROOT)
+registry = RunRegistry(workspace_root=WORKSPACE_ROOT, data_root=DATA_ROOT)
 
 
 class RunCreateRequest(BaseModel):
@@ -208,8 +260,8 @@ Generate 6-8 segments, each with its own markers.
 - Be concise but thorough in your questions"""
 
 
-# Project storage (in-memory for now, would be DB in production)
-PROJECTS_FILE = WORKSPACE_ROOT / "data" / "projects.json"
+# Project storage (uses DATA_ROOT for persistent storage in production)
+PROJECTS_FILE = DATA_ROOT / "data" / "projects.json"
 
 
 def load_projects() -> dict[str, dict]:
@@ -232,16 +284,23 @@ def save_projects(projects: dict[str, dict]) -> None:
 
 @app.get("/health")
 def health() -> dict[str, str]:
+    """Health check endpoint (no auth required for monitoring)."""
     return {"status": "ok"}
 
 
-@app.get("/runs")
+@app.get("/auth-check", dependencies=[Depends(verify_api_key)])
+def auth_check() -> dict[str, str]:
+    """Check if API key is valid (use for frontend validation)."""
+    return {"status": "authenticated"}
+
+
+@app.get("/runs", dependencies=[Depends(verify_api_key)])
 def list_runs(limit: int = 50) -> dict[str, list[dict[str, object]]]:
     snapshots = registry.list_snapshots(limit=limit)
     return {"runs": [snapshot.to_dict() for snapshot in snapshots]}
 
 
-@app.get("/runs/{run_id}")
+@app.get("/runs/{run_id}", dependencies=[Depends(verify_api_key)])
 def get_run(run_id: str) -> dict[str, object]:
     if not registry.snapshot_exists(run_id):
         raise HTTPException(status_code=404, detail="Run not found")
@@ -249,14 +308,14 @@ def get_run(run_id: str) -> dict[str, object]:
     return snapshot.to_dict()
 
 
-@app.get("/runs/{run_id}/events")
+@app.get("/runs/{run_id}/events", dependencies=[Depends(verify_api_key)])
 def get_run_events(run_id: str, limit: int = 200) -> dict[str, list[dict[str, object]]]:
     if not registry.snapshot_exists(run_id):
         raise HTTPException(status_code=404, detail="Run not found")
     return {"events": registry.load_events(run_id, limit=limit)}
 
 
-@app.get("/reports")
+@app.get("/reports", dependencies=[Depends(verify_api_key)])
 def list_reports() -> dict[str, list[dict[str, object]]]:
     """List all available research reports (both discovery and deep research)."""
     reports = []
@@ -345,7 +404,7 @@ def list_reports() -> dict[str, list[dict[str, object]]]:
     return {"reports": reports}
 
 
-@app.get("/reports/{report_path:path}/raw")
+@app.get("/reports/{report_path:path}/raw", dependencies=[Depends(verify_api_key)])
 def get_report_raw(report_path: str) -> dict[str, object]:
     """Fetch raw JSON data from a report file."""
     report_file = WORKSPACE_ROOT / report_path
@@ -370,7 +429,7 @@ def get_report_raw(report_path: str) -> dict[str, object]:
         raise HTTPException(status_code=500, detail="Invalid JSON in report file")
 
 
-@app.post("/runs", status_code=201)
+@app.post("/runs", status_code=201, dependencies=[Depends(verify_api_key)])
 def create_run(request: RunCreateRequest) -> dict[str, object]:
     run_id = uuid.uuid4().hex
     config_path = WORKSPACE_ROOT / request.config_path
@@ -432,7 +491,7 @@ def create_run(request: RunCreateRequest) -> dict[str, object]:
     return {"run": snapshot.to_dict()}
 
 
-@app.post("/deep-research", status_code=201)
+@app.post("/deep-research", status_code=201, dependencies=[Depends(verify_api_key)])
 def create_deep_research(request: DeepResearchRequest) -> dict[str, object]:
     """Launch deep research from an existing discovery report."""
     run_id = uuid.uuid4().hex
@@ -507,14 +566,14 @@ def create_deep_research(request: DeepResearchRequest) -> dict[str, object]:
 # Project Endpoints
 # ============================================================================
 
-@app.get("/projects")
+@app.get("/projects", dependencies=[Depends(verify_api_key)])
 def list_projects() -> dict[str, list[dict]]:
     """List all research projects."""
     projects = load_projects()
     return {"projects": list(projects.values())}
 
 
-@app.post("/projects", status_code=201)
+@app.post("/projects", status_code=201, dependencies=[Depends(verify_api_key)])
 def create_project(request: ProjectCreateRequest) -> dict[str, dict]:
     """Create a new research project."""
     from datetime import datetime
@@ -551,7 +610,7 @@ def create_project(request: ProjectCreateRequest) -> dict[str, dict]:
     return {"project": project}
 
 
-@app.get("/projects/{project_id}")
+@app.get("/projects/{project_id}", dependencies=[Depends(verify_api_key)])
 def get_project(project_id: str) -> dict[str, dict]:
     """Get a single project by ID."""
     projects = load_projects()
@@ -560,7 +619,7 @@ def get_project(project_id: str) -> dict[str, dict]:
     return {"project": projects[project_id]}
 
 
-@app.put("/projects/{project_id}")
+@app.put("/projects/{project_id}", dependencies=[Depends(verify_api_key)])
 def update_project(project_id: str, request: ProjectUpdateRequest) -> dict[str, dict]:
     """Update a project."""
     from datetime import datetime
@@ -594,7 +653,7 @@ def update_project(project_id: str, request: ProjectUpdateRequest) -> dict[str, 
     return {"project": project}
 
 
-@app.delete("/projects/{project_id}")
+@app.delete("/projects/{project_id}", dependencies=[Depends(verify_api_key)])
 def delete_project(project_id: str) -> dict[str, str]:
     """Delete a project."""
     projects = load_projects()
@@ -607,7 +666,7 @@ def delete_project(project_id: str) -> dict[str, str]:
     return {"status": "deleted"}
 
 
-@app.post("/projects/{project_id}/enrich-brief")
+@app.post("/projects/{project_id}/enrich-brief", dependencies=[Depends(verify_api_key)])
 async def enrich_project_brief(project_id: str, request: EnrichBriefRequest) -> dict[str, object]:
     """Use GPT to generate clarifying questions based on the research brief."""
     from openai import AsyncOpenAI
@@ -658,7 +717,7 @@ Return as JSON array with this structure:
         raise HTTPException(status_code=500, detail=f"Brief enrichment failed: {str(e)}")
 
 
-@app.post("/projects/{project_id}/generate-framework")
+@app.post("/projects/{project_id}/generate-framework", dependencies=[Depends(verify_api_key)])
 async def generate_project_framework(project_id: str, request: GenerateFrameworkRequest) -> dict[str, object]:
     """Use GPT to generate investment thesis, KPIs, and value chain segments."""
     from openai import AsyncOpenAI
@@ -732,7 +791,7 @@ class TestRunRequest(BaseModel):
     companies_per_segment: int = Field(default=3, ge=1, le=10, description="Companies per segment")
 
 
-@app.post("/projects/{project_id}/start-test-run")
+@app.post("/projects/{project_id}/start-test-run", dependencies=[Depends(verify_api_key)])
 def start_project_test_run(project_id: str, request: TestRunRequest) -> dict[str, object]:
     """Start a live test run using the orchestrator with a small sample size."""
     
@@ -865,7 +924,7 @@ class StartDeepResearchRequest(BaseModel):
     config_path: str = Field(default="config/dev.yaml", description="Path to orchestrator config")
 
 
-@app.post("/projects/{project_id}/start-discovery")
+@app.post("/projects/{project_id}/start-discovery", dependencies=[Depends(verify_api_key)])
 def start_project_discovery(project_id: str, request: StartDiscoveryRequest) -> dict[str, object]:
     """Start full discovery research for a project."""
     
@@ -981,7 +1040,7 @@ def start_project_discovery(project_id: str, request: StartDiscoveryRequest) -> 
     }
 
 
-@app.post("/projects/{project_id}/retry-discovery")
+@app.post("/projects/{project_id}/retry-discovery", dependencies=[Depends(verify_api_key)])
 def retry_project_discovery(project_id: str) -> dict[str, object]:
     """Retry a failed discovery run for a project."""
     
@@ -1088,7 +1147,7 @@ def retry_project_discovery(project_id: str) -> dict[str, object]:
     }
 
 
-@app.post("/projects/{project_id}/start-deep-research")
+@app.post("/projects/{project_id}/start-deep-research", dependencies=[Depends(verify_api_key)])
 def start_project_deep_research(project_id: str, request: StartDeepResearchRequest) -> dict[str, object]:
     """Start deep research on selected companies from discovery."""
     
@@ -1175,7 +1234,7 @@ def start_project_deep_research(project_id: str, request: StartDeepResearchReque
     }
 
 
-@app.get("/projects/{project_id}/discovery-status")
+@app.get("/projects/{project_id}/discovery-status", dependencies=[Depends(verify_api_key)])
 def get_discovery_status(project_id: str) -> dict[str, object]:
     """Get current discovery run status for a project."""
     
@@ -1257,7 +1316,7 @@ def get_discovery_status(project_id: str) -> dict[str, object]:
     }
 
 
-@app.get("/projects/{project_id}/cost")
+@app.get("/projects/{project_id}/cost", dependencies=[Depends(verify_api_key)])
 def get_project_cost(project_id: str) -> dict[str, object]:
     """Get cost breakdown for a project including all runs."""
     
@@ -1319,7 +1378,7 @@ def get_project_cost(project_id: str) -> dict[str, object]:
     }
 
 
-@app.get("/projects/{project_id}/test-run-results")
+@app.get("/projects/{project_id}/test-run-results", dependencies=[Depends(verify_api_key)])
 def get_test_run_results(project_id: str) -> dict[str, object]:
     """Get test run results for a project."""
     
@@ -1374,7 +1433,7 @@ def get_test_run_results(project_id: str) -> dict[str, object]:
         }
 
 
-@app.post("/projects/{project_id}/approve-test-run")
+@app.post("/projects/{project_id}/approve-test-run", dependencies=[Depends(verify_api_key)])
 def approve_project_test_run(project_id: str) -> dict[str, object]:
     """Approve test run and start full research."""
     from datetime import datetime
@@ -1405,7 +1464,7 @@ def approve_project_test_run(project_id: str) -> dict[str, object]:
 # Company Enrichment Endpoint
 # ============================================================================
 
-@app.post("/enrich")
+@app.post("/enrich", dependencies=[Depends(verify_api_key)])
 async def enrich_company(request: EnrichRequest) -> dict[str, object]:
     """
     Enrich company data using GPT-4o with native tool calling.
@@ -1466,7 +1525,7 @@ Return the information in JSON format with these keys (only include fields you h
         raise HTTPException(status_code=500, detail=f"Enrichment failed: {str(e)}")
 
 
-@app.post("/enrich-company-data")
+@app.post("/enrich-company-data", dependencies=[Depends(verify_api_key)])
 async def enrich_company_data(request: EnrichCompanyDataRequest) -> dict[str, object]:
     """
     Enhanced company data enrichment using GPT-4o with structured output.
@@ -1732,7 +1791,7 @@ async def stream_chat_response(
             yield f"data: {json.dumps({'type': 'error', 'error': error_msg})}\n\n"
 
 
-@app.post("/projects/chat")
+@app.post("/projects/chat", dependencies=[Depends(verify_api_key)])
 async def chat_stream(request: ChatRequest):
     """
     Stream a conversational response from GPT-5.1 Context Guide.
@@ -1779,7 +1838,7 @@ async def chat_stream(request: ChatRequest):
     )
 
 
-@app.post("/projects/chat/finalize")
+@app.post("/projects/chat/finalize", dependencies=[Depends(verify_api_key)])
 async def finalize_chat(request: ChatFinalizeRequest) -> dict:
     """
     Extract final structured data from a chat session.
@@ -1835,7 +1894,7 @@ async def finalize_chat(request: ChatFinalizeRequest) -> dict:
     }
 
 
-@app.delete("/projects/chat/{session_id}")
+@app.delete("/projects/chat/{session_id}", dependencies=[Depends(verify_api_key)])
 def delete_chat_session(session_id: str) -> dict:
     """Delete a chat session."""
     if session_id in CHAT_SESSIONS:
@@ -1843,7 +1902,7 @@ def delete_chat_session(session_id: str) -> dict:
     return {"status": "deleted"}
 
 
-@app.get("/projects/chat/{session_id}/history")
+@app.get("/projects/chat/{session_id}/history", dependencies=[Depends(verify_api_key)])
 def get_chat_history(session_id: str) -> dict:
     """Get chat history for a session."""
     if session_id not in CHAT_SESSIONS:
@@ -1863,7 +1922,7 @@ def get_chat_history(session_id: str) -> dict:
 # Project Chat Persistence (tied to project ID)
 # ============================================================================
 
-CHAT_DATA_DIR = WORKSPACE_ROOT / "data" / "chats"
+CHAT_DATA_DIR = DATA_ROOT / "data" / "chats"
 
 
 class SaveChatRequest(BaseModel):
@@ -1871,7 +1930,7 @@ class SaveChatRequest(BaseModel):
     artifacts: dict = Field(default={}, description="Extracted artifacts")
 
 
-@app.post("/projects/{project_id}/chat/save")
+@app.post("/projects/{project_id}/chat/save", dependencies=[Depends(verify_api_key)])
 def save_project_chat(project_id: str, request: SaveChatRequest) -> dict:
     """Save chat messages and artifacts for a project."""
     
@@ -1901,7 +1960,7 @@ def save_project_chat(project_id: str, request: SaveChatRequest) -> dict:
     return {"status": "saved", "project_id": project_id}
 
 
-@app.get("/projects/{project_id}/chat/load")
+@app.get("/projects/{project_id}/chat/load", dependencies=[Depends(verify_api_key)])
 def load_project_chat(project_id: str) -> dict:
     """Load saved chat messages and artifacts for a project."""
     
@@ -1936,7 +1995,7 @@ def load_project_chat(project_id: str) -> dict:
         }
 
 
-@app.post("/projects/{project_id}/chat/stream")
+@app.post("/projects/{project_id}/chat/stream", dependencies=[Depends(verify_api_key)])
 async def project_chat_stream(project_id: str, request: ChatRequest):
     """
     Stream a conversational response for a specific project.
