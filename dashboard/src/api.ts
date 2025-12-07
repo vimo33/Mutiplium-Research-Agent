@@ -94,6 +94,24 @@ export async function verifyApiKey(key: string): Promise<boolean> {
 }
 
 /**
+ * Check if the backend requires authentication.
+ * Returns true if auth is required, false if no auth configured (dev mode).
+ */
+export async function isAuthRequired(): Promise<boolean> {
+  try {
+    // Try to access a protected endpoint without auth
+    const response = await fetch(`${API_BASE}/projects`, {
+      headers: { "Content-Type": "application/json" },
+    });
+    // If 401, auth is required. Otherwise, no auth needed.
+    return response.status === 401;
+  } catch {
+    // Network error - assume auth required to be safe
+    return true;
+  }
+}
+
+/**
  * Get the API base URL (useful for SSE connections).
  */
 export function getApiBaseUrl(): string {

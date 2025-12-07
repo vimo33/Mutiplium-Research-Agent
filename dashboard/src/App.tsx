@@ -9,7 +9,7 @@ import { DiscoveryBrowser } from "./components/DiscoveryBrowser";
 import { ApiKeyPrompt } from "./components/ApiKeyPrompt";
 import { NewResearchWizard, ResumeProjectWizard } from "./components/wizard";
 import { useProjects } from "./hooks";
-import { hasApiKey, clearApiKey, getApiBaseUrl, getAuthHeaders } from "./api";
+import { hasApiKey, clearApiKey, getApiBaseUrl, getAuthHeaders, isAuthRequired } from "./api";
 import type { Project } from "./types";
 import "./App.css";
 
@@ -18,20 +18,46 @@ const SHORTLIST_STORAGE_KEY = "multiplium_shortlist";
 const REVIEWS_STORAGE_KEY = "multiplium_reviews";
 
 type AppView = "projects" | "archived" | "project-detail" | "runs" | "discovery" | "settings";
+type AuthState = "checking" | "required" | "authenticated";
 
 export default function App() {
-  // Authentication state
-  const [isAuthenticated, setIsAuthenticated] = useState(() => hasApiKey());
+  // Authentication state - start with 'checking' to auto-detect
+  const [authState, setAuthState] = useState<AuthState>("checking");
+  
+  // Check authentication on mount
+  useEffect(() => {
+    async function checkAuth() {
+      // If already have a stored key, we're authenticated
+      if (hasApiKey()) {
+        setAuthState("authenticated");
+        return;
+      }
+      // Check if backend requires auth
+      const required = await isAuthRequired();
+      setAuthState(required ? "required" : "authenticated");
+    }
+    checkAuth();
+  }, []);
   
   // Handle logout
   const handleLogout = useCallback(() => {
     clearApiKey();
-    setIsAuthenticated(false);
+    setAuthState("required");
   }, []);
 
-  // If not authenticated, show API key prompt
-  if (!isAuthenticated) {
-    return <ApiKeyPrompt onAuthenticated={() => setIsAuthenticated(true)} />;
+  // Show loading spinner while checking auth
+  if (authState === "checking") {
+    return (
+      <div className="auth-loading">
+        <div className="auth-loading-spinner" />
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  // If auth required and not authenticated, show API key prompt
+  if (authState === "required") {
+    return <ApiKeyPrompt onAuthenticated={() => setAuthState("authenticated")} />;
   }
 
   // View state - default to projects (home)
