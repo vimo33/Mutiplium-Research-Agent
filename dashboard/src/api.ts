@@ -99,15 +99,24 @@ export async function verifyApiKey(key: string): Promise<boolean> {
  */
 export async function isAuthRequired(): Promise<boolean> {
   try {
+    // Add timeout to prevent hanging
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3000);
+    
     // Try to access a protected endpoint without auth
     const response = await fetch(`${API_BASE}/projects`, {
       headers: { "Content-Type": "application/json" },
+      signal: controller.signal,
     });
+    
+    clearTimeout(timeoutId);
+    
     // If 401, auth is required. Otherwise, no auth needed.
     return response.status === 401;
   } catch {
-    // Network error - assume auth required to be safe
-    return true;
+    // Network error or timeout - assume no auth required for local dev
+    // This allows the app to load even if backend is temporarily down
+    return false;
   }
 }
 
