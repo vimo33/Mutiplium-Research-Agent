@@ -1,3 +1,4 @@
+import type { ReviewStatus } from '../types';
 import { Card, SegmentTag, CountryTag, ConfidenceRing, SwotDots, Badge } from './ui';
 import './CompanyCard.css';
 
@@ -65,6 +66,8 @@ interface CompanyCardProps {
   onToggleShortlist: () => void;
   onSelect: () => void;
   onToggleCompare: () => void;
+  allSegments?: string[]; // All value chain segments this company appears in
+  reviewStatus?: ReviewStatus; // Review status for visual indicator
 }
 
 // Star icon
@@ -102,6 +105,61 @@ const CheckboxIcon = ({ checked }: { checked: boolean }) => (
   </svg>
 );
 
+// Multi-segment icon
+const MultiSegmentIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <circle cx="4" cy="7" r="2" />
+    <circle cx="10" cy="4" r="2" />
+    <circle cx="10" cy="10" r="2" />
+    <path d="M6 7h2M6 6l2-1M6 8l2 1" strokeLinecap="round" />
+  </svg>
+);
+
+// Warning icon for missing data
+const WarningIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M7 4.5v3M7 9.5h.01" strokeLinecap="round" />
+    <path d="M6.36 1.64L1.36 10.5a.75.75 0 00.64 1.14h10a.75.75 0 00.64-1.14L7.64 1.64a.75.75 0 00-1.28 0z" />
+  </svg>
+);
+
+// Review status icons
+const ReviewCheckIcon = () => (
+  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M2 6l3 3 5-6" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const ReviewXIcon = () => (
+  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M2 2l8 8M10 2L2 10" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const ReviewMaybeIcon = () => (
+  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <circle cx="6" cy="6" r="4.5" />
+    <path d="M4.5 4.5a1.5 1.5 0 012.25 1.13c0 .75-1.12 1.12-1.12 1.87M6 9h.01" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+// Review status config
+const reviewStatusConfig: Record<ReviewStatus, { icon: JSX.Element; variant: 'success' | 'danger' | 'warning' | 'default' }> = {
+  pending: { icon: <span>-</span>, variant: 'default' },
+  approved: { icon: <ReviewCheckIcon />, variant: 'success' },
+  rejected: { icon: <ReviewXIcon />, variant: 'danger' },
+  maybe: { icon: <ReviewMaybeIcon />, variant: 'warning' },
+  needs_review: { icon: <span>!</span>, variant: 'default' },
+};
+
+// Field checks for missing data detection
+const FIELD_CHECKS = [
+  { key: 'website', check: (c: CompanyData) => !!c.website && c.website.length > 0 },
+  { key: 'team', check: (c: CompanyData) => !!(c.team?.founders?.length || c.team?.executives?.length || c.team?.size) },
+  { key: 'swot', check: (c: CompanyData) => !!(c.swot?.strengths?.length || c.swot?.weaknesses?.length) },
+  { key: 'funding', check: (c: CompanyData) => !!(c.funding_rounds?.length || c.financial_enrichment?.funding_rounds?.length) },
+];
+
 export function CompanyCard({
   company,
   isShortlisted,
@@ -110,6 +168,8 @@ export function CompanyCard({
   onToggleShortlist,
   onSelect,
   onToggleCompare,
+  allSegments = [],
+  reviewStatus,
 }: CompanyCardProps) {
   const confidence = company.confidence_0to1 ?? 0.5;
   const swot = company.swot || {};
@@ -131,6 +191,9 @@ export function CompanyCard({
   const evidence = company.evidence_of_impact || {};
   const caseStudyCount = evidence.case_studies?.length || 0;
   const awardCount = evidence.awards?.length || 0;
+  
+  // Count missing data fields
+  const missingCount = FIELD_CHECKS.filter(f => !f.check(company)).length;
   
   // Format funding amount
   const formatFunding = (amount: number, currency = 'USD') => {
@@ -160,6 +223,12 @@ export function CompanyCard({
             <StarIcon filled={isShortlisted} />
           </button>
           <h3 className="company-card__name">{company.company}</h3>
+          {/* Review Status Badge */}
+          {reviewStatus && reviewStatus !== 'pending' && (
+            <div className={`company-card__review-badge company-card__review-badge--${reviewStatus}`}>
+              {reviewStatusConfig[reviewStatus].icon}
+            </div>
+          )}
         </div>
         <div className="company-card__tags">
           {company.country && <CountryTag country={company.country} />}
@@ -168,6 +237,12 @@ export function CompanyCard({
             <Badge variant="default">
               {formatSector(sector)}
             </Badge>
+          )}
+          {allSegments.length > 1 && (
+            <div className="company-card__multi-segment" title={`Appears in: ${allSegments.join(', ')}`}>
+              <MultiSegmentIcon />
+              <span>{allSegments.length} chains</span>
+            </div>
           )}
         </div>
       </div>
@@ -239,6 +314,12 @@ export function CompanyCard({
           <ConfidenceRing confidence={confidence} size="sm" />
           <span className="company-card__confidence-label">Confidence</span>
         </div>
+        {missingCount > 0 && (
+          <div className="company-card__missing-data" title={`${missingCount} field${missingCount > 1 ? 's' : ''} missing`}>
+            <WarningIcon />
+            <span>{missingCount} missing</span>
+          </div>
+        )}
         <button 
           className={`company-card__compare ${isCompareSelected ? 'company-card__compare--active' : ''}`}
           onClick={(e) => { e.stopPropagation(); onToggleCompare(); }}

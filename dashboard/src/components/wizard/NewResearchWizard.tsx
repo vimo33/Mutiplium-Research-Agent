@@ -3,162 +3,96 @@ import type {
   Project, 
   ResearchBrief, 
   ResearchFramework, 
-  ClarifyingQuestion,
   KPI,
   ValueChainSegment,
-  TestRunCompany 
 } from '../../types';
-import { BriefStep } from './BriefStep';
-import { QuestionsStep } from './QuestionsStep';
+import type { ChatArtifacts } from '../../hooks';
+import { ChatWizard } from './ChatWizard';
 import { FrameworkStep } from './FrameworkStep';
-import { TestRunStep } from './TestRunStep';
-import { Button } from '../ui';
 import './NewResearchWizard.css';
 
-type WizardStep = 'brief' | 'questions' | 'framework' | 'test_run';
+// API base URL
+const API_BASE = 'http://localhost:8000';
+
+type WizardStep = 'setup' | 'chat' | 'framework';
 
 interface NewResearchWizardProps {
   onComplete: (project: Partial<Project>) => void;
   onCancel: () => void;
 }
 
-// Progress steps config
+// Progress steps config for the simplified flow
 const steps: { id: WizardStep; label: string }[] = [
-  { id: 'brief', label: 'Research Brief' },
-  { id: 'questions', label: 'Clarify' },
-  { id: 'framework', label: 'Framework' },
-  { id: 'test_run', label: 'Test Run' },
+  { id: 'setup', label: 'Project Info' },
+  { id: 'chat', label: 'Context Guide' },
+  { id: 'framework', label: 'Review & Launch' },
 ];
-
-// Mock AI-generated framework (in production, this comes from GPT)
-function generateMockFramework(brief: ResearchBrief, answers: Record<string, any>): ResearchFramework {
-  // Extract geography for context
-  const geography = answers.geography || ['Europe'];
-  const stages = answers.stages || ['Seed', 'Series A'];
-  
-  return {
-    thesis: `This research focuses on identifying innovative companies in the ${brief.objective.split(' ').slice(0, 5).join(' ')}... space. With increasing market demand for sustainable and technology-driven solutions, we see compelling opportunities in ${geography.join(', ')}. Target companies should demonstrate strong product-market fit, defensible technology, and clear paths to scalability within the ${stages.join('/')} stages.`,
-    kpis: [
-      { name: 'Revenue Growth Rate', target: '>50% YoY', rationale: 'Strong growth indicates market traction' },
-      { name: 'Gross Margin', target: '>60%', rationale: 'Software-like margins indicate scalability' },
-      { name: 'Customer Retention', target: '>90% annually', rationale: 'High retention validates product value' },
-      { name: 'Technology Defensibility', target: 'Patents or proprietary tech', rationale: 'Moat against competition' },
-    ],
-    valueChain: [
-      { segment: 'Production & Operations', description: 'Companies improving core production processes' },
-      { segment: 'Supply Chain & Logistics', description: 'Solutions for distribution and logistics optimization' },
-      { segment: 'Analytics & Data', description: 'Data-driven insights and decision support' },
-      { segment: 'Sustainability & Impact', description: 'Environmental and social impact solutions' },
-      { segment: 'Marketing & Sales', description: 'Go-to-market and customer acquisition tools' },
-      { segment: 'Quality & Compliance', description: 'Quality assurance and regulatory solutions' },
-    ],
-  };
-}
-
-// Mock test companies (in production, comes from actual test run)
-function generateMockTestCompanies(valueChain: ValueChainSegment[]): TestRunCompany[] {
-  const mockCompanies = [
-    { company: 'TechVine Solutions', segment: 'Production & Operations', country: 'France', confidence_0to1: 0.85 },
-    { company: 'GreenGrow AI', segment: 'Production & Operations', country: 'Germany', confidence_0to1: 0.78 },
-    { company: 'AgriOptimize', segment: 'Production & Operations', country: 'Netherlands', confidence_0to1: 0.82 },
-    { company: 'LogiFlow Systems', segment: 'Supply Chain & Logistics', country: 'UK', confidence_0to1: 0.75 },
-    { company: 'ChainTrack Pro', segment: 'Supply Chain & Logistics', country: 'Spain', confidence_0to1: 0.71 },
-    { company: 'RouteWise', segment: 'Supply Chain & Logistics', country: 'Italy', confidence_0to1: 0.68 },
-    { company: 'DataSense Analytics', segment: 'Analytics & Data', country: 'Germany', confidence_0to1: 0.88 },
-    { company: 'InsightHub', segment: 'Analytics & Data', country: 'France', confidence_0to1: 0.79 },
-    { company: 'MetricsMaster', segment: 'Analytics & Data', country: 'UK', confidence_0to1: 0.74 },
-    { company: 'EcoImpact Labs', segment: 'Sustainability & Impact', country: 'Denmark', confidence_0to1: 0.91 },
-    { company: 'GreenMetrics', segment: 'Sustainability & Impact', country: 'Sweden', confidence_0to1: 0.84 },
-    { company: 'SustainTech', segment: 'Sustainability & Impact', country: 'Netherlands', confidence_0to1: 0.77 },
-    { company: 'MarketBoost', segment: 'Marketing & Sales', country: 'UK', confidence_0to1: 0.72 },
-    { company: 'SalesForge', segment: 'Marketing & Sales', country: 'Germany', confidence_0to1: 0.69 },
-    { company: 'BrandLift', segment: 'Marketing & Sales', country: 'France', confidence_0to1: 0.65 },
-    { company: 'QualityFirst', segment: 'Quality & Compliance', country: 'Switzerland', confidence_0to1: 0.86 },
-    { company: 'ComplianceIQ', segment: 'Quality & Compliance', country: 'Germany', confidence_0to1: 0.81 },
-    { company: 'CertifyPro', segment: 'Quality & Compliance', country: 'Austria', confidence_0to1: 0.76 },
-  ];
-
-  // Filter to only include companies matching the value chain segments
-  const segmentNames = valueChain.map(vc => vc.segment);
-  return mockCompanies.filter(c => segmentNames.includes(c.segment));
-}
 
 export function NewResearchWizard({ onComplete, onCancel }: NewResearchWizardProps) {
   // Current step
-  const [currentStep, setCurrentStep] = useState<WizardStep>('brief');
+  const [currentStep, setCurrentStep] = useState<WizardStep>('setup');
   
-  // Brief data
+  // Basic project info
   const [clientName, setClientName] = useState('');
   const [projectName, setProjectName] = useState('');
-  const [objective, setObjective] = useState('');
   
-  // Brief answers
-  const [brief, setBrief] = useState<Partial<ResearchBrief>>({});
+  // Project ID (for API calls)
+  const [projectId, setProjectId] = useState<string | null>(null);
   
-  // Questions
-  const [questions, setQuestions] = useState<ClarifyingQuestion[]>([]);
-  const [questionsLoading, setQuestionsLoading] = useState(false);
-  const [answers, setAnswers] = useState<Record<string, any>>({});
+  // Brief summary from chat conversation
+  const [briefSummary, setBriefSummary] = useState('');
   
-  // Framework
+  // Framework (populated from chat)
   const [framework, setFramework] = useState<ResearchFramework>({
     thesis: '',
     kpis: [],
     valueChain: [],
   });
-  const [frameworkLoading, setFrameworkLoading] = useState(false);
-  
-  // Test run
-  const [testCompanies, setTestCompanies] = useState<TestRunCompany[]>([]);
-  const [testRunLoading, setTestRunLoading] = useState(false);
 
   // Step navigation
   const goToStep = (step: WizardStep) => setCurrentStep(step);
 
-  // Handle brief completion
-  const handleBriefComplete = () => {
-    setBrief({ objective });
-    setQuestionsLoading(true);
-    goToStep('questions');
+  // Handle setup completion - move to chat
+  const handleSetupComplete = async () => {
+    // Create project in backend first
+    try {
+      const response = await fetch(`${API_BASE}/projects`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          client_name: clientName,
+          project_name: projectName,
+          brief: {
+            objective: '',
+            target_stages: [],
+            investment_size: '',
+            geography: [],
+            technologies: [],
+            additional_notes: '',
+          },
+        }),
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setProjectId(data.project?.id || null);
+      }
+    } catch (err) {
+      console.error('Failed to create project:', err);
+    }
     
-    // Simulate AI generating questions (in production, call backend)
-    setTimeout(() => {
-      setQuestionsLoading(false);
-    }, 1500);
+    goToStep('chat');
   };
 
-  // Handle questions completion
-  const handleQuestionsComplete = () => {
-    setFrameworkLoading(true);
+  // Handle chat completion - receive artifacts from conversation
+  const handleChatComplete = useCallback((artifacts: ChatArtifacts, summary: string) => {
+    setBriefSummary(summary);
+    setFramework({
+      thesis: artifacts.thesis || '',
+      kpis: artifacts.kpis,
+      valueChain: artifacts.valueChain,
+    });
     goToStep('framework');
-    
-    // Generate framework (in production, call GPT)
-    setTimeout(() => {
-      const generatedFramework = generateMockFramework(
-        { ...brief, objective } as ResearchBrief,
-        answers
-      );
-      setFramework(generatedFramework);
-      setFrameworkLoading(false);
-    }, 2000);
-  };
-
-  // Handle framework completion
-  const handleFrameworkComplete = () => {
-    setTestRunLoading(true);
-    goToStep('test_run');
-    
-    // Run test search (in production, call backend)
-    setTimeout(() => {
-      const companies = generateMockTestCompanies(framework.valueChain);
-      setTestCompanies(companies);
-      setTestRunLoading(false);
-    }, 3000);
-  };
-
-  // Handle answer changes
-  const handleAnswerChange = useCallback((questionId: string, answer: string | string[]) => {
-    setAnswers(prev => ({ ...prev, [questionId]: answer }));
   }, []);
 
   // Handle framework changes
@@ -174,17 +108,49 @@ export function NewResearchWizard({ onComplete, onCancel }: NewResearchWizardPro
     setFramework(prev => ({ ...prev, valueChain }));
   }, []);
 
-  // Handle final approval
-  const handleApprove = () => {
+  // Handle framework completion - start discovery directly
+  const handleStartDiscovery = async () => {
+    // Start the discovery run via API
+    if (projectId) {
+      try {
+        const response = await fetch(`${API_BASE}/projects/${projectId}/start-discovery`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            framework: {
+              thesis: framework.thesis,
+              kpis: framework.kpis.map(k => ({
+                name: k.name,
+                target: k.target,
+                rationale: k.rationale,
+              })),
+              value_chain: framework.valueChain.map(v => ({
+                segment: v.segment,
+                description: v.description,
+              })),
+            },
+            top_n: 50,
+          }),
+        });
+
+        if (!response.ok) {
+          console.error('Failed to start discovery');
+        }
+      } catch (err) {
+        console.error('Error starting discovery:', err);
+      }
+    }
+
     const project: Partial<Project> = {
+      id: projectId || undefined,
       clientName,
       projectName,
       brief: {
-        objective,
-        targetStages: answers.stages || [],
-        investmentSize: answers.investment_size || '',
-        geography: answers.geography || [],
-        technologies: answers.additional ? [answers.additional] : [],
+        objective: briefSummary || framework.thesis.slice(0, 500),
+        targetStages: [],
+        investmentSize: '',
+        geography: [],
+        technologies: [],
         additionalNotes: '',
       },
       framework,
@@ -195,6 +161,109 @@ export function NewResearchWizard({ onComplete, onCancel }: NewResearchWizardPro
 
   // Get current step index
   const currentStepIndex = steps.findIndex(s => s.id === currentStep);
+
+  // Render setup step (basic project info before chat)
+  const renderSetupStep = () => (
+    <div className="wizard-step">
+      <div className="wizard-step__header">
+        <span className="wizard-step__number">1</span>
+        <div>
+          <h2 className="wizard-step__title">Project Information</h2>
+          <p className="wizard-step__subtitle">
+            Enter basic project details before starting the AI-guided research setup.
+          </p>
+        </div>
+      </div>
+
+      <div className="wizard-step__form">
+        {/* Client Name */}
+        <div className="wizard-field">
+          <label className="wizard-field__label">
+            Who is this research for?
+            <span className="wizard-field__required">*</span>
+          </label>
+          <input
+            type="text"
+            className="wizard-field__input"
+            placeholder="e.g., Acme Ventures, Beta Capital"
+            value={clientName}
+            onChange={(e) => setClientName(e.target.value)}
+          />
+          <span className="wizard-field__hint">
+            The organization or fund this research is being conducted for
+          </span>
+        </div>
+
+        {/* Project Name */}
+        <div className="wizard-field">
+          <label className="wizard-field__label">
+            Project name
+            <span className="wizard-field__required">*</span>
+          </label>
+          <input
+            type="text"
+            className="wizard-field__input"
+            placeholder="e.g., Wine Tech Europe Q4 2024"
+            value={projectName}
+            onChange={(e) => setProjectName(e.target.value)}
+          />
+          <span className="wizard-field__hint">
+            A descriptive name to identify this research project
+          </span>
+        </div>
+
+        {/* AI Guidance Preview */}
+        <div className="wizard-field">
+          <div className="wizard-ai-preview">
+            <div className="wizard-ai-preview__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                <path d="M2 17l10 5 10-5" />
+                <path d="M2 12l10 5 10-5" />
+              </svg>
+            </div>
+            <div className="wizard-ai-preview__content">
+              <h4>Next: AI Context Guide</h4>
+              <p>
+                You'll have a conversation with our AI assistant to define your research scope. 
+                Through natural dialogue, we'll generate your investment thesis, KPIs, and value chain segments.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Navigation */}
+      <div className="wizard-step__nav">
+        <button className="wizard-btn wizard-btn--ghost" onClick={onCancel}>
+          Cancel
+        </button>
+        <button 
+          className="wizard-btn wizard-btn--primary"
+          onClick={handleSetupComplete}
+          disabled={!clientName.trim() || !projectName.trim()}
+        >
+          Start Conversation
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M6 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  );
+
+  // For chat step, render the ChatWizard full-screen
+  if (currentStep === 'chat') {
+    return (
+      <ChatWizard
+        projectId={projectId || undefined}
+        clientName={clientName}
+        projectName={projectName}
+        onComplete={handleChatComplete}
+        onBack={() => goToStep('setup')}
+      />
+    );
+  }
 
   return (
     <div className="wizard">
@@ -235,54 +304,20 @@ export function NewResearchWizard({ onComplete, onCancel }: NewResearchWizardPro
 
       {/* Content */}
       <div className="wizard__content">
-        {currentStep === 'brief' && (
-          <BriefStep
-            clientName={clientName}
-            projectName={projectName}
-            objective={objective}
-            onClientNameChange={setClientName}
-            onProjectNameChange={setProjectName}
-            onObjectiveChange={setObjective}
-            onNext={handleBriefComplete}
-          />
-        )}
-
-        {currentStep === 'questions' && (
-          <QuestionsStep
-            brief={brief}
-            questions={questions}
-            isLoading={questionsLoading}
-            onQuestionsGenerated={setQuestions}
-            onAnswerChange={handleAnswerChange}
-            onBack={() => goToStep('brief')}
-            onNext={handleQuestionsComplete}
-          />
-        )}
+        {currentStep === 'setup' && renderSetupStep()}
 
         {currentStep === 'framework' && (
           <FrameworkStep
             framework={framework}
-            isLoading={frameworkLoading}
+            isLoading={false}
             onThesisChange={handleThesisChange}
             onKPIsChange={handleKPIsChange}
             onValueChainChange={handleValueChainChange}
-            onBack={() => goToStep('questions')}
-            onNext={handleFrameworkComplete}
-          />
-        )}
-
-        {currentStep === 'test_run' && (
-          <TestRunStep
-            valueChain={framework.valueChain}
-            testCompanies={testCompanies}
-            isLoading={testRunLoading}
-            onBack={() => goToStep('framework')}
-            onApprove={handleApprove}
-            onReject={() => goToStep('framework')}
+            onBack={() => goToStep('chat')}
+            onNext={handleStartDiscovery}
           />
         )}
       </div>
     </div>
   );
 }
-

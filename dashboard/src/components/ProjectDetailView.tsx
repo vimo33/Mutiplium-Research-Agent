@@ -1,12 +1,16 @@
 import { useState, useEffect, useMemo } from 'react';
-import type { Project, ResearchFramework } from '../types';
+import type { Project, ResearchFramework, ProjectCost } from '../types';
 import { CompanyCard, CompanyData } from './CompanyCard';
 import { CompanyDetail } from './CompanyDetail';
-import { ContextPanel } from './ContextPanel';
-import { ReviewCard } from './ReviewCard';
+import { CompareView } from './CompareView';
+import { FloatingCompareBar } from './FloatingCompareBar';
+import { ContextPopup } from './ContextPopup';
+import { ReportTab } from './ReportTab';
 import { useReviews } from '../hooks/useReviews';
 import { Button, Badge, SearchInput, ProgressRing, Toggle } from './ui';
 import './ProjectDetailView.css';
+
+const API_BASE = 'http://localhost:8000';
 
 interface ProjectDetailViewProps {
   project: Project;
@@ -17,6 +21,35 @@ interface ProjectDetailViewProps {
 }
 
 type ViewTab = 'companies' | 'review' | 'summary';
+type ContextPopupType = 'thesis' | 'kpis' | 'valueChain' | 'brief' | null;
+
+// Icons
+const ThesisIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M8 2v12M4 6l4-4 4 4M4 10l4 4 4-4" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const KpiIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M2 14l4-6 3 3 5-7" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const ChainIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <circle cx="4" cy="8" r="2" />
+    <circle cx="12" cy="8" r="2" />
+    <path d="M6 8h4" />
+  </svg>
+);
+
+const BriefIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <rect x="2" y="2" width="12" height="12" rx="2" />
+    <path d="M5 5h6M5 8h6M5 11h3" strokeLinecap="round" />
+  </svg>
+);
 
 // Icons
 const BackIcon = () => (
@@ -61,9 +94,11 @@ export function ProjectDetailView({
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCompany, setSelectedCompany] = useState<CompanyData | null>(null);
   const [compareList, setCompareList] = useState<string[]>([]);
+  const [showCompareView, setShowCompareView] = useState(false);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showShortlistedOnly, setShowShortlistedOnly] = useState(false);
-  const [showContextPanel, setShowContextPanel] = useState(true);
+  const [contextPopup, setContextPopup] = useState<ContextPopupType>(null);
+  const [projectCost, setProjectCost] = useState<ProjectCost | null>(null);
 
   // Load companies from report
   useEffect(() => {
@@ -73,6 +108,23 @@ export function ProjectDetailView({
       setLoading(false);
     }
   }, [project.reportPath]);
+
+  // Load project cost data
+  useEffect(() => {
+    if (project.id) {
+      fetch(`${API_BASE}/projects/${project.id}/cost`)
+        .then(res => res.json())
+        .then(data => setProjectCost({
+          totalCost: data.total_cost || 0,
+          discoveryCost: data.discovery_cost || 0,
+          deepResearchCost: data.deep_research_cost || 0,
+          enrichmentCost: data.enrichment_cost || 0,
+          currency: data.currency || 'USD',
+          lastUpdated: data.last_updated,
+        }))
+        .catch(err => console.error('Failed to load project cost:', err));
+    }
+  }, [project.id]);
 
   async function loadCompanies(reportPath: string) {
     try {
@@ -123,7 +175,33 @@ export function ProjectDetailView({
     return result;
   }, [segmentFilteredCompanies, searchQuery, showShortlistedOnly, shortlistedCompanies]);
 
-  // Compare toggle
+  // Compute which companies appear in multiple value chain segments
+  const companySegmentMap = useMemo(() => {
+    const segmentMap: Record<string, string[]> = {};
+    const valueChainSegments = project.framework.valueChain.map(vc => vc.segment);
+    
+    companies.forEach(company => {
+      const companySegments: string[] = [];
+      
+      // Check each value chain segment
+      valueChainSegments.forEach(segment => {
+        if (company.segment?.toLowerCase().includes(segment.toLowerCase())) {
+          companySegments.push(segment);
+        }
+      });
+      
+      // If no match found but company has a segment, use it
+      if (companySegments.length === 0 && company.segment) {
+        companySegments.push(company.segment);
+      }
+      
+      segmentMap[company.company] = companySegments;
+    });
+    
+    return segmentMap;
+  }, [companies, project.framework.valueChain]);
+
+  // Compare functionality
   const toggleCompare = (companyName: string) => {
     setCompareList(prev =>
       prev.includes(companyName)
@@ -131,6 +209,44 @@ export function ProjectDetailView({
         : prev.length < 4 ? [...prev, companyName] : prev
     );
   };
+
+  const clearCompareList = () => {
+    setCompareList([]);
+    setShowCompareView(false);
+  };
+
+  const removeFromCompare = (companyName: string) => {
+    setCompareList(prev => prev.filter(c => c !== companyName));
+  };
+
+  const handleCompare = () => {
+    if (compareList.length >= 2) {
+      setShowCompareView(true);
+    }
+  };
+
+  // Company navigation for detail panel
+  const selectedIndex = useMemo(() => {
+    if (!selectedCompany) return -1;
+    return filteredCompanies.findIndex(c => c.company === selectedCompany.company);
+  }, [filteredCompanies, selectedCompany]);
+
+  const handlePrevCompany = () => {
+    if (selectedIndex > 0) {
+      setSelectedCompany(filteredCompanies[selectedIndex - 1]);
+    }
+  };
+
+  const handleNextCompany = () => {
+    if (selectedIndex < filteredCompanies.length - 1) {
+      setSelectedCompany(filteredCompanies[selectedIndex + 1]);
+    }
+  };
+
+  // Get compare companies data
+  const compareCompanies = useMemo(() => {
+    return companies.filter(c => compareList.includes(c.company));
+  }, [companies, compareList]);
 
   // Export CSV
   const exportCSV = () => {
@@ -175,11 +291,14 @@ export function ProjectDetailView({
   }), [filteredCompanies.length, reviewsHook.stats]);
 
   // Status badge
-  const statusConfig: Record<string, { label: string; variant: 'default' | 'primary' | 'success' | 'warning' }> = {
+  const statusConfig: Record<string, { label: string; variant: 'default' | 'primary' | 'success' | 'warning' | 'danger' }> = {
     draft: { label: 'Draft', variant: 'default' },
     test_run: { label: 'Test Run', variant: 'primary' },
     pending_approval: { label: 'Pending Approval', variant: 'warning' },
     researching: { label: 'Researching', variant: 'primary' },
+    discovery_failed: { label: 'Discovery Failed', variant: 'danger' },
+    discovery_complete: { label: 'Discovery Complete', variant: 'success' },
+    deep_researching: { label: 'Deep Research', variant: 'primary' },
     ready_for_review: { label: 'Ready for Review', variant: 'warning' },
     completed: { label: 'Completed', variant: 'success' },
   };
@@ -191,9 +310,11 @@ export function ProjectDetailView({
       {/* Header */}
       <div className="project-detail__header">
         <div className="project-detail__header-left">
-          <button className="project-detail__back" onClick={onBack}>
+          <button className="project-detail__back" onClick={onBack} title="Back to Projects">
             <BackIcon />
+            <span>Projects</span>
           </button>
+          <div className="project-detail__header-divider" />
           <div>
             <h1 className="project-detail__title">{project.projectName}</h1>
             <div className="project-detail__meta">
@@ -203,6 +324,48 @@ export function ProjectDetailView({
           </div>
         </div>
         <div className="project-detail__header-right">
+          {/* Context Buttons */}
+          <div className="project-detail__context-buttons">
+            <button
+              className="project-detail__context-btn"
+              onClick={() => setContextPopup('thesis')}
+              title="View Investment Thesis"
+            >
+              <ThesisIcon />
+              <span>Thesis</span>
+            </button>
+            <button
+              className="project-detail__context-btn"
+              onClick={() => setContextPopup('kpis')}
+              title="View KPIs"
+            >
+              <KpiIcon />
+              <span>KPIs</span>
+              {project.framework.kpis.length > 0 && (
+                <Badge variant="default" size="sm">{project.framework.kpis.length}</Badge>
+              )}
+            </button>
+            <button
+              className="project-detail__context-btn"
+              onClick={() => setContextPopup('valueChain')}
+              title="View Value Chain"
+            >
+              <ChainIcon />
+              <span>Value Chain</span>
+              {project.framework.valueChain.length > 0 && (
+                <Badge variant="default" size="sm">{project.framework.valueChain.length}</Badge>
+              )}
+            </button>
+            <button
+              className="project-detail__context-btn"
+              onClick={() => setContextPopup('brief')}
+              title="View Research Brief"
+            >
+              <BriefIcon />
+              <span>Brief</span>
+            </button>
+          </div>
+          <div className="project-detail__header-separator" />
           <ProgressRing progress={stats.progress} size="lg" />
           <div className="project-detail__stats-summary">
             <span className="project-detail__stats-value">{stats.total}</span>
@@ -226,9 +389,9 @@ export function ProjectDetailView({
           className={`project-detail__tab ${activeTab === 'review' ? 'project-detail__tab--active' : ''}`}
           onClick={() => setActiveTab('review')}
         >
-          Review
-          {stats.pending > 0 && (
-            <Badge variant="warning" size="sm">{stats.pending}</Badge>
+          Report
+          {stats.reviewed > 0 && (
+            <Badge variant="success" size="sm">{stats.reviewed}</Badge>
           )}
         </button>
         <button
@@ -239,32 +402,12 @@ export function ProjectDetailView({
         </button>
 
         <div className="project-detail__tabs-spacer" />
-
-        <Button 
-          variant="ghost" 
-          size="sm"
-          onClick={() => setShowContextPanel(!showContextPanel)}
-        >
-          {showContextPanel ? 'Hide Context' : 'Show Context'}
-        </Button>
       </div>
 
       {/* Main Content */}
       <div className="project-detail__content">
-        {/* Context Panel */}
-        {showContextPanel && (
-          <div className="project-detail__sidebar">
-            <ContextPanel
-              project={project}
-              onUpdateFramework={handleUpdateFramework}
-              isEditable={project.status === 'draft' || project.status === 'pending_approval'}
-              compact
-            />
-          </div>
-        )}
-
-        {/* Main Area */}
-        <div className="project-detail__main">
+        {/* Main Area - Full Width */}
+        <div className="project-detail__main project-detail__main--full">
           {/* Toolbar */}
           <div className="project-detail__toolbar">
             <div className="project-detail__search">
@@ -326,9 +469,9 @@ export function ProjectDetailView({
                   <p>No companies found</p>
                 </div>
               ) : (
-                filteredCompanies.map((company) => (
+                filteredCompanies.map((company, index) => (
                   <CompanyCard
-                    key={company.company}
+                    key={`${company.company}-${index}`}
                     company={company}
                     isShortlisted={shortlistedCompanies.includes(company.company)}
                     isSelected={selectedCompany?.company === company.company}
@@ -336,34 +479,22 @@ export function ProjectDetailView({
                     onToggleShortlist={() => onToggleShortlist(company.company)}
                     onSelect={() => setSelectedCompany(company)}
                     onToggleCompare={() => toggleCompare(company.company)}
+                    allSegments={companySegmentMap[company.company] || []}
+                    reviewStatus={reviewsHook.getReview(company.company)?.status}
                   />
                 ))
               )}
             </div>
           )}
 
-          {/* Review Tab */}
+          {/* Report Tab */}
           {!loading && !error && activeTab === 'review' && (
-            <div className="project-detail__review">
-              {filteredCompanies.map((company, index) => (
-                <ReviewCard
-                  key={company.company}
-                  company={company}
-                  review={reviewsHook.getReview(company.company)}
-                  isActive={reviewsHook.currentIndex === index}
-                  isShortlisted={shortlistedCompanies.includes(company.company)}
-                  isCompareSelected={compareList.includes(company.company)}
-                  onSelect={() => reviewsHook.goToIndex(index)}
-                  onToggleShortlist={() => onToggleShortlist(company.company)}
-                  onToggleCompare={() => toggleCompare(company.company)}
-                  onApprove={() => reviewsHook.setStatus(company.company, 'approved')}
-                  onReject={() => reviewsHook.setStatus(company.company, 'rejected')}
-                  onMaybe={() => reviewsHook.setStatus(company.company, 'maybe')}
-                  onScoreChange={(score) => reviewsHook.setScore(company.company, score)}
-                  onEditData={() => {}}
-                />
-              ))}
-            </div>
+            <ReportTab
+              companies={filteredCompanies}
+              getReview={reviewsHook.getReview}
+              onExportCSV={exportCSV}
+              onSelectCompany={(company) => setSelectedCompany(company)}
+            />
           )}
 
           {/* Summary Tab */}
@@ -399,6 +530,36 @@ export function ProjectDetailView({
                   </div>
                 </div>
 
+                <div className="project-detail__summary-card">
+                  <h3>Research Costs</h3>
+                  <div className="project-detail__cost-breakdown">
+                    <div className="project-detail__cost-item project-detail__cost-item--total">
+                      <span className="project-detail__cost-label">Total</span>
+                      <span className="project-detail__cost-value">
+                        ${projectCost?.totalCost?.toFixed(2) || '0.00'}
+                      </span>
+                    </div>
+                    <div className="project-detail__cost-item">
+                      <span className="project-detail__cost-label">Discovery</span>
+                      <span className="project-detail__cost-value">
+                        ${projectCost?.discoveryCost?.toFixed(2) || '0.00'}
+                      </span>
+                    </div>
+                    <div className="project-detail__cost-item">
+                      <span className="project-detail__cost-label">Deep Research</span>
+                      <span className="project-detail__cost-value">
+                        ${projectCost?.deepResearchCost?.toFixed(2) || '0.00'}
+                      </span>
+                    </div>
+                    <div className="project-detail__cost-item">
+                      <span className="project-detail__cost-label">Enrichment</span>
+                      <span className="project-detail__cost-value">
+                        ${projectCost?.enrichmentCost?.toFixed(2) || '0.00'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="project-detail__summary-card project-detail__summary-card--full">
                   <h3>Value Chain Coverage</h3>
                   <div className="project-detail__value-chain-stats">
@@ -419,6 +580,29 @@ export function ProjectDetailView({
         </div>
       </div>
 
+      {/* Floating Compare Bar */}
+      <FloatingCompareBar
+        selectedCompanies={compareCompanies}
+        onRemove={removeFromCompare}
+        onClear={clearCompareList}
+        onCompare={handleCompare}
+        maxCompanies={4}
+      />
+
+      {/* Compare View Modal */}
+      {showCompareView && compareCompanies.length >= 2 && (
+        <div className="compare-modal-overlay" onClick={() => setShowCompareView(false)}>
+          <div className="compare-modal" onClick={(e) => e.stopPropagation()}>
+            <CompareView
+              companies={compareCompanies}
+              onClose={() => setShowCompareView(false)}
+              shortlistedCompanies={shortlistedCompanies}
+              onToggleShortlist={onToggleShortlist}
+            />
+          </div>
+        </div>
+      )}
+
       {/* Company Detail Slide Panel */}
       <div
         className={`slide-panel-overlay ${selectedCompany ? 'slide-panel-overlay--open' : ''}`}
@@ -431,9 +615,68 @@ export function ProjectDetailView({
             isShortlisted={shortlistedCompanies.includes(selectedCompany.company)}
             onToggleShortlist={() => onToggleShortlist(selectedCompany.company)}
             onClose={() => setSelectedCompany(null)}
+            // Review action props
+            review={reviewsHook.getReview(selectedCompany.company)}
+            onApprove={() => reviewsHook.setStatus(selectedCompany.company, 'approved')}
+            onReject={() => reviewsHook.setStatus(selectedCompany.company, 'rejected')}
+            onMaybe={() => reviewsHook.setStatus(selectedCompany.company, 'maybe')}
+            onScoreChange={(score) => reviewsHook.setScore(selectedCompany.company, score)}
+            onToggleCompare={() => toggleCompare(selectedCompany.company)}
+            isCompareSelected={compareList.includes(selectedCompany.company)}
+            // Navigation props
+            onPrev={handlePrevCompany}
+            onNext={handleNextCompany}
+            hasPrev={selectedIndex > 0}
+            hasNext={selectedIndex < filteredCompanies.length - 1}
+            currentIndex={selectedIndex}
+            totalCount={filteredCompanies.length}
           />
         )}
       </div>
+
+      {/* Context Popups */}
+      {contextPopup === 'thesis' && (
+        <ContextPopup
+          type="thesis"
+          title="Investment Thesis"
+          content={project.framework.thesis}
+          onClose={() => setContextPopup(null)}
+        />
+      )}
+      {contextPopup === 'kpis' && (
+        <ContextPopup
+          type="kpis"
+          title="Key Performance Indicators"
+          content={project.framework.kpis}
+          onClose={() => setContextPopup(null)}
+        />
+      )}
+      {contextPopup === 'valueChain' && (
+        <ContextPopup
+          type="valueChain"
+          title="Value Chain Segments"
+          content={project.framework.valueChain}
+          onClose={() => setContextPopup(null)}
+        />
+      )}
+      {contextPopup === 'brief' && (
+        <ContextPopup
+          type="brief"
+          title="Research Brief"
+          content={`**Objective:** ${project.brief.objective || 'Not defined'}
+
+**Target Stages:** ${project.brief.targetStages?.join(', ') || 'Not defined'}
+
+**Investment Size:** ${project.brief.investmentSize || 'Not defined'}
+
+**Geography:** ${project.brief.geography?.join(', ') || 'Not defined'}
+
+**Technologies:** ${project.brief.technologies?.join(', ') || 'Not defined'}
+
+**Additional Notes:** ${project.brief.additionalNotes || 'None'}`}
+          onClose={() => setContextPopup(null)}
+        />
+      )}
     </div>
   );
 }

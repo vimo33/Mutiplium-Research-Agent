@@ -3,15 +3,17 @@
 .card {
   background: var(--color-card-bg);
   border-radius: var(--radius-card);
-  box-shadow: var(--shadow-card);
+  border: 1px solid var(--slate-200);
+  box-shadow: var(--shadow-sm);
   transition: 
     box-shadow var(--duration-fast) var(--ease-enter),
+    border-color var(--duration-fast) var(--ease-enter),
     transform var(--duration-fast) var(--ease-enter);
 }
 
 /* Variants */
 .card--default {
-  border: none;
+  /* default styling with subtle border */
 }
 
 .card--elevated {
@@ -46,7 +48,8 @@
 }
 
 .card--hover:hover {
-  box-shadow: var(--shadow-lg);
+  border-color: var(--slate-300);
+  box-shadow: var(--shadow-md);
   transform: translateY(-2px);
 }
 
@@ -103,5 +106,6 @@
 .card-section:first-child {
   padding-top: 0;
 }
+
 
 

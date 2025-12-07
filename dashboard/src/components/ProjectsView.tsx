@@ -6,10 +6,15 @@ import './ProjectsView.css';
 
 interface ProjectsViewProps {
   projects: Project[];
+  isLoading?: boolean;
+  error?: string | null;
   onSelectProject: (project: Project) => void;
   onReviewProject: (project: Project) => void;
   onNewProject: () => void;
+  onArchiveProject?: (projectId: string) => void;
+  onUnarchiveProject?: (projectId: string) => void;
   onDeleteProject?: (projectId: string) => void;
+  isArchivedView?: boolean;
 }
 
 // Filter options
@@ -19,11 +24,11 @@ const filterConfig: Record<FilterOption, { label: string; statuses: ProjectStatu
   all: { label: 'All Projects', statuses: [] },
   needs_review: { 
     label: 'Needs Review', 
-    statuses: ['ready_for_review', 'pending_approval'] 
+    statuses: ['ready_for_review', 'pending_approval', 'discovery_complete'] 
   },
   in_progress: { 
     label: 'In Progress', 
-    statuses: ['draft', 'test_run', 'researching'] 
+    statuses: ['draft', 'test_run', 'researching', 'deep_researching', 'discovery_failed'] 
   },
   completed: { 
     label: 'Completed', 
@@ -44,21 +49,34 @@ const FolderIcon = () => (
   </svg>
 );
 
+// Loading spinner
+const LoadingSpinner = () => (
+  <div className="projects-view__loading">
+    <div className="projects-view__spinner" />
+    <p>Loading projects from reports...</p>
+  </div>
+);
+
 export function ProjectsView({
   projects,
+  isLoading = false,
+  error,
   onSelectProject,
   onReviewProject,
   onNewProject,
+  onArchiveProject,
+  onUnarchiveProject,
   onDeleteProject,
+  isArchivedView = false,
 }: ProjectsViewProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<FilterOption>('all');
 
-  // Filter projects: only show those with 50+ companies (or drafts/in-progress)
+  // Filter projects: show those with 50+ companies OR in active workflow states
   const successfulProjects = useMemo(() => {
     return projects.filter(p => 
       p.stats.totalCompanies >= 50 || 
-      ['draft', 'test_run', 'pending_approval', 'researching'].includes(p.status)
+      ['draft', 'test_run', 'pending_approval', 'researching', 'discovery_complete', 'discovery_failed', 'deep_researching', 'ready_for_review'].includes(p.status)
     );
   }, [projects]);
 
@@ -106,10 +124,10 @@ export function ProjectsView({
   const filterCounts = useMemo(() => ({
     all: successfulProjects.length,
     needs_review: successfulProjects.filter(p => 
-      ['ready_for_review', 'pending_approval'].includes(p.status)
+      ['ready_for_review', 'pending_approval', 'discovery_complete'].includes(p.status)
     ).length,
     in_progress: successfulProjects.filter(p => 
-      ['draft', 'test_run', 'researching'].includes(p.status)
+      ['draft', 'test_run', 'researching', 'deep_researching', 'discovery_failed'].includes(p.status)
     ).length,
     completed: successfulProjects.filter(p => p.status === 'completed').length,
   }), [successfulProjects]);
@@ -119,15 +137,20 @@ export function ProjectsView({
       {/* Header */}
       <div className="projects-view__header">
         <div className="projects-view__header-left">
-          <h1 className="projects-view__title">Research Projects</h1>
+          <h1 className="projects-view__title">
+            {isArchivedView ? 'Archived Projects' : 'Research Projects'}
+          </h1>
           <p className="projects-view__subtitle">
-            Manage your investment research across sectors and clients
+            {isArchivedView 
+              ? 'View and restore previously archived research projects'
+              : 'Manage your investment research across sectors and clients'}
           </p>
         </div>
-        <Button variant="primary" onClick={onNewProject}>
-          <PlusIcon />
-          New Research
-        </Button>
+        {!isArchivedView && (
+          <Button variant="primary" onClick={onNewProject} icon={<PlusIcon />}>
+            New Research
+          </Button>
+        )}
       </div>
 
       {/* Summary Stats */}
@@ -143,19 +166,19 @@ export function ProjectsView({
             <span className="projects-view__summary-label">companies</span>
           </div>
           <div className="projects-view__summary-divider" />
-          <div className="projects-view__summary-stat">
-            <span className="projects-view__summary-value">{summaryStats.reviewed.toLocaleString()}</span>
-            <span className="projects-view__summary-label">reviewed</span>
-          </div>
           {summaryStats.needsReview > 0 && (
             <>
-              <div className="projects-view__summary-divider" />
               <div className="projects-view__summary-stat projects-view__summary-stat--highlight">
                 <span className="projects-view__summary-value">{summaryStats.needsReview}</span>
                 <span className="projects-view__summary-label">needs review</span>
               </div>
+              <div className="projects-view__summary-divider" />
             </>
           )}
+          <div className="projects-view__summary-stat">
+            <span className="projects-view__summary-value">{summaryStats.reviewed.toLocaleString()}</span>
+            <span className="projects-view__summary-label">reviewed</span>
+          </div>
         </div>
       )}
 
@@ -189,25 +212,38 @@ export function ProjectsView({
         </div>
       </div>
 
+      {/* Loading State */}
+      {isLoading && <LoadingSpinner />}
+
+      {/* Error State */}
+      {error && (
+        <div className="projects-view__error">
+          <p>Error loading reports: {error}</p>
+        </div>
+      )}
+
       {/* Project Grid */}
-      {filteredProjects.length === 0 ? (
+      {!isLoading && filteredProjects.length === 0 ? (
         <div className="projects-view__empty">
           <div className="projects-view__empty-icon">
             <FolderIcon />
           </div>
           <h3 className="projects-view__empty-title">
-            {searchQuery || activeFilter !== 'all' 
-              ? 'No projects found' 
-              : 'No research projects yet'}
+            {isArchivedView
+              ? 'No archived projects'
+              : searchQuery || activeFilter !== 'all' 
+                ? 'No projects found' 
+                : 'No research projects yet'}
           </h3>
           <p className="projects-view__empty-message">
-            {searchQuery || activeFilter !== 'all'
-              ? 'Try adjusting your search or filters'
-              : 'Start your first research project to discover investment opportunities'}
+            {isArchivedView
+              ? 'Projects you archive will appear here'
+              : searchQuery || activeFilter !== 'all'
+                ? 'Try adjusting your search or filters'
+                : 'Start your first research project to discover investment opportunities'}
           </p>
-          {!searchQuery && activeFilter === 'all' && (
-            <Button variant="primary" onClick={onNewProject}>
-              <PlusIcon />
+          {!isArchivedView && !searchQuery && activeFilter === 'all' && (
+            <Button variant="primary" onClick={onNewProject} icon={<PlusIcon />}>
               Start New Research
             </Button>
           )}
@@ -220,6 +256,18 @@ export function ProjectsView({
               project={project}
               onSelect={() => onSelectProject(project)}
               onReview={() => onReviewProject(project)}
+              onArchive={
+                isArchivedView
+                  ? undefined
+                  : onArchiveProject 
+                    ? () => onArchiveProject(project.id) 
+                    : undefined
+              }
+              onUnarchive={
+                isArchivedView && onUnarchiveProject 
+                  ? () => onUnarchiveProject(project.id) 
+                  : undefined
+              }
               onDelete={onDeleteProject ? () => onDeleteProject(project.id) : undefined}
             />
           ))}

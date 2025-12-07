@@ -28,8 +28,18 @@ class CompanyOutput(BaseModel):
     summary: str = Field(description="Brief summary of company's impact and technology (2-3 sentences)")
     kpi_alignment: list[str] = Field(description="List of KPI alignments with specific metrics")
     sources: list[str] = Field(description="List of source URLs (3-5 URLs)")
-    website: str = Field(description="Company official website URL (extract from sources)")
-    country: str = Field(description="Company headquarters country (e.g., 'Spain', 'United States', 'Chile')")
+    website: str = Field(description="Company official website URL")
+    country: str = Field(description="Company headquarters country (e.g., 'Spain', 'Israel', 'Australia')")
+    confidence_0to1: float = Field(
+        default=0.5,
+        ge=0.0,
+        le=1.0,
+        description="Confidence score (0.0-1.0) based on evidence quality: 0.8+ strong, 0.6-0.79 good, <0.6 weak"
+    )
+    source_tier: str = Field(
+        default="Tier 3",
+        description="Best source quality tier: 'Tier 1' (academic), 'Tier 2' (industry), 'Tier 3' (vendor)"
+    )
 
 
 class SegmentOutput(BaseModel):
@@ -71,8 +81,8 @@ class OpenAIAgentProvider(BaseAgentProvider):
             )
 
         try:
-            from agents import Agent, Runner, set_default_openai_key
-            from agents.tool import FunctionTool
+            from agents import Agent, Runner, RunConfig, ModelSettings, WebSearchTool, set_default_openai_key
+            from openai.types.shared import Reasoning
         except ImportError as exc:  # pragma: no cover
             return ProviderRunResult(
                 provider=self.name,
@@ -118,32 +128,58 @@ class OpenAIAgentProvider(BaseAgentProvider):
             "segments_missing": segments_missing,
         }
 
+        # Configure ModelSettings for GPT-5.1 with optimized reasoning
+        # Using "low" reasoning effort for faster responses while maintaining quality
+        # Note: GPT-5.1 with reasoning mode doesn't support temperature or max_tokens
+        # Must use max_completion_tokens instead of max_tokens for reasoning models
+        model_settings = ModelSettings(
+            reasoning=Reasoning(effort="low"),  # Optimized for speed
+            extra_body={"max_completion_tokens": self.config.max_tokens},  # Use max_completion_tokens for reasoning models
+        )
+        
+        # Configure RunConfig for better tracing and workflow management
+        run_config = RunConfig(
+            model=self.config.model,
+            model_settings=model_settings,
+            workflow_name="multiplium-discovery",
+            tracing_disabled=False,
+        )
+
         for segment_name in segment_names:
             seed_entries = seed_map.get(segment_name, [])
-            # Note: No MCP tools - OpenAI will use native web search capabilities
-            # MCP tools reserved for validation phase only
+            # Use built-in WebSearchTool for native web search capability
             agent = Agent(
                 name="OpenAI Investment Researcher",
                 instructions=self._build_system_prompt(context, segment_name, seed_entries),
                 model=self.config.model,
-                tools=[],  # Empty tools list - use native capabilities
+                model_settings=model_settings,
+                tools=[WebSearchTool()],  # Built-in web search from SDK
             )
 
             user_prompt = self._build_segment_user_prompt(segment_name, context, seed_entries)
-            run_context = {
-                "segment": segment_name,
-                "sector": getattr(context, "sector", None),
-                "value_chain": getattr(context, "value_chain", None),
-                "kpis": getattr(context, "kpis", None),
-            }
 
             try:
-                result = await Runner.run(
-                    agent,
-                    user_prompt,
-                    context=run_context,
-                    max_turns=min(self.config.max_steps, 20),  # FULL RUN: Cap at 20
+                # Add timeout to prevent hanging (5 minutes per segment max)
+                import asyncio
+                result = await asyncio.wait_for(
+                    Runner.run(
+                        agent,
+                        user_prompt,
+                        run_config=run_config,
+                        max_turns=min(self.config.max_steps, 20),
+                    ),
+                    timeout=300.0,  # 5 minute timeout per segment
                 )
+            except asyncio.TimeoutError:
+                error_msg = f"Segment '{segment_name}' timed out after 5 minutes. OpenAI API may be slow or unresponsive."
+                findings.append(
+                    {
+                        "name": segment_name,
+                        "companies": [],
+                        "notes": [error_msg],
+                    }
+                )
+                continue  # Try next segment
             except Exception as exc:  # pragma: no cover
                 error_msg = str(exc)
                 # Check if this was a max turns timeout
@@ -271,44 +307,79 @@ class OpenAIAgentProvider(BaseAgentProvider):
         segment_name: str,
         seed_companies: list[dict[str, Any]],
     ) -> str:
+        """Builds the system prompt with reasoning guidance and full context."""
         thesis = getattr(context, "thesis", "").strip()
         value_chain = _default_json(getattr(context, "value_chain", []))
         kpis = _default_json(getattr(context, "kpis", {}))
+        
+        # Format seed companies as a structured table if present
         seed_section = ""
         if seed_companies:
             seed_section = (
-                "\n\nValidated vineyard companies to treat as high-confidence seeds:\n"
-                + json.dumps(seed_companies, indent=2)
+                "\n\n**PRE-VALIDATED COMPANIES (High Confidence - use as quality benchmarks):**\n"
+                "| Company | Evidence | KPI Alignment |\n"
+                "|---------|----------|---------------|\n"
             )
+            for company in seed_companies[:5]:  # Limit to 5 seeds
+                name = company.get("company", "Unknown")
+                summary = company.get("summary", "")[:60] + "..."
+                kpis_list = ", ".join(company.get("kpi_alignment", [])[:2])
+                seed_section += f"| {name} | {summary} | {kpis_list} |\n"
+            seed_section += "\nUse these as reference standards. Find additional companies meeting similar quality bar."
+        
         # Create segment-specific search strategies
         search_strategies = self._get_search_strategies(segment_name)
         
         return (
-            "You are a senior analyst for an **impact investment** fund. Your primary objective is to identify companies that not only have strong business potential but also generate positive, measurable environmental and social impact. "
-            "Strictly adhere to the KPI framework, giving higher weight to impact-related KPIs like 'Soil Carbon Sequestration' and 'Pesticide Reduction' over purely operational metrics. "
-            "\n\n**MANDATORY VITICULTURE REQUIREMENTS:**\n"
-            "1. VINEYARD EVIDENCE REQUIRED: Every company MUST cite at least ONE vineyard-specific deployment, named winery customer, or viticulture case study. Generic agriculture platforms are EXCLUDED unless they demonstrate specific vineyard projects with named clients.\n"
-            "2. NO INDIRECT IMPACTS: Core segment KPIs must show DIRECT impacts. Reject companies where primary KPIs are marked '(indirectly)' or 'implied' or 'general precision agriculture benefits' or 'potentially' or 'could lead to'.\n"
-            "3. TIER 1/2 SOURCES PREFERRED: Each company should have at least ONE Tier 1 (peer-reviewed, government study, university research) or Tier 2 (industry publication, cooperative whitepaper, ESG report) source. Companies with only Tier 3 sources (vendor websites, blogs, press releases) should be flagged 'Low Confidence'.\n"
-            "4. QUANTIFIED METRICS: Prefer companies with specific percentages, hectares, tCO2e values, liters saved over vague claims like 'improves soil health' or 'optimizes irrigation'.\n"
-            "\n\n**CRITICAL TARGET:** Find 10 unique companies for this segment. Use your native web search capabilities to discover companies quickly. "
-            "**IMPORTANT:** You have 20 turns maximum. Pace yourself:\n"
-            "- Turns 1-10: Discover companies using broad web searches\n"
-            "- Turns 11-15: Verify top candidates have vineyard evidence\n"
-            "- Turns 16-20: Finalize your list and output JSON\n"
-            "\n\n**SEARCH STRATEGY FOR THIS SEGMENT:**\n" + search_strategies +
-            f"\n\nFocus exclusively on the value-chain segment '{segment_name}'. Your goal is to produce {self._MIN_COMPANIES} unique company profiles with comprehensive KPI alignment and cited sources. "
-            "If initial searches yield fewer companies, expand your search with alternative keywords, geographic variations (EU, US, Australia, South America), and related terms. "
-            "**IMPORTANT: Output what you have found by turn 18, even if you haven't reached 10 companies yet.**"
-            f"\n\nInvestment thesis:\n{thesis}"
-            f"\n\nValue chain context:\n{json.dumps(value_chain, indent=2)}"
-            f"\n\nKPI definitions:\n{json.dumps(kpis, indent=2)}"
-            f"{seed_section}"
-            "\n\nOutput JSON strictly matching (INCLUDE website and country for EVERY company):"
-            '\n{"segment": {"name": str, "companies": [{"company": str, "summary": str, "kpi_alignment": [str], "sources": [str], "website": str, "country": str}]}}'
-            "\n\n**CRITICAL:** For each company, extract:"
-            "\n- website: Company's official URL (look in sources or search results)"
-            "\n- country: Headquarters country (e.g., 'Spain', 'Chile', 'United States')"
+            f"You are a senior analyst for an **impact investment** fund specializing in wine industry technology.\n\n"
+            f"**YOUR MISSION:** Identify 10 unique companies in the '{segment_name}' segment that generate measurable environmental/social impact.\n\n"
+            "**REASONING FRAMEWORK (apply step-by-step to each company):**\n"
+            "When evaluating each candidate company, reason through these criteria:\n"
+            "1. **Vineyard Evidence Check:** Does this company have a named winery/vineyard deployment?\n"
+            "   → If NO: Exclude immediately\n"
+            "   → If YES: Proceed to step 2\n"
+            "2. **KPI Impact Assessment:** Are the claimed impacts DIRECT (not indirect/implied)?\n"
+            "   → Score 1-5 (5 = quantified, direct impact; 1 = vague, indirect claims)\n"
+            "   → Exclude if score < 3\n"
+            "3. **Source Quality Evaluation:** What tier are the best sources?\n"
+            "   → Tier 1: Academic papers, government studies, university research\n"
+            "   → Tier 2: Industry publications (Wines & Vines, Wine Business Monthly), ESG reports\n"
+            "   → Tier 3: Vendor websites, blogs, press releases\n"
+            "4. **Confidence Scoring:** Based on steps 1-3, assign confidence_0to1:\n"
+            "   → 0.8-1.0: Strong vineyard evidence + Tier 1/2 sources + quantified metrics\n"
+            "   → 0.6-0.79: Good evidence but limited to Tier 2/3 sources\n"
+            "   → 0.4-0.59: Some vineyard connection but vague metrics\n"
+            "   → Below 0.4: Exclude - insufficient evidence\n\n"
+            "**MANDATORY REQUIREMENTS:**\n"
+            "1. VINEYARD EVIDENCE: Every company MUST cite at least ONE vineyard-specific deployment.\n"
+            "2. NO INDIRECT IMPACTS: Reject claims marked '(indirectly)', 'implied', 'potentially'.\n"
+            "3. SOURCE QUALITY: Flag companies with only Tier 3 sources as confidence_0to1 < 0.6.\n"
+            "4. QUANTIFIED METRICS: Prefer specific percentages, hectares, tCO2e values.\n"
+            "5. INVESTABLE ENTITIES ONLY: Include ONLY private companies that can accept investment.\n"
+            "   → EXCLUDE: NGOs, foundations, certification bodies (Demeter, EcoCert), government programs,\n"
+            "     industry associations/councils, EU/LIFE funded projects, cooperatives, research initiatives.\n"
+            "   → INCLUDE: Startups, scale-ups, established tech companies with products/services.\n\n"
+            f"**SEARCH STRATEGY FOR '{segment_name}':**\n{search_strategies}\n"
+            + seed_section +
+            f"\n\n**INVESTMENT THESIS:**\n{thesis}"
+            f"\n\n**VALUE CHAIN CONTEXT:**\n{json.dumps(value_chain, indent=2)}"
+            f"\n\n**KPI FRAMEWORK:**\n{json.dumps(kpis, indent=2)}"
+            "\n\n**OUTPUT FORMAT (JSON only, no markdown):**\n"
+            "Return your findings as a JSON object with ALL required fields.\n\n"
+            "**EXAMPLE OUTPUT (follow this exact structure):**\n"
+            '{"segment": {"name": "' + segment_name + '", "companies": [\n'
+            '  {\n'
+            '    "company": "SupPlant",\n'
+            '    "summary": "Israeli AI-driven precision irrigation company. Documented 30% water reduction at Golan Heights Winery (2023). Deployed across 50+ vineyards in Mediterranean climates.",\n'
+            '    "kpi_alignment": ["Water Intensity: 30% reduction (4.2→2.9 m³/tonne)", "Labor Productivity: 40% fewer manual irrigation adjustments"],\n'
+            '    "sources": ["https://supplant.me/case-studies/wine", "https://doi.org/10.1016/j.agwat.2023.107892", "https://winesandvines.com/supplant-review-2023"],\n'
+            '    "website": "https://supplant.me",\n'
+            '    "country": "Israel",\n'
+            '    "confidence_0to1": 0.85,\n'
+            '    "source_tier": "Tier 1"\n'
+            '  }\n'
+            ']}}\n\n'
+            "**CRITICAL:** Output ONLY valid JSON. Start with { and end with }. No markdown, no explanations."
         )
 
     def _build_segment_user_prompt(
@@ -317,12 +388,13 @@ class OpenAIAgentProvider(BaseAgentProvider):
         context: Any,
         seed_companies: list[dict[str, Any]],
     ) -> str:
+        """Builds the user prompt with pacing guidance and research workflow."""
         seed_note = ""
         if seed_companies:
             names = ", ".join(company.get("company", "") for company in seed_companies)
             seed_note = (
-                " You already have high-confidence vineyard deployments for the following companies: "
-                f"{names}. Verify their evidence and build upon them with new, non-duplicate findings."
+                f"\n**PRE-VALIDATED SEEDS:** {names}\n"
+                "Verify their evidence and find additional companies meeting the same quality bar.\n"
             )
         
         # Get optimized search queries for this segment
@@ -330,30 +402,36 @@ class OpenAIAgentProvider(BaseAgentProvider):
         queries_text = "\n".join([f"  - \"{q}\"" for q in search_queries])
         
         return (
-            f"🎯 MISSION: Find EXACTLY 10 unique companies in the '{segment_name}' segment.\n\n"
-            "**SYSTEMATIC APPROACH:**\n"
-            "1. Start with these optimized search queries:\n" + queries_text + "\n"
-            "2. For EACH query, use `search_web` with max_results=10 to cast a wide net\n"
-            "3. Use `fetch_content` on promising company websites to verify impact claims\n"
-            "4. Use `lookup_crunchbase` to confirm company profiles and funding\n"
-            "5. Use `search_academic_papers` to find scientific validation\n"
-            "6. Use `lookup_patents` to verify innovation claims\n"
-            "7. Continue until you have 10 VERIFIED companies with evidence\n\n"
-            "**REQUIREMENTS FOR EACH COMPANY:**\n"
-            "- Unique name (no duplicates)\n"
-            "- 2-3 sentence summary with specific metrics/impact data\n"
-            "- 2-3 explicit KPI alignments with quantitative evidence\n"
-            "- 3-5 verified sources (prioritize: company websites, case studies, academic papers, certifications)\n\n"
-            "**IF YOU FIND FEWER THAN 10:** Expand your search with:\n"
-            "- Alternative keywords and synonyms\n"
-            "- Geographic variations (add 'Europe', 'US', 'Australia', 'South America')\n"
-            "- Related technology terms\n"
-            "- Emerging startups vs established players\n\n"
+            f"🎯 **MISSION:** Find EXACTLY 10 unique companies in the '{segment_name}' segment.\n\n"
+            "**TURN BUDGET (20 turns maximum):**\n"
+            "- Turns 1-10: Discover companies using web searches with the queries below\n"
+            "- Turns 11-15: Verify top candidates have vineyard-specific evidence\n"
+            "- Turns 16-18: Finalize your list and prepare JSON output\n"
+            "- **Output by turn 18** even if you haven't reached 10 companies\n\n"
+            "**RESEARCH QUERIES (use these as starting points):**\n" + queries_text + "\n\n"
+            "**SYSTEMATIC RESEARCH WORKFLOW:**\n"
+            "1. Search the web for companies matching each query\n"
+            "2. For each promising company, verify vineyard/winery deployment evidence\n"
+            "3. Look for case studies, named customers, and quantified impact metrics\n"
+            "4. Assess source quality (Tier 1/2/3) and assign confidence score\n"
+            "5. Find company website and headquarters country\n"
+            "6. Continue until you have 10 VERIFIED companies\n"
             + seed_note +
-            "\n\n**OUTPUT FORMAT (CRITICAL):**\n"
-            "Return ONLY valid JSON in this EXACT structure (no markdown, no extra text):\n\n"
-            '{"segment": {"name": "' + segment_name + '", "companies": [{"company": "CompanyName", "summary": "2-3 sentence summary with metrics", "kpi_alignment": ["KPI 1: specific metric/evidence", "KPI 2: specific metric/evidence"], "sources": ["https://url1.com", "https://url2.com", "https://url3.com"]}]}}\n\n'
-            "Do NOT stop until you have 10 companies! Quality + Quantity = Success! 🎯"
+            "\n**REQUIRED OUTPUT FIELDS (for EVERY company):**\n"
+            "- `company`: Unique company name\n"
+            "- `summary`: 2-3 sentences with specific metrics/impact data\n"
+            "- `kpi_alignment`: 2-3 explicit KPI alignments with quantitative evidence\n"
+            "- `sources`: 3-5 verified source URLs\n"
+            "- `website`: Official company website URL\n"
+            "- `country`: Headquarters country (e.g., 'Israel', 'Spain', 'Australia')\n"
+            "- `confidence_0to1`: Your confidence score (0.0-1.0) based on evidence quality\n"
+            "- `source_tier`: Best source tier ('Tier 1', 'Tier 2', or 'Tier 3')\n\n"
+            "**IF YOU FIND FEWER THAN 10:**\n"
+            "- Add geographic modifiers (Spain, France, Italy, Chile, Australia, California)\n"
+            "- Try alternative technology terms and synonyms\n"
+            "- Search wine trade publications (Wines & Vines, Wine Business Monthly)\n"
+            "- Search startup accelerators (AgFunder, WineTech Network)\n\n"
+            "Begin your research now. Output JSON when you have 10 verified companies or by turn 18."
         )
 
     def _extract_segment_output(
@@ -627,76 +705,145 @@ class OpenAIAgentProvider(BaseAgentProvider):
             "Soil Health Technologies": (
                 "• Search for: soil microbiome, soil carbon sequestration, regenerative agriculture tech\n"
                 "• Target companies: soil testing labs, microbial inoculants, biochar producers\n"
-                "• Keywords: 'soil health technology', 'carbon farming platforms', 'soil microbiome analysis'\n"
-                "• Look for: case studies from vineyards, ROC (regenerative organic) certifications"
+                "• Geographic focus: France, Spain, California, Australia (Adelaide)\n"
+                "• Look for: vineyard case studies, ROC certifications, university partnerships"
             ),
             "Precision Irrigation Systems": (
                 "• Search for: smart irrigation, precision water management, soil moisture sensors\n"
                 "• Target companies: IoT irrigation platforms, drip irrigation tech, water optimization software\n"
-                "• Keywords: 'precision irrigation vineyard', 'smart water management agriculture', 'soil moisture monitoring'\n"
-                "• Look for: water savings metrics (%), drought resilience data, case studies"
+                "• Geographic focus: Israel, Spain, California, Chile, Australia\n"
+                "• Look for: water savings metrics (%), drought resilience data, named winery clients"
             ),
             "Integrated Pest Management (IPM)": (
                 "• Search for: biological pest control, pheromone monitoring, pesticide alternatives\n"
-                "• Target companies: biocontrol producers, pest monitoring platforms, organic pesticide alternatives\n"
-                "• Keywords: 'IPM vineyard', 'biological pest control', 'organic pest management', 'pheromone traps'\n"
+                "• Target companies: biocontrol producers, pest monitoring platforms, disease prediction\n"
+                "• Geographic focus: France, Italy, Spain, New Zealand\n"
                 "• Look for: pesticide reduction %, biodiversity impact, organic certifications"
             ),
             "Canopy Management Solutions": (
-                "• Search for: precision viticulture, robotic pruning, canopy sensing, vineyard robotics\n"
-                "• Target companies: ag robotics, drone/satellite imaging, canopy sensors, pruning automation\n"
-                "• Keywords: 'vineyard robotics', 'precision viticulture', 'canopy management technology', 'vineyard drones'\n"
+                "• Search for: precision viticulture, robotic pruning, canopy sensing, vineyard drones\n"
+                "• Target companies: ag robotics, drone/satellite imaging, pruning automation\n"
+                "• Geographic focus: France, Germany, USA, Australia\n"
                 "• Look for: yield optimization %, labor savings, disease prevention metrics"
             ),
             "Carbon MRV & Traceability Platforms": (
-                "• Search for: carbon accounting, MRV platforms, blockchain traceability, supply chain transparency\n"
-                "• Target companies: carbon credit platforms, blockchain ag-tech, supply chain software, sustainability reporting\n"
-                "• Keywords: 'agricultural carbon credits', 'MRV platform agriculture', 'blockchain traceability wine', 'carbon accounting farm'\n"
-                "• Look for: tons CO2 sequestered, verified carbon credits, traceability case studies"
+                "• Search for: carbon accounting, MRV platforms, blockchain traceability\n"
+                "• Target companies: carbon credit platforms, supply chain software, sustainability reporting\n"
+                "• Geographic focus: EU, California, Australia, South Africa\n"
+                "• Look for: tons CO2 sequestered, verified carbon credits, traceability deployments"
+            ),
+            "Grape Production": (
+                "• Search for: precision viticulture platforms, vineyard management systems\n"
+                "• Target companies: farm management software, yield prediction, quality monitoring\n"
+                "• Geographic focus: France, Spain, Italy, California, Australia, Chile\n"
+                "• Look for: yield improvements, quality metrics, named winery clients"
+            ),
+            "Wine Production": (
+                "• Search for: fermentation control, cellar automation, winemaking analytics\n"
+                "• Target companies: tank sensors, SCADA systems, wine QC platforms\n"
+                "• Geographic focus: France, Italy, USA, Australia, New Zealand\n"
+                "• Look for: fermentation success rates, OEE improvements, quality consistency"
+            ),
+            "Packaging": (
+                "• Search for: wine packaging sustainability, bottle filling technology\n"
+                "• Target companies: lightweight glass, sustainable closures, packaging automation\n"
+                "• Geographic focus: EU (glass manufacturers), USA, Australia\n"
+                "• Look for: weight reduction %, recycled content, OEE improvements"
+            ),
+            "Distribution": (
+                "• Search for: wine logistics cold chain, temperature monitoring, DTC platforms\n"
+                "• Target companies: 3PL with wine focus, cold chain telemetry, wine e-commerce\n"
+                "• Geographic focus: USA, EU, Australia\n"
+                "• Look for: OTIF rates, temperature excursion reduction, delivery success metrics"
             ),
         }
-        return strategies.get(segment_name, "• Use general search strategies for agtech and sustainability")
+        # Try exact match first, then partial match
+        if segment_name in strategies:
+            return strategies[segment_name]
+        for key, value in strategies.items():
+            if key.lower() in segment_name.lower() or segment_name.lower() in key.lower():
+                return value
+        return "• Use general search strategies for wine/viticulture technology and sustainability"
 
     def _get_search_queries_for_segment(self, segment_name: str) -> list[str]:
         """Returns optimized search queries for each segment."""
         queries = {
             "Soil Health Technologies": [
                 "soil microbiome testing vineyard",
-                "soil carbon sequestration technology agriculture",
-                "regenerative agriculture soil health startups",
-                "soil health monitoring platform wine",
-                "microbial inoculant vineyard",
+                "soil carbon sequestration technology wine",
+                "regenerative agriculture viticulture startups",
+                "soil health monitoring platform vineyard",
+                "microbial inoculant wine grape",
             ],
             "Precision Irrigation Systems": [
                 "smart irrigation technology vineyard",
-                "precision water management agriculture startup",
-                "soil moisture sensor irrigation wine",
-                "IoT drip irrigation system",
-                "water optimization platform agriculture",
+                "precision water management wine startup",
+                "soil moisture sensor vineyard irrigation",
+                "AI irrigation optimization viticulture",
+                "water stress monitoring wine grape",
             ],
             "Integrated Pest Management (IPM)": [
                 "biological pest control vineyard",
-                "IPM monitoring platform agriculture",
-                "pheromone trap system vineyard",
-                "organic pest management technology",
-                "biocontrol solutions agriculture",
+                "IPM monitoring platform viticulture",
+                "pheromone trap system wine grape",
+                "disease prediction vineyard AI",
+                "biocontrol solutions vineyard",
             ],
             "Canopy Management Solutions": [
-                "vineyard robotics pruning",
+                "vineyard robotics pruning automation",
                 "precision viticulture canopy sensing",
-                "agricultural drone vineyard management",
-                "canopy imaging technology wine",
+                "drone vineyard mapping NDVI",
                 "robotic vineyard equipment",
+                "canopy management technology wine",
             ],
             "Carbon MRV & Traceability Platforms": [
-                "agricultural carbon credit platform",
-                "MRV monitoring reporting verification agriculture",
-                "blockchain traceability wine supply chain",
-                "carbon accounting software farm",
-                "sustainability traceability platform food",
+                "carbon accounting wine supply chain",
+                "MRV platform vineyard agriculture",
+                "blockchain traceability wine",
+                "carbon credits vineyard regenerative",
+                "sustainability reporting winery",
+            ],
+            "Grape Production": [
+                "precision viticulture technology platform",
+                "vineyard management software",
+                "grape quality monitoring AI",
+                "harvest optimization wine technology",
+                "yield prediction vineyard",
+            ],
+            "Wine Production": [
+                "fermentation monitoring winery technology",
+                "wine tank sensor IoT",
+                "cellar automation software winery",
+                "winemaking analytics platform",
+                "quality control wine production technology",
+            ],
+            "Packaging": [
+                "wine packaging sustainability technology",
+                "bottle filling technology winery",
+                "wine closure technology innovation",
+                "lightweight glass wine bottle",
+                "sustainable wine packaging solutions",
+            ],
+            "Distribution": [
+                "wine logistics cold chain technology",
+                "temperature monitoring wine transport",
+                "wine inventory management software",
+                "DTC wine platform technology",
+                "wine shipping logistics technology",
             ],
         }
-        return queries.get(segment_name, [f"{segment_name} technology companies"])
+        # Try exact match first, then partial match
+        if segment_name in queries:
+            return queries[segment_name]
+        for key, value in queries.items():
+            if key.lower() in segment_name.lower() or segment_name.lower() in key.lower():
+                return value
+        return [
+            f"{segment_name} vineyard technology",
+            f"{segment_name} wine industry",
+            f"{segment_name} viticulture innovation",
+            f"{segment_name} winery solution",
+        ]
 
     def _format_tool_summary(self, telemetry: dict[str, Any]) -> str:
         tool_usage: dict[str, int] = telemetry.get("tool_usage") or {}

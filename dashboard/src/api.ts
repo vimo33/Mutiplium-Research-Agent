@@ -81,3 +81,25 @@ export async function fetchReportData(reportPath: string): Promise<any> {
   return request<any>(`/reports/${encodeURIComponent(reportPath)}/raw`);
 }
 
+// Cost tracking types
+export interface ProjectCostResponse {
+  project_id: string;
+  total_cost: number;
+  discovery_cost: number;
+  deep_research_cost: number;
+  enrichment_cost: number;
+  currency: string;
+  runs: Array<{
+    run_id: string;
+    started_at: string;
+    status: string;
+    cost: number;
+    type: 'discovery' | 'deep_research';
+  }>;
+  last_updated: string;
+}
+
+export async function fetchProjectCost(projectId: string): Promise<ProjectCostResponse> {
+  return request<ProjectCostResponse>(`/projects/${projectId}/cost`);
+}
+

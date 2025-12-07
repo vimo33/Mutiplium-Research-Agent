@@ -1,4 +1,4 @@
-import { useReducer, useEffect, useCallback, useMemo } from 'react';
+import { useReducer, useEffect, useCallback, useMemo, useRef } from 'react';
 import type { 
   ReviewState, 
   ReviewAction, 
@@ -18,6 +18,23 @@ const initialState: ReviewState = {
   filterStatus: 'all',
   sortBy: 'confidence',
 };
+
+// Load initial state from localStorage synchronously to avoid race conditions
+function getInitialState(): ReviewState {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      return {
+        ...initialState,
+        reviews: parsed,
+      };
+    }
+  } catch (e) {
+    console.error('Failed to load reviews from localStorage:', e);
+  }
+  return initialState;
+}
 
 // Reducer
 function reviewReducer(state: ReviewState, action: ReviewAction): ReviewState {
@@ -189,23 +206,21 @@ export function detectDataQualityFlags(company: CompanyData): DataQualityFlag[] 
 
 // Main hook
 export function useReviews(companies: CompanyData[] = []) {
-  const [state, dispatch] = useReducer(reviewReducer, initialState);
+  // Use lazy initialization to load from localStorage synchronously
+  // This prevents the race condition where empty state was saved before load completed
+  const [state, dispatch] = useReducer(reviewReducer, undefined, getInitialState);
   
-  // Load from localStorage on mount
+  // Track if this is the first render to avoid saving initial state
+  const isInitialMount = useRef(true);
+  
+  // Save to localStorage on changes (but not on initial mount)
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        dispatch({ type: 'LOAD_REVIEWS', reviews: parsed });
-      }
-    } catch (e) {
-      console.error('Failed to load reviews from localStorage:', e);
+    // Skip the first render to avoid overwriting with initial state
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
     }
-  }, []);
-  
-  // Save to localStorage on changes
-  useEffect(() => {
+    
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state.reviews));
     } catch (e) {
@@ -283,27 +298,38 @@ export function useReviews(companies: CompanyData[] = []) {
   const currentCompany = filteredCompanies[state.currentIndex] || null;
   const currentReview = currentCompany ? state.reviews[currentCompany.company] : null;
   
-  // Statistics
+  // Statistics - SCOPED TO CURRENT PROJECT'S COMPANIES
   const stats = useMemo(() => {
     const total = companies.length;
-    const reviewed = Object.values(state.reviews).filter(
-      r => r.status !== 'pending'
+    
+    // Create a set of company names in current project for O(1) lookup
+    const projectCompanyNames = new Set(companies.map(c => c.company));
+    
+    // Filter reviews to only include those for companies in this project
+    const projectReviews = Object.values(state.reviews).filter(
+      r => projectCompanyNames.has(r.company)
+    );
+    
+    // Only count truly user-reviewed statuses (not auto-flagged 'needs_review')
+    const reviewed = projectReviews.filter(
+      r => r.status === 'approved' || r.status === 'rejected' || r.status === 'maybe'
     ).length;
-    const approved = Object.values(state.reviews).filter(
+    const approved = projectReviews.filter(
       r => r.status === 'approved'
     ).length;
-    const rejected = Object.values(state.reviews).filter(
+    const rejected = projectReviews.filter(
       r => r.status === 'rejected'
     ).length;
-    const maybe = Object.values(state.reviews).filter(
+    const maybe = projectReviews.filter(
       r => r.status === 'maybe'
     ).length;
-    const flagged = Object.values(state.reviews).filter(
+    const flagged = projectReviews.filter(
       r => r.dataFlags?.length > 0
     ).length;
-    const avgScore = Object.values(state.reviews)
-      .filter(r => r.score)
-      .reduce((sum, r, _, arr) => sum + (r.score || 0) / arr.length, 0);
+    const scoredReviews = projectReviews.filter(r => r.score);
+    const avgScore = scoredReviews.length > 0
+      ? scoredReviews.reduce((sum, r) => sum + (r.score || 0), 0) / scoredReviews.length
+      : 0;
     
     return {
       total,
@@ -313,7 +339,7 @@ export function useReviews(companies: CompanyData[] = []) {
       rejected,
       maybe,
       flagged,
-      avgScore: avgScore || 0,
+      avgScore,
       percentComplete: total > 0 ? Math.round((reviewed / total) * 100) : 0,
     };
   }, [companies, state.reviews]);

@@ -174,6 +174,41 @@ DEFAULT_TOOL_LIBRARY: dict[str, ToolLibraryEntry] = {
             },
         },
     },
+    "perplexity_enrich_company": {
+        "description": "Specialized tool for extracting structured company data (website, country, founding year, etc.). Optimized for high accuracy with structured prompts and reliable parsing. Preferred over perplexity_ask for company enrichment tasks.",
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "company_name": {
+                    "type": "string",
+                    "description": "Name of the company to research.",
+                },
+                "segment": {
+                    "type": "string",
+                    "description": "Business segment or industry context (optional, improves accuracy).",
+                },
+                "fields": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "default": ["website", "country"],
+                    "description": "Fields to extract. Options: website, country, founded, employees.",
+                },
+            },
+            "required": ["company_name"],
+        },
+        "output_schema": {
+            "type": "object",
+            "properties": {
+                "company": {"type": "string"},
+                "fields": {
+                    "type": "object",
+                    "description": "Extracted field values (null if not found).",
+                },
+                "citations": {"type": "array"},
+                "success": {"type": "boolean"},
+            },
+        },
+    },
     "lookup_esg_ratings": {
         "description": "Retrieve Environmental, Social, and Governance (ESG) ratings and data for a public company to assess its impact and sustainability performance.",
         "input_schema": {

@@ -108,15 +108,39 @@ class FinancialEnricher:
     4. Extract awards and recognition
     5. Estimate revenue if no exact data
     6. Return 3-layer output schema with source links
+    
+    Note: External financial APIs (FMP, Alpha Vantage, Companies House) are 
+    disabled by default. Set ENABLE_FINANCIAL_APIS=true to enable them.
     """
     
-    def __init__(self):
-        """Initialize enricher with all required clients."""
-        from multiplium.tools.finance_apis import FinanceAPIClient
-        from multiplium.tools.company_registries import UnifiedRegistryClient
+    def __init__(self, enable_external_apis: bool | None = None):
+        """
+        Initialize enricher with all required clients.
         
-        self.finance_api = FinanceAPIClient()
-        self.registry = UnifiedRegistryClient()
+        Args:
+            enable_external_apis: Enable FMP, Alpha Vantage, Companies House APIs.
+                                  Defaults to ENABLE_FINANCIAL_APIS env var or False.
+        """
+        # Check if external financial APIs should be enabled
+        if enable_external_apis is None:
+            enable_external_apis = os.getenv("ENABLE_FINANCIAL_APIS", "").lower() in ("true", "1", "yes")
+        
+        self.enable_external_apis = enable_external_apis
+        
+        if enable_external_apis:
+            from multiplium.tools.finance_apis import FinanceAPIClient
+            from multiplium.tools.company_registries import UnifiedRegistryClient
+            
+            self.finance_api = FinanceAPIClient()
+            self.registry = UnifiedRegistryClient()
+            logger.info("financial_enricher.external_apis_enabled")
+        else:
+            self.finance_api = None
+            self.registry = None
+            logger.info(
+                "financial_enricher.external_apis_disabled",
+                message="Using OpenAI web_search only. Set ENABLE_FINANCIAL_APIS=true to enable FMP/Companies House.",
+            )
         
         # Initialize OpenAI API key for Responses API
         self.openai_api_key = os.getenv("OPENAI_API_KEY")
@@ -240,8 +264,17 @@ class FinancialEnricher:
             "cik": None,
         }
         
+        # Skip external API calls if disabled
+        if not self.enable_external_apis:
+            logger.info(
+                "financial_enricher.classification.skipped_apis",
+                company=company_name,
+                reason="External APIs disabled",
+            )
+            return classification
+        
         # Check if listed (search for ticker)
-        if self.finance_api.fmp_api_key:
+        if self.finance_api and self.finance_api.fmp_api_key:
             ticker_results = await self.finance_api.search_ticker(company_name)
             if ticker_results.get("results"):
                 # Check if any result matches closely
@@ -252,7 +285,7 @@ class FinancialEnricher:
                         break
         
         # Check registries for company number
-        if not classification["is_listed"]:
+        if not classification["is_listed"] and self.registry:
             if country in ("GB", "UK"):
                 ch_results = await self.registry.companies_house.search_company(company_name)
                 if ch_results.get("results"):
@@ -305,6 +338,10 @@ class FinancialEnricher:
         
         Uses FMP for comprehensive financials, falls back to Alpha Vantage.
         """
+        # Skip if external APIs disabled
+        if not self.enable_external_apis or not self.finance_api:
+            return None
+        
         ticker = classification.get("ticker")
         cik = classification.get("cik")
         
@@ -380,6 +417,10 @@ class FinancialEnricher:
         """
         Enrich from company registries for private companies with filed accounts.
         """
+        # Skip if external APIs disabled
+        if not self.enable_external_apis or not self.registry:
+            return None
+        
         company_name = company.get("company", "")
         country = classification.get("country", "")
         company_number = classification.get("company_number")
@@ -981,7 +1022,9 @@ Only include information you're confident about. Include source URLs if known.""
     
     async def close(self):
         """Close all clients."""
-        await self.finance_api.close()
-        await self.registry.close()
+        if self.finance_api:
+            await self.finance_api.close()
+        if self.registry:
+            await self.registry.close()
 
 

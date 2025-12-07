@@ -19,7 +19,7 @@ providers:
     max_tokens: 8192
   openai:
     enabled: false  # Disabled for test
-    model: "gpt-5"
+    model: "gpt-5.1"  # GPT-5.1 - latest flagship
     temperature: 0.15
     max_steps: 20
     max_tool_uses: 30
@@ -28,8 +28,9 @@ providers:
     max_tokens: 8192
   google:
     enabled: false  # Disabled for test
-    model: "gemini-2.5-pro"
-    temperature: 0.15
+    # Model Options: gemini-2.5-pro (stable), gemini-3-pro-preview (thinking)
+    model: "gemini-2.5-pro"  # Gemini 2.5 Pro - excellent reasoning
+    temperature: 0.15  # 2.5 Pro: 0.1-0.3, 3 Pro: 1.0 required
     max_steps: 20
     max_tool_uses: 30
     max_conversation_turns: 20

@@ -109,6 +109,13 @@
   font-size: 13px;
 }
 
+.run-cost {
+  font-family: monospace;
+  font-size: 13px;
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
 /* Detail Grid */
 .detail-grid {
   display: grid;
@@ -131,6 +138,11 @@
   font: var(--text-body);
   font-weight: 500;
   color: var(--color-text-primary);
+}
+
+.detail-value--cost {
+  color: var(--color-primary);
+  font-family: monospace;
 }
 
 /* Providers Grid */

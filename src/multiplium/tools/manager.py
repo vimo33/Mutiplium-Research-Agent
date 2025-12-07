@@ -273,6 +273,8 @@ class ToolManager:
                     return await self._perplexity_client.research(**kwargs)
                 elif spec.name == "perplexity_reason":
                     return await self._perplexity_client.reason(**kwargs)
+                elif spec.name == "perplexity_enrich_company":
+                    return await self._perplexity_client.enrich_company(**kwargs)
                 else:
                     return {
                         "error": f"Unknown Perplexity MCP tool: {spec.name}",

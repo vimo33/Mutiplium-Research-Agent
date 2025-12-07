@@ -66,11 +66,64 @@
   white-space: nowrap;
 }
 
+/* Review Status Badge */
+.company-card__review-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.company-card__review-badge--approved {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+
+.company-card__review-badge--rejected {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}
+
+.company-card__review-badge--maybe {
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+}
+
 .company-card__tags {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
   padding-left: calc(32px + var(--space-3)); /* Align with company name (star width + gap) */
+}
+
+/* Multi-segment badge */
+.company-card__multi-segment {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  background: linear-gradient(135deg, var(--purple-100), var(--purple-50));
+  border: 1px solid var(--purple-200);
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--purple-700);
+  cursor: help;
+  transition: all var(--duration-fast) var(--ease-enter);
+}
+
+.company-card__multi-segment:hover {
+  background: linear-gradient(135deg, var(--purple-200), var(--purple-100));
+  border-color: var(--purple-300);
+  transform: scale(1.02);
+}
+
+.company-card__multi-segment svg {
+  flex-shrink: 0;
+  color: var(--purple-500);
 }
 
 /* Metrics */
@@ -222,6 +275,26 @@
 .company-card__compare--active {
   background: var(--color-info-soft);
   color: var(--color-info);
+}
+
+/* Missing Data Indicator */
+.company-card__missing-data {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: var(--color-warning-soft);
+  border: 1px solid var(--color-warning);
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-warning);
+  cursor: help;
+}
+
+.company-card__missing-data svg {
+  flex-shrink: 0;
+  color: var(--color-warning);
 }
 
 /* Hover effects */

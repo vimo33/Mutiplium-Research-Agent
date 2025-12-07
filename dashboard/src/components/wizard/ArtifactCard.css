@@ -1,0 +1,333 @@
+/* ============================================================================
+   Artifact Cards - KPIs, Thesis, Value Chain Segments
+   ============================================================================ */
+
+/* CSS Variables for artifact colors */
+:root {
+  --artifact-thesis: #8b5cf6;
+  --artifact-kpi: #10b981;
+  --artifact-segment: #f59e0b;
+}
+
+.artifact-card {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.artifact-card:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Accent stripe on left */
+.artifact-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent-color, #8b5cf6);
+  border-radius: 3px 0 0 3px;
+}
+
+.artifact-card {
+  position: relative;
+}
+
+/* Header */
+.artifact-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 1.25rem;
+  background: transparent;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: background 0.2s ease;
+}
+
+.artifact-card__header:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.artifact-card__header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.artifact-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  color: var(--accent-color, #8b5cf6);
+}
+
+.artifact-card__type {
+  font-size: 0.688rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent-color, #8b5cf6);
+}
+
+.artifact-card__title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #e5e7eb;
+}
+
+.artifact-card__chevron {
+  color: #6b7280;
+  transition: transform 0.2s ease;
+}
+
+.artifact-card__chevron--expanded {
+  transform: rotate(180deg);
+}
+
+/* Content area */
+.artifact-card__content {
+  padding: 0 1rem 1rem 1.25rem;
+  animation: artifactSlideIn 0.2s ease-out;
+}
+
+@keyframes artifactSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Thesis content */
+.artifact-card__thesis {
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: #d1d5db;
+}
+
+.artifact-card__thesis p {
+  margin: 0 0 0.75rem;
+}
+
+.artifact-card__thesis p:last-child {
+  margin-bottom: 0;
+}
+
+/* KPIs content */
+.artifact-card__kpis {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.artifact-card__kpi {
+  padding: 0.625rem 0.75rem;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  border-radius: 8px;
+}
+
+.artifact-card__kpi-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.artifact-card__kpi-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #e5e7eb;
+}
+
+.artifact-card__kpi-target {
+  font-size: 0.813rem;
+  font-weight: 600;
+  color: #10b981;
+  padding: 0.125rem 0.5rem;
+  background: rgba(16, 185, 129, 0.15);
+  border-radius: 4px;
+}
+
+.artifact-card__kpi-rationale {
+  font-size: 0.813rem;
+  color: #9ca3af;
+  margin: 0.375rem 0 0;
+  line-height: 1.5;
+}
+
+/* Value chain segments */
+.artifact-card__segments {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.artifact-card__segment {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.15);
+  border-radius: 8px;
+}
+
+.artifact-card__segment-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: rgba(245, 158, 11, 0.2);
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fbbf24;
+  flex-shrink: 0;
+}
+
+.artifact-card__segment-content {
+  flex: 1;
+}
+
+.artifact-card__segment-name {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #e5e7eb;
+}
+
+.artifact-card__segment-desc {
+  font-size: 0.813rem;
+  color: #9ca3af;
+  margin: 0.25rem 0 0;
+  line-height: 1.5;
+}
+
+/* ============================================================================
+   Artifact Summary (compact view)
+   ============================================================================ */
+
+.artifact-summary {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.artifact-summary__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.875rem;
+}
+
+.artifact-summary__header h4 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #e5e7eb;
+  margin: 0;
+}
+
+.artifact-summary__view-btn {
+  font-size: 0.75rem;
+  color: #8b5cf6;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 2px;
+}
+
+.artifact-summary__view-btn:hover {
+  color: #a78bfa;
+}
+
+.artifact-summary__items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.artifact-summary__item {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.5rem 0.625rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  font-size: 0.813rem;
+  color: #9ca3af;
+  transition: all 0.2s ease;
+}
+
+.artifact-summary__item svg {
+  color: #6b7280;
+}
+
+.artifact-summary__item--complete {
+  color: #e5e7eb;
+}
+
+.artifact-summary__item--complete svg {
+  color: #10b981;
+}
+
+.artifact-summary__status {
+  margin-left: auto;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.artifact-summary__item--complete .artifact-summary__status {
+  color: #10b981;
+}
+
+/* Type-specific styling */
+.artifact-card--thesis {
+  --accent-color: var(--artifact-thesis);
+}
+
+.artifact-card--kpis {
+  --accent-color: var(--artifact-kpi);
+}
+
+.artifact-card--valueChain {
+  --accent-color: var(--artifact-segment);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .artifact-card__header {
+    padding: 0.625rem 0.75rem 0.625rem 1rem;
+  }
+
+  .artifact-card__content {
+    padding: 0 0.75rem 0.75rem 1rem;
+  }
+
+  .artifact-card__kpi-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.375rem;
+  }
+}
+

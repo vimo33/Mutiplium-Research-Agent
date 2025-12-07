@@ -16,13 +16,14 @@ providers:
     max_steps: 15
   openai:
     enabled: true
-    model: "gpt-4o"  # Full model with large context window
+    model: "gpt-5.1"  # GPT-5.1 - latest flagship with 400K context
     temperature: 0.15
     max_steps: 60  # Increased for thorough research (10 companies per segment)
   google:
     enabled: false
-    model: "gemini-2.0-flash-exp"
-    temperature: 0.15
+    # Model Options: gemini-2.5-pro (stable), gemini-3-pro-preview (thinking)
+    model: "gemini-2.5-pro"  # Gemini 2.5 Pro - excellent reasoning
+    temperature: 0.15  # 2.5 Pro: 0.1-0.3, 3 Pro: 1.0 required
     max_steps: 15
   xai:
     enabled: false

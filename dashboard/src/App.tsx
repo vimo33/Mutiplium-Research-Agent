@@ -1,12 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
 import { Sidebar } from "./components/Sidebar";
-import { DeepResearchView } from "./components/DeepResearchView";
-import { DiscoveryView } from "./components/DiscoveryView";
 import { RunsView } from "./components/RunsView";
-import { ReviewView } from "./components/ReviewView";
 import { ProjectsView } from "./components/ProjectsView";
 import { ProjectDetailView } from "./components/ProjectDetailView";
-import { NewResearchWizard } from "./components/wizard";
+import { DiscoveryProgress } from "./components/DiscoveryProgress";
+import { DiscoveryReviewView } from "./components/DiscoveryReviewView";
+import { DiscoveryBrowser } from "./components/DiscoveryBrowser";
+import { NewResearchWizard, ResumeProjectWizard } from "./components/wizard";
 import { useProjects } from "./hooks";
 import type { Project } from "./types";
 import "./App.css";
@@ -15,38 +15,27 @@ import "./App.css";
 const SHORTLIST_STORAGE_KEY = "multiplium_shortlist";
 const REVIEWS_STORAGE_KEY = "multiplium_reviews";
 
-// Default segments for wine value chain
-const DEFAULT_SEGMENTS = [
-  "Grape Production (Viticulture)",
-  "Wine Production (Vinification)",
-  "Packaging & Bottling",
-  "Distribution & Logistics",
-  "Retail & Sales",
-  "Marketing & Branding",
-  "Consumption",
-  "Recycling & Aftermarket",
-];
-
-type AppView = "projects" | "project-detail" | "runs" | "discovery" | "research" | "review";
+type AppView = "projects" | "archived" | "project-detail" | "runs" | "discovery" | "settings";
 
 export default function App() {
   // View state - default to projects (home)
   const [currentView, setCurrentView] = useState<AppView>("projects");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [showWizard, setShowWizard] = useState(false);
+  const [resumeProject, setResumeProject] = useState<Project | null>(null);
   
   // Projects hook
   const {
     projects,
+    archivedProjects,
+    isLoading: projectsLoading,
+    error: projectsError,
     createProject,
     updateProject,
+    archiveProject,
+    unarchiveProject,
     deleteProject,
-    getProject,
-    getReviewProgress,
   } = useProjects();
-  
-  // Segment filter state
-  const [selectedSegments, setSelectedSegments] = useState<string[]>(DEFAULT_SEGMENTS);
   
   // Shortlist state (persisted to localStorage)
   const [shortlistedCompanies, setShortlistedCompanies] = useState<string[]>(() => {
@@ -92,30 +81,13 @@ export default function App() {
     // Listen for storage changes (cross-tab sync)
     window.addEventListener('storage', updateReviewStats);
     
-    // Poll for changes in same tab (since localStorage events don't fire in same tab)
+    // Poll for changes in same tab
     const interval = setInterval(updateReviewStats, 2000);
     
     return () => {
       window.removeEventListener('storage', updateReviewStats);
       clearInterval(interval);
     };
-  }, []);
-
-  // Segment toggle handlers
-  const handleSegmentToggle = useCallback((segment: string) => {
-    setSelectedSegments(prev =>
-      prev.includes(segment)
-        ? prev.filter(s => s !== segment)
-        : [...prev, segment]
-    );
-  }, []);
-
-  const handleSelectAllSegments = useCallback(() => {
-    setSelectedSegments(DEFAULT_SEGMENTS);
-  }, []);
-
-  const handleClearSegments = useCallback(() => {
-    setSelectedSegments([]);
   }, []);
 
   // Shortlist handlers
@@ -127,23 +99,14 @@ export default function App() {
     );
   }, []);
 
-  const handleClearShortlist = useCallback(() => {
-    setShortlistedCompanies([]);
-  }, []);
-
-  const handleShortlistClick = useCallback((company: string) => {
-    // Navigate to the review view when clicking a shortlisted company
-    setCurrentView("review");
-  }, []);
-
   // Project handlers
   const handleSelectProject = useCallback((project: Project) => {
-    setSelectedProject(project);
-    setCurrentView("project-detail");
-    
-    // Update segments from project framework
-    if (project.framework.valueChain.length > 0) {
-      setSelectedSegments(project.framework.valueChain.map(vc => vc.segment));
+    // If project is in draft status, resume the wizard
+    if (project.status === 'draft') {
+      setResumeProject(project);
+    } else {
+      setSelectedProject(project);
+      setCurrentView("project-detail");
     }
   }, []);
 
@@ -173,6 +136,67 @@ export default function App() {
     setCurrentView("project-detail");
   }, [createProject, updateProject]);
 
+  // Handle resuming a draft project
+  const handleResumeComplete = useCallback((projectData: Partial<Project>) => {
+    if (resumeProject) {
+      // Update the existing project
+      updateProject(resumeProject.id, {
+        ...projectData,
+        status: projectData.status || 'researching',
+      });
+      
+      const updatedProject = { ...resumeProject, ...projectData, status: projectData.status || 'researching' };
+      setResumeProject(null);
+      setSelectedProject(updatedProject as Project);
+      // If starting research, stay on discovery progress view
+      if (updatedProject.status === 'researching') {
+        setCurrentView("project-detail");
+      } else {
+        setCurrentView("project-detail");
+      }
+    }
+  }, [resumeProject, updateProject]);
+
+  // Handle discovery completion
+  const handleDiscoveryComplete = useCallback(() => {
+    if (selectedProject) {
+      updateProject(selectedProject.id, { status: 'discovery_complete' });
+      setSelectedProject({ ...selectedProject, status: 'discovery_complete' });
+    }
+  }, [selectedProject, updateProject]);
+
+  // Handle starting deep research from discovery review
+  const handleStartDeepResearch = useCallback(async (selectedCompanies: string[]) => {
+    if (!selectedProject) return;
+    
+    try {
+      const response = await fetch(`http://localhost:8000/projects/${selectedProject.id}/start-deep-research`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          companies: selectedCompanies,
+        }),
+      });
+      
+      if (!response.ok) throw new Error('Failed to start deep research');
+      
+      // Update project status to deep_researching
+      updateProject(selectedProject.id, { status: 'deep_researching' });
+      setSelectedProject({ ...selectedProject, status: 'deep_researching' });
+    } catch (error) {
+      console.error('Failed to start deep research:', error);
+      throw error;
+    }
+  }, [selectedProject, updateProject]);
+
+  // Handle skipping deep research
+  const handleSkipDeepResearch = useCallback(() => {
+    if (selectedProject) {
+      updateProject(selectedProject.id, { status: 'ready_for_review' });
+      setSelectedProject({ ...selectedProject, status: 'ready_for_review' });
+    }
+  }, [selectedProject, updateProject]);
+
   const handleUpdateProject = useCallback((updates: Partial<Project>) => {
     if (selectedProject) {
       updateProject(selectedProject.id, updates);
@@ -185,7 +209,30 @@ export default function App() {
     setCurrentView("projects");
   }, []);
 
-  // View change handler - wrapped to handle type
+  // Handle initiating deep research from discovery browser
+  const handleInitiateDeepResearch = useCallback(async (reportPath: string, companies: string[]) => {
+    try {
+      const response = await fetch('http://localhost:8000/deep-research', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          report_path: reportPath,
+          companies: companies,
+          top_n: companies.length || 5,
+        }),
+      });
+      if (!response.ok) throw new Error('Failed to initiate deep research');
+      const data = await response.json();
+      // Navigate to runs view to see progress
+      setCurrentView('runs');
+      return data;
+    } catch (error) {
+      console.error('Failed to initiate deep research:', error);
+      throw error;
+    }
+  }, []);
+
+  // View change handler
   const handleViewChange = useCallback((view: string) => {
     setCurrentView(view as AppView);
     if (view === "projects") {
@@ -195,7 +242,7 @@ export default function App() {
 
   // Render current view
   const renderView = () => {
-    // Show wizard overlay
+    // Show new project wizard
     if (showWizard) {
       return (
         <NewResearchWizard
@@ -205,21 +252,85 @@ export default function App() {
       );
     }
 
+    // Show resume wizard for draft projects
+    if (resumeProject) {
+      return (
+        <ResumeProjectWizard
+          project={resumeProject}
+          onComplete={handleResumeComplete}
+          onCancel={() => setResumeProject(null)}
+        />
+      );
+    }
+
     switch (currentView) {
       case "projects":
         return (
           <ProjectsView
             projects={projects}
+            isLoading={projectsLoading}
+            error={projectsError}
             onSelectProject={handleSelectProject}
             onReviewProject={handleReviewProject}
             onNewProject={handleNewProject}
+            onArchiveProject={archiveProject}
             onDeleteProject={deleteProject}
+          />
+        );
+      case "archived":
+        return (
+          <ProjectsView
+            projects={archivedProjects}
+            isLoading={projectsLoading}
+            error={projectsError}
+            onSelectProject={handleSelectProject}
+            onReviewProject={handleReviewProject}
+            onNewProject={handleNewProject}
+            onUnarchiveProject={unarchiveProject}
+            onDeleteProject={deleteProject}
+            isArchivedView
           />
         );
       case "project-detail":
         if (!selectedProject) {
           setCurrentView("projects");
           return null;
+        }
+        // Show discovery progress if project is actively researching or failed
+        if (selectedProject.status === 'researching' || selectedProject.status === 'discovery_failed') {
+          return (
+            <DiscoveryProgress
+              project={selectedProject}
+              onComplete={handleDiscoveryComplete}
+              onBack={handleBackToProjects}
+            />
+          );
+        }
+        // Show discovery review if discovery is complete
+        if (selectedProject.status === 'discovery_complete') {
+          return (
+            <DiscoveryReviewView
+              project={selectedProject}
+              onBack={handleBackToProjects}
+              onStartDeepResearch={handleStartDeepResearch}
+              onSkipDeepResearch={handleSkipDeepResearch}
+            />
+          );
+        }
+        // Show discovery progress for deep research phase too
+        if (selectedProject.status === 'deep_researching') {
+          return (
+            <DiscoveryProgress
+              project={selectedProject}
+              onComplete={() => {
+                if (selectedProject) {
+                  updateProject(selectedProject.id, { status: 'ready_for_review' });
+                  setSelectedProject({ ...selectedProject, status: 'ready_for_review' });
+                }
+              }}
+              onBack={handleBackToProjects}
+            />
+          );
         }
         return (
           <ProjectDetailView
@@ -232,36 +343,29 @@ export default function App() {
         );
       case "runs":
         return <RunsView />;
-      case "discovery":
+      case "settings":
         return (
-          <DiscoveryView
-            selectedSegments={selectedSegments}
-            shortlistedCompanies={shortlistedCompanies}
-            onToggleShortlist={handleToggleShortlist}
-          />
+          <div className="settings-placeholder">
+            <h2>Settings</h2>
+            <p>Settings panel coming soon...</p>
+          </div>
         );
-      case "review":
-        return (
-          <ReviewView
-            selectedSegments={selectedSegments}
-            shortlistedCompanies={shortlistedCompanies}
-            onToggleShortlist={handleToggleShortlist}
-          />
-        );
-      case "research":
       default:
         return (
-          <DeepResearchView
-            selectedSegments={selectedSegments}
-            shortlistedCompanies={shortlistedCompanies}
-            onToggleShortlist={handleToggleShortlist}
+          <ProjectsView
+            projects={projects}
+            onSelectProject={handleSelectProject}
+            onReviewProject={handleReviewProject}
+            onNewProject={handleNewProject}
+            onDeleteProject={deleteProject}
           />
         );
     }
   };
 
-  // Don't show sidebar for wizard or project detail
-  const showSidebar = !showWizard && currentView !== "project-detail";
+  // Only hide sidebar for wizard flows
+  const showSidebar = !showWizard && !resumeProject;
+  const isFullWidth = showWizard || resumeProject;
 
   return (
     <div className="app-layout">
@@ -269,19 +373,15 @@ export default function App() {
         <Sidebar
           currentView={currentView}
           onViewChange={handleViewChange}
-          segments={selectedSegments.length > 0 ? selectedSegments : DEFAULT_SEGMENTS}
-          selectedSegments={selectedSegments}
-          onSegmentToggle={handleSegmentToggle}
-          onSelectAllSegments={handleSelectAllSegments}
-          onClearSegments={handleClearSegments}
-          shortlistedCompanies={shortlistedCompanies}
-          onShortlistClick={handleShortlistClick}
-          onClearShortlist={handleClearShortlist}
+          projectName={selectedProject?.projectName}
+          onBackToProjects={handleBackToProjects}
           reviewPendingCount={reviewStats.pending}
           reviewProgress={reviewStats.progress}
+          archivedCount={archivedProjects.length}
+          onNewProject={handleNewProject}
         />
       )}
-      <main className={`app-main ${!showSidebar ? 'app-main--full' : ''}`}>
+      <main className={`app-main ${isFullWidth ? 'app-main--full' : ''}`}>
         <div className="app-content">
           {renderView()}
         </div>

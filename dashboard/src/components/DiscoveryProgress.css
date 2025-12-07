@@ -1,0 +1,532 @@
+/* ============================================================================
+   Discovery Progress Dashboard
+   ============================================================================ */
+
+.discovery-progress {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.discovery-progress__header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 24px;
+}
+
+.discovery-progress__back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--white);
+  border: 1px solid var(--slate-300);
+  border-radius: var(--radius-md);
+  color: var(--slate-600);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.discovery-progress__back:hover {
+  background: var(--slate-50);
+  border-color: var(--slate-400);
+  color: var(--slate-900);
+}
+
+.discovery-progress__title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.discovery-progress__subtitle {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin: 0.25rem 0 0;
+}
+
+.discovery-progress__content {
+  display: grid;
+  gap: 1.5rem;
+}
+
+/* Main progress card */
+.discovery-progress__main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2.5rem;
+  background: var(--white);
+  border: 1px solid var(--slate-200);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.discovery-progress__ring {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.discovery-progress__ring-text {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.discovery-progress__percent {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.discovery-progress__label {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.discovery-progress__stats {
+  display: flex;
+  gap: 3rem;
+}
+
+.discovery-progress__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.discovery-progress__stat-value {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.discovery-progress__stat-label {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.discovery-progress__phase {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--color-primary-soft);
+  border: 1px solid var(--color-primary);
+  border-radius: 100px;
+}
+
+.discovery-progress__phase-label {
+  font-size: 0.813rem;
+  color: var(--color-text-secondary);
+}
+
+.discovery-progress__phase-value {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+/* Provider cards */
+.discovery-progress__providers {
+  background: var(--white);
+  border: 1px solid var(--slate-200);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.discovery-progress__providers h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 1rem;
+}
+
+.discovery-progress__provider-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.discovery-progress__provider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--slate-50);
+  border: 1px solid var(--slate-200);
+  border-radius: var(--radius-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.discovery-progress__provider--running {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+}
+
+.discovery-progress__provider--completed {
+  border-color: var(--color-success);
+  background: var(--color-success-soft);
+}
+
+.discovery-progress__provider-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--slate-100);
+  border-radius: var(--radius-sm);
+  color: var(--slate-500);
+  flex-shrink: 0;
+}
+
+.discovery-progress__provider--running .discovery-progress__provider-icon {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+
+.discovery-progress__provider--completed .discovery-progress__provider-icon {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+
+.discovery-progress__provider-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.discovery-progress__provider-name {
+  display: block;
+  font-size: 0.938rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  text-transform: capitalize;
+}
+
+.discovery-progress__provider-status {
+  display: block;
+  font-size: 0.813rem;
+  color: var(--color-text-muted);
+  margin-top: 0.125rem;
+}
+
+.discovery-progress__provider--running .discovery-progress__provider-status {
+  color: var(--color-primary);
+}
+
+.discovery-progress__provider--completed .discovery-progress__provider-status {
+  color: var(--color-success);
+}
+
+.discovery-progress__provider-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--slate-200);
+}
+
+.discovery-progress__provider-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--violet-400) 100%);
+  transition: width 0.5s ease;
+}
+
+.discovery-progress__provider--completed .discovery-progress__provider-bar {
+  background: linear-gradient(90deg, var(--color-success) 0%, var(--green-400) 100%);
+}
+
+/* Spinner */
+.discovery-progress__spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--color-primary-soft);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Activity log */
+.discovery-progress__logs {
+  background: var(--white);
+  border: 1px solid var(--slate-200);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.discovery-progress__logs h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 1rem;
+}
+
+.discovery-progress__log-list {
+  max-height: 300px;
+  overflow-y: auto;
+  background: var(--slate-50);
+  border: 1px solid var(--slate-200);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.75rem;
+}
+
+.discovery-progress__log-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.discovery-progress__log-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.discovery-progress__log-list::-webkit-scrollbar-thumb {
+  background: var(--slate-300);
+  border-radius: 3px;
+}
+
+.discovery-progress__log-empty {
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.discovery-progress__log-item {
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid var(--slate-200);
+}
+
+.discovery-progress__log-item:last-child {
+  border-bottom: none;
+}
+
+/* Error */
+.discovery-progress__error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  background: var(--color-danger-soft);
+  border: 1px solid var(--color-danger);
+  border-radius: var(--radius-md);
+  color: var(--color-danger);
+}
+
+/* Error Card - Full page error state */
+.discovery-progress__error-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+  padding: 3rem 2rem;
+  background: var(--white);
+  border: 1px solid var(--color-danger);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.discovery-progress__error-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: var(--color-danger-soft);
+  border-radius: 50%;
+  color: var(--color-danger);
+}
+
+.discovery-progress__error-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.discovery-progress__error-message {
+  font-size: 0.938rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+  max-width: 500px;
+  line-height: 1.6;
+}
+
+.discovery-progress__error-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+/* Provider last message */
+.discovery-progress__provider-last-message {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-top: 0.25rem;
+  font-style: italic;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Tool Activity */
+.discovery-progress__tools {
+  background: var(--white);
+  border: 1px solid var(--slate-200);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.discovery-progress__tools h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 1rem;
+}
+
+.discovery-progress__tool-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.discovery-progress__tool-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--slate-50);
+  border: 1px solid var(--slate-200);
+  border-radius: var(--radius-sm);
+}
+
+.discovery-progress__tool-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.discovery-progress__tool-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  min-width: 100px;
+}
+
+.discovery-progress__tool-bar-container {
+  flex: 1;
+  height: 6px;
+  background: var(--slate-200);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.discovery-progress__tool-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-info) 0%, #60a5fa 100%);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+/* Recent Companies */
+.discovery-progress__companies {
+  background: var(--white);
+  border: 1px solid var(--slate-200);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.discovery-progress__companies h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 1rem;
+}
+
+.discovery-progress__company-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.discovery-progress__company-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.625rem 1rem;
+  background: var(--slate-50);
+  border: 1px solid var(--slate-200);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.discovery-progress__company-name {
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.discovery-progress__company-segment {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .discovery-progress__content {
+    padding: 1rem;
+  }
+
+  .discovery-progress__main {
+    padding: 1.5rem;
+  }
+
+  .discovery-progress__stats {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .discovery-progress__tool-name {
+    min-width: 80px;
+  }
+}
+

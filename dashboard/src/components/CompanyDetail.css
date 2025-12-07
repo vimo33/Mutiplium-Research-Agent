@@ -4,6 +4,8 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 /* Header */
@@ -14,12 +16,16 @@
   border-bottom: 1px solid var(--color-divider);
   padding: var(--space-6);
   z-index: 1;
+  overflow: hidden;
+  max-width: 100%;
 }
 
 .company-detail__header-content {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .company-detail__title-row {
@@ -27,12 +33,16 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: var(--space-4);
+  min-width: 0;
 }
 
 .company-detail__name {
   font: var(--text-h2);
   color: var(--color-text-primary);
   margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
 }
 
 .company-detail__actions {
@@ -85,12 +95,256 @@
   text-decoration: underline;
 }
 
+/* Confidence - inline in review bar */
 .company-detail__confidence {
+  display: flex;
+  align-items: center;
+  padding-right: 12px;
+  border-right: 1px solid var(--color-divider);
+}
+
+/* Standalone confidence (when no review bar) */
+.company-detail__confidence-standalone {
   display: flex;
   align-items: center;
   gap: var(--space-2);
   font: var(--text-caption);
   color: var(--color-text-muted);
+  margin-top: var(--space-3);
+}
+
+/* Review Action Bar */
+.company-detail__review-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: linear-gradient(to bottom, var(--color-card-bg), var(--color-surface-subtle));
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-divider);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  margin-top: var(--space-4);
+}
+
+.company-detail__score {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding-right: 12px;
+  border-right: 1px solid var(--color-divider);
+}
+
+.company-detail__score-star {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--gray-300);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-enter);
+}
+
+.company-detail__score-star:hover {
+  color: var(--yellow-400);
+  background: var(--yellow-50, rgba(250, 204, 21, 0.1));
+}
+
+.company-detail__score-star--filled {
+  color: var(--yellow-400);
+}
+
+.company-detail__score-star svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Review bar buttons */
+.company-detail__review-bar .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 14px;
+  font-size: 13px;
+  font-weight: 500;
+  min-width: auto;
+  white-space: nowrap;
+  height: 34px;
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md);
+  background: white;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.company-detail__review-bar .btn:hover {
+  border-color: var(--gray-300);
+  background: var(--gray-50);
+  color: var(--color-text-primary);
+}
+
+.company-detail__review-bar .btn svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+
+/* Approve button - default has green tint */
+.company-detail__review-bar .btn--secondary:first-of-type {
+  color: var(--green-600, #059669);
+}
+
+.company-detail__review-bar .btn--secondary:first-of-type:hover {
+  background: var(--green-50, #ecfdf5);
+  border-color: var(--green-200, #a7f3d0);
+}
+
+/* Approve button - active state */
+.company-detail__review-bar .btn--success {
+  border-color: var(--green-500, #22c55e);
+  background: var(--green-500, #22c55e);
+  color: white;
+  box-shadow: 0 1px 2px rgba(34, 197, 94, 0.2);
+}
+
+.company-detail__review-bar .btn--success:hover {
+  background: var(--green-600, #16a34a);
+  border-color: var(--green-600, #16a34a);
+}
+
+/* Reject button - default has red tint */
+.company-detail__review-bar .btn--secondary:nth-of-type(2) {
+  color: var(--red-600, #dc2626);
+}
+
+.company-detail__review-bar .btn--secondary:nth-of-type(2):hover {
+  background: var(--red-50, #fef2f2);
+  border-color: var(--red-200, #fecaca);
+}
+
+/* Reject button - active state */
+.company-detail__review-bar .btn--danger {
+  border-color: var(--red-500, #ef4444);
+  background: var(--red-500, #ef4444);
+  color: white;
+  box-shadow: 0 1px 2px rgba(239, 68, 68, 0.2);
+}
+
+.company-detail__review-bar .btn--danger:hover {
+  background: var(--red-600, #dc2626);
+  border-color: var(--red-600, #dc2626);
+}
+
+/* Maybe button - default has amber tint */
+.company-detail__review-bar .btn--secondary:nth-of-type(3) {
+  color: var(--yellow-600, #d97706);
+}
+
+.company-detail__review-bar .btn--secondary:nth-of-type(3):hover {
+  background: var(--yellow-50, #fffbeb);
+  border-color: var(--yellow-200, #fde68a);
+}
+
+/* Maybe button - active state */
+.company-detail__review-bar .btn--warning {
+  border-color: var(--yellow-500, #f59e0b);
+  background: var(--yellow-500, #f59e0b);
+  color: white;
+  box-shadow: 0 1px 2px rgba(245, 158, 11, 0.2);
+}
+
+.company-detail__review-bar .btn--warning:hover {
+  background: var(--yellow-600, #d97706);
+  border-color: var(--yellow-600, #d97706);
+}
+
+/* Compare button - ghost style */
+.company-detail__review-bar .btn--ghost {
+  border-color: transparent;
+  background: transparent;
+  color: var(--color-text-muted);
+}
+
+.company-detail__review-bar .btn--ghost:hover {
+  background: var(--gray-100);
+  border-color: transparent;
+  color: var(--color-text-secondary);
+}
+
+/* Compare button - active state */
+.company-detail__review-bar .btn--primary {
+  border-color: var(--blue-500, #3b82f6);
+  background: var(--blue-500, #3b82f6);
+  color: white;
+  box-shadow: 0 1px 2px rgba(59, 130, 246, 0.2);
+}
+
+.company-detail__review-bar .btn--primary:hover {
+  background: var(--blue-600, #2563eb);
+  border-color: var(--blue-600, #2563eb);
+}
+
+/* Missing Data Alert */
+.company-detail__missing-data {
+  margin: var(--space-4) var(--space-6);
+  padding: var(--space-4);
+  background: var(--color-warning-soft);
+  border: 1px solid var(--color-warning);
+  border-radius: var(--radius-md);
+}
+
+.company-detail__missing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-3);
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.company-detail__missing-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font: var(--text-body);
+  font-weight: 600;
+  color: var(--color-warning);
+}
+
+.company-detail__missing-title svg {
+  flex-shrink: 0;
+}
+
+.company-detail__missing-actions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.company-detail__missing-fields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.company-detail__missing-error {
+  margin-top: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+  font: var(--text-caption);
+  border-radius: var(--radius-sm);
+}
+
+/* Loading spinner for enrich button */
+.loading-spinner--sm {
+  width: 14px;
+  height: 14px;
+  border-width: 2px;
 }
 
 /* Content */
@@ -98,6 +352,8 @@
   flex: 1;
   padding: var(--space-6);
   overflow-y: auto;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 /* Sections */
@@ -105,6 +361,8 @@
   padding-bottom: var(--space-6);
   margin-bottom: var(--space-6);
   border-bottom: 1px solid var(--color-divider);
+  overflow: hidden;
+  max-width: 100%;
 }
 
 .company-detail__section:last-child {
@@ -142,6 +400,8 @@
   font: var(--text-body-lg);
   color: var(--color-text-secondary);
   line-height: 1.7;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .company-detail__kpis {
@@ -415,13 +675,62 @@
   font: var(--text-body);
   color: var(--color-primary);
   text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .company-detail__sources li a:hover {
   text-decoration: underline;
 }
 
+/* Navigation Footer */
+.company-detail__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-6);
+  background: var(--color-card-bg);
+  border-top: 1px solid var(--color-divider);
+  position: sticky;
+  bottom: 0;
+}
+
+.company-detail__nav-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.company-detail__nav-counter {
+  font: var(--text-body);
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
 /* Responsive */
+@media (max-width: 700px) {
+  .company-detail__review-bar {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px;
+  }
+  
+  .company-detail__confidence {
+    padding-right: 10px;
+  }
+  
+  .company-detail__score {
+    padding-right: 10px;
+  }
+  
+  .company-detail__review-bar .btn {
+    height: 32px;
+    padding: 0 10px;
+    font-size: 12px;
+  }
+}
+
 @media (max-width: 600px) {
   .company-detail__swot-grid {
     grid-template-columns: 1fr;
@@ -430,6 +739,22 @@
   .company-detail__competitor-list,
   .company-detail__clients {
     grid-template-columns: 1fr;
+  }
+  
+  .company-detail__review-bar {
+    gap: 8px;
+    padding: 10px;
+  }
+  
+  .company-detail__confidence,
+  .company-detail__score {
+    border-right: none;
+    padding-right: 0;
+  }
+  
+  .company-detail__review-bar .btn {
+    flex: 1 1 calc(50% - 4px);
+    min-width: 0;
   }
 }
 

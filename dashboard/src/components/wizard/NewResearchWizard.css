@@ -122,6 +122,84 @@
   padding: 24px;
 }
 
+/* AI Preview Card (for setup step) */
+.wizard-ai-preview {
+  display: flex;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 12px;
+  margin-top: 0.5rem;
+}
+
+.wizard-ai-preview__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: rgba(139, 92, 246, 0.15);
+  border-radius: 12px;
+  color: var(--color-primary, #8b5cf6);
+  flex-shrink: 0;
+}
+
+.wizard-ai-preview__content h4 {
+  font-size: 0.938rem;
+  font-weight: 600;
+  color: var(--color-text-primary, #e5e7eb);
+  margin: 0 0 0.375rem;
+}
+
+.wizard-ai-preview__content p {
+  font-size: 0.875rem;
+  color: var(--color-text-muted, #9ca3af);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Button styles for setup step */
+.wizard-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: inherit;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.wizard-btn--ghost {
+  background: transparent;
+  border: 1px solid var(--color-border, rgba(255, 255, 255, 0.1));
+  color: var(--color-text-muted, #9ca3af);
+}
+
+.wizard-btn--ghost:hover {
+  background: var(--color-surface-subtle, rgba(255, 255, 255, 0.05));
+  color: var(--color-text-primary, #e5e7eb);
+}
+
+.wizard-btn--primary {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  border: none;
+  color: white;
+}
+
+.wizard-btn--primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #9f75ff 0%, #8b5cf6 100%);
+  transform: translateY(-1px);
+}
+
+.wizard-btn--primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .wizard__progress {
@@ -144,6 +222,15 @@
 
   .wizard__content {
     padding: 16px;
+  }
+
+  .wizard-ai-preview {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .wizard-ai-preview__icon {
+    margin: 0 auto;
   }
 }
 

@@ -30,6 +30,17 @@ from typing import Any, Callable
 from multiplium.tools.perplexity_mcp import PerplexityMCPClient
 from multiplium.research.financial_enricher import FinancialEnricher
 
+# Import new prompt templates
+try:
+    from multiplium.prompts.deep_research import (
+        build_deep_research_prompt,
+        build_verification_prompt,
+        WINE_INDUSTRY_CONTEXT,
+    )
+    PROMPTS_AVAILABLE = True
+except ImportError:
+    PROMPTS_AVAILABLE = False
+
 logger = structlog.get_logger()
 
 
@@ -113,7 +124,9 @@ class DeepResearcher:
                 financial_task = self.financial_enricher.enrich(company)
                 
                 # Task 2: Team, competitors, evidence via GPT-4o (cost-effective)
-                gpt4o_task = self._research_with_gpt4o(company_name, website, initial_summary)
+                # Pass segment for competitive landscape context
+                segment = company.get("_source_segment")
+                gpt4o_task = self._research_with_gpt4o(company_name, website, initial_summary, segment)
                 
                 # Execute in parallel
                 results = await asyncio.gather(
@@ -151,6 +164,17 @@ class DeepResearcher:
             
             # Generate SWOT from gathered data (using enriched financial signals)
             enhanced = await self._generate_swot(enhanced)
+            
+            # Optional: Run verification step (improves quality but adds ~10s per company)
+            if PROMPTS_AVAILABLE and depth == "full":
+                verification_result = await self._verify_research(enhanced, initial_summary)
+                enhanced["verification"] = verification_result
+                
+                # Adjust confidence based on verification
+                if verification_result.get("confidence_adjustment"):
+                    original_confidence = enhanced.get("confidence_0to1", 0.5)
+                    adjusted = original_confidence + verification_result["confidence_adjustment"]
+                    enhanced["confidence_0to1"] = max(0.0, min(1.0, adjusted))
             
             # Mark as complete
             enhanced["deep_research_status"] = "completed"
@@ -330,6 +354,7 @@ Cite all sources with URLs.
         company_name: str,
         website: str,
         initial_summary: str,
+        segment: str | None = None,
     ) -> dict[str, Any]:
         """
         Use GPT-4o to gather team, competitors, and evidence data in one efficient call.
@@ -337,8 +362,20 @@ Cite all sources with URLs.
         Cost: ~$0.005 per company (vs $0.015 with 3 separate Perplexity calls)
         Speed: ~2-3 minutes (vs 6-9 minutes with separate calls)
         Quality: Excellent for structured data extraction
+        
+        Now uses wine-industry specific prompts with competitive landscape context.
         """
-        comprehensive_prompt = f"""
+        # Use new unified prompts if available
+        if PROMPTS_AVAILABLE:
+            comprehensive_prompt = build_deep_research_prompt(
+                company_name=company_name,
+                website=website,
+                initial_summary=initial_summary,
+                segment=segment,
+            )
+        else:
+            # Fallback to legacy prompt
+            comprehensive_prompt = f"""
 Research the following company comprehensively. Use web search to find current, accurate information.
 
 **Company:** {company_name}
@@ -857,6 +894,75 @@ Prioritize Crunchbase, LinkedIn, company website, and wine industry publications
         )
         
         return company
+    
+    async def _verify_research(
+        self,
+        company_data: dict[str, Any],
+        original_summary: str,
+    ) -> dict[str, Any]:
+        """
+        Verify research findings for accuracy and completeness.
+        
+        This adds a quality control step to ensure:
+        - Vineyard evidence is real and verifiable
+        - Team/executive data is accurate
+        - Financial claims are plausible
+        - Competitive positioning makes sense
+        
+        Returns verification result with potential confidence adjustment.
+        """
+        company_name = company_data.get("company", "Unknown")
+        
+        logger.info(
+            "deep_research.verification.start",
+            company=company_name,
+        )
+        
+        try:
+            verification_prompt = build_verification_prompt(
+                company_data=company_data,
+                original_summary=original_summary,
+            )
+            
+            response = await self.openai.chat.completions.create(
+                model="gpt-4o",
+                messages=[
+                    {
+                        "role": "system",
+                        "content": (
+                            "You are a research quality analyst. Verify the accuracy and completeness of "
+                            "company research findings. Be critical but fair. Return structured JSON."
+                        )
+                    },
+                    {"role": "user", "content": verification_prompt}
+                ],
+                response_format={"type": "json_object"},
+                temperature=0.1,
+            )
+            
+            result_text = response.choices[0].message.content
+            verification_result = json.loads(result_text)
+            
+            logger.info(
+                "deep_research.verification.complete",
+                company=company_name,
+                status=verification_result.get("verification_status", "unknown"),
+                recommendation=verification_result.get("recommendation", "unknown"),
+            )
+            
+            return verification_result
+        
+        except Exception as e:
+            logger.warning(
+                "deep_research.verification.failed",
+                company=company_name,
+                error=str(e),
+            )
+            return {
+                "verification_status": "skipped",
+                "confidence_adjustment": 0.0,
+                "error": str(e),
+            }
     
     def _parse_financial_response(self, response: dict[str, Any]) -> dict[str, Any]:
         """Extract structured financial data from Perplexity response."""

@@ -1,113 +1,150 @@
 import { ReactNode } from 'react';
-import { Checkbox } from './ui';
 import './Sidebar.css';
-
-// Navigation items
-interface NavItem {
-  id: string;
-  label: string;
-  icon: ReactNode;
-}
 
 interface SidebarProps {
   currentView: string;
   onViewChange: (view: string) => void;
-  segments: string[];
-  selectedSegments: string[];
-  onSegmentToggle: (segment: string) => void;
-  onSelectAllSegments: () => void;
-  onClearSegments: () => void;
-  shortlistedCompanies: string[];
-  onShortlistClick: (company: string) => void;
-  onClearShortlist: () => void;
+  projectName?: string;
+  onBackToProjects?: () => void;
   reviewPendingCount?: number;
   reviewProgress?: number;
+  archivedCount?: number;
+  onNewProject?: () => void;
 }
 
 // Icons as inline SVGs
 const ProjectsIcon = (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
-    <path d="M3 5h14M3 5v10a2 2 0 002 2h10a2 2 0 002-2V5M3 5l2-2h10l2 2" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M7 9h6M7 12h4" strokeLinecap="round" />
+    <rect x="3" y="3" width="6" height="6" rx="1" />
+    <rect x="11" y="3" width="6" height="6" rx="1" />
+    <rect x="3" y="11" width="6" height="6" rx="1" />
+    <rect x="11" y="11" width="6" height="6" rx="1" />
   </svg>
 );
 
-const DashboardIcon = (
+const RunsIcon = (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
-    <rect x="2" y="2" width="7" height="7" rx="1.5" />
-    <rect x="11" y="2" width="7" height="7" rx="1.5" />
-    <rect x="2" y="11" width="7" height="7" rx="1.5" />
-    <rect x="11" y="11" width="7" height="7" rx="1.5" />
+    <path d="M3 5h14M3 10h14M3 15h14" strokeLinecap="round" />
+  </svg>
+);
+
+const BackIcon = (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M12 5l-5 5 5 5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const SettingsIcon = (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <circle cx="10" cy="10" r="2.5" />
+    <path d="M10 3v2M10 15v2M17 10h-2M5 10H3M14.95 5.05l-1.41 1.41M6.46 13.54l-1.41 1.41M14.95 14.95l-1.41-1.41M6.46 6.46L5.05 5.05" />
   </svg>
 );
 
 const DiscoveryIcon = (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
-    <circle cx="10" cy="10" r="7" />
-    <path d="M10 6v4l2.5 2.5" strokeLinecap="round" />
+    <circle cx="8" cy="8" r="5" />
+    <path d="M12 12l5 5" strokeLinecap="round" />
+    <path d="M8 5v6M5 8h6" strokeLinecap="round" />
   </svg>
 );
 
-const ResearchIcon = (
+const PlusIcon = (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M10 4v12M4 10h12" strokeLinecap="round" />
+  </svg>
+);
+
+const ArchiveIcon = (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
-    <path d="M3 4h14M3 8h10M3 12h14M3 16h7" strokeLinecap="round" />
+    <path d="M3 5h14M3 5v11a1 1 0 001 1h12a1 1 0 001-1V5M7 9h6" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M5 5V4a1 1 0 011-1h8a1 1 0 011 1v1" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
-const ReviewIcon = (
-  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5">
-    <path d="M3 3h14v14H3zM7 7l2 2 4-4M7 13h6" strokeLinecap="round" strokeLinejoin="round" />
+// Logo SVG
+const LogoIcon = (
+  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+    <defs>
+      <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#6B5CFF" />
+        <stop offset="100%" stopColor="#9B8CFF" />
+      </linearGradient>
+    </defs>
+    <rect x="2" y="2" width="24" height="24" rx="6" fill="url(#logoGrad)" />
+    <path d="M9 14l3 3 7-7" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
-function StarIconSmall() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-      <path d="M8 1.5l1.76 3.57 3.94.57-2.85 2.78.67 3.93L8 10.47l-3.52 1.88.67-3.93L2.3 5.64l3.94-.57L8 1.5z" />
-    </svg>
-  );
+interface NavItem {
+  id: string;
+  label: string;
+  icon: ReactNode;
+  badge?: number;
 }
-
-const NAV_ITEMS: NavItem[] = [
-  { id: 'projects', label: 'Projects', icon: ProjectsIcon },
-  { id: 'runs', label: 'Runs', icon: DashboardIcon },
-  { id: 'discovery', label: 'Discovery', icon: DiscoveryIcon },
-  { id: 'research', label: 'Deep Research', icon: ResearchIcon },
-  { id: 'review', label: 'Review', icon: ReviewIcon },
-];
 
 export function Sidebar({
   currentView,
   onViewChange,
-  segments,
-  selectedSegments,
-  onSegmentToggle,
-  onSelectAllSegments,
-  onClearSegments,
-  shortlistedCompanies,
-  onShortlistClick,
-  onClearShortlist,
+  projectName,
+  onBackToProjects,
   reviewPendingCount = 0,
-  reviewProgress = 0,
+  archivedCount = 0,
+  onNewProject,
 }: SidebarProps) {
-  const allSelected = segments.length > 0 && selectedSegments.length === segments.length;
-  const someSelected = selectedSegments.length > 0 && selectedSegments.length < segments.length;
+  // When inside a project, show minimal nav with back button
+  const isInProject = currentView === 'project-detail';
+
+  const mainNavItems: NavItem[] = [
+    { id: 'projects', label: 'Projects', icon: ProjectsIcon },
+    { id: 'archived', label: 'Archived', icon: ArchiveIcon, badge: archivedCount > 0 ? archivedCount : undefined },
+  ];
+
+  const adminNavItems: NavItem[] = [
+    { id: 'runs', label: 'Run History', icon: RunsIcon },
+    { id: 'settings', label: 'Settings', icon: SettingsIcon },
+  ];
 
   return (
     <aside className="sidebar">
-      {/* Logo */}
+      {/* Logo Header */}
       <div className="sidebar__header">
-        <div className="sidebar__logo">
-          <span className="sidebar__logo-icon">🍇</span>
-          <span className="sidebar__logo-text">Multiplium</span>
+        <div className="sidebar__logo" onClick={() => onViewChange('projects')}>
+          {LogoIcon}
+          <div className="sidebar__logo-text">
+            <span className="sidebar__logo-title">Multiplium</span>
+            <span className="sidebar__logo-subtitle">Research Platform</span>
+          </div>
         </div>
       </div>
 
-      {/* Navigation */}
+      {/* New Project Button */}
+      {onNewProject && (
+        <div className="sidebar__new-project">
+          <button className="sidebar__new-project-btn" onClick={onNewProject}>
+            <span className="sidebar__new-project-icon">{PlusIcon}</span>
+            <span>New Project</span>
+          </button>
+        </div>
+      )}
+
+      {/* Project Context Bar (when inside a project) */}
+      {isInProject && projectName && (
+        <div className="sidebar__project-context">
+          <button className="sidebar__back-btn" onClick={onBackToProjects}>
+            {BackIcon}
+            <span>Back to Projects</span>
+          </button>
+          <div className="sidebar__project-name">
+            {projectName}
+          </div>
+        </div>
+      )}
+
+      {/* Main Navigation */}
       <nav className="sidebar__nav">
-        <div className="sidebar__section-title">Navigation</div>
         <ul className="sidebar__nav-list">
-          {NAV_ITEMS.map((item) => (
+          {mainNavItems.map((item) => (
             <li key={item.id}>
               <button
                 className={`sidebar__nav-item ${currentView === item.id ? 'sidebar__nav-item--active' : ''}`}
@@ -115,90 +152,49 @@ export function Sidebar({
               >
                 <span className="sidebar__nav-icon">{item.icon}</span>
                 <span className="sidebar__nav-label">{item.label}</span>
-                {item.id === 'review' && reviewPendingCount > 0 && (
-                  <span className="sidebar__nav-badge">{reviewPendingCount}</span>
+                {item.badge && item.badge > 0 && (
+                  <span className="sidebar__nav-badge">{item.badge}</span>
                 )}
               </button>
-              {item.id === 'review' && currentView === 'review' && reviewProgress > 0 && (
-                <div className="sidebar__nav-progress">
-                  <div 
-                    className="sidebar__nav-progress-fill" 
-                    style={{ width: `${reviewProgress}%` }}
-                  />
-                </div>
-              )}
             </li>
           ))}
         </ul>
       </nav>
 
-      {/* Segment Filters */}
-      {(currentView === 'discovery' || currentView === 'research' || currentView === 'review') && segments.length > 0 && (
-        <div className="sidebar__section">
-          <div className="sidebar__section-header">
-            <span className="sidebar__section-title">
-              Segments ({selectedSegments.length}/{segments.length})
-            </span>
-            <button
-              className="sidebar__section-action"
-              onClick={allSelected ? onClearSegments : onSelectAllSegments}
-            >
-              {allSelected ? 'Clear' : 'All'}
-            </button>
-          </div>
-          <div className="sidebar__segment-list">
-            {segments.map((segment) => (
-              <Checkbox
-                key={segment}
-                label={formatSegmentName(segment)}
-                checked={selectedSegments.includes(segment)}
-                onChange={() => onSegmentToggle(segment)}
-              />
-            ))}
+      {/* Stats Summary (when projects exist) */}
+      {reviewPendingCount > 0 && (
+        <div className="sidebar__stats">
+          <div className="sidebar__stat">
+            <span className="sidebar__stat-value">{reviewPendingCount}</span>
+            <span className="sidebar__stat-label">Pending Reviews</span>
           </div>
         </div>
       )}
 
-      {/* Shortlist */}
-      <div className="sidebar__section sidebar__section--shortlist">
-        <div className="sidebar__section-header">
-          <span className="sidebar__section-title">
-            <StarIconSmall /> Shortlist ({shortlistedCompanies.length})
-          </span>
-          {shortlistedCompanies.length > 0 && (
-            <button className="sidebar__section-action" onClick={onClearShortlist}>
-              Clear
-            </button>
-          )}
+      {/* Admin Section */}
+      <div className="sidebar__admin">
+        <div className="sidebar__section-divider">
+          <span>Admin</span>
         </div>
-        {shortlistedCompanies.length === 0 ? (
-          <p className="sidebar__empty-text">
-            Star companies to add them to your shortlist
-          </p>
-        ) : (
-          <ul className="sidebar__shortlist">
-            {shortlistedCompanies.map((company) => (
-              <li key={company} className="sidebar__shortlist-item">
-                <button
-                  className="sidebar__shortlist-btn"
-                  onClick={() => onShortlistClick(company)}
-                >
-                  <span className="sidebar__shortlist-name">{company}</span>
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
+        <ul className="sidebar__nav-list">
+          {adminNavItems.map((item) => (
+            <li key={item.id}>
+              <button
+                className={`sidebar__nav-item sidebar__nav-item--secondary ${currentView === item.id ? 'sidebar__nav-item--active' : ''}`}
+                onClick={() => onViewChange(item.id)}
+              >
+                <span className="sidebar__nav-icon">{item.icon}</span>
+                <span className="sidebar__nav-label">{item.label}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Footer */}
+      <div className="sidebar__footer">
+        <div className="sidebar__version">v1.0.0</div>
       </div>
     </aside>
   );
 }
-
-// Helper to format segment names
-function formatSegmentName(segment: string): string {
-  return segment
-    .replace(/^\d+\.\s*/, '') // Remove leading numbers
-    .replace(/\s*\([^)]*\)/, '') // Remove parenthetical
-    .trim();
-}
-

@@ -314,3 +314,4 @@ export function CompareView({ companies, onClose, shortlistedCompanies, onToggle
 }
 
 
+

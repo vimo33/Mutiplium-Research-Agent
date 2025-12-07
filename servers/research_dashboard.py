@@ -1,14 +1,20 @@
 from __future__ import annotations
 
+import asyncio
 import json
 import os
+import re
 import subprocess
 import sys
 import uuid
+from datetime import datetime
 from pathlib import Path
+from typing import AsyncGenerator
 
-from fastapi import FastAPI, HTTPException
+import yaml
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 
 from multiplium.runs import RunRegistry
@@ -38,12 +44,19 @@ class DeepResearchRequest(BaseModel):
     report_path: str = Field(description="Path to the discovery report JSON file")
     top_n: int = Field(default=25, ge=1, description="Number of top companies to research")
     config_path: str = Field(default="config/dev.yaml", description="Path to orchestrator config")
+    companies: list[str] | None = Field(default=None, description="Specific company names to research (optional)")
 
 
 class EnrichRequest(BaseModel):
     company_name: str = Field(description="Name of the company to enrich")
     existing_data: dict = Field(default={}, description="Existing company data")
     fields_to_enrich: list[str] = Field(default=[], description="Fields to fetch: website, team, financials, swot")
+
+
+class EnrichCompanyDataRequest(BaseModel):
+    company_name: str = Field(description="Name of the company to enrich")
+    current_data: dict = Field(default={}, description="Current company data")
+    missing_fields: list[str] = Field(default=[], description="List of missing field keys to enrich")
 
 
 # ============================================================================
@@ -76,6 +89,16 @@ class ResearchFramework(BaseModel):
     value_chain: list[ValueChainSegment] = Field(default=[])
 
 
+class ProjectCost(BaseModel):
+    """Cost tracking for a project."""
+    total_cost: float = 0.0
+    discovery_cost: float = 0.0
+    deep_research_cost: float = 0.0
+    enrichment_cost: float = 0.0
+    currency: str = "USD"
+    last_updated: str | None = None
+
+
 class ProjectStats(BaseModel):
     total_companies: int = 0
     enriched_companies: int = 0
@@ -84,6 +107,7 @@ class ProjectStats(BaseModel):
     maybe: int = 0
     pending: int = 0
     flagged: int = 0
+    cost: ProjectCost = Field(default_factory=ProjectCost)
 
 
 class ProjectCreateRequest(BaseModel):
@@ -109,6 +133,79 @@ class EnrichBriefRequest(BaseModel):
 class GenerateFrameworkRequest(BaseModel):
     brief: ResearchBrief = Field(description="Research brief to generate framework from")
     answers: dict = Field(default={}, description="Answers to clarifying questions")
+
+
+# ============================================================================
+# Chat System Models
+# ============================================================================
+
+class ChatMessage(BaseModel):
+    role: str = Field(description="Message role: 'user' or 'assistant'")
+    content: str = Field(description="Message content")
+
+
+class ChatRequest(BaseModel):
+    session_id: str = Field(description="Unique session identifier")
+    message: str = Field(description="User message to send")
+    client_name: str = Field(default="", description="Optional client name context")
+    project_name: str = Field(default="", description="Optional project name context")
+
+
+class ChatFinalizeRequest(BaseModel):
+    session_id: str = Field(description="Session ID to finalize")
+
+
+# In-memory conversation storage (would be Redis/DB in production)
+CHAT_SESSIONS: dict[str, list[dict]] = {}
+
+# System prompt for the Research Context Guide
+CONTEXT_GUIDE_SYSTEM_PROMPT = """You are a Research Context Guide, an expert AI assistant helping investment professionals set up research projects. Your goal is to gather comprehensive context through natural, engaging conversation.
+
+## Your Personality
+- Warm and professional, like a knowledgeable colleague
+- Ask one or two questions at a time, not overwhelming lists
+- Acknowledge and build upon the user's responses
+- Be proactive in suggesting insights based on what you learn
+
+## Your Goals
+Through conversation, you need to understand:
+1. **Research Objective**: What type of companies or investments are they looking for?
+2. **Target Sectors**: Which industries or verticals?
+3. **Geographic Focus**: Which regions or countries?
+4. **Company Stages**: Pre-seed, Seed, Series A, B, C, Growth, etc.
+5. **Investment Size**: What check sizes are they targeting?
+6. **Key Criteria**: Technology focus, business models, specific characteristics
+7. **Deal Breakers**: What would disqualify a company?
+
+## Generating Artifacts
+As you gather enough context, progressively generate research artifacts using these EXACT markers:
+
+### Investment Thesis (generate when you understand the core opportunity)
+[THESIS_START]
+Your 2-3 paragraph investment thesis explaining the opportunity, market dynamics, and why this is compelling.
+[THESIS_END]
+
+### KPIs (generate when you understand their evaluation criteria)
+[KPI_START]{"name": "KPI Name", "target": "Target Value (e.g., >50%)", "rationale": "Why this matters"}[KPI_END]
+Generate 4-6 KPIs, each with its own markers.
+
+### Value Chain Segments (generate when you understand the target space)
+[SEGMENT_START]{"segment": "Segment Name", "description": "What companies in this segment do"}[SEGMENT_END]
+Generate 6-8 segments, each with its own markers.
+
+## Conversation Flow
+1. Start by warmly greeting and asking about their research goals
+2. Dig deeper with follow-up questions based on their responses
+3. After 3-4 exchanges, start proposing artifacts
+4. Ask for feedback on generated artifacts and refine if needed
+5. When you've generated thesis, KPIs, and value chain, ask if they're ready to proceed
+
+## Important Rules
+- NEVER generate artifacts in your first response - gather context first
+- Generate artifacts progressively, not all at once
+- If the user asks to modify an artifact, regenerate it with their feedback
+- Keep conversational text OUTSIDE the artifact markers
+- Be concise but thorough in your questions"""
 
 
 # Project storage (in-memory for now, would be DB in production)
@@ -294,6 +391,7 @@ def create_run(request: RunCreateRequest) -> dict[str, object]:
 
     cmd = [
         sys.executable,
+        "-u",  # Unbuffered stdout for real-time logs
         "-m",
         "multiplium.orchestrator",
         "--config",
@@ -376,6 +474,11 @@ def create_deep_research(request: DeepResearchRequest) -> dict[str, object]:
         "--project-id",
         f"deep-research-{report_path.stem}",
     ]
+    
+    # Add companies filter if specified
+    if request.companies:
+        import json
+        cmd.extend(["--companies", json.dumps(request.companies)])
     
     stdout_path = registry.stdout_path(run_id)
     env = os.environ.copy()
@@ -624,10 +727,263 @@ Return as JSON:
         raise HTTPException(status_code=500, detail=f"Framework generation failed: {str(e)}")
 
 
+class TestRunRequest(BaseModel):
+    framework: ResearchFramework = Field(description="Research framework to test")
+    companies_per_segment: int = Field(default=3, ge=1, le=10, description="Companies per segment")
+
+
 @app.post("/projects/{project_id}/start-test-run")
-def start_project_test_run(project_id: str) -> dict[str, object]:
-    """Start a test run (3 companies per segment) for a project."""
-    from datetime import datetime
+def start_project_test_run(project_id: str, request: TestRunRequest) -> dict[str, object]:
+    """Start a live test run using the orchestrator with a small sample size."""
+    
+    projects = load_projects()
+    if project_id not in projects:
+        raise HTTPException(status_code=404, detail="Project not found")
+    
+    project = projects[project_id]
+    framework = request.framework
+    
+    # Create temporary context files for the orchestrator
+    test_run_dir = WORKSPACE_ROOT / "data" / "test_runs" / project_id
+    test_run_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Write thesis file
+    thesis_path = test_run_dir / "thesis.md"
+    thesis_path.write_text(framework.thesis or "Investment research thesis", encoding="utf-8")
+    
+    # Write value chain file (markdown format)
+    value_chain_md = "# Value Chain Segments\n\n"
+    for i, segment in enumerate(framework.value_chain, 1):
+        value_chain_md += f"## {i}. {segment.segment}\n{segment.description}\n\n"
+    value_chain_path = test_run_dir / "value_chain.md"
+    value_chain_path.write_text(value_chain_md, encoding="utf-8")
+    
+    # Write KPIs file (markdown format)  
+    kpis_md = "# Key Performance Indicators\n\n"
+    for kpi in framework.kpis:
+        kpis_md += f"**{kpi.name}**: {kpi.target}\n- {kpi.rationale}\n\n"
+    kpis_path = test_run_dir / "kpis.md"
+    kpis_path.write_text(kpis_md, encoding="utf-8")
+    
+    # Create test run config (use existing dev.yaml as base, override paths)
+    base_config_path = WORKSPACE_ROOT / "config" / "dev.yaml"
+    if not base_config_path.exists():
+        raise HTTPException(status_code=500, detail="Base config not found")
+    
+    import yaml
+    with base_config_path.open("r") as f:
+        config = yaml.safe_load(f)
+    
+    # Override context paths for test run
+    config["orchestrator"]["sector"] = project.get("project_name", "Research Project")
+    config["orchestrator"]["thesis_path"] = str(thesis_path.relative_to(WORKSPACE_ROOT))
+    config["orchestrator"]["value_chain_path"] = str(value_chain_path.relative_to(WORKSPACE_ROOT))
+    config["orchestrator"]["kpi_path"] = str(kpis_path.relative_to(WORKSPACE_ROOT))
+    config["orchestrator"]["output_path"] = f"reports/test_runs/{project_id}/report.json"
+    
+    # Use only one provider for test run (faster)
+    config["providers"]["anthropic"]["enabled"] = False
+    config["providers"]["google"]["enabled"] = False
+    config["providers"]["openai"]["enabled"] = True
+    config["providers"]["openai"]["max_steps"] = 10  # Limit iterations for test
+    
+    # Write test run config
+    test_config_path = test_run_dir / "config.yaml"
+    with test_config_path.open("w") as f:
+        yaml.dump(config, f, default_flow_style=False)
+    
+    # Create run via orchestrator
+    run_id = uuid.uuid4().hex
+    
+    # Pre-create snapshot
+    registry.create_run(
+        project_id=project_id,
+        config_path=str(test_config_path),
+        params={
+            "test_run": True,
+            "companies_per_segment": request.companies_per_segment,
+        },
+        run_id=run_id,
+    )
+    
+    # Launch orchestrator with small sample size
+    # top_n = companies_per_segment * number_of_segments
+    total_companies = request.companies_per_segment * len(framework.value_chain)
+    
+    cmd = [
+        sys.executable,
+        "-m",
+        "multiplium.orchestrator",
+        "--config",
+        str(test_config_path),
+        "--top-n",
+        str(max(total_companies, 10)),  # At least 10 companies
+        "--run-id",
+        run_id,
+        "--project-id",
+        project_id,
+    ]
+    
+    stdout_path = registry.stdout_path(run_id)
+    env = os.environ.copy()
+    
+    # Ensure reports directory exists
+    (WORKSPACE_ROOT / "reports" / "test_runs" / project_id).mkdir(parents=True, exist_ok=True)
+    
+    stdout_handle = stdout_path.open("w", encoding="utf-8", buffering=1)
+    
+    subprocess.Popen(
+        cmd,
+        cwd=str(WORKSPACE_ROOT),
+        stdout=stdout_handle,
+        stderr=stdout_handle,
+        env=env,
+        start_new_session=True,
+        close_fds=False,
+    )
+    
+    # Update project status
+    project["status"] = "test_run"
+    project["updated_at"] = datetime.utcnow().isoformat() + "Z"
+    save_projects(projects)
+    
+    return {
+        "status": "started",
+        "run_id": run_id,
+        "message": f"Test run started: searching for ~{total_companies} companies across {len(framework.value_chain)} segments",
+        "project_id": project_id,
+    }
+
+
+class StartDiscoveryRequest(BaseModel):
+    framework: ResearchFramework = Field(description="Research framework for discovery")
+    top_n: int = Field(default=50, ge=10, le=200, description="Total companies to find")
+
+
+class StartDeepResearchRequest(BaseModel):
+    companies: list[str] = Field(description="List of company names to research deeply")
+    config_path: str = Field(default="config/dev.yaml", description="Path to orchestrator config")
+
+
+@app.post("/projects/{project_id}/start-discovery")
+def start_project_discovery(project_id: str, request: StartDiscoveryRequest) -> dict[str, object]:
+    """Start full discovery research for a project."""
+    
+    projects = load_projects()
+    if project_id not in projects:
+        raise HTTPException(status_code=404, detail="Project not found")
+    
+    project = projects[project_id]
+    framework = request.framework
+    
+    # Create context files for the orchestrator
+    discovery_dir = WORKSPACE_ROOT / "data" / "discoveries" / project_id
+    discovery_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Write thesis file
+    thesis_path = discovery_dir / "thesis.md"
+    thesis_path.write_text(framework.thesis or "Investment research thesis", encoding="utf-8")
+    
+    # Write value chain file
+    value_chain_md = "# Value Chain Segments\n\n"
+    for i, segment in enumerate(framework.value_chain, 1):
+        value_chain_md += f"## {i}. {segment.segment}\n{segment.description}\n\n"
+    value_chain_path = discovery_dir / "value_chain.md"
+    value_chain_path.write_text(value_chain_md, encoding="utf-8")
+    
+    # Write KPIs file
+    kpis_md = "# Key Performance Indicators\n\n"
+    for kpi in framework.kpis:
+        kpis_md += f"**{kpi.name}**: {kpi.target}\n- {kpi.rationale}\n\n"
+    kpis_path = discovery_dir / "kpis.md"
+    kpis_path.write_text(kpis_md, encoding="utf-8")
+    
+    # Create discovery config
+    base_config_path = WORKSPACE_ROOT / "config" / "dev.yaml"
+    if not base_config_path.exists():
+        raise HTTPException(status_code=500, detail="Base config not found")
+    
+    with base_config_path.open("r") as f:
+        config = yaml.safe_load(f)
+    
+    # Override context paths
+    config["orchestrator"]["sector"] = project.get("project_name", "Research Project")
+    config["orchestrator"]["thesis_path"] = str(thesis_path.relative_to(WORKSPACE_ROOT))
+    config["orchestrator"]["value_chain_path"] = str(value_chain_path.relative_to(WORKSPACE_ROOT))
+    config["orchestrator"]["kpi_path"] = str(kpis_path.relative_to(WORKSPACE_ROOT))
+    config["orchestrator"]["output_path"] = f"reports/discoveries/{project_id}/report.json"
+    
+    # Keep providers as configured in dev.yaml (anthropic disabled, openai+google enabled)
+    
+    # Write discovery config
+    config_path = discovery_dir / "config.yaml"
+    with config_path.open("w") as f:
+        yaml.dump(config, f, default_flow_style=False)
+    
+    # Create run
+    run_id = uuid.uuid4().hex
+    
+    registry.create_run(
+        project_id=project_id,
+        config_path=str(config_path),
+        params={
+            "discovery": True,
+            "top_n": request.top_n,
+        },
+        run_id=run_id,
+    )
+    
+    # Launch orchestrator
+    cmd = [
+        sys.executable,
+        "-u",  # Unbuffered stdout for real-time logs
+        "-m",
+        "multiplium.orchestrator",
+        "--config",
+        str(config_path),
+        "--top-n",
+        str(request.top_n),
+        "--run-id",
+        run_id,
+        "--project-id",
+        project_id,
+    ]
+    
+    stdout_path = registry.stdout_path(run_id)
+    env = os.environ.copy()
+    
+    # Ensure reports directory exists
+    (WORKSPACE_ROOT / "reports" / "discoveries" / project_id).mkdir(parents=True, exist_ok=True)
+    
+    stdout_handle = stdout_path.open("w", encoding="utf-8", buffering=1)
+    
+    subprocess.Popen(
+        cmd,
+        cwd=str(WORKSPACE_ROOT),
+        stdout=stdout_handle,
+        stderr=stdout_handle,
+        env=env,
+        start_new_session=True,
+        close_fds=False,
+    )
+    
+    # Update project with run_id and status
+    project["status"] = "researching"
+    project["current_run_id"] = run_id
+    project["updated_at"] = datetime.utcnow().isoformat() + "Z"
+    save_projects(projects)
+    
+    return {
+        "status": "started",
+        "run_id": run_id,
+        "message": f"Discovery started: searching for ~{request.top_n} companies across {len(framework.value_chain)} segments",
+        "project_id": project_id,
+    }
+
+
+@app.post("/projects/{project_id}/retry-discovery")
+def retry_project_discovery(project_id: str) -> dict[str, object]:
+    """Retry a failed discovery run for a project."""
     
     projects = load_projects()
     if project_id not in projects:
@@ -635,18 +991,387 @@ def start_project_test_run(project_id: str) -> dict[str, object]:
     
     project = projects[project_id]
     
-    # Update project status
-    project["status"] = "test_run"
+    # Check if retry is allowed
+    # Allow retry for failed, researching, or completed-with-no-results
+    allowed_statuses = ("discovery_failed", "researching", "discovery_complete")
+    if project.get("status") not in allowed_statuses:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Cannot retry discovery in status: {project.get('status')}"
+        )
+    
+    # Check if discovery config exists
+    discovery_dir = WORKSPACE_ROOT / "data" / "discoveries" / project_id
+    config_path = discovery_dir / "config.yaml"
+    
+    if not config_path.exists():
+        raise HTTPException(status_code=400, detail="Discovery config not found. Please restart the project.")
+    
+    # Regenerate config from dev.yaml to get current model names/settings
+    # while preserving project-specific paths
+    base_config_path = WORKSPACE_ROOT / "config" / "dev.yaml"
+    if base_config_path.exists():
+        with base_config_path.open("r") as f:
+            config = yaml.safe_load(f)
+        
+        # Load existing discovery paths
+        with config_path.open("r") as f:
+            old_config = yaml.safe_load(f)
+        
+        # Preserve project-specific paths from old config
+        config["orchestrator"]["sector"] = old_config["orchestrator"].get("sector", "Research Project")
+        config["orchestrator"]["thesis_path"] = old_config["orchestrator"]["thesis_path"]
+        config["orchestrator"]["value_chain_path"] = old_config["orchestrator"]["value_chain_path"]
+        config["orchestrator"]["kpi_path"] = old_config["orchestrator"]["kpi_path"]
+        config["orchestrator"]["output_path"] = old_config["orchestrator"]["output_path"]
+        
+        # Write updated config with fresh provider settings
+        with config_path.open("w") as f:
+            yaml.dump(config, f, default_flow_style=False)
+    
+    # Create new run
+    run_id = uuid.uuid4().hex
+    
+    registry.create_run(
+        project_id=project_id,
+        config_path=str(config_path),
+        params={
+            "discovery": True,
+            "retry": True,
+        },
+        run_id=run_id,
+    )
+    
+    # Launch orchestrator
+    cmd = [
+        sys.executable,
+        "-u",  # Unbuffered stdout for real-time logs
+        "-m",
+        "multiplium.orchestrator",
+        "--config",
+        str(config_path),
+        "--run-id",
+        run_id,
+        "--project-id",
+        project_id,
+    ]
+    
+    stdout_path = registry.stdout_path(run_id)
+    env = os.environ.copy()
+    
+    # Ensure reports directory exists
+    (WORKSPACE_ROOT / "reports" / "discoveries" / project_id).mkdir(parents=True, exist_ok=True)
+    
+    stdout_handle = stdout_path.open("w", encoding="utf-8", buffering=1)
+    
+    subprocess.Popen(
+        cmd,
+        cwd=str(WORKSPACE_ROOT),
+        stdout=stdout_handle,
+        stderr=stdout_handle,
+        env=env,
+        start_new_session=True,
+        close_fds=False,
+    )
+    
+    # Update project with new run_id and status
+    project["status"] = "researching"
+    project["current_run_id"] = run_id
     project["updated_at"] = datetime.utcnow().isoformat() + "Z"
     save_projects(projects)
     
-    # In production, this would launch the actual research
-    # For now, return success and the frontend will poll for updates
     return {
         "status": "started",
-        "message": "Test run started (3 companies per segment)",
+        "run_id": run_id,
+        "message": "Discovery retry started",
         "project_id": project_id,
     }
+
+
+@app.post("/projects/{project_id}/start-deep-research")
+def start_project_deep_research(project_id: str, request: StartDeepResearchRequest) -> dict[str, object]:
+    """Start deep research on selected companies from discovery."""
+    
+    projects = load_projects()
+    if project_id not in projects:
+        raise HTTPException(status_code=404, detail="Project not found")
+    
+    project = projects[project_id]
+    
+    # Get discovery report path
+    discovery_dir = WORKSPACE_ROOT / "data" / "discoveries" / project_id
+    discovery_report = discovery_dir / "report.json"
+    
+    if not discovery_report.exists():
+        raise HTTPException(status_code=400, detail="Discovery report not found")
+    
+    # Use existing config from discovery
+    config_path = discovery_dir / "config.yaml"
+    if not config_path.exists():
+        config_path = WORKSPACE_ROOT / request.config_path
+    
+    # Create run
+    run_id = uuid.uuid4().hex
+    
+    registry.create_run(
+        project_id=project_id,
+        config_path=str(config_path),
+        params={
+            "deep_research": True,
+            "companies": request.companies,
+            "source_report": str(discovery_report.relative_to(WORKSPACE_ROOT)),
+        },
+        run_id=run_id,
+    )
+    
+    # Launch orchestrator with deep research flag
+    cmd = [
+        sys.executable,
+        "-m",
+        "multiplium.orchestrator",
+        "--config",
+        str(config_path),
+        "--deep-research",
+        "--from-report",
+        str(discovery_report),
+        "--companies",
+        json.dumps(request.companies),
+        "--run-id",
+        run_id,
+        "--project-id",
+        project_id,
+    ]
+    
+    stdout_path = registry.stdout_path(run_id)
+    env = os.environ.copy()
+    
+    # Ensure reports directory exists
+    deep_research_dir = WORKSPACE_ROOT / "reports" / "deep_research" / project_id
+    deep_research_dir.mkdir(parents=True, exist_ok=True)
+    
+    stdout_handle = stdout_path.open("w", encoding="utf-8", buffering=1)
+    
+    subprocess.Popen(
+        cmd,
+        cwd=str(WORKSPACE_ROOT),
+        stdout=stdout_handle,
+        stderr=stdout_handle,
+        env=env,
+        start_new_session=True,
+        close_fds=False,
+    )
+    
+    # Update project with run_id and status
+    project["status"] = "deep_researching"
+    project["current_run_id"] = run_id
+    project["updated_at"] = datetime.utcnow().isoformat() + "Z"
+    save_projects(projects)
+    
+    return {
+        "status": "started",
+        "run_id": run_id,
+        "message": f"Deep research started on {len(request.companies)} companies",
+        "project_id": project_id,
+    }
+
+
+@app.get("/projects/{project_id}/discovery-status")
+def get_discovery_status(project_id: str) -> dict[str, object]:
+    """Get current discovery run status for a project."""
+    
+    projects = load_projects()
+    if project_id not in projects:
+        raise HTTPException(status_code=404, detail="Project not found")
+    
+    project = projects[project_id]
+    run_id = project.get("current_run_id")
+    
+    if not run_id:
+        return {
+            "status": "no_run",
+            "project_id": project_id,
+            "message": "No discovery run found for this project",
+            "can_retry": True,
+        }
+    
+    # Get run snapshot
+    if not registry.snapshot_exists(run_id):
+        return {
+            "status": "not_found",
+            "run_id": run_id,
+            "project_id": project_id,
+            "can_retry": True,
+        }
+    
+    snapshot = registry.load_snapshot(run_id)
+    run_data = snapshot.to_dict()
+    
+    # Check for report
+    report_path = WORKSPACE_ROOT / "reports" / "discoveries" / project_id / "report.json"
+    has_report = report_path.exists()
+    
+    # Extract error info from last event if failed
+    error_message = None
+    if run_data.get("status") == "failed":
+        last_event = run_data.get("last_event", {})
+        error_message = last_event.get("error", "Discovery failed unexpectedly")
+        # Update project status to allow retry
+        if project.get("status") == "researching":
+            project["status"] = "discovery_failed"
+            project["updated_at"] = datetime.utcnow().isoformat() + "Z"
+            save_projects(projects)
+    
+    # If completed, update project status
+    if run_data.get("status") == "completed" and has_report:
+        # Check if this is discovery or deep research
+        params = run_data.get("params", {})
+        if params.get("deep_research"):
+            project["status"] = "ready_for_review"
+        else:
+            project["status"] = "discovery_complete"
+        project["report_path"] = str(report_path.relative_to(WORKSPACE_ROOT))
+        project["updated_at"] = datetime.utcnow().isoformat() + "Z"
+        save_projects(projects)
+    
+    # Extract cost data from run
+    total_cost = run_data.get("total_cost", 0.0)
+    providers_data = run_data.get("providers", {})
+    provider_costs = {}
+    for pname, pdata in providers_data.items():
+        if isinstance(pdata, dict) and pdata.get("cost"):
+            provider_costs[pname] = pdata["cost"]
+    
+    return {
+        "status": run_data.get("status", "unknown"),
+        "run_id": run_id,
+        "project_id": project_id,
+        "phase": run_data.get("phase", ""),
+        "percent_complete": run_data.get("percent_complete", 0),
+        "providers": run_data.get("providers", {}),
+        "has_report": has_report,
+        "report_path": str(report_path.relative_to(WORKSPACE_ROOT)) if has_report else None,
+        "total_cost": total_cost,
+        "provider_costs": provider_costs,
+        "error": error_message,
+        "can_retry": run_data.get("status") == "failed",
+    }
+
+
+@app.get("/projects/{project_id}/cost")
+def get_project_cost(project_id: str) -> dict[str, object]:
+    """Get cost breakdown for a project including all runs."""
+    
+    projects = load_projects()
+    if project_id not in projects:
+        raise HTTPException(status_code=404, detail="Project not found")
+    
+    project = projects[project_id]
+    
+    # Aggregate costs from all runs for this project
+    total_cost = 0.0
+    discovery_cost = 0.0
+    deep_research_cost = 0.0
+    enrichment_cost = 0.0
+    run_costs = []
+    
+    # Get all run snapshots for this project
+    runs_data_dir = WORKSPACE_ROOT / "data" / "runs"
+    if runs_data_dir.exists():
+        for run_file in runs_data_dir.glob("*.json"):
+            try:
+                with run_file.open("r") as f:
+                    run_data = json.load(f)
+                
+                if run_data.get("project_id") != project_id:
+                    continue
+                
+                run_total = run_data.get("total_cost", 0.0)
+                params = run_data.get("params", {})
+                
+                if params.get("deep_research"):
+                    deep_research_cost += run_total
+                elif params.get("test_run"):
+                    discovery_cost += run_total  # Test runs are discovery
+                else:
+                    discovery_cost += run_total
+                
+                total_cost += run_total
+                
+                run_costs.append({
+                    "run_id": run_data.get("run_id"),
+                    "started_at": run_data.get("started_at"),
+                    "status": run_data.get("status"),
+                    "cost": run_total,
+                    "type": "deep_research" if params.get("deep_research") else "discovery",
+                })
+            except Exception:
+                continue
+    
+    return {
+        "project_id": project_id,
+        "total_cost": round(total_cost, 4),
+        "discovery_cost": round(discovery_cost, 4),
+        "deep_research_cost": round(deep_research_cost, 4),
+        "enrichment_cost": round(enrichment_cost, 4),
+        "currency": "USD",
+        "runs": run_costs,
+        "last_updated": datetime.utcnow().isoformat() + "Z",
+    }
+
+
+@app.get("/projects/{project_id}/test-run-results")
+def get_test_run_results(project_id: str) -> dict[str, object]:
+    """Get test run results for a project."""
+    
+    # Check for test run report
+    report_path = WORKSPACE_ROOT / "reports" / "test_runs" / project_id / "report.json"
+    
+    if not report_path.exists():
+        # Check if there's a timestamped report
+        reports_dir = WORKSPACE_ROOT / "reports" / "test_runs" / project_id
+        if reports_dir.exists():
+            reports = list(reports_dir.glob("report_*.json"))
+            if reports:
+                report_path = sorted(reports, reverse=True)[0]
+    
+    if not report_path.exists():
+        return {
+            "status": "pending",
+            "companies": [],
+            "message": "Test run in progress or not started",
+        }
+    
+    try:
+        with report_path.open("r") as f:
+            data = json.load(f)
+        
+        # Extract companies from providers
+        companies = []
+        for provider in data.get("providers", []):
+            for finding in provider.get("findings", []):
+                segment_name = finding.get("name", "Unknown")
+                for company in finding.get("companies", []):
+                    companies.append({
+                        "company": company.get("company", "Unknown"),
+                        "segment": segment_name,
+                        "country": company.get("country", ""),
+                        "summary": company.get("summary", ""),
+                        "confidence_0to1": company.get("confidence_0to1", 0.5),
+                    })
+        
+        return {
+            "status": "completed",
+            "companies": companies,
+            "total_companies": len(companies),
+            "report_path": str(report_path.relative_to(WORKSPACE_ROOT)),
+        }
+        
+    except Exception as e:
+        return {
+            "status": "error",
+            "companies": [],
+            "message": str(e),
+        }
 
 
 @app.post("/projects/{project_id}/approve-test-run")
@@ -739,4 +1464,546 @@ Return the information in JSON format with these keys (only include fields you h
         
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Enrichment failed: {str(e)}")
+
+
+@app.post("/enrich-company-data")
+async def enrich_company_data(request: EnrichCompanyDataRequest) -> dict[str, object]:
+    """
+    Enhanced company data enrichment using GPT-4o with structured output.
+    
+    This endpoint targets specific missing fields and returns data matching
+    the company schema used in the dashboard.
+    
+    Supported missing_fields:
+    - website: Company website URL
+    - team: Founders, executives, team size
+    - swot: SWOT analysis (strengths, weaknesses, opportunities, threats)
+    - funding_rounds: Funding history with investors
+    - competitors: Direct competitors and differentiation
+    - key_clients: Notable customers/clients
+    - kpi_alignment: Alignment with investment KPIs
+    """
+    from openai import AsyncOpenAI
+    
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        raise HTTPException(status_code=500, detail="OpenAI API key not configured")
+    
+    client = AsyncOpenAI(api_key=api_key)
+    
+    company_name = request.company_name
+    current_data = request.current_data
+    missing_fields = request.missing_fields or ["website", "team", "swot", "funding_rounds", "competitors"]
+    
+    # Build field-specific instructions
+    field_instructions = []
+    
+    if "website" in missing_fields:
+        field_instructions.append('"website": "https://company-website.com" (official company URL)')
+    
+    if "team" in missing_fields:
+        field_instructions.append('''"team": {
+    "size": "50-100 employees",
+    "founders": [{"name": "John Doe", "background": "Ex-Google, Stanford MBA"}],
+    "executives": [{"name": "Jane Smith", "title": "CEO"}]
+  }''')
+    
+    if "swot" in missing_fields:
+        field_instructions.append('''"swot": {
+    "strengths": ["Strong technology platform", "Experienced team"],
+    "weaknesses": ["Limited market presence", "High burn rate"],
+    "opportunities": ["Growing market", "Partnership potential"],
+    "threats": ["Competition", "Regulatory changes"]
+  }''')
+    
+    if "funding_rounds" in missing_fields:
+        field_instructions.append('''"funding_rounds": [
+    {"round_type": "Series A", "amount": 10000000, "currency": "USD", "investors": ["Investor A", "Investor B"]}
+  ]''')
+    
+    if "competitors" in missing_fields:
+        field_instructions.append('''"competitors": {
+    "direct": [{"name": "CompetitorCo", "description": "Similar product offering"}],
+    "differentiation": "Unique AI-powered approach"
+  }''')
+    
+    if "key_clients" in missing_fields:
+        field_instructions.append('''"key_clients": [
+    {"name": "Enterprise Corp", "geographic_market": "North America", "notable_reference": "Case study available"}
+  ]''')
+    
+    if "kpi_alignment" in missing_fields:
+        field_instructions.append('"kpi_alignment": ["Strong revenue growth", "High customer retention"]')
+    
+    fields_json_example = ",\n  ".join(field_instructions)
+    
+    # Build context from existing data
+    context_parts = []
+    if current_data.get("summary"):
+        context_parts.append(f"Summary: {current_data['summary']}")
+    if current_data.get("country"):
+        context_parts.append(f"Country: {current_data['country']}")
+    if current_data.get("segment"):
+        context_parts.append(f"Segment: {current_data['segment']}")
+    if current_data.get("website"):
+        context_parts.append(f"Website: {current_data['website']}")
+    
+    context_str = "\n".join(context_parts) if context_parts else "No existing data available"
+    
+    prompt = f"""Research and provide detailed information about "{company_name}".
+
+EXISTING DATA:
+{context_str}
+
+MISSING FIELDS TO RESEARCH:
+{', '.join(missing_fields)}
+
+Research this company thoroughly and return ONLY the following JSON structure with data for the missing fields.
+Only include fields where you have confident, accurate information.
+For any field where data is unavailable or uncertain, omit it from the response.
+
+Expected JSON structure:
+{{
+  {fields_json_example}
+}}
+
+IMPORTANT:
+- Provide real, verifiable data only
+- For funding_rounds, use numeric amounts (not strings like "$10M")
+- For team, include actual names if publicly known
+- For swot, provide 2-4 items per category
+- For competitors, include 2-5 direct competitors if known
+"""
+
+    try:
+        response = await client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {
+                    "role": "system",
+                    "content": """You are an expert company research analyst with access to comprehensive business intelligence.
+Your role is to provide accurate, detailed company information based on publicly available data.
+Always verify information before including it. If uncertain, omit the field rather than guess.
+Return well-structured JSON that matches the expected schema exactly."""
+                },
+                {"role": "user", "content": prompt}
+            ],
+            response_format={"type": "json_object"},
+            max_tokens=1500,
+            temperature=0.3,  # Lower temperature for more factual responses
+        )
+        
+        result = json.loads(response.choices[0].message.content or "{}")
+        
+        # Post-process funding_rounds to ensure numeric amounts
+        if "funding_rounds" in result:
+            for round_data in result["funding_rounds"]:
+                if isinstance(round_data.get("amount"), str):
+                    # Try to parse string amounts like "$10M" into numbers
+                    amount_str = round_data["amount"].replace("$", "").replace(",", "").strip()
+                    try:
+                        if "B" in amount_str.upper():
+                            round_data["amount"] = float(amount_str.upper().replace("B", "")) * 1_000_000_000
+                        elif "M" in amount_str.upper():
+                            round_data["amount"] = float(amount_str.upper().replace("M", "")) * 1_000_000
+                        elif "K" in amount_str.upper():
+                            round_data["amount"] = float(amount_str.upper().replace("K", "")) * 1_000
+                        else:
+                            round_data["amount"] = float(amount_str)
+                    except (ValueError, TypeError):
+                        pass  # Keep as-is if parsing fails
+        
+        return result
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Company data enrichment failed: {str(e)}")
+
+
+# ============================================================================
+# Conversational Chat Endpoints (GPT-5.1)
+# ============================================================================
+
+def parse_artifacts(text: str) -> dict:
+    """Extract structured artifacts from AI response text."""
+    artifacts = {
+        "thesis": None,
+        "kpis": [],
+        "value_chain": [],
+    }
+    
+    # Extract thesis
+    thesis_match = re.search(r'\[THESIS_START\](.*?)\[THESIS_END\]', text, re.DOTALL)
+    if thesis_match:
+        artifacts["thesis"] = thesis_match.group(1).strip()
+    
+    # Extract KPIs
+    kpi_matches = re.findall(r'\[KPI_START\](.*?)\[KPI_END\]', text, re.DOTALL)
+    for kpi_str in kpi_matches:
+        try:
+            kpi = json.loads(kpi_str.strip())
+            artifacts["kpis"].append(kpi)
+        except json.JSONDecodeError:
+            pass
+    
+    # Extract value chain segments
+    segment_matches = re.findall(r'\[SEGMENT_START\](.*?)\[SEGMENT_END\]', text, re.DOTALL)
+    for seg_str in segment_matches:
+        try:
+            segment = json.loads(seg_str.strip())
+            artifacts["value_chain"].append(segment)
+        except json.JSONDecodeError:
+            pass
+    
+    return artifacts
+
+
+def clean_response_for_display(text: str) -> str:
+    """Remove artifact markers from text for clean display, keeping the content."""
+    # Remove thesis markers but keep content
+    text = re.sub(r'\[THESIS_START\]', '\n📋 **Investment Thesis:**\n', text)
+    text = re.sub(r'\[THESIS_END\]', '\n', text)
+    
+    # Remove KPI markers but format nicely
+    text = re.sub(r'\[KPI_START\]', '\n📊 **KPI:** ', text)
+    text = re.sub(r'\[KPI_END\]', '\n', text)
+    
+    # Remove segment markers but format nicely
+    text = re.sub(r'\[SEGMENT_START\]', '\n🔗 **Segment:** ', text)
+    text = re.sub(r'\[SEGMENT_END\]', '\n', text)
+    
+    return text.strip()
+
+
+async def stream_chat_response(
+    session_id: str,
+    messages: list[dict],
+) -> AsyncGenerator[str, None]:
+    """Stream chat response from GPT-5.1."""
+    from openai import AsyncOpenAI
+    
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        yield f"data: {json.dumps({'error': 'OpenAI API key not configured'})}\n\n"
+        return
+    
+    client = AsyncOpenAI(api_key=api_key)
+    
+    try:
+        # Use GPT-5.1 with streaming
+        # Note: Using gpt-4o as fallback if gpt-5.1 not available
+        model = os.getenv("CHAT_MODEL", "gpt-5.1")
+        
+        stream = await client.chat.completions.create(
+            model=model,
+            messages=messages,
+            stream=True,
+            max_completion_tokens=2000,
+            temperature=0.7,
+        )
+        
+        full_response = ""
+        
+        async for chunk in stream:
+            if chunk.choices and chunk.choices[0].delta.content:
+                content = chunk.choices[0].delta.content
+                full_response += content
+                
+                # Send chunk to client
+                yield f"data: {json.dumps({'type': 'chunk', 'content': content})}\n\n"
+        
+        # Parse artifacts from full response
+        artifacts = parse_artifacts(full_response)
+        
+        # Store in session
+        CHAT_SESSIONS[session_id].append({
+            "role": "assistant",
+            "content": full_response,
+        })
+        
+        # Send completion event with artifacts
+        yield f"data: {json.dumps({'type': 'done', 'artifacts': artifacts})}\n\n"
+        
+    except Exception as e:
+        error_msg = str(e)
+        # If model not found, suggest fallback
+        if "model" in error_msg.lower() and "not found" in error_msg.lower():
+            yield f"data: {json.dumps({'type': 'error', 'error': f'Model not available. Please check CHAT_MODEL env var. Error: {error_msg}'})}\n\n"
+        else:
+            yield f"data: {json.dumps({'type': 'error', 'error': error_msg})}\n\n"
+
+
+@app.post("/projects/chat")
+async def chat_stream(request: ChatRequest):
+    """
+    Stream a conversational response from GPT-5.1 Context Guide.
+    
+    Uses Server-Sent Events (SSE) to stream the response in real-time.
+    The response includes artifact markers that the frontend parses to display
+    structured KPIs, thesis, and value chain segments inline.
+    """
+    session_id = request.session_id
+    
+    # Initialize session if new
+    if session_id not in CHAT_SESSIONS:
+        CHAT_SESSIONS[session_id] = []
+        
+        # Add system prompt with optional context
+        system_content = CONTEXT_GUIDE_SYSTEM_PROMPT
+        if request.client_name or request.project_name:
+            system_content += f"\n\n## Project Context\n"
+            if request.client_name:
+                system_content += f"- Client: {request.client_name}\n"
+            if request.project_name:
+                system_content += f"- Project: {request.project_name}\n"
+        
+        CHAT_SESSIONS[session_id].append({
+            "role": "system",
+            "content": system_content,
+        })
+    
+    # Add user message
+    CHAT_SESSIONS[session_id].append({
+        "role": "user",
+        "content": request.message,
+    })
+    
+    # Return streaming response
+    return StreamingResponse(
+        stream_chat_response(session_id, CHAT_SESSIONS[session_id]),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
+        },
+    )
+
+
+@app.post("/projects/chat/finalize")
+async def finalize_chat(request: ChatFinalizeRequest) -> dict:
+    """
+    Extract final structured data from a chat session.
+    
+    Returns the aggregated artifacts (thesis, KPIs, value chain) from
+    the entire conversation for use in creating the project.
+    """
+    session_id = request.session_id
+    
+    if session_id not in CHAT_SESSIONS:
+        raise HTTPException(status_code=404, detail="Chat session not found")
+    
+    messages = CHAT_SESSIONS[session_id]
+    
+    # Aggregate all artifacts from assistant messages
+    final_artifacts = {
+        "thesis": "",
+        "kpis": [],
+        "value_chain": [],
+    }
+    
+    for msg in messages:
+        if msg["role"] == "assistant":
+            artifacts = parse_artifacts(msg["content"])
+            
+            # Use the latest thesis
+            if artifacts["thesis"]:
+                final_artifacts["thesis"] = artifacts["thesis"]
+            
+            # Collect unique KPIs (by name)
+            existing_kpi_names = {k["name"] for k in final_artifacts["kpis"]}
+            for kpi in artifacts["kpis"]:
+                if kpi.get("name") and kpi["name"] not in existing_kpi_names:
+                    final_artifacts["kpis"].append(kpi)
+                    existing_kpi_names.add(kpi["name"])
+            
+            # Collect unique segments (by segment name)
+            existing_segment_names = {s["segment"] for s in final_artifacts["value_chain"]}
+            for segment in artifacts["value_chain"]:
+                if segment.get("segment") and segment["segment"] not in existing_segment_names:
+                    final_artifacts["value_chain"].append(segment)
+                    existing_segment_names.add(segment["segment"])
+    
+    # Extract brief from conversation (summarize user inputs)
+    user_messages = [m["content"] for m in messages if m["role"] == "user"]
+    brief_summary = " ".join(user_messages[:3])[:500]  # First 3 messages, truncated
+    
+    return {
+        "session_id": session_id,
+        "framework": final_artifacts,
+        "brief_summary": brief_summary,
+        "message_count": len([m for m in messages if m["role"] != "system"]),
+    }
+
+
+@app.delete("/projects/chat/{session_id}")
+def delete_chat_session(session_id: str) -> dict:
+    """Delete a chat session."""
+    if session_id in CHAT_SESSIONS:
+        del CHAT_SESSIONS[session_id]
+    return {"status": "deleted"}
+
+
+@app.get("/projects/chat/{session_id}/history")
+def get_chat_history(session_id: str) -> dict:
+    """Get chat history for a session."""
+    if session_id not in CHAT_SESSIONS:
+        raise HTTPException(status_code=404, detail="Chat session not found")
+    
+    # Return messages without system prompt
+    messages = [
+        {"role": m["role"], "content": m["content"]}
+        for m in CHAT_SESSIONS[session_id]
+        if m["role"] != "system"
+    ]
+    
+    return {"session_id": session_id, "messages": messages}
+
+
+# ============================================================================
+# Project Chat Persistence (tied to project ID)
+# ============================================================================
+
+CHAT_DATA_DIR = WORKSPACE_ROOT / "data" / "chats"
+
+
+class SaveChatRequest(BaseModel):
+    messages: list[dict] = Field(description="Chat messages to save")
+    artifacts: dict = Field(default={}, description="Extracted artifacts")
+
+
+@app.post("/projects/{project_id}/chat/save")
+def save_project_chat(project_id: str, request: SaveChatRequest) -> dict:
+    """Save chat messages and artifacts for a project."""
+    
+    # Ensure directory exists
+    CHAT_DATA_DIR.mkdir(parents=True, exist_ok=True)
+    
+    chat_file = CHAT_DATA_DIR / f"{project_id}.json"
+    
+    chat_data = {
+        "project_id": project_id,
+        "messages": request.messages,
+        "artifacts": request.artifacts,
+        "updated_at": datetime.utcnow().isoformat() + "Z",
+    }
+    
+    with chat_file.open("w") as f:
+        json.dump(chat_data, f, indent=2)
+    
+    # Also update the in-memory session if it exists
+    session_id = f"project_{project_id}"
+    if session_id in CHAT_SESSIONS:
+        # Keep system prompt, replace rest
+        system_msg = next((m for m in CHAT_SESSIONS[session_id] if m["role"] == "system"), None)
+        CHAT_SESSIONS[session_id] = [system_msg] if system_msg else []
+        CHAT_SESSIONS[session_id].extend(request.messages)
+    
+    return {"status": "saved", "project_id": project_id}
+
+
+@app.get("/projects/{project_id}/chat/load")
+def load_project_chat(project_id: str) -> dict:
+    """Load saved chat messages and artifacts for a project."""
+    
+    chat_file = CHAT_DATA_DIR / f"{project_id}.json"
+    
+    if not chat_file.exists():
+        return {
+            "project_id": project_id,
+            "messages": [],
+            "artifacts": {},
+            "found": False,
+        }
+    
+    try:
+        with chat_file.open("r") as f:
+            chat_data = json.load(f)
+        
+        return {
+            "project_id": project_id,
+            "messages": chat_data.get("messages", []),
+            "artifacts": chat_data.get("artifacts", {}),
+            "updated_at": chat_data.get("updated_at"),
+            "found": True,
+        }
+    except Exception as e:
+        return {
+            "project_id": project_id,
+            "messages": [],
+            "artifacts": {},
+            "found": False,
+            "error": str(e),
+        }
+
+
+@app.post("/projects/{project_id}/chat/stream")
+async def project_chat_stream(project_id: str, request: ChatRequest):
+    """
+    Stream a conversational response for a specific project.
+    Uses project_id as session identifier for persistence.
+    """
+    # Use project_id as session key
+    session_id = f"project_{project_id}"
+    
+    # Initialize session if new
+    if session_id not in CHAT_SESSIONS:
+        CHAT_SESSIONS[session_id] = []
+        
+        # Try to load existing chat history
+        chat_file = CHAT_DATA_DIR / f"{project_id}.json"
+        if chat_file.exists():
+            try:
+                with chat_file.open("r") as f:
+                    chat_data = json.load(f)
+                    saved_messages = chat_data.get("messages", [])
+                    if saved_messages:
+                        # Add system prompt first
+                        system_content = CONTEXT_GUIDE_SYSTEM_PROMPT
+                        if request.client_name or request.project_name:
+                            system_content += f"\n\n## Project Context\n"
+                            if request.client_name:
+                                system_content += f"- Client: {request.client_name}\n"
+                            if request.project_name:
+                                system_content += f"- Project: {request.project_name}\n"
+                        
+                        CHAT_SESSIONS[session_id].append({
+                            "role": "system",
+                            "content": system_content,
+                        })
+                        # Add saved messages
+                        CHAT_SESSIONS[session_id].extend(saved_messages)
+            except Exception:
+                pass
+        
+        # If still empty, add system prompt
+        if not CHAT_SESSIONS[session_id]:
+            system_content = CONTEXT_GUIDE_SYSTEM_PROMPT
+            if request.client_name or request.project_name:
+                system_content += f"\n\n## Project Context\n"
+                if request.client_name:
+                    system_content += f"- Client: {request.client_name}\n"
+                if request.project_name:
+                    system_content += f"- Project: {request.project_name}\n"
+            
+            CHAT_SESSIONS[session_id].append({
+                "role": "system",
+                "content": system_content,
+            })
+    
+    # Add user message
+    CHAT_SESSIONS[session_id].append({
+        "role": "user",
+        "content": request.message,
+    })
+    
+    # Return streaming response
+    return StreamingResponse(
+        stream_chat_response(session_id, CHAT_SESSIONS[session_id]),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
+        },
+    )
 

@@ -1,0 +1,258 @@
+.report-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  height: 100%;
+}
+
+/* Stats Summary */
+.report-tab__stats {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--bg-secondary);
+  border-radius: 12px;
+  flex-wrap: wrap;
+}
+
+.report-tab__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.75rem 1.25rem;
+  background: var(--bg-primary);
+  border-radius: 8px;
+  min-width: 80px;
+}
+
+.report-tab__stat-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.report-tab__stat-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.report-tab__stat--reviewed .report-tab__stat-value {
+  color: var(--color-primary);
+}
+
+.report-tab__stat--approved .report-tab__stat-value {
+  color: var(--color-success);
+}
+
+.report-tab__stat--rejected .report-tab__stat-value {
+  color: var(--color-danger);
+}
+
+.report-tab__stat--maybe .report-tab__stat-value {
+  color: var(--color-warning);
+}
+
+/* Toolbar */
+.report-tab__toolbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.report-tab__toolbar .search-input {
+  flex: 1;
+  min-width: 200px;
+  max-width: 300px;
+}
+
+.report-tab__filters {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.report-tab__select {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.report-tab__select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* Table Container */
+.report-tab__table-container {
+  flex: 1;
+  overflow: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-primary);
+}
+
+/* Table */
+.report-tab__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.report-tab__table thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--bg-secondary);
+}
+
+.report-tab__table th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-color);
+  white-space: nowrap;
+}
+
+.report-tab__th--sortable {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.report-tab__th--sortable:hover {
+  color: var(--text-primary);
+}
+
+.report-tab__table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-color-light);
+  color: var(--text-primary);
+}
+
+.report-tab__table tbody tr {
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.report-tab__table tbody tr:hover {
+  background-color: var(--bg-hover);
+}
+
+.report-tab__table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Row status styles */
+.report-tab__row--approved {
+  background-color: rgba(var(--color-success-rgb, 34, 197, 94), 0.05);
+}
+
+.report-tab__row--rejected {
+  background-color: rgba(var(--color-danger-rgb, 239, 68, 68), 0.05);
+}
+
+.report-tab__row--maybe {
+  background-color: rgba(var(--color-warning-rgb, 234, 179, 8), 0.05);
+}
+
+/* Company name */
+.report-tab__company-name {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* Score */
+.report-tab__score-stars {
+  display: flex;
+  gap: 2px;
+}
+
+.report-tab__star {
+  color: var(--text-tertiary);
+  font-size: 0.875rem;
+}
+
+.report-tab__star--filled {
+  color: var(--color-warning);
+}
+
+.report-tab__no-score {
+  color: var(--text-tertiary);
+}
+
+/* Notes */
+.report-tab__notes {
+  max-width: 200px;
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+}
+
+.report-tab__notes span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Empty state */
+.report-tab__empty {
+  text-align: center;
+  padding: 3rem 1rem !important;
+  color: var(--text-secondary);
+}
+
+/* Footer */
+.report-tab__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.report-tab__count {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .report-tab__stats {
+    gap: 0.5rem;
+  }
+
+  .report-tab__stat {
+    padding: 0.5rem 0.75rem;
+    min-width: 60px;
+  }
+
+  .report-tab__stat-value {
+    font-size: 1.25rem;
+  }
+
+  .report-tab__toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .report-tab__toolbar .search-input {
+    max-width: none;
+  }
+
+  .report-tab__table {
+    font-size: 0.8125rem;
+  }
+
+  .report-tab__table th,
+  .report-tab__table td {
+    padding: 0.5rem;
+  }
+}

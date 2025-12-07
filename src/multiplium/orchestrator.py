@@ -91,10 +91,41 @@ async def _run_agents(
                     message="Discovery started",
                 )
             log.info("agent.scheduled", provider=name, model=provider.config.model)
-            result = await provider.run_with_retry(context)
+            
+            # Add top-level timeout for each provider (90 minutes max)
+            # Gemini 3 with thinking mode can take 8-10 minutes per segment × 8 segments = ~80 minutes
+            try:
+                result = await asyncio.wait_for(
+                    provider.run_with_retry(context),
+                    timeout=5400.0,  # 90 minutes max per provider
+                )
+            except asyncio.TimeoutError:
+                log.error("provider.timeout", provider=name, timeout_seconds=5400)
+                if registry and run_id:
+                    registry.set_provider_status(
+                        run_id,
+                        name,
+                        status="timeout",
+                        progress=0.0,
+                        message="Provider timed out after 90 minutes",
+                        error="Provider execution timed out",
+                    )
+                return ProviderRunResult(
+                    provider=name,
+                    model=provider.config.model,
+                    status="timeout",
+                    findings=[],
+                    telemetry={"error": "Provider timed out after 90 minutes"},
+                )
             company_count = _count_companies(result.findings)
             telemetry = result.telemetry or {}
             tool_calls = telemetry.get("tool_calls") or telemetry.get("tool_uses")
+            
+            # Extract cost data if available
+            cost_data = None
+            if result.cost:
+                cost_data = result.cost.to_dict()
+            
             if registry and run_id:
                 registry.set_provider_status(
                     run_id,
@@ -105,6 +136,7 @@ async def _run_agents(
                     tool_calls=tool_calls if isinstance(tool_calls, int) else 0,
                     companies_found=company_count,
                     error="; ".join(result.errors) if result.errors else None,
+                    cost_data=cost_data,
                 )
                 registry.append_event(
                     run_id,
@@ -113,6 +145,7 @@ async def _run_agents(
                     status=result.status,
                     companies_found=company_count,
                     tool_calls=tool_calls,
+                    cost=cost_data,
                 )
             return result
 
@@ -123,7 +156,47 @@ async def _run_agents(
             log.warning("orchestrator.no_providers_enabled")
             return []
 
-        return await asyncio.gather(*tasks, return_exceptions=False)
+        # Use return_exceptions=True to ensure individual provider failures
+        # don't crash the entire orchestrator - we want partial results
+        raw_results = await asyncio.gather(*tasks, return_exceptions=True)
+        
+        # Filter out exceptions and convert them to failed ProviderRunResults
+        results: list[ProviderRunResult] = []
+        for i, result in enumerate(raw_results):
+            if isinstance(result, Exception):
+                provider_name = agents[i][0]
+                provider = agents[i][1]
+                error_msg = str(result)
+                log.error(
+                    "provider.failed_with_exception",
+                    provider=provider_name,
+                    error=error_msg,
+                    error_type=type(result).__name__,
+                )
+                if registry and run_id:
+                    registry.set_provider_status(
+                        run_id,
+                        provider_name,
+                        status="failed",
+                        progress=0.0,
+                        message=f"Provider failed: {type(result).__name__}",
+                        error=error_msg,
+                    )
+                # Create a failed result so we can continue with other providers
+                results.append(
+                    ProviderRunResult(
+                        provider=provider_name,
+                        model=provider.config.model,
+                        status="failed",
+                        findings=[],
+                        telemetry={"error": error_msg},
+                        errors=[{"type": type(result).__name__, "message": error_msg}],
+                    )
+                )
+            else:
+                results.append(result)
+        
+        return results
     finally:
         await tool_manager.aclose()
 
@@ -434,6 +507,7 @@ async def _deep_research_from_report(
     settings: Settings,
     report_path: Path,
     top_n: int,
+    selected_companies: list[str] | None = None,
     run_id_override: str | None = None,
     project_id_override: str | None = None,
 ) -> None:
@@ -462,12 +536,25 @@ async def _deep_research_from_report(
         log.warning("orchestrator.no_companies_in_report")
         return
     
-    # Sort by confidence and take top N
-    top_companies = sorted(
-        all_companies,
-        key=lambda c: c.get("confidence_0to1", 0),
-        reverse=True,
-    )[:top_n]
+    # Filter by selected company names if provided
+    if selected_companies:
+        selected_set = set(c.lower() for c in selected_companies)
+        top_companies = [
+            c for c in all_companies
+            if c.get("company", "").lower() in selected_set
+        ][:top_n]
+        log.info(
+            "orchestrator.filtered_by_selection",
+            requested=len(selected_companies),
+            matched=len(top_companies),
+        )
+    else:
+        # Sort by confidence and take top N
+        top_companies = sorted(
+            all_companies,
+            key=lambda c: c.get("confidence_0to1", 0),
+            reverse=True,
+        )[:top_n]
     
     log.info(
         "orchestrator.deep_research_from_report",
@@ -656,6 +743,7 @@ def main(
     deep_research: bool = typer.Option(False, "--deep-research", help="Enable deep research phase for top N companies."),
     top_n: int = typer.Option(25, "--top-n", help="Number of companies to research deeply (default: 25)."),
     from_report: str | None = typer.Option(None, "--from-report", help="Load companies from existing report and run deep research only."),
+    companies: str | None = typer.Option(None, "--companies", help="JSON list of company names to research (used with --from-report)."),
     run_id: str | None = typer.Option(None, "--run-id", help="Use a pre-allocated run identifier (for dashboard launches)."),
     project_id: str | None = typer.Option(None, "--project-id", help="Override project identifier used in registry."),
 ) -> None:
@@ -666,6 +754,18 @@ def main(
     settings.orchestrator.dry_run = dry_run or settings.orchestrator.dry_run
 
     log.info("orchestrator.start", config=config, dry_run=settings.orchestrator.dry_run, deep_research=deep_research, from_report=from_report)
+    
+    # Parse companies list if provided
+    selected_companies: list[str] | None = None
+    if companies:
+        try:
+            import json
+            selected_companies = json.loads(companies)
+            if not isinstance(selected_companies, list):
+                raise ValueError("Companies must be a JSON list of strings")
+        except (json.JSONDecodeError, ValueError) as e:
+            log.error("orchestrator.invalid_companies", error=str(e))
+            raise typer.Exit(code=1) from e
     
     # Validate environment configuration
     try:
@@ -682,6 +782,7 @@ def main(
                     settings,
                     report_path=Path(from_report),
                     top_n=top_n,
+                    selected_companies=selected_companies,
                     run_id_override=run_id,
                     project_id_override=project_id,
                 )

@@ -21,13 +21,14 @@
 .input {
   width: 100%;
   padding: var(--space-2) var(--space-4);
-  border: none;
+  border: 1px solid var(--slate-300);
   border-radius: var(--radius-pill);
-  background: var(--color-surface-subtle);
+  background: var(--white);
   color: var(--color-text-primary);
   font: var(--text-body);
   transition: 
     background-color var(--duration-fast) var(--ease-enter),
+    border-color var(--duration-fast) var(--ease-enter),
     box-shadow var(--duration-fast) var(--ease-enter);
 }
 
@@ -36,13 +37,13 @@
 }
 
 .input:hover:not(:disabled) {
-  background: var(--gray-100);
+  border-color: var(--slate-400);
 }
 
 .input:focus {
   outline: none;
-  background: var(--white);
-  box-shadow: 0 0 0 2px var(--color-focus-ring);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary-soft);
 }
 
 .input:disabled {
@@ -86,8 +87,8 @@
   height: 20px;
   border: none;
   border-radius: 50%;
-  background: var(--gray-200);
-  color: var(--color-text-secondary);
+  background: var(--slate-200);
+  color: var(--slate-600);
   cursor: pointer;
   transition: 
     background-color var(--duration-fast) var(--ease-enter),
@@ -95,8 +96,8 @@
 }
 
 .input-clear:hover {
-  background: var(--gray-300);
-  color: var(--color-text-primary);
+  background: var(--slate-300);
+  color: var(--slate-900);
 }
 
 .input-clear:focus-visible {
@@ -136,5 +137,6 @@
 .input[type="search"]::-webkit-search-results-decoration {
   display: none;
 }
+
 
 

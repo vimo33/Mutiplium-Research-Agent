@@ -139,12 +139,17 @@ export function FrameworkStep({
   return (
     <div className="wizard-step">
       <div className="wizard-step__header">
-        <span className="wizard-step__number">3</span>
+        <span className="wizard-step__number">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M9 12l2 2 4-4" />
+            <circle cx="12" cy="12" r="10" />
+          </svg>
+        </span>
         <div>
           <h2 className="wizard-step__title">Review Framework</h2>
           <p className="wizard-step__subtitle">
-            We've generated an investment framework based on your brief. 
-            Review and edit each section to refine the research scope.
+            Your AI-generated investment framework is ready. 
+            Review and edit each section before running a test search.
           </p>
         </div>
       </div>
@@ -315,7 +320,7 @@ export function FrameworkStep({
           fontSize: '13px',
           color: 'var(--color-text-muted)'
         }}>
-          💡 The test run will search for 3 companies per value chain segment to validate the research scope before running full discovery.
+          💡 Discovery will search for companies across all value chain segments. You'll review and conduct deep research on the most promising candidates.
         </div>
       </div>
 
@@ -332,7 +337,7 @@ export function FrameworkStep({
           onClick={onNext}
           disabled={!isValid}
         >
-          Start Test Run
+          Start Discovery
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M6 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
           </svg>

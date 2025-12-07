@@ -1,11 +1,15 @@
-import type { Project } from '../types';
+import { useEffect, useState } from 'react';
+import type { Project, ProjectCost } from '../types';
 import { Card, Badge, ProgressRing, Button } from './ui';
+import { fetchProjectCost } from '../api';
 import './ProjectCard.css';
 
 interface ProjectCardProps {
   project: Project;
   onSelect: () => void;
   onReview: () => void;
+  onArchive?: () => void;
+  onUnarchive?: () => void;
   onDelete?: () => void;
 }
 
@@ -15,6 +19,9 @@ const statusConfig: Record<string, { label: string; variant: 'default' | 'primar
   test_run: { label: 'Test Run', variant: 'primary' },
   pending_approval: { label: 'Pending Approval', variant: 'warning' },
   researching: { label: 'Researching', variant: 'primary' },
+  discovery_failed: { label: 'Discovery Failed', variant: 'danger' },
+  discovery_complete: { label: 'Discovery Complete', variant: 'success' },
+  deep_researching: { label: 'Deep Research', variant: 'primary' },
   ready_for_review: { label: 'Ready for Review', variant: 'warning' },
   completed: { label: 'Completed', variant: 'success' },
 };
@@ -46,6 +53,32 @@ const ChevronRightIcon = () => (
   </svg>
 );
 
+const ArchiveIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M2 4h12M2 4v9a1 1 0 001 1h10a1 1 0 001-1V4M6 7h4" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M4 4V3a1 1 0 011-1h6a1 1 0 011 1v1" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const RestoreIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M2 8a6 6 0 1011.5-2.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M14 2v4h-4" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const DollarIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M8 1v14M11 4H6.5a2.5 2.5 0 000 5h3a2.5 2.5 0 010 5H5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+function formatCost(cost: number): string {
+  if (cost === 0) return '$0.00';
+  if (cost < 0.01) return '<$0.01';
+  return `$${cost.toFixed(2)}`;
+}
+
 function formatDate(dateString: string): string {
   const date = new Date(dateString);
   return date.toLocaleDateString('en-US', {
@@ -63,8 +96,28 @@ function formatTime(dateString: string): string {
   });
 }
 
-export function ProjectCard({ project, onSelect, onReview, onDelete }: ProjectCardProps) {
+export function ProjectCard({ project, onSelect, onReview, onArchive, onUnarchive, onDelete }: ProjectCardProps) {
   const { label: statusLabel, variant: statusVariant } = statusConfig[project.status] || statusConfig.draft;
+  const [cost, setCost] = useState<number | null>(null);
+  
+  // Fetch project cost
+  useEffect(() => {
+    let cancelled = false;
+    
+    fetchProjectCost(project.id)
+      .then((data) => {
+        if (!cancelled) {
+          setCost(data.total_cost);
+        }
+      })
+      .catch(() => {
+        // Ignore errors - cost display is optional
+      });
+    
+    return () => {
+      cancelled = true;
+    };
+  }, [project.id]);
   
   // Calculate review progress
   const { totalCompanies, approved, rejected, maybe, pending } = project.stats;
@@ -82,9 +135,35 @@ export function ProjectCard({ project, onSelect, onReview, onDelete }: ProjectCa
       
       {/* Header */}
       <div className="project-card__header">
-        <div className="project-card__title-group">
-          <h3 className="project-card__title">{project.projectName}</h3>
-          <Badge variant={statusVariant} size="sm">{statusLabel}</Badge>
+        <div className="project-card__title-row">
+          <div className="project-card__title-group">
+            <h3 className="project-card__title">{project.projectName}</h3>
+            <Badge variant={statusVariant} size="sm">{statusLabel}</Badge>
+          </div>
+          {onArchive && (
+            <button
+              className="project-card__archive-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                onArchive();
+              }}
+              title="Archive project"
+            >
+              <ArchiveIcon />
+            </button>
+          )}
+          {onUnarchive && (
+            <button
+              className="project-card__archive-btn project-card__archive-btn--restore"
+              onClick={(e) => {
+                e.stopPropagation();
+                onUnarchive();
+              }}
+              title="Restore project"
+            >
+              <RestoreIcon />
+            </button>
+          )}
         </div>
         
         <div className="project-card__client">
@@ -116,6 +195,15 @@ export function ProjectCard({ project, onSelect, onReview, onDelete }: ProjectCa
               <span className="project-card__stat-label">pending</span>
             </div>
           </>
+        )}
+        
+        {/* Cost indicator */}
+        {cost !== null && cost > 0 && (
+          <div className="project-card__stat project-card__stat--cost" title="Total API cost for this project">
+            <DollarIcon />
+            <span className="project-card__stat-value">{formatCost(cost)}</span>
+            <span className="project-card__stat-label">API cost</span>
+          </div>
         )}
       </div>
       

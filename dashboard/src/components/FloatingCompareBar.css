@@ -1,0 +1,147 @@
+.floating-compare-bar {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.floating-compare-bar__content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 20px;
+  background: var(--gray-900);
+  border-radius: var(--radius-xl);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.floating-compare-bar__info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--white);
+  padding-right: 16px;
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.floating-compare-bar__info svg {
+  color: var(--color-primary);
+}
+
+.floating-compare-bar__label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.floating-compare-bar__chips {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.floating-compare-bar__chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.15s;
+}
+
+.floating-compare-bar__chip--empty {
+  border-style: dashed;
+  opacity: 0.4;
+}
+
+.floating-compare-bar__chip--empty span {
+  font-size: 12px;
+  color: var(--gray-400);
+}
+
+.floating-compare-bar__chip-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--white);
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.floating-compare-bar__chip-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  color: var(--gray-400);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.floating-compare-bar__chip-remove:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--white);
+}
+
+.floating-compare-bar__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 16px;
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Override button colors for dark background */
+.floating-compare-bar__actions .btn--ghost {
+  color: var(--gray-300);
+}
+
+.floating-compare-bar__actions .btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--white);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .floating-compare-bar__content {
+    flex-wrap: wrap;
+    max-width: calc(100vw - 32px);
+    padding: 12px 16px;
+  }
+
+  .floating-compare-bar__chips {
+    width: 100%;
+    justify-content: center;
+    order: 3;
+    margin-top: 8px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .floating-compare-bar__chip--empty {
+    display: none;
+  }
+}
+

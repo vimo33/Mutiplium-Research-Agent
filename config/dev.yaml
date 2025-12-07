@@ -15,7 +15,7 @@ orchestrator:
 
 providers:
   anthropic:
-    enabled: true  # ✅ FULL RUN - All segments with JSON-enforced output
+    enabled: false  # Disabled - using OpenAI and Google for now
     model: "claude-sonnet-4-5-20250929"  # Claude 4.5 Sonnet with web search
     temperature: 0.15
     max_steps: 20  # Maximum autonomous iterations
@@ -25,7 +25,7 @@ providers:
     max_tokens: 8192  # Maximum response tokens
   openai:
     enabled: true  # ✅ FULL RUN - Uses native web search capabilities
-    model: "gpt-5"  # Latest GPT-5 (Aug 2025) - enhanced reasoning, 1M+ token context
+    model: "gpt-5.1"  # GPT-5.1 - latest flagship with 400K context, optimized for agentic tasks
     temperature: 0.15
     max_steps: 20  # Maximum autonomous iterations
     max_tool_uses: 30  # Maximum tool calls
@@ -34,8 +34,11 @@ providers:
     max_tokens: 8192  # Maximum response tokens
   google:
     enabled: true  # ✅ FULL RUN - Uses Google Search grounding natively
-    model: "gemini-2.5-pro"  # Latest Gemini 2.5 Pro (Aug 2025) - strong reasoning + grounding
-    temperature: 0.15
+    # Model Options (see src/multiplium/prompts/model_config.py for details):
+    #   - gemini-2.5-pro: Best for complex reasoning, 1M context, temp 0.1-0.3
+    #   - gemini-3-pro-preview: Extended thinking, REQUIRES temp=1.0
+    model: "gemini-2.5-pro"  # Gemini 2.5 Pro - excellent reasoning, stable results
+    temperature: 0.15  # Low temp works best for 2.5 Pro (3 Pro requires 1.0)
     max_steps: 20  # Maximum autonomous iterations
     max_tool_uses: 30  # Maximum tool calls
     max_conversation_turns: 20  # Force convergence

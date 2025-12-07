@@ -1,3 +1,14 @@
+export type ProviderCost = {
+  input_tokens: number;
+  output_tokens: number;
+  tool_calls: number;
+  input_cost: number;
+  output_cost: number;
+  tool_cost: number;
+  total_cost: number;
+  currency: string;
+};
+
 export type ProviderSnapshot = {
   name: string;
   status: string;
@@ -6,6 +17,7 @@ export type ProviderSnapshot = {
   tool_calls?: number;
   companies_found?: number;
   errors?: string[];
+  cost?: ProviderCost | null;
 };
 
 export type RunSnapshot = {
@@ -21,6 +33,8 @@ export type RunSnapshot = {
   report_path?: string | null;
   providers: Record<string, ProviderSnapshot>;
   last_event?: Record<string, unknown> | null;
+  total_cost?: number;
+  cost_currency?: string;
 };
 
 export type RunEvent = {
@@ -84,7 +98,10 @@ export type ProjectStatus =
   | 'draft'           // Brief created, not yet started
   | 'test_run'        // Test run in progress
   | 'pending_approval'// Test run complete, awaiting user approval
-  | 'researching'     // Full research in progress
+  | 'researching'     // Discovery research in progress
+  | 'discovery_failed' // Discovery failed, can retry
+  | 'discovery_complete' // Discovery complete, awaiting deep research decision
+  | 'deep_researching'   // Deep research in progress
   | 'ready_for_review'// Research complete, ready for company review
   | 'completed';      // All companies reviewed
 
@@ -113,6 +130,15 @@ export interface ResearchFramework {
   thesis: string;
   kpis: KPI[];
   valueChain: ValueChainSegment[];
+}
+
+export interface ProjectCost {
+  totalCost: number;
+  discoveryCost: number;
+  deepResearchCost: number;
+  enrichmentCost: number;
+  currency: string;
+  lastUpdated?: string;
 }
 
 export interface ProjectStats {
@@ -145,6 +171,13 @@ export interface Project {
   
   // Stats
   stats: ProjectStats;
+  
+  // Cost tracking
+  cost?: ProjectCost;
+  
+  // Archive state
+  archived?: boolean;
+  archivedAt?: string;
   
   // Timestamps
   createdAt: string;

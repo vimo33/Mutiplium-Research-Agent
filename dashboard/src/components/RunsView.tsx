@@ -59,6 +59,7 @@ function ProviderCard({ snapshot }: { snapshot: RunSnapshot }) {
               {provider.progress?.toFixed(1) ?? 0}% ·{" "}
               {provider.tool_calls ?? 0} tool calls ·{" "}
               {provider.companies_found ?? 0} companies
+              {provider.cost?.total_cost ? ` · $${provider.cost.total_cost.toFixed(4)}` : ""}
             </p>
             {provider.last_message && (
               <p className="provider-message">{provider.last_message}</p>
@@ -302,6 +303,7 @@ export function RunsView() {
                       <th>Status</th>
                       <th>Phase</th>
                       <th>Progress</th>
+                      <th>Cost</th>
                       <th>Started</th>
                     </tr>
                   </thead>
@@ -316,6 +318,7 @@ export function RunsView() {
                         <td><StatusBadge status={run.status} /></td>
                         <td>{run.phase}</td>
                         <td>{run.percent_complete.toFixed(1)}%</td>
+                        <td className="run-cost">{run.total_cost ? `$${run.total_cost.toFixed(2)}` : '—'}</td>
                         <td>{formatDate(run.started_at)}</td>
                       </tr>
                     ))}
@@ -365,6 +368,12 @@ export function RunsView() {
                   <span className="detail-label">Duration</span>
                   <span className="detail-value">
                     {formatDuration(selectedRun.started_at, selectedRun.finished_at)}
+                  </span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Total Cost</span>
+                  <span className="detail-value detail-value--cost">
+                    {selectedRun.total_cost ? `$${selectedRun.total_cost.toFixed(4)}` : '—'}
                   </span>
                 </div>
               </div>
