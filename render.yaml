@@ -27,18 +27,12 @@ services:
     plan: free
     buildCommand: pip install -e . && pip install uvicorn python-dotenv
     startCommand: uvicorn servers.research_dashboard:app --host 0.0.0.0 --port $PORT
-    # Persistent disk for data storage (projects, runs, reports)
-    disk:
-      name: multiplium-data
-      mountPath: /data
-      sizeGB: 1
+    # Note: Free tier doesn't support persistent disks. Data stored in container.
+    # Upgrade to Starter ($7/mo) for persistent storage.
     envVars:
       # Authentication
       - key: DASHBOARD_API_KEY
         sync: false
-      # Data storage root (persistent disk)
-      - key: DATA_ROOT
-        value: /data
       # LLM API Keys
       - key: OPENAI_API_KEY
         sync: false
