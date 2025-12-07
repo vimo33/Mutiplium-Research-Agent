@@ -21,8 +21,44 @@ type AppView = "projects" | "archived" | "project-detail" | "runs" | "discovery"
 type AuthState = "checking" | "required" | "authenticated";
 
 export default function App() {
+  // =========================================================================
+  // ALL HOOKS MUST BE AT THE TOP - React Rules of Hooks
+  // =========================================================================
+  
   // Authentication state - start with 'checking' to auto-detect
   const [authState, setAuthState] = useState<AuthState>("checking");
+  
+  // View state - default to projects (home)
+  const [currentView, setCurrentView] = useState<AppView>("projects");
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [showWizard, setShowWizard] = useState(false);
+  const [resumeProject, setResumeProject] = useState<Project | null>(null);
+  
+  // Shortlist state (persisted to localStorage)
+  const [shortlistedCompanies, setShortlistedCompanies] = useState<string[]>(() => {
+    try {
+      const stored = localStorage.getItem(SHORTLIST_STORAGE_KEY);
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  // Review stats for sidebar (read from localStorage)
+  const [reviewStats, setReviewStats] = useState({ pending: 0, progress: 0 });
+  
+  // Projects hook
+  const {
+    projects,
+    archivedProjects,
+    isLoading: projectsLoading,
+    error: projectsError,
+    createProject,
+    updateProject,
+    archiveProject,
+    unarchiveProject,
+    deleteProject,
+  } = useProjects();
   
   // Check authentication on mount
   useEffect(() => {
@@ -38,59 +74,6 @@ export default function App() {
     }
     checkAuth();
   }, []);
-  
-  // Handle logout
-  const handleLogout = useCallback(() => {
-    clearApiKey();
-    setAuthState("required");
-  }, []);
-
-  // Show loading spinner while checking auth
-  if (authState === "checking") {
-    return (
-      <div className="auth-loading">
-        <div className="auth-loading-spinner" />
-        <p>Loading...</p>
-      </div>
-    );
-  }
-
-  // If auth required and not authenticated, show API key prompt
-  if (authState === "required") {
-    return <ApiKeyPrompt onAuthenticated={() => setAuthState("authenticated")} />;
-  }
-
-  // View state - default to projects (home)
-  const [currentView, setCurrentView] = useState<AppView>("projects");
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [showWizard, setShowWizard] = useState(false);
-  const [resumeProject, setResumeProject] = useState<Project | null>(null);
-  
-  // Projects hook
-  const {
-    projects,
-    archivedProjects,
-    isLoading: projectsLoading,
-    error: projectsError,
-    createProject,
-    updateProject,
-    archiveProject,
-    unarchiveProject,
-    deleteProject,
-  } = useProjects();
-  
-  // Shortlist state (persisted to localStorage)
-  const [shortlistedCompanies, setShortlistedCompanies] = useState<string[]>(() => {
-    try {
-      const stored = localStorage.getItem(SHORTLIST_STORAGE_KEY);
-      return stored ? JSON.parse(stored) : [];
-    } catch {
-      return [];
-    }
-  });
-
-  // Review stats for sidebar (read from localStorage)
-  const [reviewStats, setReviewStats] = useState({ pending: 0, progress: 0 });
 
   // Persist shortlist to localStorage
   useEffect(() => {
@@ -221,7 +204,8 @@ export default function App() {
       });
       
       if (response.status === 401) {
-        handleLogout();
+        clearApiKey();
+        setAuthState("required");
         return;
       }
       
@@ -234,7 +218,7 @@ export default function App() {
       console.error('Failed to start deep research:', error);
       throw error;
     }
-  }, [selectedProject, updateProject, handleLogout]);
+  }, [selectedProject, updateProject]);
 
   // Handle skipping deep research
   const handleSkipDeepResearch = useCallback(() => {
@@ -270,7 +254,8 @@ export default function App() {
       });
       
       if (response.status === 401) {
-        handleLogout();
+        clearApiKey();
+        setAuthState("required");
         return;
       }
       
@@ -283,7 +268,7 @@ export default function App() {
       console.error('Failed to initiate deep research:', error);
       throw error;
     }
-  }, [handleLogout]);
+  }, []);
 
   // View change handler
   const handleViewChange = useCallback((view: string) => {
@@ -292,6 +277,31 @@ export default function App() {
       setSelectedProject(null);
     }
   }, []);
+
+  // Handle logout
+  const handleLogout = useCallback(() => {
+    clearApiKey();
+    setAuthState("required");
+  }, []);
+
+  // =========================================================================
+  // CONDITIONAL RETURNS - After all hooks are defined
+  // =========================================================================
+
+  // Show loading spinner while checking auth
+  if (authState === "checking") {
+    return (
+      <div className="auth-loading">
+        <div className="auth-loading-spinner" />
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  // If auth required and not authenticated, show API key prompt
+  if (authState === "required") {
+    return <ApiKeyPrompt onAuthenticated={() => setAuthState("authenticated")} />;
+  }
 
   // Render current view
   const renderView = () => {

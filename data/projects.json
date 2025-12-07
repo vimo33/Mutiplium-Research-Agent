@@ -1,0 +1,199 @@
+{
+  "1100630b6076": {
+    "id": "1100630b6076",
+    "client_name": "FO XX",
+    "project_name": "Regenerative viticulture in winetech",
+    "brief": {
+      "objective": "",
+      "target_stages": [],
+      "investment_size": "",
+      "geography": [],
+      "technologies": [],
+      "additional_notes": ""
+    },
+    "framework": {
+      "thesis": "",
+      "kpis": [],
+      "value_chain": []
+    },
+    "status": "draft",
+    "report_path": null,
+    "test_run_report_path": null,
+    "stats": {
+      "total_companies": 0,
+      "enriched_companies": 0,
+      "approved": 0,
+      "rejected": 0,
+      "maybe": 0,
+      "pending": 0,
+      "flagged": 0
+    },
+    "created_at": "2025-12-04T21:00:43.991248Z",
+    "updated_at": "2025-12-04T21:00:43.991248Z"
+  },
+  "e549d28fb3e5": {
+    "id": "e549d28fb3e5",
+    "client_name": "FO XX ",
+    "project_name": "Regenerative viticulture in winetech",
+    "brief": {
+      "objective": "",
+      "target_stages": [],
+      "investment_size": "",
+      "geography": [],
+      "technologies": [],
+      "additional_notes": ""
+    },
+    "framework": {
+      "thesis": "",
+      "kpis": [],
+      "value_chain": []
+    },
+    "status": "discovery_failed",
+    "report_path": null,
+    "test_run_report_path": null,
+    "stats": {
+      "total_companies": 0,
+      "enriched_companies": 0,
+      "approved": 0,
+      "rejected": 0,
+      "maybe": 0,
+      "pending": 0,
+      "flagged": 0
+    },
+    "created_at": "2025-12-04T21:52:11.121578Z",
+    "updated_at": "2025-12-05T18:02:01.324243Z",
+    "current_run_id": "579c2ca3320e4072b58a421df91bd1ce"
+  },
+  "c3588f36e559": {
+    "id": "c3588f36e559",
+    "client_name": "FO Pilot",
+    "project_name": "Regenerative Viticulture in winetech",
+    "brief": {
+      "objective": "",
+      "target_stages": [],
+      "investment_size": "",
+      "geography": [],
+      "technologies": [],
+      "additional_notes": ""
+    },
+    "framework": {
+      "thesis": "",
+      "kpis": [],
+      "value_chain": []
+    },
+    "status": "discovery_failed",
+    "report_path": null,
+    "test_run_report_path": null,
+    "stats": {
+      "total_companies": 0,
+      "enriched_companies": 0,
+      "approved": 0,
+      "rejected": 0,
+      "maybe": 0,
+      "pending": 0,
+      "flagged": 0
+    },
+    "created_at": "2025-12-04T22:37:16.769963Z",
+    "updated_at": "2025-12-05T18:00:27.294321Z",
+    "current_run_id": "ec868c2402874914ac0a4954a6fbe828"
+  },
+  "d133ff212799": {
+    "id": "d133ff212799",
+    "client_name": "FO Pilot ",
+    "project_name": "Regenerative Viticulture in Winetech ",
+    "brief": {
+      "objective": "",
+      "target_stages": [],
+      "investment_size": "",
+      "geography": [],
+      "technologies": [],
+      "additional_notes": ""
+    },
+    "framework": {
+      "thesis": "",
+      "kpis": [],
+      "value_chain": []
+    },
+    "status": "discovery_failed",
+    "report_path": null,
+    "test_run_report_path": null,
+    "stats": {
+      "total_companies": 0,
+      "enriched_companies": 0,
+      "approved": 0,
+      "rejected": 0,
+      "maybe": 0,
+      "pending": 0,
+      "flagged": 0
+    },
+    "created_at": "2025-12-05T07:55:02.897001Z",
+    "updated_at": "2025-12-05T18:05:46.012221Z",
+    "current_run_id": "9a4d6e1b7ee3489f8b20148df70cedaf"
+  },
+  "8e99280b77ba": {
+    "id": "8e99280b77ba",
+    "client_name": "FO Pilot ",
+    "project_name": "Regenerative Viticulture in Winetech  ",
+    "brief": {
+      "objective": "",
+      "target_stages": [],
+      "investment_size": "",
+      "geography": [],
+      "technologies": [],
+      "additional_notes": ""
+    },
+    "framework": {
+      "thesis": "",
+      "kpis": [],
+      "value_chain": []
+    },
+    "status": "discovery_complete",
+    "report_path": "reports/discoveries/8e99280b77ba/report.json",
+    "test_run_report_path": null,
+    "stats": {
+      "total_companies": 0,
+      "enriched_companies": 0,
+      "approved": 0,
+      "rejected": 0,
+      "maybe": 0,
+      "pending": 0,
+      "flagged": 0
+    },
+    "created_at": "2025-12-06T13:26:30.966108Z",
+    "updated_at": "2025-12-07T12:16:42.878574Z",
+    "current_run_id": "a5fd5225566c47cd8229a00e97b3b104"
+  },
+  "696ba2a993fd": {
+    "id": "696ba2a993fd",
+    "client_name": "FOX Pilot 1",
+    "project_name": "Winetech - Regenerative Viticulture",
+    "brief": {
+      "objective": "",
+      "target_stages": [],
+      "investment_size": "",
+      "geography": [],
+      "technologies": [],
+      "additional_notes": ""
+    },
+    "framework": {
+      "thesis": "",
+      "kpis": [],
+      "value_chain": []
+    },
+    "status": "discovery_complete",
+    "report_path": "reports/discoveries/696ba2a993fd/report.json",
+    "test_run_report_path": null,
+    "stats": {
+      "total_companies": 0,
+      "enriched_companies": 0,
+      "approved": 0,
+      "rejected": 0,
+      "maybe": 0,
+      "pending": 0,
+      "flagged": 0
+    },
+    "created_at": "2025-12-06T17:54:12.761099Z",
+    "updated_at": "2025-12-07T12:15:31.358050Z",
+    "current_run_id": "4f5d968de59f45979c35232c9f8b7e5d"
+  }
+}

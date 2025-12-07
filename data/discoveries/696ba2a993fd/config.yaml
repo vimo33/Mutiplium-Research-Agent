@@ -1,0 +1,77 @@
+orchestrator:
+  concurrency: 3
+  dry_run: false
+  kpi_path: data/discoveries/696ba2a993fd/kpis.md
+  output_path: reports/discoveries/696ba2a993fd/report.json
+  sector: Winetech - Regenerative Viticulture
+  thesis_path: data/discoveries/696ba2a993fd/thesis.md
+  value_chain_path: data/discoveries/696ba2a993fd/value_chain.md
+providers:
+  anthropic:
+    enabled: false
+    max_conversation_turns: 20
+    max_steps: 20
+    max_tokens: 8192
+    max_tool_uses: 30
+    model: claude-sonnet-4-5-20250929
+    output_by_turn: 18
+    temperature: 0.15
+  google:
+    enabled: true
+    max_conversation_turns: 20
+    max_steps: 20
+    max_tokens: 8192
+    max_tool_uses: 30
+    model: gemini-3-pro-preview
+    output_by_turn: 18
+    temperature: 1.0
+  openai:
+    enabled: true
+    max_conversation_turns: 20
+    max_steps: 20
+    max_tokens: 8192
+    max_tool_uses: 30
+    model: gpt-5.1
+    output_by_turn: 18
+    temperature: 0.15
+  xai:
+    enabled: false
+    max_steps: 20
+    model: grok-beta
+    temperature: 0.15
+tools:
+- endpoint: tavily_mcp
+  name: search_web
+- allow_domains: []
+  endpoint: tavily_mcp
+  name: fetch_content
+- endpoint: tavily_mcp
+  name: extract_content
+- endpoint: tavily_mcp
+  name: map_website
+- endpoint: tavily_mcp
+  name: crawl_website
+- endpoint: perplexity_mcp
+  name: perplexity_search
+- endpoint: perplexity_mcp
+  name: perplexity_ask
+- endpoint: perplexity_mcp
+  name: perplexity_research
+- endpoint: perplexity_mcp
+  name: perplexity_reason
+- endpoint: https://multiplium.onrender.com/crunchbase/mcp/crunchbase
+  name: lookup_crunchbase
+- endpoint: https://multiplium.onrender.com/patents/mcp/patents
+  name: lookup_patents
+- endpoint: https://multiplium.onrender.com/financials/mcp/financials
+  name: financial_metrics
+- endpoint: http://127.0.0.1:7005/mcp/esg
+  name: lookup_esg_ratings
+- endpoint: http://127.0.0.1:7006/mcp/academic
+  name: search_academic_papers
+- endpoint: http://127.0.0.1:7007/mcp/sustainability
+  name: lookup_sustainability_ratings
+- endpoint: http://127.0.0.1:7007/mcp/certifications
+  name: check_certifications
+- endpoint: http://127.0.0.1:7007/mcp/sdg
+  name: calculate_sdg_alignment

@@ -1,0 +1,26 @@
+{
+  "project_id": "proj_1765033928509_0beokkb50",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Hi, I'd like to set up a new research project."
+    },
+    {
+      "role": "assistant",
+      "content": ""
+    },
+    {
+      "role": "user",
+      "content": "Hi, I'd like to set up a new research project."
+    },
+    {
+      "role": "assistant",
+      "content": "Wonderful, let\u2019s get this set up.\n\nTo start, could you share in your own words:\n1. What you\u2019re hoping to explore or achieve with this research on regenerative viticulture / winetech (e.g., sourcing investments, landscaping the space, validating a thesis, etc.)?\n2. Whether you\u2019re primarily interested in technology companies (software, hardware, biotech), operational models (regenerative vineyard operators), or the broader ecosystem (services, marketplaces, carbon, etc.)?\n\nOnce I understand your main objective and scope, we can narrow down sectors, stages, and geographies."
+    }
+  ],
+  "artifacts": {
+    "kpis": [],
+    "value_chain": []
+  },
+  "updated_at": "2025-12-06T16:09:27.080240Z"
+}

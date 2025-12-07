@@ -1,0 +1,26 @@
+{
+  "project_id": "proj_1765044003396_cag2axnr7",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Hi, I'd like to set up a new research project."
+    },
+    {
+      "role": "assistant",
+      "content": ""
+    },
+    {
+      "role": "user",
+      "content": "Hi, I'd like to set up a new research project."
+    },
+    {
+      "role": "assistant",
+      "content": ""
+    }
+  ],
+  "artifacts": {
+    "kpis": [],
+    "value_chain": []
+  },
+  "updated_at": "2025-12-06T18:20:18.553678Z"
+}

@@ -1,0 +1,203 @@
+{
+  "project_id": "c3588f36e559",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Hi, I'd like to set up a new research project."
+    },
+    {
+      "role": "assistant",
+      "content": ""
+    },
+    {
+      "role": "user",
+      "content": "Hi, I'd like to set up a new research project."
+    },
+    {
+      "role": "assistant",
+      "content": "Great, let\u2019s set it up around your needs.\n\nSince this is for FO Pilot and the project context is *regenerative viticulture in winetech*, I\u2019ll start there\u2014but you can redirect me if that\u2019s off.\n\nTo anchor us:\n\n1. What is the primary objective of this project for you:  \n   - Sourcing potential investments?  \n   - Building a landscape/market map?  \n   - Deep-dive on a few existing targets?  \n   - Or something more exploratory/learning-focused?\n\n2. Within \u201cregenerative viticulture,\u201d are you more interested in:\n   - On-vineyard technologies (soil health, biodiversity, water, inputs, monitoring), or  \n   - Winery/processing + supply chain (traceability, low-impact production, carbon accounting), or  \n   - Broadly anything that touches regenerative practices in the wine value chain?\n\nOnce I understand that, I\u2019ll narrow in on sectors, stage, and geography."
+    },
+    {
+      "role": "user",
+      "content": "- Building a landscape/market map?\n- Broadly anything that touches regenerative practices in the wine value chain?"
+    },
+    {
+      "role": "assistant",
+      "content": "Understood: we\u2019re building a landscape / market map of companies across the wine value chain that enable or embody regenerative practices, not just in the vineyard but end-to-end.\n\nTo shape this properly, I\u2019d like to clarify two things next:\n\n1. **Role of this map**:  \n   Is this primarily to:\n   - Identify *investable* companies now/soon, or  \n   - Build a *strategic view* for a family office (e.g., where value will accrue, where to partner, where to own assets), or  \n   - Support an *operating business* in wine/agri that\u2019s exploring regenerative transformation?\n\n2. **Geographic scope**:  \n   Do you want this to be:\n   - Global, with emphasis on key wine regions (e.g., France, Italy, Spain, US, Chile, Australia, South Africa), or  \n   - Focused on 1\u20132 core regions (e.g., Old World vs New World, or a specific country/region)?\n\nOnce I know that, I\u2019ll start probing on ideal company stages, check sizes, and what \u201cregenerative\u201d means for you in practical/technical terms (e.g., certifications, specific practices, carbon outcomes, biodiversity, social aspects)."
+    },
+    {
+      "role": "user",
+      "content": "- Identify *investable* companies now/soon, \n- Global, with emphasis on key wine regions (e.g., France, Italy, Spain, US, Chile, Australia, South Africa),"
+    },
+    {
+      "role": "assistant",
+      "content": "Understood: you want to identify *investable* companies (now or in the near term), with a **global** lens but emphasis on major wine regions (France, Italy, Spain, US, Chile, Australia, South Africa).\n\nTo sharpen this into something actionable for sourcing:\n\n1. **Where on the value chain do you want to focus first?**  \n   For example, are you primarily interested in:\n   - a) **In-field/vineyard tech** (soil, water, biodiversity, inputs, robotics, sensors, decision support),  \n   - b) **Winery/processing & operations** (low-input vinification, energy/water efficiency, waste valorisation),  \n   - c) **Data/standards/traceability** (MRV for regenerative practices, carbon tools, certifications, supply chain transparency), or  \n   - d) You want to cover **the whole regenerative wine system**, then prioritise segments later?\n\n2. **What company maturity are you targeting?**  \n   Given you want \u201cinvestable now/soon,\u201d what\u2019s your preferred band:\n   - Pre-seed / Seed  \n   - Series A\u2013B  \n   - Growth-stage (profitable or close, scaling internationally)  \n\nYou can give rough ranges (e.g., \u201cmainly Seed\u2013Series A, but open to strong pre-seed if strategic\u201d). Once I know that, I\u2019ll start shaping a first-pass thesis and then we can refine."
+    },
+    {
+      "role": "user",
+      "content": "1. d\n2. a mix of all with a focus on impact"
+    },
+    {
+      "role": "assistant",
+      "content": "So this is primarily a **strategic landscape** for a family office, with a **global view** and a strong **impact lens** across the value chain. That\u2019s a very good fit for regenerative viticulture.\n\nTo make the map useful for FO Pilot, I\u2019d like to pin down two dimensions next:\n\n1. **How \u201cinvestable\u201d should the map skew?**  \n   On a spectrum from:\n   - A) Very early / experimental (R&D, pilots, small startups)  \n   - B) Venture-stage (Seed\u2013Series B, scaling but still early)  \n   - C) Mature / proven (later-stage private, cooperatives, platforms, even listed companies)  \n   Where would you like the *center of gravity* to be? You can choose a mix, but what should we prioritize?\n\n2. **What \u201cimpact\u201d means in this project**  \n   When you say focus on impact, what are the **top 2\u20133 outcome areas** you care about most in regenerative wine? For example:\n   - Soil health & carbon sequestration  \n   - Water use & resilience  \n   - Biodiversity (in/around vineyards)  \n   - Chemical input reduction (pesticides, herbicides, fertilizers)  \n   - Social aspects (workers, communities, small growers)  \n   - Energy / decarbonization in winery & logistics  \n\nYou can answer in your own words; I\u2019ll translate that into how we structure the landscape and, a bit later, into KPIs."
+    },
+    {
+      "role": "user",
+      "content": "- A) Very early / experimental (R&D, pilots, small startups)\n- Soil health & carbon sequestration\n- Water use & resilience\n- Biodiversity (in/around vineyards)\n- Chemical input reduction (pesticides, herbicides, fertilizers)"
+    },
+    {
+      "role": "assistant",
+      "content": "That\u2019s very clear: we\u2019re looking at **very early / experimental** solutions (R&D, pilots, small startups) focused on core regenerative levers in and around the vineyard: soil, carbon, water, biodiversity, and input reduction.\n\nBefore I start drafting an initial thesis, two clarifications will help:\n\n1. **Investment profile / check size**  \n   For these early-stage opportunities, what\u2019s your rough preferred check size (or range)? For example:\n   - <\u20ac250k (very small tickets / angel-style)  \n   - \u20ac250k\u2013\u20ac1m  \n   - \u20ac1m\u2013\u20ac3m  \n   - Larger?\n\n2. **Tech vs practice balance**  \n   Are you primarily interested in:\n   - **Tech-first plays** (e.g., sensors, decision-support software, biologicals, robotics, MRV tools), or  \n   - **Operational / asset-heavy models** (regenerative farm/vineyard platforms, service providers doing conversions), or  \n   - A mix of both, as long as they materially drive the regenerative outcomes you listed?\n\nOnce I have that, I\u2019ll propose a first version of an investment thesis for this project that we can iterate on."
+    },
+    {
+      "role": "user",
+      "content": "1 can be all of them depends on the company profile \n2. a mix with a little focus on tech first"
+    },
+    {
+      "role": "assistant",
+      "content": "Got it: you\u2019re open to **all maturity levels** (from experimental to mature), and you want a **mix of impact areas with a slight preference for tech-led solutions** across the regenerative wine value chain.\n\nBefore I draft an initial investment thesis for this project, I\u2019d like to clarify two more things:\n\n1. **Check size / capital deployment**  \n   Even if this is preliminary: what\u2019s the *typical ticket size* you\u2019d like this map to be relevant for (per company)?  \n   - < \u20ac500k  \n   - \u20ac500k\u20132m  \n   - \u20ac2\u201310m  \n   - > \u20ac10m  \n   Or a range (e.g., \u201cmostly \u20ac1\u20135m but flexible\u201d).\n\n2. **Deal-breakers or strong preferences**  \n   Are there any *red lines* or strong preferences, such as:\n   - Avoid pure \u201cgreenwashing\u201d marketing plays with no measurable impact  \n   - Avoid asset-heavy agriculture ownership; focus on tech / services  \n   - Prefer B2B (serving growers, wineries, distributors) vs B2C brands  \n   - Avoid tobacco/other crops, only wine & closely adjacent perennial crops  \n\nOnce I have this, I\u2019ll propose a first version of the **investment thesis** for \u201cRegenerative Viticulture in Winetech\u201d and we can refine it together."
+    },
+    {
+      "role": "user",
+      "content": "- \u20ac500k\u20132m but flexible\n- all of them"
+    },
+    {
+      "role": "assistant",
+      "content": "You\u2019re targeting **\u20ac500k\u20132m** (flexible) into **very early / experimental** companies across **all model types** (tech, services, operational assets) that materially drive regenerative outcomes in viticulture.\n\nI now have enough to sketch an initial investment thesis for this research project. Here\u2019s a first pass you can react to:\n\n[THESIS_START]\nThis research project will map and surface early-stage, high-impact opportunities across the global regenerative viticulture value chain, with emphasis on major wine regions (France, Italy, Spain, US, Chile, Australia, South Africa). The core focus is on companies and initiatives that directly improve soil health and carbon sequestration, water use and resilience, biodiversity in and around vineyards, and reduction of synthetic chemical inputs, while being on a credible path to investability in the near term.\n\nThe landscape will deliberately include a spectrum of models: tech-first solutions (e.g., sensing, decision-support, biological inputs, robotics, MRV and traceability tools), operational and service platforms (e.g., regenerative transition services for vineyards, managed regenerative vineyards, ecosystem service monetisation), and enabling infrastructure across the wine value chain that reinforces regenerative practices. Priority will be given to very early / experimental ventures (R&D, pilots, small startups) where \u20ac500k\u20132m tickets can be catalytic, with flexibility to consider adjacent models or stages if they are strategically important for the regenerative wine system.\n[THESIS_END]\n\nDoes this capture your intent, or is anything missing (e.g., social impact, premiumization/brand angle, carbon markets, or alignment with specific standards like ROA, Demeter, etc.)?\n\nNext, to refine how we *evaluate* companies in this map:\n\n1. Are you open to **non-wine crops** if they\u2019re highly relevant to vineyards (e.g., perennials, orchards, mixed agroforestry tools) and could be applied to viticulture, or should we stay strictly wine-focused?\n\n2. Are there any **hard deal-breakers** you already know (e.g., synthetic chemistry-only plays, pure marketing/labeling with no measurable impact, heavy dependence on unproven voluntary carbon credits, etc.)?\n\nOnce I know that, I\u2019ll start drafting a first set of KPIs tailored to your impact and investment lens."
+    },
+    {
+      "role": "user",
+      "content": "1. lets focus on wine, maybe 5% with clear indication why these are intersting fits\n2. no"
+    },
+    {
+      "role": "assistant",
+      "content": "Thanks, that helps narrow things meaningfully.\n\nSo we\u2019ll:\n- Focus **95% on wine**,  \n- Allow **~5% adjacent** (e.g., perennial crops / ag tech) only when there\u2019s a **clear, articulated rationale** for transferability to viticulture,  \n- No strong hard exclusions beyond that, and you\u2019re open on check size depending on the company.\n\nAt this point I have enough to draft a first **investment thesis** for this research project. Here\u2019s a first version you can react to:\n\n[THESIS_START]\nRegenerative viticulture sits at the intersection of climate risk, ecological degradation, and the economic fragility of winegrowers in key regions worldwide. As climate volatility, water stress, and soil degradation intensify in major wine regions (France, Italy, Spain, US, Chile, Australia, South Africa), growers and wineries are under mounting pressure\u2014from regulators, buyers, and consumers\u2014to transition to practices that restore soil function, sequester carbon, enhance biodiversity, and reduce chemical inputs. Yet the transition is complex, knowledge-intensive, and often perceived as risky at the farm level. This creates a significant need for new technologies, services, and business models that de\u2011risk and operationalize regenerative practices in vineyards and along the wine value chain.\n\nThis project focuses on mapping and identifying **investable companies**, with a bias toward **tech-led solutions**, that materially advance four core outcome areas in and around vineyards: (1) soil health and carbon sequestration, (2) water use and climate resilience, (3) biodiversity enhancement, and (4) reduction or replacement of synthetic chemical inputs. We will look across the full regenerative wine system\u2014from in-field sensing, biological inputs, and decision-support tools, to MRV (measurement, reporting, verification), supply-chain traceability, and winery/processing innovations that reinforce regenerative practices upstream. While the core emphasis is on wine, we will include a small (~5%) set of adjacent perennial/ag-tech plays where there is a clear, defensible path to application in viticulture.\n\nGiven FO Pilot\u2019s flexibility on stage and check size, the opportunity lies in building a **pipeline of early and emerging leaders**: from experimental/R&D-stage ventures piloting in vineyards, to more mature platforms already scaling across regions. The thesis is that regenerative viticulture will move from niche to necessity, and that value will accrue to companies that (i) make regenerative transitions economically attractive and operationally simple for growers and wineries, (ii) can credibly quantify and verify ecological outcomes, and (iii) are architected to scale across diverse terroirs and regulatory contexts. This landscape will prioritize companies with measurable impact on the four core outcomes, clear adoption pathways with growers/wineries, and potential to become critical infrastructure or category leaders in regenerative wine.\n[THESIS_END]\n\nWould you like this thesis to:\n- Put **more emphasis on MRV/traceability and data infrastructure**, or  \n- More emphasis on **biologicals / inputs / in-field solutions**,  \nor is this current balance about right for you?"
+    },
+    {
+      "role": "user",
+      "content": "go ahead"
+    },
+    {
+      "role": "assistant",
+      "content": "Understood\u2014I'll proceed based on what we\u2019ve defined so far.\n\nTo tailor the KPIs properly, I\u2019ll make two quick working assumptions; if either is off, tell me and I\u2019ll adjust:\n- We focus **primarily on wine & directly adjacent perennial systems**, but we\u2019re open to cross-crop tools if they\u2019re clearly applicable to vineyards.\n- We *exclude* obvious greenwashing / pure marketing plays without measurable environmental outcomes.\n\nHere is a first KPI set aligned with your impact and early-stage investment lens:\n\n[KPI_START]{\"name\": \"Soil Organic Carbon / Soil Health Improvement\", \"target\": \"Clear pathway to \u2265+0.2\u20130.5% SOC increase over 5 years OR robust proxy soil health metrics\", \"rationale\": \"Soil carbon and broader soil health are core to regenerative viticulture; they underpin resilience, yield stability, and potential monetisation via ecosystem services. Even at early stage, the company should have a credible theory of change, measurement approach, or pilots showing directional improvement.\"}[KPI_END]\n\n[KPI_START]{\"name\": \"Water Use Efficiency & Resilience\", \"target\": \"\u226520\u201330% reduction in water use per hectare or per kg of grapes in pilot settings, OR demonstrable improvement in drought resilience / reduced irrigation dependency\", \"rationale\": \"Water is a major constraint in key wine regions. Solutions should materially improve water productivity or climate resilience, not just monitor without actionable impact.\"}[KPI_END]\n\n[KPI_START]{\"name\": \"Chemical Input Reduction\", \"target\": \"\u226530\u201350% reduction in synthetic pesticides, herbicides, or fertilizers in pilots without yield/quality collapse\", \"rationale\": \"Reducing synthetic inputs is central to regenerative practice and a key differentiator vs conventional viticulture. Early-stage companies should show or plausibly model a step-change, not marginal gains.\"}[KPI_END]\n\n[KPI_START]{\"name\": \"Biodiversity Impact in/around Vineyards\", \"target\": \"Evidence of increased species richness/abundance (e.g., cover crops, insect/avian diversity) or structural diversity (hedgerows, agroforestry) within 3\u20135 years\", \"rationale\": \"Biodiversity is both an outcome and a driver of regenerative resilience. Companies should either directly enhance habitat/functional diversity or enable growers to measure and manage it.\"}[KPI_END]\n\n[KPI_START]{\"name\": \"Scalability Across Wine Regions\", \"target\": \"Clear path to deployment in \u22652\u20133 major wine regions (e.g., EU + US or EU + Southern Hemisphere) within 5\u20137 years\", \"rationale\": \"Given your global focus and ticket size, solutions should be adaptable beyond a single niche terroir or micro-market, even if initial pilots are local.\"}[KPI_END]\n\n[KPI_START]{\"name\": \"Commercial & Adoption Readiness\", \"target\": \"Initial revenue, paid pilots, or strong LOIs with vineyards/wineries within 12\u201324 months of investment\", \"rationale\": \"Even for very early-stage, there must be a line of sight to real adoption by growers/wineries, not just lab-stage tech. This anchors the impact in real-world practice change.\"}[KPI_END]\n\nIf you\u2019d like, I can next:\n- Propose **value chain segments** for the regenerative viticulture/winetech landscape, or  \n- Refine these KPIs (e.g., add a social / worker dimension, carbon monetisation, or more tech-specific metrics). Which would you prefer as the next step?"
+    },
+    {
+      "role": "user",
+      "content": "Propose value chain segments for the regenerative viticulture/winetech landscape"
+    },
+    {
+      "role": "assistant",
+      "content": "Here\u2019s a first structured cut of value chain segments for the regenerative viticulture / winetech landscape. We can refine or rebalance once you react.\n\n[SEGMENT_START]{\"segment\": \"Regenerative Vineyard Intelligence & Decision Support\", \"description\": \"Digital tools that help growers plan, monitor, and optimise regenerative practices in vineyards: farm OS platforms, decision-support systems integrating soil, climate, and plant data, tools for rotation/cover crop design, and scenario modelling for carbon, water, and biodiversity outcomes.\"}[SEGMENT_END]\n\n[SEGMENT_START]{\"segment\": \"Soil Health, Carbon & Biological Inputs\", \"description\": \"Companies developing and supplying biologicals and inputs that enhance soil function and reduce synthetic chemicals: microbial and fungal consortia, bio-stimulants, biofertilisers, biochar, compost technologies, and amendments tailored to perennial crops and vineyards, with a clear soil-carbon and soil-health angle.\"}[SEGMENT_END]\n\n[SEGMENT_START]{\"segment\": \"Water Management & Climate Resilience\", \"description\": \"Technologies and services that improve water-use efficiency and resilience to heat/drought: precision irrigation systems, soil moisture and microclimate sensing, water-stress analytics, deficit-irrigation optimisation, and tools for watershed-level planning relevant to wine regions.\"}[SEGMENT_END]\n\n[SEGMENT_START]{\"segment\": \"Biodiversity & Landscape Regeneration\", \"description\": \"Solutions that design, implement, or monitor biodiversity in and around vineyards: cover cropping and inter-row vegetation systems, agroforestry and hedgerow design tools, habitat corridors, beneficial insect and pollinator support, and monitoring platforms that quantify biodiversity outcomes at parcel and landscape scale.\"}[SEGMENT_END]\n\n[SEGMENT_START]{\"segment\": \"Reduced-Chemical Pest, Disease & Weed Management\", \"description\": \"Alternatives to synthetic pesticides, herbicides, and fungicides tailored to vineyards: biological control agents, mating disruption, novel formulations with lower toxicity, targeted application tools, and decision-support systems that minimise spray frequency and dosage while maintaining yield and quality.\"}[SEGMENT_END]\n\n[SEGMENT_START]{\"segment\": \"MRV, Traceability & Environmental Accounting\", \"description\": \"Measurement, reporting, verification and traceability platforms that quantify regenerative outcomes and connect them to markets: soil carbon and GHG accounting, biodiversity and water metrics, plot-level traceability from vineyard to bottle, and integration with certifications, ESG reporting, and potential ecosystem-service monetisation.\"}[SEGMENT_END]\n\n[SEGMENT_START]{\"segment\": \"Winery & Processing for Regenerative Systems\", \"description\": \"Technologies and practices in the winery that reinforce regenerative goals: low-energy and low-water processing, waste and by-product valorisation (e.g., pomace to high-value products), circular packaging, and systems that maintain the identity and story of regenerative grapes through vinification and bottling.\"}[SEGMENT_END]\n\n[SEGMENT_START]{\"segment\": \"Regenerative Transition Services & Operating Platforms\", \"description\": \"Service and operating models that execute regenerative transitions on the ground: advisory and implementation services for vineyards, managed-regenerative vineyard platforms, shared machinery/robotics services, and bundled offerings that combine agronomy, finance, and tech to de-risk the transition for growers.\"}[SEGMENT_END]\n\nWould you like to:\n- Split any of these into more granular sub-segments (e.g., separate **biologicals** from **digital decision tools**), or  \n- Add a dedicated segment for **carbon/biodiversity credits & financing mechanisms** tied to regenerative vineyards?"
+    },
+    {
+      "role": "user",
+      "content": "robots, drones etc"
+    },
+    {
+      "role": "assistant",
+      "content": "That\u2019s helpful\u2014you\u2019d like explicit coverage of **robots, drones and similar hardware** in the landscape.\n\nI\u2019ll start by adding them clearly into the value chain structure so they don\u2019t get lost among \u201cgeneric tech.\u201d Here\u2019s a first cut at **value chain segments** for regenerative viticulture / winetech, with a dedicated robotics/drones segment:\n\n[SEGMENT_START]{\"segment\": \"In-field Sensing, Drones & Monitoring\", \"description\": \"Hardware and software for monitoring vineyard conditions with minimal disturbance: drones, fixed sensors, satellite/imagery platforms, and edge devices that track soil moisture, canopy health, disease pressure, microclimate, and biodiversity indicators to inform regenerative decisions.\"}[SEGMENT_END]\n\n[SEGMENT_START]{\"segment\": \"Robotics & Autonomous Vineyard Operations\", \"description\": \"Robots and autonomous machinery that replace or drastically reduce high-impact operations: electric or lightweight tractors, robotic weeders (mechanical/laser), autonomous mowing, targeted spraying for biologicals, and other systems that lower soil compaction, fuel use, and chemical inputs.\"}[SEGMENT_END]\n\n[SEGMENT_START]{\"segment\": \"Biological Inputs & Soil Regeneration Technologies\", \"description\": \"Biostimulants, microbial consortia, cover-crop systems, composting solutions, and soil amendments designed to build soil organic matter, enhance nutrient cycling, and reduce reliance on synthetic fertilizers and pesticides in vineyards.\"}[SEGMENT_END]\n\n[SEGMENT_START]{\"segment\": \"Water Management & Climate Resilience Solutions\", \"description\": \"Tools and services that improve water efficiency and resilience: precision irrigation, drought-resilient rootstocks/varieties, microcatchment and water-harvesting systems, decision-support for irrigation scheduling, and technologies that buffer vineyards against heat and hydric stress.\"}[SEGMENT_END]\n\n[SEGMENT_START]{\"segment\": \"Biodiversity & Habitat Management in Vineyards\", \"description\": \"Solutions that design, implement, or manage biodiversity in and around vineyards: cover-crop design tools, agroforestry/hedgerow planning, habitat corridors, beneficial insect support, and services that integrate ecological design into vineyard layouts.\"}[SEGMENT_END]\n\n[SEGMENT_START]{\"segment\": \"MRV, Traceability & Ecosystem Services Monetisation\", \"description\": \"Measurement, reporting and verification platforms, traceability tools, and data infrastructure that quantify regenerative outcomes (soil carbon, biodiversity, water, inputs) and connect them to certifications, premiums, or ecosystem service markets relevant to wine.\"}[SEGMENT_END]\n\n[SEGMENT_START]{\"segment\": \"Regenerative Transition Services & Managed Vineyards\", \"description\": \"Service providers and operating platforms that help growers convert to regenerative practices: advisory, turnkey transition programs, managed vineyard models, and shared equipment/knowledge platforms that de-risk and operationalise change at farm level.\"}[SEGMENT_END]\n\n[SEGMENT_START]{\"segment\": \"Winery, Processing & Circular Resource Solutions\", \"description\": \"Technologies and models at the winery/processing stage that reinforce regenerative outcomes: low-energy/low-water processing, waste-to-resource (e.g., grape marc valorisation), circular packaging/logistics, and systems that align downstream operations with regenerative branding and impact.\"}[SEGMENT_END]\n\nWould you like the **robots & drones segment** to be:\n- Focused strictly on **field operations & monitoring**, or  \n- Broader, also including **logistics/handling in wineries and cellars** (e.g., robotic handling, automated barrel management) if they have a clear environmental impact?"
+    }
+  ],
+  "artifacts": {
+    "thesis": "Regenerative viticulture sits at the intersection of climate risk, ecological degradation, and the economic fragility of winegrowers in key regions worldwide. As climate volatility, water stress, and soil degradation intensify in major wine regions (France, Italy, Spain, US, Chile, Australia, South Africa), growers and wineries are under mounting pressure\u2014from regulators, buyers, and consumers\u2014to transition to practices that restore soil function, sequester carbon, enhance biodiversity, and reduce chemical inputs. Yet the transition is complex, knowledge-intensive, and often perceived as risky at the farm level. This creates a significant need for new technologies, services, and business models that de\u2011risk and operationalize regenerative practices in vineyards and along the wine value chain.\n\nThis project focuses on mapping and identifying **investable companies**, with a bias toward **tech-led solutions**, that materially advance four core outcome areas in and around vineyards: (1) soil health and carbon sequestration, (2) water use and climate resilience, (3) biodiversity enhancement, and (4) reduction or replacement of synthetic chemical inputs. We will look across the full regenerative wine system\u2014from in-field sensing, biological inputs, and decision-support tools, to MRV (measurement, reporting, verification), supply-chain traceability, and winery/processing innovations that reinforce regenerative practices upstream. While the core emphasis is on wine, we will include a small (~5%) set of adjacent perennial/ag-tech plays where there is a clear, defensible path to application in viticulture.\n\nGiven FO Pilot\u2019s flexibility on stage and check size, the opportunity lies in building a **pipeline of early and emerging leaders**: from experimental/R&D-stage ventures piloting in vineyards, to more mature platforms already scaling across regions. The thesis is that regenerative viticulture will move from niche to necessity, and that value will accrue to companies that (i) make regenerative transitions economically attractive and operationally simple for growers and wineries, (ii) can credibly quantify and verify ecological outcomes, and (iii) are architected to scale across diverse terroirs and regulatory contexts. This landscape will prioritize companies with measurable impact on the four core outcomes, clear adoption pathways with growers/wineries, and potential to become critical infrastructure or category leaders in regenerative wine.",
+    "kpis": [
+      {
+        "name": "Soil Organic Carbon / Soil Health Improvement",
+        "target": "Clear pathway to \u2265+0.2\u20130.5% SOC increase over 5 years OR robust proxy soil health metrics",
+        "rationale": "Soil carbon and broader soil health are core to regenerative viticulture; they underpin resilience, yield stability, and potential monetisation via ecosystem services. Even at early stage, the company should have a credible theory of change, measurement approach, or pilots showing directional improvement."
+      },
+      {
+        "name": "Water Use Efficiency & Resilience",
+        "target": "\u226520\u201330% reduction in water use per hectare or per kg of grapes in pilot settings, OR demonstrable improvement in drought resilience / reduced irrigation dependency",
+        "rationale": "Water is a major constraint in key wine regions. Solutions should materially improve water productivity or climate resilience, not just monitor without actionable impact."
+      },
+      {
+        "name": "Chemical Input Reduction",
+        "target": "\u226530\u201350% reduction in synthetic pesticides, herbicides, or fertilizers in pilots without yield/quality collapse",
+        "rationale": "Reducing synthetic inputs is central to regenerative practice and a key differentiator vs conventional viticulture. Early-stage companies should show or plausibly model a step-change, not marginal gains."
+      },
+      {
+        "name": "Biodiversity Impact in/around Vineyards",
+        "target": "Evidence of increased species richness/abundance (e.g., cover crops, insect/avian diversity) or structural diversity (hedgerows, agroforestry) within 3\u20135 years",
+        "rationale": "Biodiversity is both an outcome and a driver of regenerative resilience. Companies should either directly enhance habitat/functional diversity or enable growers to measure and manage it."
+      },
+      {
+        "name": "Scalability Across Wine Regions",
+        "target": "Clear path to deployment in \u22652\u20133 major wine regions (e.g., EU + US or EU + Southern Hemisphere) within 5\u20137 years",
+        "rationale": "Given your global focus and ticket size, solutions should be adaptable beyond a single niche terroir or micro-market, even if initial pilots are local."
+      },
+      {
+        "name": "Commercial & Adoption Readiness",
+        "target": "Initial revenue, paid pilots, or strong LOIs with vineyards/wineries within 12\u201324 months of investment",
+        "rationale": "Even for very early-stage, there must be a line of sight to real adoption by growers/wineries, not just lab-stage tech. This anchors the impact in real-world practice change."
+      }
+    ],
+    "value_chain": [
+      {
+        "segment": "Regenerative Vineyard Intelligence & Decision Support",
+        "description": "Digital tools that help growers plan, monitor, and optimise regenerative practices in vineyards: farm OS platforms, decision-support systems integrating soil, climate, and plant data, tools for rotation/cover crop design, and scenario modelling for carbon, water, and biodiversity outcomes."
+      },
+      {
+        "segment": "Soil Health, Carbon & Biological Inputs",
+        "description": "Companies developing and supplying biologicals and inputs that enhance soil function and reduce synthetic chemicals: microbial and fungal consortia, bio-stimulants, biofertilisers, biochar, compost technologies, and amendments tailored to perennial crops and vineyards, with a clear soil-carbon and soil-health angle."
+      },
+      {
+        "segment": "Water Management & Climate Resilience",
+        "description": "Technologies and services that improve water-use efficiency and resilience to heat/drought: precision irrigation systems, soil moisture and microclimate sensing, water-stress analytics, deficit-irrigation optimisation, and tools for watershed-level planning relevant to wine regions."
+      },
+      {
+        "segment": "Biodiversity & Landscape Regeneration",
+        "description": "Solutions that design, implement, or monitor biodiversity in and around vineyards: cover cropping and inter-row vegetation systems, agroforestry and hedgerow design tools, habitat corridors, beneficial insect and pollinator support, and monitoring platforms that quantify biodiversity outcomes at parcel and landscape scale."
+      },
+      {
+        "segment": "Reduced-Chemical Pest, Disease & Weed Management",
+        "description": "Alternatives to synthetic pesticides, herbicides, and fungicides tailored to vineyards: biological control agents, mating disruption, novel formulations with lower toxicity, targeted application tools, and decision-support systems that minimise spray frequency and dosage while maintaining yield and quality."
+      },
+      {
+        "segment": "MRV, Traceability & Environmental Accounting",
+        "description": "Measurement, reporting, verification and traceability platforms that quantify regenerative outcomes and connect them to markets: soil carbon and GHG accounting, biodiversity and water metrics, plot-level traceability from vineyard to bottle, and integration with certifications, ESG reporting, and potential ecosystem-service monetisation."
+      },
+      {
+        "segment": "Winery & Processing for Regenerative Systems",
+        "description": "Technologies and practices in the winery that reinforce regenerative goals: low-energy and low-water processing, waste and by-product valorisation (e.g., pomace to high-value products), circular packaging, and systems that maintain the identity and story of regenerative grapes through vinification and bottling."
+      },
+      {
+        "segment": "Regenerative Transition Services & Operating Platforms",
+        "description": "Service and operating models that execute regenerative transitions on the ground: advisory and implementation services for vineyards, managed-regenerative vineyard platforms, shared machinery/robotics services, and bundled offerings that combine agronomy, finance, and tech to de-risk the transition for growers."
+      },
+      {
+        "segment": "In-field Sensing, Drones & Monitoring",
+        "description": "Hardware and software for monitoring vineyard conditions with minimal disturbance: drones, fixed sensors, satellite/imagery platforms, and edge devices that track soil moisture, canopy health, disease pressure, microclimate, and biodiversity indicators to inform regenerative decisions."
+      },
+      {
+        "segment": "Robotics & Autonomous Vineyard Operations",
+        "description": "Robots and autonomous machinery that replace or drastically reduce high-impact operations: electric or lightweight tractors, robotic weeders (mechanical/laser), autonomous mowing, targeted spraying for biologicals, and other systems that lower soil compaction, fuel use, and chemical inputs."
+      },
+      {
+        "segment": "Biological Inputs & Soil Regeneration Technologies",
+        "description": "Biostimulants, microbial consortia, cover-crop systems, composting solutions, and soil amendments designed to build soil organic matter, enhance nutrient cycling, and reduce reliance on synthetic fertilizers and pesticides in vineyards."
+      },
+      {
+        "segment": "Water Management & Climate Resilience Solutions",
+        "description": "Tools and services that improve water efficiency and resilience: precision irrigation, drought-resilient rootstocks/varieties, microcatchment and water-harvesting systems, decision-support for irrigation scheduling, and technologies that buffer vineyards against heat and hydric stress."
+      },
+      {
+        "segment": "Biodiversity & Habitat Management in Vineyards",
+        "description": "Solutions that design, implement, or manage biodiversity in and around vineyards: cover-crop design tools, agroforestry/hedgerow planning, habitat corridors, beneficial insect support, and services that integrate ecological design into vineyard layouts."
+      },
+      {
+        "segment": "MRV, Traceability & Ecosystem Services Monetisation",
+        "description": "Measurement, reporting and verification platforms, traceability tools, and data infrastructure that quantify regenerative outcomes (soil carbon, biodiversity, water, inputs) and connect them to certifications, premiums, or ecosystem service markets relevant to wine."
+      },
+      {
+        "segment": "Regenerative Transition Services & Managed Vineyards",
+        "description": "Service providers and operating platforms that help growers convert to regenerative practices: advisory, turnkey transition programs, managed vineyard models, and shared equipment/knowledge platforms that de-risk and operationalise change at farm level."
+      },
+      {
+        "segment": "Winery, Processing & Circular Resource Solutions",
+        "description": "Technologies and models at the winery/processing stage that reinforce regenerative outcomes: low-energy/low-water processing, waste-to-resource (e.g., grape marc valorisation), circular packaging/logistics, and systems that align downstream operations with regenerative branding and impact."
+      }
+    ]
+  },
+  "updated_at": "2025-12-04T22:49:46.363612Z"
+}
