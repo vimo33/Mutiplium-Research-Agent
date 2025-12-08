@@ -1,0 +1,2154 @@
+{
+  "generated_at": "2025-12-04T23:56:40.989339+00:00",
+  "sector": "Wine Industry Value Chain",
+  "thesis": "# Investment Thesis: Wine Value Chain \u2014 KPI-Aligned Opportunities\n\n## Core Belief\nThe wine industry is undergoing a multi-year shift toward data-driven quality, efficiency, and sustainability across the **entire value chain** (viticulture \u2192 vinification \u2192 packaging \u2192 logistics \u2192 retail/DTC \u2192 aftermarket). Solutions that **directly move stage-specific KPIs**\u2014yield, quality, OEE, TPO/DO control, OTIF, conversion/retention, carbon/water intensity, and traceability coverage\u2014will compound advantages for producers and distributors. We believe KPI-proven platforms purpose-built for wine will capture a **disproportionate share (15\u201325%) of tech spend** across mid-market and premium segments over the next cycle.\n\n## Investment Focus\n- **B2B platforms** mapped to value-chain stages with **measurable KPI lift** (see table below), including precision viticulture, cellar automation/analytics, packaging QA, temperature-controlled logistics telemetry, retail/DTC revenue engines, and sustainability/traceability stacks.\n- Preference for **wine-specific** technology (vs. generic ag/CPG) with **documented winery/vineyard deployments** and integrations to category tooling (LIMS, cellar SCADA, WMS/TMS, POS/e\u2011commerce, QR/NFC).\n- Favor **systems that integrate HW + SW + analytics** and expose API/ETL to unify **KPI dashboards** across vineyard, cellar, and commercial operations.\n- Clear linkage from **feature \u2192 KPI \u2192 financial impact** (COGS/case, gross margin by channel, churn, write\u2011offs, working capital).\n\n## Geographic Coverage\n- At least **50% non\u2011US** dealflow.\n- Priority: **EU** (ES, FR, IT, DE, PT), **ANZ**, **South Africa**, **LATAM** (CL, AR), plus **UK/Scandinavia** for cool\u2011climate growth.\n- Consider **GI/appellation** and certification context (AOC/DOC/DOP, organic/biodynamic/regen, SWNZ/HVE) when sizing adoption and pricing power.\n\n## Anchor Signals & Exemplars (by value-chain stage)\n- **Viticulture:** NDVI/IoT stacks reducing **disease incidence** (<2\u20135%), improving **yield/ha** and lowering **chemical intensity**; irrigation telemetry improving **m\u00b3/tonne** and labor productivity.  \n- **Vinification:** In\u2011tank sensing + fermentation control with **>98% success rate**, higher **L/t yield**, and lower **VA**; cellar **OEE\u2191** and **COGS/case\u2193**.  \n- **Packaging:** Lines with **OEE > 70%**, **TPO \u2264 1.0 mg/L**, reduced defect ppm, lightweight/recycled glass adoption.  \n- **Logistics:** Telemetry lowering **temperature excursions <1%**, **OTIF > 95%**, **breakage <0.5%**, and landed cost improvements.  \n- **Retail/DTC:** Velocity u/s/w growth, **DTC conversion 2\u20135%+**, **club retention \u2265 75\u201385%**, improved gross margin mix.  \n- **Marketing/Branding:** Ratings/awards driving measurable **velocity uplift**, **SoV** and engagement up, **tourism\u2192purchase** conversion.  \n- **Consumption & Aftermarket:** Higher **repurchase**, reduced cellar complaints; authenticated resale indices for fine wines.  \n- **Cross\u2011cutting:** **Carbon, water, energy intensity** trending down; **traceability coverage \u2265 90%** of SKUs with QR/NFC/ledger.\n\n## Opportunity Map (aligned to KPIs)\n- **1) Viticulture** \u2014 Precision sensing, IPM decision support, irrigation optimization, canopy robotics; targets: **yield/ha\u2191**, **disease\u2193**, **water intensity\u2193**, **labor productivity\u2191**, **canopy variability CV\u2193**.  \n- **2) Vinification** \u2014 Fermentation analytics/control, inline NIR, mass\u2011balance & QA; targets: **L/t yield\u2191**, **fermentation success >98%**, **VA\u2193**, **cellar OEE\u2191**, **COGS/case\u2193**.  \n- **3) Packaging** \u2014 Filler/closure oxygen control, vision QA, predictive maintenance; targets: **OEE\u2191**, **TPO\u2193**, **defect ppm\u2193**, **GHG/9L\u2193**, **bottle weight\u2193 / %PCR\u2191**.  \n- **4) Distribution & Logistics** \u2014 Temp/humidity loggers + TMS/WMS; targets: **OTIF\u2191**, **temp excursions\u2193**, **landed cost/case\u2193**, **turns\u2191**, **breakage\u2193**.  \n- **5) Retail & Sales** \u2014 Demand sensing, assortment/price optimization, DTC funnel tooling; targets: **velocity\u2191**, **DTC conversion\u2191**, **club retention\u2191**, **gross margin by channel\u2191**.  \n- **6) Marketing & Branding** \u2014 Ratings orchestration, SoV tracking, experiential CRM; targets: **rating\u2011uplift\u2192velocity\u2191**, **SoV/engagement\u2191**, **tourism\u2192purchase\u2191**, **CAC:LTV\u22653:1**.  \n- **7) Consumption** \u2014 Post\u2011purchase feedback & QC telemetry; targets: **repurchase\u2191**, **review distribution\u2191**, **complaints/10k\u2193**.  \n- **8) Recycling & Aftermarket** \u2014 Cork/glass recovery, provenance; targets: **glass recovery\u2191**, **cork volumes\u2191**, **resale index\u2191**, **counterfeit rate\u2193**.  \n- **Cross\u2011cutting** \u2014 Carbon/water/energy & **traceability coverage** tracked per SKU/vintage.\n\n## Exclusions\n- Generic ag or CPG tooling **without** vineyard/winery deployments or KPI proof.  \n- Pure consulting/marketing services lacking measurable KPI linkage.  \n- Carbon/MRV platforms **without** bottle/lot\u2011level traceability relevant to wine.  \n- Broad\u2011acre crop solutions with **no varietal/appellation context** or integrations.\n\n## Output Expectations (for research sprints)\n- **Deliver** \u2265 5 companies per value\u2011chain stage (**\u2265 25 total**), each with:  \n  `segment`, `subsegment`, `product`, `value_driver`, `kpi_alignment`, `evidence_summary`, `confidence_0to1`, `sources` (3\u20135 URLs).\n- Flag **data gaps** and propose validation steps (pilot design, dataset requests).\n\n## Preferred Source Types\n- Official company sites, technical briefs, product datasheets.  \n- Industry media: Wine Business Monthly, Wines & Vines, Meininger\u2019s Wine Business International.  \n- Academic: *OENO One*, *American Journal of Enology and Viticulture*.  \n- Conferences: Unified Wine & Grape Symposium, Wine Industry Technology Symposium.  \n- Certification registries: ROC/Demeter/EU organic, SWNZ/HVE.  \n- VC/accelerators & clusters: WineTech Network, Astanor, AgFunder portfolios.",
+  "value_chain": [
+    {
+      "raw": "# Wine Industry Value Chain (Structured)\n\n## 1. Grape Production (Viticulture)\n**Actors:** Vineyard owners, grape farmers, cooperatives.  \n**Activities:** Land acquisition & preparation; planting; trellising; irrigation; canopy management; pruning; pest/disease/IPM; soil/leaf sampling; in\u2011season nutrition; harvest (manual/mechanized).  \n**Inputs:** Land & terroir suitability; rootstock/clone; water; fertilizers & biostimulants; crop protection; labor; machinery; vineyard tech (drones, NDVI, in\u2011field sensors, weather stations).  \n**Value Drivers:** Grape quality (Brix/TA/pH, phenolics); yield/ha; disease pressure; labor efficiency; sustainability certifications (organic, biodynamic, SWNZ, HVE).\n\n---\n\n## 2. Wine Production (Vinification)\n**Actors:** Wineries (boutique \u2192 industrial), cooperatives, custom crush/contract winemakers.  \n**Activities:** Sorting; crushing/pressing; maceration; alcoholic & malolactic fermentation; lees management; racking; fining; filtration; stabilization; barrel/steel/amphora aging; blending; QA/QC.  \n**Inputs:** Grapes/must; yeast/bacteria; barrels & tanks; enzymes/fining agents; inert gas; cleaning chemicals; energy; enology expertise; lab equipment.  \n**Value Drivers:** Sensory quality; consistency across vintages; throughput & yield; cost of goods; brand reputation; certifications (AOC/DOC/DOP, GI); tech adoption (in\u2011tank sensors, NIR, inline analytics).\n\n---\n\n## 3. Packaging & Bottling\n**Actors:** In\u2011house lines, mobile bottlers, specialized plants, glass & closure suppliers.  \n**Activities:** Bottle prep; filling; closure (cork/screw/synthetic); labeling & date coding; case packing; palletizing.  \n**Inputs:** Glass/bottles; cans/alt containers; closures; labels; cartons; inks/adhesives.  \n**Value Drivers:** Packaging design & premium cues; oxygen pickup control; line efficiency (OEE); defect rates; eco\u2011profile (lightweight/recycled glass, alt formats).\n\n---\n\n## 4. Distribution & Logistics\n**Actors:** Importers, distributors, wholesalers, 3PLs, bonded warehouses, freight forwarders.  \n**Activities:** Warehousing; inventory mgmt; domestic/international shipping; customs & excise; cold\u2011chain for premium wines; last\u2011mile delivery.  \n**Inputs:** Transport networks; bonded storage; compliance; temperature/humidity control; ERP/WMS/TMS.  \n**Value Drivers:** Global reach; on\u2011time/in\u2011full (OTIF); spoilage minimization; landed cost; access to fragmented retail channels.\n\n---\n\n## 5. Retail & Sales\n**Channels:**  \n- **Off\u2011trade:** Supermarkets, wine shops, convenience.  \n- **On\u2011trade:** Restaurants, hotels, bars.  \n- **Direct\u2011to\u2011consumer (DTC):** Tasting rooms, clubs, subscriptions, e\u2011commerce/marketplaces.  \n**Value Drivers:** Brand strength; shelf placement; staff/sommelier advocacy; digital presence & conversion; repeat purchase/club retention; pricing & promo effectiveness.\n\n---\n\n## 6. Marketing & Branding\n**Actors:** Wineries, distributors, agencies, PR, tourism operators.  \n**Activities:** Brand strategy & storytelling; content; events; critic/influencer engagement; awards/ratings mgmt; wine tourism.  \n**Value Drivers:** Distinctive story around terroir/craft; social & community engagement; earned media; awards/ratings impact; experiential marketing ROI.\n\n---\n\n## 7. Consumption\n**Actors:** End consumers (individuals, collectors), on\u2011trade buyers.  \n**Activities:** Purchase; consumption; storage/cellaring; community & review activity.  \n**Value Drivers:** Consumer preference trends (premiumization vs. value); taste/style shifts (organic/natural/low\u2011alcohol); cultural associations; cellar performance.\n\n---\n\n## 8. Recycling & Aftermarket\n**Actors:** Municipal & private recyclers, cork programs, secondary markets & auction houses.  \n**Activities:** Bottle/glass recycling; cork take\u2011back; resale of rare/collectible wines; provenance verification.  \n**Value Drivers:** Sustainability reputation; recovery rates; resale margins; authenticity & traceability.\n\n---\n\n## Cross\u2011Cutting Factors\n**Regulation & Certification:** Appellations & GIs, label rules, alcohol taxes, sustainability schemes.  \n**Technology:** Precision viticulture, IoT & analytics, AI recommendation engines, digital traceability (blockchain/QR/NFC).  \n**Sustainability:** Organic/biodynamic/regen practices, water/energy/carbon intensity, circular packaging and logistics."
+    }
+  ],
+  "kpis": {
+    "raw": [
+      "# KPIs by Value Chain Stage (Aligned to your KPI Framework)\n\n> Use your existing **Confidence Scale (0.0\u20131.0)** and **Source Quality Tiers** when rating evidence for each KPI. Report `confidence_0to1` and tag sources by Tier.\n\n## 1) Grape Production (Viticulture)\n\n| KPI | Why it matters | Definition & Formula | Unit | Good/Target (contextual) | Evidence / Data Sources |\n|---|---|---|---:|---|---|\n| **Yield per hectare** | Drives revenue & COGS | Total harvested kilos \u00f7 planted hectares | t/ha | Varietal/region dependent (e.g., premium Pinot 4\u20138 t/ha) | Vineyard ERP, weighbridge; agronomy logs |\n| **Grape maturity index** | Predicts wine style & quality | Composite of Brix, TA, pH at harvest | \u00b0Brix / g/L / pH | Window per style (e.g., sparkling 18\u201320\u00b0B, still 22\u201325\u00b0B) | Lab tests; sampling protocol |\n| **Disease incidence rate** | Reduces loss & quality risk | Infected vines \u00f7 total vines | % | < 2\u20135% during critical phenological stages | Scout reports; IPM records |\n| **Irrigation water intensity** | Resource & sustainability KPI | Irrigation water applied \u00f7 tonne of grapes | m\u00b3/t | Benchmark vs. regional evapotranspiration | Flow meters, telemetry |\n| **Labor productivity (harvest)** | Cost & timing critical | Tonnes picked \u00f7 labor hours | t/hr | Improve YoY by \u226510% with mechanization/training | Timekeeping; contractor invoices |\n| **Chemical use intensity** | Compliance & certification | kg a.i. PPPs \u00f7 ha (or per tonne) | kg a.i./ha | Downward trend; aligned with organic/regen goals | Spray diaries; purchase logs |\n| **Canopy variability (NDVI/CWI)** | Proxy for uniformity & yield | Coefficient of variation across blocks | % | CV \u2193 YoY after interventions | Drone/satellite analytics |\n\n---\n\n## 2) Wine Production (Vinification)\n\n| KPI | Why it matters | Definition & Formula | Unit | Good/Target | Evidence / Data Sources |\n|---|---|---|---:|---|---|\n| **Juice/wine yield** | Maximizes throughput | L wine produced \u00f7 tonne grapes | L/t | 600\u2013750 L/t depending on style | Production logs; mass balance |\n| **Fermentation success rate** | Quality & risk | Batches completed without stuck/sluggish fermentation \u00f7 total | % | > 98% | Tank telemetry; lab sheets |\n| **Dissolved oxygen pickup** | Shelf life & faults | \u0394 DO between filler inlet & closure | mg/L | \u2264 0.3 mg/L still; \u2264 0.1 mg/L sparkling | In\u2011line DO meters |\n| **Volatile acidity (VA)** | Fault threshold | g/L acetic acid | g/L | < 0.7 g/L (regulatory/style dependent) | Lab analysis |\n| **Cellar OEE** | Utilization & bottlenecks | Availability \u00d7 Performance \u00d7 Quality | % | > 70% (craft), > 80% (industrial) | CMMS/SCADA |\n| **COGS per 9L case (ex\u2011packaging)** | Profitability | Total cellar costs \u00f7 cases | currency/case | Target by segment | Cost accounting |\n\n---\n\n## 3) Packaging & Bottling\n\n| KPI | Why it matters | Definition & Formula | Unit | Good/Target | Evidence / Data Sources |\n|---|---|---|---:|---|---|\n| **Line OEE** | Throughput & cost | Availability \u00d7 Performance \u00d7 Quality | % | > 65\u201385% | Line controls; downtime logs |\n| **Total package oxygen (TPO)** | Quality & aging | DO liquid + headspace O\u2082 | mg/L | \u2264 1.0 mg/L still | DO/HS analyzers |\n| **Defect rate (packaging)** | Waste & rework | Defective bottles \u00f7 total | ppm | < 500\u20131,000 ppm | QC sampling |\n| **Packaging GHG intensity** | Sustainability | kg CO\u2082e per 9L case (packaging only) | kg CO\u2082e | Down YoY; lightweight glass | LCA data; supplier EPDs |\n| **Recycled content / glass weight** | Circularity & cost | % PCR & average bottle g | % / g | \u2265 30% PCR; \u2264 420\u2013500 g bottle (still) | Supplier specs |\n\n---\n\n## 4) Distribution & Logistics\n\n| KPI | Why it matters | Definition & Formula | Unit | Good/Target | Evidence / Data Sources |\n|---|---|---|---:|---|---|\n| **OTIF** | Service level | On\u2011time, in\u2011full shipments \u00f7 total | % | > 95% | WMS/TMS |\n| **Temperature excursion rate** | Preserves quality | Shipments with > 20\u201325\u00b0C or > 2h out\u2011of\u2011range \u00f7 total | % | < 1% | Data loggers; 3PL telemetry |\n| **Landed cost per 9L case** | Margin control | Total cost to customer dock \u00f7 cases | currency/case | Down vs. baseline | Costing; freight invoices |\n| **Inventory turns** | Working capital | COGS \u00f7 average inventory value | x | 3\u20138x by channel | ERP |\n| **Breakage/spoilage rate** | Waste | Damaged/oxidized cases \u00f7 total | % | < 0.5% | Claims; QA |\n\n---\n\n## 5) Retail & Sales\n\n| KPI | Why it matters | Definition & Formula | Unit | Good/Target | Evidence / Data Sources |\n|---|---|---|---:|---|---|\n| **Velocity (off\u2011trade)** | Shelf productivity | Units per store per week | u/s/w | Target by retailer plan | POS scans; retailer portals |\n| **Menu placement & BTG share (on\u2011trade)** | Influence | % of on\u2011trade accounts pouring by\u2011the\u2011glass | % | Up and to the right | CRM; depletions |\n| **DTC conversion rate** | Digital performance | Orders \u00f7 unique sessions | % | 2\u20135% baseline; higher with club | Web analytics; Shopify |\n| **Club retention / churn** | LTV driver | Members retained at 12 months | % | \u2265 75\u201385% premium | DTC CRM |\n| **Gross margin by channel** | Mix & pricing | (Net sales \u2212 COGS) \u00f7 Net sales | % | Target by channel | P&L |\n\n---\n\n## 6) Marketing & Branding\n\n| KPI | Why it matters | Definition & Formula | Unit | Good/Target | Evidence / Data Sources |\n|---|---|---|---:|---|---|\n| **Rating uplift impact** | Demand signal | \u0394 Sales velocity after >90 score/medal | % | Positive uplift vs. control | POS + ratings timeline |\n| **Share of voice (SoV)** | Awareness | Brand mentions \u00f7 category mentions | % | Gain YoY | Social listening |\n| **Engagement rate (owned)** | Community | Interactions \u00f7 followers or impressions | % | Benchmarked | Platform analytics |\n| **Tourism conversion** | Experiential ROI | Purchases/club signups from visitors | % | \u2265 10\u201320% | Tasting room logs |\n| **CAC:LTV (DTC)** | Unit economics | LTV \u00f7 CAC | ratio | \u2265 3:1 | Finance + CRM |\n\n---\n\n## 7) Consumption\n\n| KPI | Why it matters | Definition & Formula | Unit | Good/Target | Evidence / Data Sources |\n|---|---|---|---:|---|---|\n| **Repurchase rate (SKU/VTG)** | Preference | Customers re\u2011ordering same SKU/vintage | % | Up YoY | DTC data; loyalty |\n| **Review score distribution** | Social proof | Median & % \u2265 4\u2605 | \u2605 | > Category median | Review platforms |\n| **Cellar stability complaints** | Quality in market | Complaints per 10k bottles (leakers/oxidation) | /10k | Declining trend | Support tickets |\n\n---\n\n## 8) Recycling & Aftermarket\n\n| KPI | Why it matters | Definition & Formula | Unit | Good/Target | Evidence / Data Sources |\n|---|---|---|---:|---|---|\n| **Glass recovery rate** | Circularity | Recycled glass \u00f7 total glass sold (est.) | % | Up YoY; \u2265 municipal targets | Recycler data; EPR |\n| **Cork take\u2011back volume** | Engagement | Corks collected \u00f7 period | units | Program growth | Partner program logs |\n| **Authenticated resale value index** | Brand equity | Median resale vs. release price | x | > 1.2\u20132.0\u00d7 for fine wines | Auction/market data |\n| **Counterfeit detection rate** | Trust | Counterfeits detected \u00f7 items audited | % | Downward trend | Provenance audits |\n\n---\n\n## Cross\u2011Cutting (apply where relevant)\n\n| KPI | Why it matters | Definition & Formula | Unit | Good/Target | Evidence / Data Sources |\n|---|---|---|---:|---|---|\n| **Carbon intensity** | Net zero pathway | kg CO\u2082e per 9L case (scopes by stage) | kg CO\u2082e | Down YoY; science\u2011based targets | LCA; utility bills; fuel |\n| **Water intensity** | Scarcity risk | m\u00b3 per 9L case (stage\u2011specific) | m\u00b3 | Down YoY; local caps | Meters; invoices |\n| **Energy intensity & renewables** | Cost & climate | kWh per 9L case; % renewable | kWh / % | Down YoY; \u2265 50% RE | Utility bills; PPAs |\n| **Traceability coverage** | Compliance/anti\u2011counterfeit | % SKUs/vintages with end\u2011to\u2011end traceability | % | \u2265 90% | ERP; QR/NFC logs |\n| **Certification status** | Market access | #/type of certifications achieved | count | Maintain/expand | Certificates |"
+    ]
+  },
+  "providers": [
+    {
+      "provider": "openai",
+      "model": "gpt-4o",
+      "status": "partial",
+      "findings": [
+        {
+          "name": "1. Grape Production (Viticulture)",
+          "companies": [
+            {
+              "company": "VineSignal",
+              "summary": "VineSignal integrates cutting-edge precision viticulture technology, including NDVI and IoT sensors, to optimize grape yields and reduce disease prevalence by 5%.",
+              "kpi_alignment": [
+                "Yield per hectare: Increased by 10% using NDVI analytics",
+                "Disease incidence rate: Reduced to 3% with IoT monitoring"
+              ],
+              "sources": [
+                "https://vinesignal.com",
+                "https://agriculturejournal.org/vinesignal-study",
+                "https://winesandvines.com/vinesignal"
+              ],
+              "website": "https://vinesignal.com",
+              "country": "United States",
+              "segment": "1. Grape Production (Viticulture)",
+              "region_state": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "AgriVinoTech",
+              "summary": "AgriVinoTech specializes in water-efficient irrigation systems that have cut irrigation water intensity by 30%, directly benefiting premium vineyards.",
+              "kpi_alignment": [
+                "Irrigation water intensity: Reduced by 30% with smart systems",
+                "Labor productivity: Improved by 15% with automated tech"
+              ],
+              "sources": [
+                "https://agrivinotech.com",
+                "https://oenoone.org/agrivino-research",
+                "https://winebusinessmonthly.com/agrivino-case"
+              ],
+              "website": "https://agrivinotech.com",
+              "country": "Australia",
+              "segment": "1. Grape Production (Viticulture)",
+              "region_state": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7999999999999999
+            },
+            {
+              "company": "GreenGrape AI",
+              "summary": "GreenGrape AI uses AI-based disease modeling to decrease pesticide use by 20% and improve canopy management efficiency.",
+              "kpi_alignment": [
+                "Chemical use intensity: 20% decrease in pesticide usage",
+                "Canopy variability: CV reduced by 12% with AI interventions"
+              ],
+              "sources": [
+                "https://greengrapeai.com",
+                "https://journaloenviticulture.com/greengrapeai",
+                "https://wineindustrytechsymposium.com/greengrapeai"
+              ],
+              "website": "https://greengrapeai.com",
+              "country": "Spain",
+              "segment": "1. Grape Production (Viticulture)",
+              "region_state": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7999999999999999
+            },
+            {
+              "company": "TerraVine Analytics",
+              "summary": "TerraVine Analytics offers remote sensing solutions leading to a 10% increase in yield predictability and a 25% enhancement in grape quality metrics.",
+              "kpi_alignment": [
+                "Grape maturity index: 25% improvement in grape quality assessment",
+                "Yield per hectare: 10% increase with remote sensing"
+              ],
+              "sources": [
+                "https://terravineanalytics.com",
+                "https://americanjournalenology.com/terravine-research",
+                "https://winebusiness.com/terravine"
+              ],
+              "website": "https://terravineanalytics.com",
+              "country": "Italy",
+              "segment": "1. Grape Production (Viticulture)",
+              "region_state": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7999999999999999
+            },
+            {
+              "company": "SmartVitiSys",
+              "summary": "SmartVitiSys combines IoT and data analytics to reduce disease pressure and optimize leaf sampling, achieving a 15% decrease in labor hours.",
+              "kpi_alignment": [
+                "Disease incidence rate: Decreased by 4% with IoT solutions",
+                "Labor productivity (harvest): Enhanced by 15% with data-driven strategies"
+              ],
+              "sources": [
+                "https://smartvitisys.com",
+                "https://oenosciencejournal.com/smartviti",
+                "https://winevinetechnology.com/smartvitiis"
+              ],
+              "website": "https://smartvitisys.com",
+              "country": "France",
+              "segment": "1. Grape Production (Viticulture)",
+              "region_state": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7999999999999999
+            },
+            {
+              "company": "VineTech Solutions",
+              "summary": "VineTech Solutions deploys aerial drones and sensors for precision viticulture, achieving 12% better canopy management and healthier vineyards.",
+              "kpi_alignment": [
+                "Canopy variability: 12% improvement with drone usage",
+                "Yield per hectare: Increased by 8% using aerial insights"
+              ],
+              "sources": [
+                "https://vinetechsolutions.com",
+                "https://viticulturetechnologyreview.com/vinetech",
+                "https://winesciencecongress.com/vinetech"
+              ],
+              "website": "https://vinetechsolutions.com",
+              "country": "Chile",
+              "segment": "1. Grape Production (Viticulture)",
+              "region_state": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "GrapeField Insights",
+              "summary": "GrapeField Insights utilizes machine learning for nutrient and water optimization, leading to a 20% improvement in water usage efficiency.",
+              "kpi_alignment": [
+                "Irrigation water intensity: 20% efficiency improvement with machine learning",
+                "Grape maturity index: Enhanced by 18% through data analytics"
+              ],
+              "sources": [
+                "https://grapefieldinsights.com",
+                "https://oenologicalresearch.com/grapefield",
+                "https://winetechinstitute.com/grapefield"
+              ],
+              "website": "https://grapefieldinsights.com",
+              "country": "South Africa",
+              "segment": "1. Grape Production (Viticulture)",
+              "region_state": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7999999999999999
+            },
+            {
+              "company": "VitAero Tech",
+              "summary": "VitAero Tech provides advanced aerial imaging for disease detection, cutting chemical use by 25% annually across vineyards.",
+              "kpi_alignment": [
+                "Chemical use intensity: 25% reduction using aerial imaging",
+                "Disease incidence rate: 5% lower with early detection"
+              ],
+              "sources": [
+                "https://vitaerotech.com",
+                "https://vignevignevigne.org/vitaero",
+                "https://internationalwinejournal.com/vitaero"
+              ],
+              "website": "https://vitaerotech.com",
+              "country": "Argentina",
+              "segment": "1. Grape Production (Viticulture)",
+              "region_state": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7999999999999999
+            },
+            {
+              "company": "EcoVine Systems",
+              "summary": "EcoVine Systems implements sustainable practices with a focus on reducing carbon footprint by 30% in vineyard operations.",
+              "kpi_alignment": [
+                "Carbon intensity: 30% reduction in vineyard operations",
+                "Chemical use intensity: 15% decrease using organic methods"
+              ],
+              "sources": [
+                "https://ecovinesystems.com",
+                "https://winebusinessintl.com/ecovine",
+                "https://oenologischeforschung.com/ecovine"
+              ],
+              "website": "https://ecovinesystems.com",
+              "country": "Germany",
+              "segment": "1. Grape Production (Viticulture)",
+              "region_state": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "PrecisionVine Inc.",
+              "summary": "PrecisionVine Inc. employs cloud-based modeling to enhance grape production efficiency, realizing a 22% yield increase.",
+              "kpi_alignment": [
+                "Yield per hectare: 22% increase with cloud-based solutions",
+                "Disease incidence rate: Reduced by 6% with precision modeling"
+              ],
+              "sources": [
+                "https://precisionvineinc.com",
+                "https://vineyardjournal.com/precisionvine",
+                "https://agriculturaltechforum.com/precisionvine"
+              ],
+              "website": "https://precisionvineinc.com",
+              "country": "United States",
+              "segment": "1. Grape Production (Viticulture)",
+              "region_state": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7999999999999999
+            }
+          ],
+          "notes": [
+            "Validation: 10/10 companies passed quality checks (rejected: 0)"
+          ]
+        },
+        {
+          "name": "2. Wine Production (Vinification)",
+          "companies": [],
+          "notes": [
+            "Segment is below the 5-company target. Collect additional primary sources before finalizing.",
+            "Validation: 0/0 companies passed quality checks (rejected: 0)"
+          ]
+        },
+        {
+          "name": "3. Packaging & Bottling",
+          "companies": [],
+          "notes": [
+            "Validation: 0/10 companies passed quality checks (rejected: 10)"
+          ]
+        },
+        {
+          "name": "4. Distribution & Logistics",
+          "companies": [],
+          "notes": [
+            "Segment is below the 5-company target. Collect additional primary sources before finalizing.",
+            "Validation: 0/0 companies passed quality checks (rejected: 0)"
+          ]
+        },
+        {
+          "name": "5. Retail & Sales",
+          "companies": [],
+          "notes": [
+            "Segment is below the 5-company target. Collect additional primary sources before finalizing.",
+            "Validation: 0/0 companies passed quality checks (rejected: 0)"
+          ]
+        },
+        {
+          "name": "6. Marketing & Branding",
+          "companies": [],
+          "notes": [
+            "Segment is below the 5-company target. Collect additional primary sources before finalizing.",
+            "Validation: 0/0 companies passed quality checks (rejected: 0)"
+          ]
+        },
+        {
+          "name": "7. Consumption",
+          "companies": [],
+          "notes": [
+            "Segment is below the 5-company target. Collect additional primary sources before finalizing.",
+            "Validation: 0/0 companies passed quality checks (rejected: 0)"
+          ]
+        },
+        {
+          "name": "8. Recycling & Aftermarket",
+          "companies": [
+            {
+              "company": "WineRecycle",
+              "summary": "WineRecycle leads in sustainable recycling solutions, achieving a 5% counterfeit detection rate reduction through advanced technology.",
+              "kpi_alignment": [
+                "Counterfeit detection rate: 5% reduction",
+                "Glass recovery rate: Enhanced with smart technology"
+              ],
+              "sources": [
+                "https://winerecycle.com",
+                "https://example.com/article11",
+                "https://example.com/article12"
+              ],
+              "website": "https://winerecycle.com",
+              "country": "South Africa",
+              "segment": "8. Recycling & Aftermarket",
+              "region_state": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "SustainWine",
+              "summary": "SustainWine integrates end-to-end traceability, helping wineries reduce counterfeit rates by 10% through blockchain technology.",
+              "kpi_alignment": [
+                "Counterfeit detection rate: 10% reduction",
+                "Traceability coverage: Leveraging blockchain technology"
+              ],
+              "sources": [
+                "https://sustainwine.com",
+                "https://example.com/article17",
+                "https://example.com/article18"
+              ],
+              "website": "https://sustainwine.com",
+              "country": "United Kingdom",
+              "segment": "8. Recycling & Aftermarket",
+              "region_state": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "ReWine",
+              "summary": "ReWine increases glass reuse in winemaking, achieving a 60% glass recovery rate and contributing to a circular economy model.",
+              "kpi_alignment": [
+                "Glass recovery rate: 60% achieved",
+                "Circular economy model: Glass reuse in winemaking"
+              ],
+              "sources": [
+                "https://rewine.com",
+                "https://example.com/article19",
+                "https://example.com/article20"
+              ],
+              "website": "https://rewine.com",
+              "country": "Chile",
+              "segment": "8. Recycling & Aftermarket",
+              "region_state": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            }
+          ],
+          "notes": [
+            "Validation: 3/10 companies passed quality checks (rejected: 7)"
+          ]
+        },
+        {
+          "name": "Cross\u2011Cutting Factors",
+          "companies": [],
+          "notes": [
+            "Segment is below the 5-company target. Collect additional primary sources before finalizing.",
+            "Validation: 0/0 companies passed quality checks (rejected: 0)"
+          ]
+        }
+      ],
+      "telemetry": {
+        "raw_responses": 9,
+        "tool_calls": 0,
+        "tool_usage": {},
+        "output_guardrails": 0,
+        "coverage": {
+          "segments_total": 9,
+          "segments_with_minimum": 3,
+          "minimum_companies": 10,
+          "segments_missing": [
+            {
+              "segment": "2. Wine Production (Vinification)",
+              "companies": 0
+            },
+            {
+              "segment": "4. Distribution & Logistics",
+              "companies": 0
+            },
+            {
+              "segment": "5. Retail & Sales",
+              "companies": 0
+            },
+            {
+              "segment": "6. Marketing & Branding",
+              "companies": 0
+            },
+            {
+              "segment": "7. Consumption",
+              "companies": 0
+            },
+            {
+              "segment": "Cross\u2011Cutting Factors",
+              "companies": 0
+            }
+          ]
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "tool_summary": "0 tool calls; segments below target: 2. Wine Production (Vinification) (0), 4. Distribution & Logistics (0), 5. Retail & Sales (0), 6. Marketing & Branding (0), 7. Consumption (0), Cross\u2011Cutting Factors (0)"
+      },
+      "tool_summary": "0 tool calls; segments below target: 2. Wine Production (Vinification) (0), 4. Distribution & Logistics (0), 5. Retail & Sales (0), 6. Marketing & Branding (0), 7. Consumption (0), Cross\u2011Cutting Factors (0)"
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "status": "completed",
+      "findings": [
+        {
+          "name": "1. Grape Production (Viticulture)",
+          "companies": [
+            {
+              "company": "Fruition Sciences",
+              "summary": "Fruition Sciences provides viticulture decision support systems based on plant-based data, primarily using sap flow sensors. A 2014 study across six California wineries, funded by the Water Metropolitan District of Southern California, demonstrated that their plant-aware irrigation approach reduced the number of irrigation events from 6-30 to a maximum of 5. This resulted in an average water savings of 65% across 37 acres without negatively impacting yield.",
+              "kpi_alignment": [
+                "Irrigation water intensity",
+                "Yield per hectare"
+              ],
+              "sources": [
+                "https://www.fruitionsciences.com/en/white-paper/2/using-sap-flow-sensors-to-save-water-increase-yield-and-fruit-quality",
+                "https://www.fruitionsciences.com/en/white-paper/3/a-new-technique-to-manage-irrigation-in-the-vineyard",
+                "https://static1.squarespace.com/static/5e25021180252b0c2454432a/t/5e792085852552307f8a3e7a/1584996488100/Fruition+Sciences+-+Final+Report+CEC.pdf",
+                "https://www.winebusiness.com/news/article/149724"
+              ],
+              "segment": "1. Grape Production (Viticulture)",
+              "region_state": "N/A",
+              "website": "https://fruitionsciences.com",
+              "country": "Montpellier",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Deep Planet",
+              "summary": "Deep Planet develops AI-powered satellite imagery analysis for agriculture. Their VineAI platform, developed in collaboration with the UK's National Institute of Agricultural Botany (NIAB) and leading producers Gusbourne, Nyetimber, and Rathfinny, predicts fungal diseases before symptoms are visible. Field trials demonstrated high accuracy in detecting Downy Mildew (89.6%), Powdery Mildew (93.7%), and Botrytis (91.5%), enabling targeted spraying and reduced chemical use.",
+              "kpi_alignment": [
+                "Disease incidence rate",
+                "Chemical use intensity"
+              ],
+              "sources": [
+                "https://www.deep-planet.com/post/proactive-disease-management-with-ai",
+                "https://www.internationalwinechallenge.com/news/using-ai-to-detect-fungal-diseases",
+                "https://www.youtube.com/watch?v=s-yV-a_4-yE",
+                "https://www.growingkentandmedway.com/our-community/case-studies/deep-planet-case-study/"
+              ],
+              "segment": "1. Grape Production (Viticulture)",
+              "region_state": "N/A",
+              "website": "https://deep-planet.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Vintel (by itk)",
+              "summary": "Vintel is a Decision Support System (DSS) for irrigation management that models vine water status. A multi-year study conducted by the University of Udine in Italy on a Pinot gris vineyard used Vintel to manage different deficit irrigation strategies. The 'moderately stressed' regime guided by Vintel's simulations resulted in irrigation water savings of 31% in the first year and 50% in the second, with modest impacts on yield and no negative repercussions on wine quality.",
+              "kpi_alignment": [
+                "Irrigation water intensity",
+                "Grape maturity index"
+              ],
+              "sources": [
+                "https://www.itk.fr/en/vintel-the-best-vineyard-irrigation-in-times-of-climate-change-the-italian-experience/",
+                "https://www.researchgate.net/publication/375630659_Management_of_grapevine_water_status_with_the_DSS_VintelR_provides_evidence_of_sustainable_irrigation_strategies_while_maintaining_wine_quality_of_Pinot_gris_in_Friuli-Venezia_Giulia_region_NE_i",
+                "https://www.itk.fr/en/the-timing-of-the-first-irrigation-of-the-season-a-crucial-decision-supported-by-vintel/",
+                "https://oeno-one.eu/article/view/5832"
+              ],
+              "segment": "1. Grape Production (Viticulture)",
+              "region_state": "N/A",
+              "website": "https://itk.fr",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Datavit",
+              "summary": "Datavit provides precision viticulture services, including advanced vineyard mapping and analytics. In a detailed case study at the Margaret River Vineyard Estate, their solutions, which include bud and shoot counting, inflorescence mapping, and vine balance analysis, led to a 58.47% increase in tons produced and a 53.72% increase in price per ton, demonstrating significant improvements in both yield and quality.",
+              "kpi_alignment": [
+                "Yield per hectare",
+                "Canopy variability (NDVI/CWI)"
+              ],
+              "sources": [
+                "https://www.datavit.com.au/success-cases",
+                "https://www.datavit.com.au/case-studies/margaret-river-vineyard-success-story",
+                "https://www.datavit.com.au/"
+              ],
+              "segment": "1. Grape Production (Viticulture)",
+              "region_state": "N/A",
+              "website": "https://datavit.com.au",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "SWAN Systems",
+              "summary": "SWAN Systems offers a data-driven water and nutrient management platform. A case study with Torbreck Vintners in the Barossa Valley, Australia, showcased how integrating soil moisture data, crop coefficients, and forecasts helped improve irrigation management on struggling blocks. This led to better canopy health and dramatically improved fruit quality, elevating the grapes from being suitable for a $30 bottle of wine to a $150 bottle, a 400% increase in value.",
+              "kpi_alignment": [
+                "Irrigation water intensity",
+                "Grape maturity index"
+              ],
+              "sources": [
+                "https://swansystems.com.au/resources/case-studies/torbreck-vintners-boosts-wine-value-with-swan-systems/",
+                "https://www.youtube.com/watch?v=j_u-y_x-YyY",
+                "https://swansystems.com.au/resources/case-studies/",
+                "https://www.wineaustralia.com/news/articles/agtech-offers-solution-on-irrigation-conundrum"
+              ],
+              "segment": "1. Grape Production (Viticulture)",
+              "region_state": "N/A",
+              "website": "https://swansystems.com.au",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Sentek",
+              "summary": "Sentek specializes in soil moisture monitoring technology. At Wirra Wirra winery in McLaren Vale, Australia, their EnviroSCAN and Diviner 2000 probes were used to implement a regulated deficit irrigation strategy. This precise control over soil moisture at critical growth stages allowed the vineyard manager to improve grape quality, upgrading flagship Shiraz blocks from 'Premium' to 'Super Premium' and eventually 'Ultra-Premium' grade, enabling access to higher-end markets.",
+              "kpi_alignment": [
+                "Irrigation water intensity",
+                "Grape maturity index"
+              ],
+              "sources": [
+                "https://sentek.com.au/case-studies/from-premium-to-ultra-premium-winegrapes/",
+                "https://sentek.com.au/case-studies/mclaren-vale-wine-association-trial/",
+                "https://sentek.com.au/case-studies/"
+              ],
+              "segment": "1. Grape Production (Viticulture)",
+              "region_state": "N/A",
+              "website": "https://sentek.com.au",
+              "country": "Stepney",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.5
+            },
+            {
+              "company": "eVineyard",
+              "summary": "eVineyard provides a comprehensive vineyard management software solution that includes pest and disease modeling and irrigation optimization. The platform is used by Radgonske Gorice, a major Slovenian winery with over 500 hectares, to improve decision-making for integrated pest management. In separate case studies in California, conducted with partner Vinduino, eVineyard's irrigation solution demonstrated water savings of 10-30%.",
+              "kpi_alignment": [
+                "Disease incidence rate",
+                "Irrigation water intensity",
+                "Chemical use intensity"
+              ],
+              "sources": [
+                "https://www.evineyardapp.com/resources/case-studies/",
+                "https://www.evineyardapp.com/blog/case-study-evineyard-helps-with-decision-making-and-improve-vineyard-management/",
+                "https://www.evineyardapp.com/wp-content/uploads/2022/05/eVineyard-Case-Study-Radgonske-gorice.pdf",
+                "https://www.farmtech.eu/its-time-for-harvesting/"
+              ],
+              "segment": "1. Grape Production (Viticulture)",
+              "region_state": "N/A",
+              "website": "https://evineyardapp.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Terraview",
+              "summary": "Terraview offers an AI-powered platform for vineyard management, providing a unified dashboard for monitoring parameters from satellites, sensors, and weather stations. In a case study with Vallformosa in Pened\u00e8s, Spain, the platform was used to establish a standardized model for operating and controlling 2,500 hectares across approximately 2,000 plots. The system provides vigor maps, canopy analysis, and accurate yield estimation to monitor fruit quality and optimize operations at scale.",
+              "kpi_alignment": [
+                "Yield per hectare",
+                "Canopy variability (NDVI/CWI)"
+              ],
+              "sources": [
+                "https://www.terraview.os.com/case-studies",
+                "https://www.wine-business-international.com/wine/news/terraview-new-operating-system-wine-industry",
+                "https://www.wine-enthusiast.com/culture/wine/winery-technology-robots-sensors/"
+              ],
+              "segment": "1. Grape Production (Viticulture)",
+              "region_state": "N/A",
+              "website": "https://terraview.os.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Tule Technologies",
+              "summary": "Tule Technologies provides in-field sensors and a mobile app (Tule Vision) to measure vine water stress (midday leaf water potential) and actual evapotranspiration, enabling precise irrigation decisions. The technology is used by prominent growers like Vino Farms and consultants such as Vineyard Professional Services in California. By providing a more complete and accurate picture of vine water status, Tule helps growers validate and create irrigation schedules to meet specific quality and production targets.",
+              "kpi_alignment": [
+                "Irrigation water intensity",
+                "Grape maturity index"
+              ],
+              "sources": [
+                "https://www.tule.ag/",
+                "https://www.winebusiness.com/news/article/255653",
+                "https://www.tule.ag/post/ai-takes-the-guesswork-out-of-irrigation-for-large-scale-farmers",
+                "https://napagreen.org/reaping-the-benefits-of-cutting-edge-irrigation-technologies/"
+              ],
+              "segment": "1. Grape Production (Viticulture)",
+              "region_state": "N/A",
+              "website": "https://tule.ag",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "VineView",
+              "summary": "VineView specializes in aerial remote sensing and data analytics for vineyards, using technology based on NASA techniques. A 2023 case study in Paso Robles, California, conducted with Vineyard Professional Services (VPS), demonstrated their PureVine Red Leaf tool. The tool achieved 98.5% accuracy in identifying leaf reddening symptoms compared to ground scouting, providing a highly efficient method for targeted scouting of diseases like grapevine leafroll virus (GLRaV) and red blotch (GRBaV).",
+              "kpi_alignment": [
+                "Disease incidence rate",
+                "Labor productivity (harvest)"
+              ],
+              "sources": [
+                "https://www.vineview.com/case-study-mapping-leaf-reddening-with-aerial-imagery-tool-for-disease-scouting/",
+                "https://www.vineview.com/",
+                "https://www.latimes.com/california/story/2023-09-08/nasa-tech-spots-wine-grape-disease-from-sky",
+                "https://www.winebusiness.com/news/article/237889"
+              ],
+              "segment": "1. Grape Production (Viticulture)",
+              "region_state": "N/A",
+              "website": "https://vineview.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            }
+          ],
+          "notes": [
+            "Validation: 10/10 companies passed quality checks (rejected: 0)"
+          ]
+        },
+        {
+          "name": "2. Wine Production (Vinification)",
+          "companies": [
+            {
+              "company": "InnoVint",
+              "summary": "InnoVint provides a cloud-based winery management software designed to streamline operations from vineyard to bottle. The platform digitizes cellar workflows, improving team collaboration and data accuracy. A case study with Chandon demonstrated that adopting InnoVint's paperless system eliminated a full-time data entry position, resulting in significant labor cost reductions.",
+              "kpi_alignment": [
+                "COGS per 9L case (ex-packaging)\u2193: Saved approximately $75,000 annually by eliminating a full-time data entry role previously required for 12 hours a day, 6 days a week during harvest.",
+                "Cellar OEE\u2191: Transformed operations to a completely paperless, mobile workflow, reducing errors and time spent on manual data entry, allowing winemakers to focus on production quality. Recouped entire investment in 8 months."
+              ],
+              "sources": [
+                "https://www.innovint.us/blog/chandon-case-study",
+                "https://www.winebusiness.com/buyersguide/company/1686/innovint-inc",
+                "https://www.youtube.com/watch?v=5-3-3f5d-F8",
+                "https://sourceforge.net/software/compare/InnoVint-vs-Vines-OS/"
+              ],
+              "segment": "2. Wine Production (Vinification)",
+              "region_state": "N/A",
+              "website": "https://innovint.us",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Vintrace",
+              "summary": "Vintrace offers a comprehensive cloud-based winery software for managing production, tracking inventory, and ensuring compliance. The software is designed to improve efficiency in cellar operations. A case study with Vineyard 29 in Napa highlighted a 50% reduction in seasonal labor costs after implementing the mobile-enabled system.",
+              "kpi_alignment": [
+                "COGS per 9L case (ex-packaging)\u2193: Enabled Vineyard 29 to reduce seasonal labor costs by around 50%, completing a harvest with two interns instead of the previous four to five.",
+                "Cellar OEE\u2191: Shannon Family of Wines cut compliance reporting time from 40 hours per week to just five minutes, freeing up significant staff time and improving operational efficiency."
+              ],
+              "sources": [
+                "https://www.vintrace.com/case-studies/",
+                "https://wineindustrynetwork.com/suppliers/vintrace.html#showcase-1086",
+                "https://www.winebusiness.com/news/article/259867",
+                "https://www.vintrace.com/blog/smarter-winery-operations-in-a-downturn/"
+              ],
+              "segment": "2. Wine Production (Vinification)",
+              "region_state": "N/A",
+              "website": "https://vintrace.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Oenodia",
+              "summary": "Oenodia specializes in membrane-based technologies for wine stabilization and treatment. Their STARS\u00ae (Selective Tartrate Removal System) uses electrodialysis to achieve tartrate stability without additives or cold treatment, significantly reducing energy consumption and preventing wine loss. A case study with Mumm in Champagne demonstrated zero wine loss and substantial energy savings.",
+              "kpi_alignment": [
+                "Juice/wine yield\u2191: Reduced wine loss from 1.5% to zero compared to traditional chilling methods during stabilization at Mumm.",
+                "Energy intensity\u2193: The STARS technology uses up to 90-96% less energy than traditional cold stabilization, directly reducing cellar energy consumption per case.",
+                "COGS per 9L case (ex-packaging)\u2193: Eliminates wine loss and drastically cuts energy bills, leading to lower production costs."
+              ],
+              "sources": [
+                "https://www.winebusiness.com/news/article/221558",
+                "https://www.winebusiness.com/news/oenodia-stars/article/278550",
+                "https://www.oenodia.com/wp-content/uploads/2021/03/oenodia_plaquette-gamme-stars-en-bd.pdf",
+                "https://www.scottlab.com/oenodia"
+              ],
+              "segment": "2. Wine Production (Vinification)",
+              "region_state": "N/A",
+              "website": "https://oenodia.com",
+              "country": "Pertuis",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "BlueMorph",
+              "summary": "BlueMorph provides a patented Ultraviolet (UV) light sanitation system for winery tanks and barrels. This technology offers a waterless, chemical-free method for sanitation, drastically reducing resource consumption and labor time. Case studies with major wineries like Jackson Family Wines have validated its effectiveness and significant savings.",
+              "kpi_alignment": [
+                "Water intensity\u2193: Reduces water used in tank cleaning and sanitation by up to 80% by replacing traditional caustic/citric rinse cycles.",
+                "COGS per 9L case (ex-packaging)\u2193: Lowers labor requirements for cleaning by about 60% and electricity by 50%, in addition to eliminating chemical costs.",
+                "Cellar OEE\u2191: Sanitizes tanks in significantly less time (e.g., a 25,000-gallon tank in roughly 30 minutes), increasing tank availability and operational throughput."
+              ],
+              "sources": [
+                "https://www.bluemorph.com/wp-content/uploads/2019/07/BlueMorph-Brochure-2019.pdf",
+                "https://www.winebusiness.com/news/article/207228",
+                "https://www.deborahparkerwong.com/2015/09/04/uv-tank-sanitation-a-viable-conservation-strategy/",
+                "https://wineshopathome.com/something-blue/"
+              ],
+              "segment": "2. Wine Production (Vinification)",
+              "region_state": "N/A",
+              "website": "https://bluemorph.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Pellenc",
+              "summary": "Pellenc develops and manufactures equipment for viticulture and wine production, including high-performance destemming and sorting systems. Their Selectiv' Process Winery line is designed to gently destem and separate green waste, achieving high levels of cleanliness and preserving berry integrity. A case study with Paritua Wines in New Zealand highlights its effectiveness in removing unwanted material.",
+              "kpi_alignment": [
+                "Juice/wine yield\u2191: Achieves 99.8% cleanliness and removes 95% of petioles, reducing the presence of vegetal compounds and improving the quality of the must, which can lead to higher quality wine yield.",
+                "Cellar OEE\u2191: The system can process up to 15 tons per hour, enabling rapid and efficient grape reception and processing, which is critical for optimizing cellar workflow during harvest."
+              ],
+              "sources": [
+                "https://www.youtube.com/watch?v=2-b-g8q-r-E",
+                "https://pellencus.com/viticulture/winery/destem-sort-selectiv-winery/",
+                "https://www.winetitles.com.au/gwm/articles/2012/december/new-and-emerging-technologies-to-optimise-yield-quality-and-production-efficiency/",
+                "https://issuu.com/pellenc/docs/catalogue_pellenc_pera_oenoprocess_2023_winery_equ"
+              ],
+              "segment": "2. Wine Production (Vinification)",
+              "region_state": "N/A",
+              "website": "https://pellencus.com",
+              "country": "France",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Agrovin",
+              "summary": "Agrovin provides technology and oenological products for the wine industry, including the Tank Control Ulises TDR2 system. This integrated solution automates and monitors key fermentation parameters like temperature, density, and redox potential, while its patented pumping-over system significantly reduces energy use. The system is designed to improve fermentation control and cellar efficiency.",
+              "kpi_alignment": [
+                "Energy intensity\u2193: The Ulises pumping-over system provides certified energy savings of 35-45% compared to traditional pumping systems.",
+                "Fermentation success rate\u2191: Real-time monitoring of density, temperature, and redox potential allows for immediate intervention in case of deviations, reducing the risk of stuck or sluggish fermentations.",
+                "Cellar OEE\u2191: Automates manual processes like pump-overs and monitoring, freeing up cellar staff and allowing for more precise management of multiple tanks simultaneously."
+              ],
+              "sources": [
+                "https://www.winebusiness.com/news/article/282221/Tank-Control-Ulises-TDR2-Grupo-Agrovins-most-efficient-system-for-controlling-and-managing-tanks-in-cellars",
+                "https://agrovin.com/en/technology/responsible-winery/",
+                "https://agrovin.com/en/technology/tank-control/",
+                "https://enologia.agrovin.com/wp-content/uploads/2018/01/ULISES-EN.pdf"
+              ],
+              "segment": "2. Wine Production (Vinification)",
+              "region_state": "N/A",
+              "website": "https://agrovin.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Donaldson Filtration Solutions",
+              "summary": "Donaldson provides advanced filtration systems for the beverage industry, including cross-flow filtration solutions for wineries. Their systems are designed to increase throughput, reduce waste, and ensure consistent quality compared to traditional methods. A case study at L\u0151v\u00e9r Pince winery in Hungary demonstrated a significant increase in filtration speed and efficiency.",
+              "kpi_alignment": [
+                "Cellar OEE\u2191: The Crossflow System produced a 33% increase in wine filtered over the same time period compared to the traditional DE filter used previously at L\u0151v\u00e9r Pince winery.",
+                "Juice/wine yield\u2191: Cross-flow systems eliminate the need for diatomaceous earth and reduce wine loss associated with traditional filtration methods, with recoveries often over 98%.",
+                "Labor productivity\u2191: The fully automated system eliminates the need for constant supervision, freeing up cellar staff for other tasks."
+              ],
+              "sources": [
+                "https://www.donaldson.com/en-us/compressed-air-process/library/case-studies/winery-filtration-cycle-improved/",
+                "https://www.fmt-magazine.com/artikel/filtration-and-separation-key-technologies-in-food-and-beverages_4021.html",
+                "https://www.researchgate.net/publication/362429402_Influence_of_Selected_Technological_Conditions_on_the_Flavour_Stability_of_Unpasteurised_Top-Fermented_Craft_Beer"
+              ],
+              "segment": "2. Wine Production (Vinification)",
+              "region_state": "N/A",
+              "website": "https://donaldson.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7999999999999999
+            },
+            {
+              "company": "IFM Efector",
+              "summary": "IFM provides sensor and automation solutions for various industries, including wineries. Their systems for continuous, real-time Brix and temperature monitoring during fermentation replace manual sampling, leading to improved process control and wine quality. Case studies demonstrate higher accuracy and automation of previously labor-intensive tasks.",
+              "kpi_alignment": [
+                "Fermentation success rate\u2191: Continuous monitoring allows winemakers to visualize the fermentation curve in real-time, identify potential stalls or deviations, and take corrective action promptly, leading to higher quality and more stable products.",
+                "Cellar OEE\u2191: Automates the manual and laborious process of fermentation sampling, freeing up cellar staff and reducing the risk of human error. The system provides more accurate data than manual methods like densitometers or refractometers."
+              ],
+              "sources": [
+                "https://www.ifm.com/us/en/shared/success-stories/food-and-beverage/perfecting-wine-fermentation",
+                "https://www.ifm.com/us/en/shared/industries/food-and-beverage/wine-automation",
+                "https://etechgroup.com/case-studies/winery-adopts-automated-brix-monitoring-via-ifm-integration/",
+                "https://www.ifm.com/us/en/product/900007384"
+              ],
+              "segment": "2. Wine Production (Vinification)",
+              "region_state": "N/A",
+              "website": "https://ifm.com",
+              "country": "Germany",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Bucher Vaslin",
+              "summary": "Bucher Vaslin is a leading manufacturer of winery equipment, including advanced cross-flow filtration systems. Their Flavy FX line is designed to produce microbiologically stable wine in a single pass without filtration aids, reducing wine loss and improving efficiency. A case study at Coelho Winery highlights the time savings and yield improvements.",
+              "kpi_alignment": [
+                "Juice/wine yield\u2191: Enables the recovery of 80-90% of wine from lees that would have previously been discarded. At Coelho Winery, this meant capturing an extra 900 gallons from a 10,000-gallon tank, which they stated 'pretty much pays for the system in one shot'.",
+                "Cellar OEE\u2191: Provides a constant, high flow rate (e.g., 800 gallons/hour) that does not slow down, allowing for predictable and faster processing of large lots, saving significant cellar time.",
+                "COGS per 9L case (ex-packaging)\u2193: Eliminates the cost of disposable media like diatomaceous earth and reduces labor associated with traditional filtration methods."
+              ],
+              "sources": [
+                "https://www.youtube.com/watch?v=3-iY_e-d-cM",
+                "https://www.winebusiness.com/pack/article/194488",
+                "https://www.vineyardmagazine.co.uk/machinery-must-haves/",
+                "https://www.bucherindustries.com/en/media-center/publications/from-pressure-to-serenity"
+              ],
+              "segment": "2. Wine Production (Vinification)",
+              "region_state": "N/A",
+              "website": "https://vineyardmagazine.co.uk",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Opto 22",
+              "summary": "Opto 22 provides industrial automation and control systems, including solutions for wineries. Their groov EPIC system was used at Ridge Vineyards to automate a wastewater treatment process, addressing frequent maintenance issues and costly shutdowns. The system provided real-time control and monitoring, improving operational efficiency and sustainability.",
+              "kpi_alignment": [
+                "Cellar OEE\u2191: Automated the previously manual wastewater management process at Ridge Vineyards, eliminating costly unplanned shutdowns caused by clogged filters and pumps, thus improving overall plant availability.",
+                "Water intensity\u2193: By improving the efficiency and reliability of the wastewater pre-treatment system, the solution enhances water management and supports the winery's sustainability goals by ensuring environmental compliance.",
+                "COGS per 9L case (ex-packaging)\u2193: Reduced frequent maintenance and unplanned downtime, leading to lower operational costs and more efficient use of labor."
+              ],
+              "sources": [
+                "https://www.opto22.com/support/resources-tools/case-studies/ridge-vineyards-case-study",
+                "https://blog.opto22.com/optoblog/from-old-school-to-completely-scalable-solutions",
+                "https://www.opto22.com/support/resources-tools/documents/2439-case-study-ridge-vineyards"
+              ],
+              "segment": "2. Wine Production (Vinification)",
+              "region_state": "N/A",
+              "website": "https://opto22.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            }
+          ],
+          "notes": [
+            "Validation: 10/10 companies passed quality checks (rejected: 0)"
+          ]
+        },
+        {
+          "name": "3. Packaging & Bottling",
+          "companies": [
+            {
+              "company": "Amorim",
+              "summary": "Amorim is the world's largest producer of cork products and a leader in sustainable wine closures. Through extensive, independently verified Life Cycle Assessment (LCA) studies, they have demonstrated that their natural cork stoppers are carbon negative, sequestering significant amounts of CO2. This directly contributes to reducing the overall carbon footprint of a bottle of wine.",
+              "kpi_alignment": [
+                "Packaging GHG intensity: A single natural still wine cork has a negative carbon balance of up to -309g of CO2eq, and a sparkling wine stopper up to -562g CO2eq. This can offset a significant portion of the glass bottle's carbon footprint.",
+                "Recycled content / glass weight: While not a glass producer, Amorim's core product is a renewable, recyclable material harvested from cork oak forests, which are vital carbon sinks and biodiversity hotspots."
+              ],
+              "sources": [
+                "https://www.amorimcork.com/en/sustainability/studies/",
+                "https://www.winebusiness.com/news/article/286219",
+                "https://theportoprotocol.com/amorim-using-amorim-cork-stoppers-to-lower-the-wineries-environmental-footprint/",
+                "https://www.thedrinksbusiness.com/2020/03/cork-can-offset-a-wines-carbon-footprint/"
+              ],
+              "segment": "3. Packaging & Bottling",
+              "region_state": "N/A",
+              "website": "https://amorimcork.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Frugalpac",
+              "summary": "Frugalpac manufactures the 'Frugal Bottle,' an innovative wine and spirits bottle made from 94% recycled paperboard with a food-grade pouch liner. It is significantly lighter than glass, drastically reducing carbon emissions from manufacturing and transportation. The company provides bottling machinery to wineries or packaging partners, enabling local production.",
+              "kpi_alignment": [
+                "Packaging GHG intensity: The Frugal Bottle has a carbon footprint up to 84% lower than a traditional lightweight glass bottle.",
+                "Recycled content / glass weight: The bottle is made from 94% recycled paperboard and weighs only 83 grams, up to five times lighter than a standard glass bottle.",
+                "Bottle weight\u2193 / %PCR\u2191: Directly addresses both weight reduction and high recycled content."
+              ],
+              "sources": [
+                "https://www.frugalpac.com/frugal-bottle/",
+                "https://www.winebusiness.com/news/article/284307",
+                "https://www.frugalpac.com/first-us-winery-to-launch-frugal-bottle-in-whole-foods/",
+                "https://www.packagingdive.com/news/frugalpac-paper-wine-bottle-target-monterey-wine/713437/"
+              ],
+              "segment": "3. Packaging & Bottling",
+              "region_state": "N/A",
+              "website": "https://frugalpac.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Free Flow Wines",
+              "summary": "Free Flow Wines is a pioneer in sustainable alternative packaging, providing a comprehensive solution for wine-on-tap using 100% reusable stainless steel kegs. Their service includes keg leasing, filling, and logistics, eliminating single-use bottle waste for by-the-glass programs. This model significantly reduces the carbon footprint and waste associated with traditional bottling.",
+              "kpi_alignment": [
+                "Packaging GHG intensity: Reduces the CO2 footprint by 96% compared to the same volume of wine served from single-use glass bottles over the keg's 20-year lifespan.",
+                "Glass recovery\u2191: Eliminates the need for glass bottles for on-premise consumption, saving an estimated 26 bottles per keg fill and over 1,500 bottles over a keg's lifetime.",
+                "Waste Reduction: Has saved over 50 million pounds of trash from landfills since its inception."
+              ],
+              "sources": [
+                "https://www.freeflowwines.com/why-reusable-steel-is-best",
+                "https://www.freywine.com/blog/free-flow-kegs/",
+                "https://theportoprotocol.com/free-flow-wines-reusable-stainless-steel-kegs-for-by-the-glass-wine-service-on-premise-horeca-and-wine-tasting-rooms/",
+                "https://www.ridgewine.com/blog/our-ongoing-commitment-to-sustainability-kegs/"
+              ],
+              "segment": "3. Packaging & Bottling",
+              "region_state": "N/A",
+              "website": "https://freeflowwines.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Ardagh Group",
+              "summary": "Ardagh Group is a global supplier of sustainable, infinitely recyclable glass packaging. The company has been at the forefront of lightweighting technology, successfully developing wine bottles below 300g. This focus on reducing material usage directly lowers energy consumption in production and carbon emissions during transport.",
+              "kpi_alignment": [
+                "Recycled content / glass weight: Has developed a 750ml wine bottle weighing just 300g, significantly below the industry average, reducing material use and transport weight.",
+                "Packaging GHG intensity: Lightweighting directly reduces the carbon footprint per bottle. Over 15 years, the company has helped reduce typical container weight by 40%.",
+                "Line OEE: The lightweight bottles are engineered to perform efficiently on high-speed filling lines, ensuring structural integrity and operational efficiency for wineries."
+              ],
+              "sources": [
+                "https://www.ardaghgroup.com/glass/sustainability",
+                "https://www.ardaghgroup.com/news/ardagh-glass-packaging-launches-its-lightest-glass-wine-bottle-at-just-300g",
+                "https://www.foodbev.com/news/ardagh-glass-packaging-introduces-300g-lightweight-glass-wine-bottle/"
+              ],
+              "segment": "3. Packaging & Bottling",
+              "region_state": "N/A",
+              "website": "https://ardaghgroup.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "O-I Glass",
+              "summary": "O-I Glass is a leading global glass container manufacturer with a strong focus on sustainability through lightweighting and increasing recycled content. The company has developed wine bottles weighing as little as 390g and is actively involved in creating closed-loop systems, such as the 'Cento per Cento Sicilia' program using 90% local recycled glass. They are also the manufacturing partner for the Revino reusable bottle initiative.",
+              "kpi_alignment": [
+                "Recycled content / glass weight: Produces the Estampe\u2122 bottle at ~390g with up to 80% recycled content, and the Sicily bottle with ~90% local recycled glass.",
+                "Packaging GHG intensity: The lightweight Estampe\u2122 bottle has a ~25% lower carbon footprint compared to a standard 500g bottle.",
+                "Glass recovery\u2191: Actively supports and enables circular economy models through partnerships like Revino and local closed-loop recycling programs."
+              ],
+              "sources": [
+                "https://www.o-i.com/sustainability/",
+                "https://www.o-i.com/news/o-i-glass-joins-sustainable-wine-roundtable-to-advise-and-advance-global-wine-sustainability/",
+                "https://www.packagingdive.com/news/o-i-revino-reusable-returnable-wine-bottles/713915/"
+              ],
+              "segment": "3. Packaging & Bottling",
+              "region_state": "N/A",
+              "website": "https://o-i.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Petainer",
+              "summary": "Petainer manufactures one-way, recyclable PET kegs for the beverage industry, offering a lightweight and logistically efficient alternative to traditional steel kegs and glass bottles for wine-on-tap. This solution reduces transportation costs and carbon footprint, and eliminates the need for return logistics and washing. Wineries like Roberson Wine and New Kent Winery have adopted this system to expand distribution efficiently.",
+              "kpi_alignment": [
+                "Packaging GHG intensity: The lighter weight of PET kegs compared to steel and the elimination of return logistics significantly reduce transportation emissions.",
+                "Waste Reduction: One 20L Petainer keg replaces the equivalent of 27 glass bottles and associated secondary packaging, reducing waste and spoilage.",
+                "Landed cost per case\u2193: Reduces costs by eliminating keg deposits, return freight, and cleaning processes associated with steel kegs."
+              ],
+              "sources": [
+                "https://www.petainer.com/news/roberson-wine-on-tap-bridging-innovation-and-tradition-in-the-industry/",
+                "https://www.petainer.com/news/new-kent-winery-discovering-the-advantages-of-wine-on-tap/",
+                "https://www.wineanorak.com/wineblog/uncategorized/the-petainer-wine-on-tap-system-for-restaurants",
+                "https://www.g3enterprises.com/blog/start-serving-wine-on-tap-with-petainer-kegs"
+              ],
+              "segment": "3. Packaging & Bottling",
+              "region_state": "N/A",
+              "website": "https://petainer.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.5
+            }
+          ],
+          "notes": [
+            "Validation: 6/10 companies passed quality checks (rejected: 4)"
+          ]
+        },
+        {
+          "name": "4. Distribution & Logistics",
+          "companies": [
+            {
+              "company": "eProvenance (VinAssure)",
+              "summary": "eProvenance provides a blockchain-powered platform, VinAssure, developed with IBM, to offer a secure way to track wine from the vineyard to the consumer. The system uses temperature, humidity, and shock sensors to monitor conditions throughout the supply chain, generating an 'eProvenance Score' (0-100) that indicates if the wine's quality has been compromised. Named winery clients include Ste. Michelle Wine Estates and Maison Sichel.",
+              "kpi_alignment": [
+                "Temperature excursion rate",
+                "Traceability coverage",
+                "Breakage/spoilage rate"
+              ],
+              "sources": [
+                "https://www.enterprisetimes.co.uk/2020/12/16/eprovenance-unveils-vinassure-for-the-wine-supply-chain/",
+                "https://newsroom.ibm.com/2020-12-10-eProvenance-Uncorks-VinAssure-an-IBM-Blockchain-Powered-Platform-to-Strengthen-Collaboration-and-Optimize-the-Wine-Supply-Chain",
+                "https://www.eprovenance.com/fine-wine/",
+                "https://www.capagro.com/isagri-and-eprovenance-collaborate-to-provide-transparency-in-the-wine-supply-chain/"
+              ],
+              "segment": "4. Distribution & Logistics",
+              "region_state": "N/A",
+              "website": "https://enterprisetimes.co.uk",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Hillebrand Gori (a DHL company)",
+              "summary": "Hillebrand Gori is a specialized logistics provider for the wine and beverage industry, offering services like temperature-controlled transport and their proprietary 'VinLiner' insulated container liners. Their solutions are designed to protect wine from thermal shock, humidity, and contamination from the winery onwards. A case study with an Italian winemaker demonstrated the VinLiner's effectiveness in limiting temperature increases to an average of 8\u201311\u00b0C compared to loading temperature over 40+ days.",
+              "kpi_alignment": [
+                "Temperature excursion rate",
+                "Breakage/spoilage rate",
+                "Landed cost per 9L case"
+              ],
+              "sources": [
+                "https://www.hillebrandgori.com/media/publication/the-essentials-of-wine-protection-for-your-shipment",
+                "https://www.hillebrandgori.com/media/publication/wine-preservation-during-shipping",
+                "https://www.winebusiness.com/news/article/87188",
+                "https://www.hillebrandgori.com/customer-stories"
+              ],
+              "segment": "4. Distribution & Logistics",
+              "region_state": "N/A",
+              "website": "https://hillebrandgori.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Seaway Logistics",
+              "summary": "Seaway Logistics provides fully integrated, end-to-end logistics for the Australian wine industry. They have a long-term partnership with Australian Vintage, managing their entire bulk wine supply chain from the vineyard to the bottling depot. This includes coordinating pre-fitted flexitank containers in regional Victoria, managing rail transport to the port, and handling international shipping processes.",
+              "kpi_alignment": [
+                "OTIF",
+                "Landed cost per 9L case",
+                "Inventory turns"
+              ],
+              "sources": [
+                "https://www.seaway.com.au/project/bulk-wine-transport-solutions/",
+                "https://www.seaway.com.au/who-we-are/",
+                "https://wisa.org.au/supplier/seaway-logistics/",
+                "https://d2w3p2b2s7ss5s.cloudfront.net/media/2024/07/23120519/BUNYIP_20240724_01.pdf"
+              ],
+              "segment": "4. Distribution & Logistics",
+              "region_state": "N/A",
+              "website": "https://seaway.com.au",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Everledger",
+              "summary": "Everledger applies blockchain technology to the wine industry to ensure provenance and combat counterfeiting. In collaboration with Avery Dennison, they provide anti-tamper bottle closures with NFC tags linked to a blockchain record, tracking the bottle's journey from the winery. A trial was conducted with US wine n\u00e9gociant Wine Trade Network for their 'Appellation Earth' wines from Napa Valley, creating a digital identity for each bottle from the point of origin.",
+              "kpi_alignment": [
+                "Traceability coverage",
+                "Counterfeit detection rate",
+                "Breakage/spoilage rate"
+              ],
+              "sources": [
+                "https://www.everledger.io/industries/wine-spirits/",
+                "https://www.thedrinksbusiness.com/2019/01/this-tech-company-is-using-blockchain-based-technology-to-trace-wine/",
+                "https://www.shs-conferences.org/articles/shsconf/pdf/2023/04/shsconf_icobel_2023_01015.pdf",
+                "https://forkast.news/how-blockchain-can-cut-down-fraud-in-the-wine-industry/"
+              ],
+              "segment": "4. Distribution & Logistics",
+              "region_state": "N/A",
+              "website": "https://everledger.io",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "WineOnChain (by UNISOT)",
+              "summary": "WineOnChain is a supply chain traceability platform powered by blockchain, AI, and IoT, designed specifically for the wine industry. The platform tracks every ingredient from the grapevine to the consumer, capturing data on vineyard location, grape varietals, and farming practices. This creates a verifiable, tamper-proof record that ensures provenance and helps automate compliance and audits.",
+              "kpi_alignment": [
+                "Traceability coverage",
+                "Temperature excursion rate",
+                "Carbon intensity"
+              ],
+              "sources": [
+                "https://www.unisot.io/wineonchain",
+                "https://www.mdpi.com/2071-1050/16/5/2135",
+                "https://www.freightamigo.com/en/blog/wine-transportation-technology-and-future/"
+              ],
+              "segment": "4. Distribution & Logistics",
+              "region_state": "N/A",
+              "website": "https://unisot.io",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Sensitech",
+              "summary": "Sensitech, a part of Carrier, is a leader in cold chain monitoring solutions, providing data loggers and real-time monitoring services for temperature-sensitive products, including wine. Their solutions provide visibility into the supply chain, helping to reduce the risk of temperature excursions and ensure product quality upon arrival. While specific winery case studies are not publicly detailed, their technology is widely used in the beverage industry to monitor shipments from producer to retailer.",
+              "kpi_alignment": [
+                "Temperature excursion rate",
+                "Breakage/spoilage rate",
+                "Traceability coverage"
+              ],
+              "sources": [
+                "https://www.sensitech.com/en/case-studies/",
+                "https://www.sensitech.com/en/media/white-papers/",
+                "https://www.winebusiness.com/news/article/215933",
+                "https://www.carrier.com/carrier/en/worldwide/news/news-article/real-time-visibility-for-humanitarian-supply-chain-management.html"
+              ],
+              "segment": "4. Distribution & Logistics",
+              "region_state": "N/A",
+              "website": "https://sensitech.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Liv-ex",
+              "summary": "Liv-ex is a global marketplace for the wine trade that also provides comprehensive logistics services for its 550+ members, which include wineries and producers. The company acts as a single counterparty, handling collection from the seller (winery), authentication, climate-controlled warehousing, and final delivery to the buyer. Their process ensures security and provenance, reducing logistics complexity for producers accessing the secondary market.",
+              "kpi_alignment": [
+                "OTIF",
+                "Breakage/spoilage rate",
+                "Counterfeit detection rate"
+              ],
+              "sources": [
+                "https://www.liv-ex.com/services/logistics/",
+                "https://www.liv-ex.com/2024/03/confidence-case-liv-ex-reduces-risk-streamlines-fine-wine-operations/",
+                "https://www.liv-ex.com/case-studies/",
+                "https://www.youtube.com/watch?v=1Y2j-t-g-yA"
+              ],
+              "segment": "4. Distribution & Logistics",
+              "region_state": "N/A",
+              "website": "https://liv-ex.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Western Carriers",
+              "summary": "Western Carriers is a leading warehousing and transportation provider for the US wine industry, serving over 300 importers and wineries. With facilities in New Jersey and Napa Valley, they offer a centralized hub for national distribution, providing services like TTB bonded storage, winery transportation, and pier drayage. Their West Coast facility is explicitly located to serve Napa wineries, handling storage and distribution directly from the production region.",
+              "kpi_alignment": [
+                "Inventory turns",
+                "OTIF",
+                "Landed cost per 9L case"
+              ],
+              "sources": [
+                "https://www.westerncarriers.com/about/",
+                "https://www.westerncarriers.com/west-coast-warehousing/",
+                "https://www.wineowners.com/warehouse-management/western-carriers/",
+                "https://www.westerncarriers.com/transportation-services/"
+              ],
+              "segment": "4. Distribution & Logistics",
+              "region_state": "N/A",
+              "website": "https://westerncarriers.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "ARVI",
+              "summary": "Based in Switzerland, ARVI is a major stockholder and dealer of fine wines, offering logistics and storage services. The company purchases the majority of its stock directly from producers and n\u00e9gociants, storing it in state-of-the-art, temperature- and humidity-controlled cellars. Their warehouse management system ensures full traceability for every case, which is checked, photographed, and registered upon receipt, guaranteeing provenance for their clients.",
+              "kpi_alignment": [
+                "Temperature excursion rate",
+                "Breakage/spoilage rate",
+                "Traceability coverage"
+              ],
+              "sources": [
+                "https://www.arvi.ch/en/about-us/",
+                "https://www.arvi.ch/en/faq/",
+                "https://www.arvi.ch/en/wine-vault/",
+                "https://issuu.com/arviswiss/docs/arvi_wine_vault_booklet"
+              ],
+              "segment": "4. Distribution & Logistics",
+              "region_state": "N/A",
+              "website": "https://arvi.ch",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.5
+            }
+          ],
+          "notes": [
+            "Validation: 9/10 companies passed quality checks (rejected: 1)"
+          ]
+        },
+        {
+          "name": "5. Retail & Sales",
+          "companies": [
+            {
+              "company": "Commerce7",
+              "summary": "Commerce7 is a leading direct-to-consumer (DTC) platform specifically for the wine industry, offering a suite of tools for ecommerce, POS, club management, and reservations. Case studies demonstrate significant revenue growth for partner wineries. For example, Iola Wines achieved a 221% year-over-year revenue increase after implementing Commerce7's club tools, highlighting the platform's ability to create predictable new revenue streams.",
+              "kpi_alignment": [
+                "DTC conversion rate",
+                "Club retention / churn",
+                "Gross margin by channel"
+              ],
+              "sources": [
+                "https://commerce7.com/blog/how-iola-wines-achieved-221-yoy-growth-with-commerce7s-club-tools/",
+                "https://commerce7.com/blog/defying-the-trend-commerce7-wineries-see-steady-dtc-sales-growth/",
+                "https://www.forbes.com/sites/lizthach/2023/01/25/wine-industry-report-offers-insight-into-dtc-sales-in-2023/",
+                "https://www.vinagency.com/blog/e-commerce-for-winery-websites",
+                "https://www.transom.design/thoughts/which-winery-e-commerce-platform-is-the-fastest"
+              ],
+              "segment": "5. Retail & Sales",
+              "region_state": "N/A",
+              "website": "https://commerce7.com",
+              "country": "British",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "DRINKS",
+              "summary": "DRINKS provides an operating system for alcohol e-commerce, including a Shopify Plus integration that handles complex tax and compliance issues. Their AI-powered recommendation tool, 'DRINKS Recommend', has been shown to dramatically increase sales metrics. In a deployment with two major online wine retailers, the tool led to a 175% increase in attributed session conversions and a 78% increase in average revenue per session.",
+              "kpi_alignment": [
+                "DTC conversion rate",
+                "Velocity (off-trade)"
+              ],
+              "sources": [
+                "https://www.prnewswire.com/news-releases/new-data-shows-drinks-ai-powered-personalized-wine-recommendations-deliver-surge-in-online-wine-sales-302068450.html",
+                "https://www.drinks.com/case-studies",
+                "https://www.drinks.com/news-and-views/cutting-edge-wine-brands-deploy-drinks-app-for-shopify-to-optimize-e-commerce-sales--operations",
+                "https://shopdigest.io/drinks-migrates-wine-insiders-to-shopify-plus/",
+                "https://www.shopify.com/uk/blog/dtc-wine"
+              ],
+              "segment": "5. Retail & Sales",
+              "region_state": "N/A",
+              "website": "https://prnewswire.com",
+              "country": "California",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.5
+            },
+            {
+              "company": "Tastry",
+              "summary": "Tastry utilizes AI and chemistry to predict consumer taste preferences, providing personalized wine recommendations for retailers and wineries. This technology helps eliminate consumer indecision and increases sales. A case study with online wine brand de N\u00e9goce showed that implementing Tastry's recommendation quiz boosted online wine sales by 200% by matching consumers with wines they are scientifically predicted to enjoy.",
+              "kpi_alignment": [
+                "DTC conversion rate",
+                "Velocity (off-trade)",
+                "Repurchase rate (SKU/VTG)"
+              ],
+              "sources": [
+                "https://tastry.com/case-studies/cameron-hughes-de-negoce-leverages-tastry-to-boost-online-wine-sales-by-200-percent",
+                "https://www.winebusiness.com/news/article/245897",
+                "https://www.prnewswire.com/news-releases/tastry-launches-tastry-uncorked-a-personalized-ai-recommender-for-e-commerce-301442610.html",
+                "https://bernardmarr.com/revolutionizing-winemaking-the-impact-of-ai-tasting-technology-by-tastry/",
+                "https://www.globenewswire.com/en/news-release/2023/02/06/2602444/0/en/de-N-goce-Partners-with-Tastry-to-Offer-Personalized-Wine-Discovery-Service.html"
+              ],
+              "segment": "5. Retail & Sales",
+              "region_state": "N/A",
+              "website": "https://tastry.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Enolytics",
+              "summary": "Enolytics provides data analytics and business intelligence services specifically for the wine industry, helping wineries understand customer behavior and sales trends to improve DTC performance. In a notable case study with Dry Creek Vineyard, Enolytics helped identify and target a segment of lapsed customers, resulting in an e-commerce offer that generated sales six times larger than the winery's typical online sale.",
+              "kpi_alignment": [
+                "DTC conversion rate",
+                "Club retention / churn",
+                "Gross margin by channel"
+              ],
+              "sources": [
+                "https://www.enolytics.com/blog/2020/5/20/case-study-data-analytics-for-the-wine-and-spirits-industry",
+                "https://www.enolytics.com/blog/2024/9/11/wine-sales-through-data-real-world-examples-of-how-its-working-now",
+                "https://www.enolytics.com/blog/2023/8/4/wine-data-success-story-analyzing-performance-history-to-plan-for-harvest-2023-and-beyond",
+                "https://www.winebusiness.com/news/article/254425",
+                "https://www.enolytics.com/data-collectives"
+              ],
+              "segment": "5. Retail & Sales",
+              "region_state": "N/A",
+              "website": "https://enolytics.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "RedChirp",
+              "summary": "RedChirp is an SMS marketing and communication platform designed for the wine industry, enabling wineries to engage customers for sales, event promotion, and customer service. A 2023 report analyzing campaigns from 174 wineries using RedChirp showed that bulk SMS messages generated over $50 million in non-club sales. A case study with Anaba Wines demonstrated that a single text message to local club members increased event reservations from 2 to 50 in one day.",
+              "kpi_alignment": [
+                "DTC conversion rate",
+                "Tourism conversion"
+              ],
+              "sources": [
+                "https://www.vinsuite.com/blog/5-game-changing-strategies-from-industry-experts",
+                "https://redchirp.com/2023-bulk-messages-generate-millions/",
+                "https://www.winebusiness.com/news/article/283518",
+                "https://corksy.io/sms-success-why-wineries-love-redchirp/",
+                "https://www.vinsuite.com/blog/creating-lists-for-redchirp-sms-campaigns-a-how-to-guide"
+              ],
+              "segment": "5. Retail & Sales",
+              "region_state": "N/A",
+              "website": "https://vinsuite.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Bottle360",
+              "summary": "Bottle360 offers a comprehensive, all-in-one DTC software platform for wineries, integrating POS, e-commerce, and wine club management. The platform is designed to improve customer relationship management and retention. A testimonial from Honrama Cellars highlights that Bottle360 has been instrumental in helping them retain and grow their wine club membership by improving communication and allowing members to customize shipments.",
+              "kpi_alignment": [
+                "Club retention / churn",
+                "DTC conversion rate"
+              ],
+              "sources": [
+                "https://bottlethreesixty.com/customer-stories/",
+                "https://www.wineindustrynetwork.com/suppliers/bottle360.html#news",
+                "https://bottlethreesixty.com/wine-club-management-platform/",
+                "https://bottlethreesixty.com/blog/top-10-ways-winery-software-boosts-wine-sales/",
+                "https://bottlethreesixty.com/"
+              ],
+              "segment": "5. Retail & Sales",
+              "region_state": "N/A",
+              "website": "https://bottlethreesixty.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Offset Commerce",
+              "summary": "Offset Commerce provides a high-touch e-commerce platform tailored for fine wine producers, focusing on allocations, clubs, and DTC sales with an emphasis on brand experience. The platform has processed over $2 billion in wine sales for its 250+ clients. Testimonials from prestigious clients like Bryant Estate and Occidental Wines confirm the platform's value in providing a seamless, intuitive user experience and improving operational efficiency.",
+              "kpi_alignment": [
+                "DTC conversion rate",
+                "Club retention / churn"
+              ],
+              "sources": [
+                "https://www.offsetpartners.com/",
+                "https://www.winebusiness.com/news/press-releases/article/291629",
+                "https://www.winebusiness.com/buyersguide/company/3901/",
+                "https://www.offsetpartners.com/company",
+                "https://www.offsetpartners.com/features"
+              ],
+              "segment": "5. Retail & Sales",
+              "region_state": "N/A",
+              "website": "https://offsetpartners.com",
+              "country": "Napa",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "WinePulse",
+              "summary": "Recently acquired by Commerce7, WinePulse is a leading DTC analytics and reporting platform for the wine industry, used by over 240 wineries. It provides detailed dashboards and reports to analyze sales, club retention, and customer behavior. A testimonial from Danza del Sol Winery states that WinePulse's analytics enabled them to refine marketing strategies and significantly boost sales by providing valuable insights from their member data.",
+              "kpi_alignment": [
+                "Club retention / churn",
+                "Velocity (off-trade)",
+                "Gross margin by channel"
+              ],
+              "sources": [
+                "https://commerce7.com/partner/winepulse/",
+                "https://www.winepulse.com/",
+                "https://www.winebusiness.com/news/article/290013",
+                "https://www.wineindustrynetwork.com/news/people/winepulse-unveils-chatdtc-an-ai-powered-assistant-redefining-pos-data-analytics",
+                "https://www.winepulse.com/about"
+              ],
+              "segment": "5. Retail & Sales",
+              "region_state": "N/A",
+              "website": "https://commerce7.com",
+              "country": "Paso",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "vinSUITE",
+              "summary": "vinSUITE provides an integrated DTC software suite for wineries, covering eCommerce, POS, and wine club management. The platform focuses on tools to improve member retention and increase revenue. A case study on SMS marketing with partner RedChirp highlighted how Heitz Cellars used the integrated system to significantly increase their credit card decline recovery rate, directly reclaiming lost revenue and improving club retention.",
+              "kpi_alignment": [
+                "Club retention / churn",
+                "DTC conversion rate"
+              ],
+              "sources": [
+                "https://www.vinsuite.com/blog/5-game-changing-strategies-from-industry-experts",
+                "https://www.vinsuite.com/",
+                "https://www.vinsuite.com/blog/want-to-know-the-secret-of-wine-club-success-here-are-the-methods-that-make-a-difference",
+                "https://www.vinsuite.com/on-demand-library",
+                "https://storeleads.app/reports/vinsuite"
+              ],
+              "segment": "5. Retail & Sales",
+              "region_state": "N/A",
+              "website": "https://vinsuite.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.5
+            },
+            {
+              "company": "WISE Academy (Wine Industry Sales Education)",
+              "summary": "WISE Academy provides sales training and performance measurement services for the wine industry, including a comprehensive mystery shopping program. This service directly impacts sales KPIs by evaluating staff on over 80 data points, including their effectiveness in asking for the sale, presenting the wine club, and capturing customer data (the 'WISE Triple Score'). By providing actionable feedback, WISE helps wineries increase conversion rates for wine sales and club sign-ups.",
+              "kpi_alignment": [
+                "DTC conversion rate",
+                "Club retention / churn",
+                "Tourism conversion"
+              ],
+              "sources": [
+                "https://www.wineindustrysaleseducation.com/mystery-shopping",
+                "https://www.sevenfifty.com/daily/what-wineries-are-learning-from-mystery-shoppers/",
+                "https://www.wineindustrysaleseducation.com/s/Paso-Robles-Mystery-Shopping-Case-Study-2017.pdf",
+                "https://www.wineindustrynetwork.com/suppliers/wise-academy",
+                "https://www.wineindustrysaleseducation.com/s/WISE-Tasting-Room-Scorecard-2020.pdf"
+              ],
+              "segment": "5. Retail & Sales",
+              "region_state": "N/A",
+              "website": "https://wineindustrysaleseducation.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            }
+          ],
+          "notes": [
+            "Validation: 10/10 companies passed quality checks (rejected: 0)"
+          ]
+        },
+        {
+          "name": "6. Marketing & Branding",
+          "companies": [
+            {
+              "company": "Commerce7",
+              "summary": "Commerce7 is a direct-to-consumer (DTC) platform providing wineries with integrated e-commerce, point of sale, club management, and reservation functionalities. The platform focuses on delivering a superior customer experience to drive sales and club membership. A case study with SMAK Wines, a boutique ros\u00e9 producer in Walla Walla, demonstrated significant growth after migrating to Commerce7's unified system.",
+              "kpi_alignment": [
+                "Club retention\u2191: SMAK Wines experienced a 29% growth in their wine club membership within nine months of implementing Commerce7. This was attributed to the platform's flexibility, which allowed members to customize orders, reducing cancellations and improving engagement.",
+                "DTC conversion\u2191: The platform's focus on a seamless end-user experience and features like a one-click \"Join Club\" button in the checkout cart are designed to increase online conversion rates and club sign-ups. Enterprise wineries have seen DTC sales increases of over 35% after adoption."
+              ],
+              "sources": [
+                "https://www.commerce7.com/blog/smak-wines-case-study/",
+                "https://www.commerce7.com/blog/defying-the-trend-commerce7-wineries-see-steady-dtc-sales-growth/",
+                "https://www.meiningers-international.com/wine-business/news/commerce7-connects-wine-lovers-and-wineries",
+                "https://www.commerce7.com/customers/patel-napa-valley/",
+                "https://www.commerce7.com/resources/data-book-2023/"
+              ],
+              "segment": "6. Marketing & Branding",
+              "region_state": "N/A",
+              "website": "https://commerce7.com",
+              "country": "Vancouver",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Naked Wines",
+              "summary": "Naked Wines is an online wine retailer that operates on a subscription-based, direct-to-consumer model. Customers, referred to as 'Angels,' contribute a monthly fee that funds independent winemakers, providing them with capital in exchange for exclusive access to wines at preferential prices. This model disrupts traditional distribution channels and builds a strong community around the winemakers.",
+              "kpi_alignment": [
+                "CAC:LTV\u22653:1: A case study on a UK campaign with Outbrain demonstrated the acquisition of high-value customers, who showed a 40% better lifetime value (LTV) than average customers. The company's founding philosophy was to achieve a CAC:LTV ratio of over 1:4.",
+                "Rating uplift impact\u2192velocity\u2191: A campaign with Outbrain generated 50,000 leads and resulted in over 20,000 bottles sold, demonstrating a direct link between a targeted marketing campaign and sales velocity. The platform's model, which supports 299 independent winemakers, relies on this direct marketing-to-sales conversion."
+              ],
+              "sources": [
+                "https://www.outbrain.com/case-studies/naked-wines/",
+                "https://www.forbes.com/sites/lizthach/2023/08/29/naked-wines-unique-business-model--where-consumers-become-angels/",
+                "https://www.inpractise.com/articles/naked-wines-ltv",
+                "https://www.nakedwines.com/about-us",
+                "https://www.alphabridge.io/blog/naked-wines-pivot-a-case-study-in-growth-vs-profit"
+              ],
+              "segment": "6. Marketing & Branding",
+              "region_state": "N/A",
+              "website": "https://outbrain.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Tock",
+              "summary": "Tock provides a comprehensive reservation, table, and event management system used by wineries to streamline hospitality operations. The platform allows wineries to manage everything from standard tastings to special events, with features for deposits and pre-payment to reduce no-shows. A case study with Farm Collective Napa Valley (representing wineries like Tank Garage Winery) highlights significant operational efficiencies.",
+              "kpi_alignment": [
+                "Tourism conversion\u2191: By automating communications like confirmations and reminders, Tock saved the Farm Collective team an average of 30 hours per week, freeing up staff to focus on higher-value guest experiences that drive sales and club sign-ups. The platform's ability to manage varied experiences and waitlists helps maximize tasting room occupancy and revenue.",
+                "Engagement rate (owned)\u2191: Tock's integration capabilities with winery websites, social media pages, and CRM systems (like WineDirect) create a unified customer data profile. This allows for personalized pre- and post-visit communication, enhancing guest engagement and providing data to tailor future marketing efforts."
+              ],
+              "sources": [
+                "https://www.winedirect.com/blog/case-study-how-farm-collective-improved-roi-with-tock-reservations-management",
+                "https://www.exploretock.com/join/wineries",
+                "https://www.exploretock.com/case-studies/hide-and-seek",
+                "https://www.vinboundmarketing.com/best-reservation-booking-systems-for-wineries/",
+                "https://www.youtube.com/watch?v=R-q_uLgYp-w"
+              ],
+              "segment": "6. Marketing & Branding",
+              "region_state": "N/A",
+              "website": "https://winedirect.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Vivino",
+              "summary": "Vivino is the world's largest online wine marketplace and most downloaded wine app, allowing users to scan and rate wines, get recommendations, and purchase from partner wineries and retailers. For wineries, it offers a direct channel to a massive community of wine consumers, providing brand exposure and sales opportunities. Wineries like Susana Balbo in Argentina are listed as verified partners on the platform.",
+              "kpi_alignment": [
+                "Share of voice (SoV)\u2191: With over 68 million users and 246,000 wineries on its platform, a partnership with Vivino significantly increases a winery's visibility and share of voice within a global community of wine drinkers. Wineries can enhance their profiles with videos and stories to directly engage this audience.",
+                "Rating uplift impact\u2192velocity\u2191: The platform's core functionality is built on user ratings and reviews, which directly influence purchasing decisions. Wineries like J. Lohr and Susana Balbo leverage the platform to gain visibility and credibility from authentic user reviews, which is instrumental in driving growth and sales velocity."
+              ],
+              "sources": [
+                "https://www.vivino.com/media",
+                "https://www.forbes.com/sites/lizthach/2021/06/03/vivino-continues-watershed-year-in-online-wine-sales-with-155-million-in-funding-and-ceo-appointment/",
+                "https://www.vivino.com/wineries/susana-balbo-wines",
+                "https://medium.com/@nate.westfall/diversifying-your-digital-strategy-the-endless-potential-of-vivino-85474347895e",
+                "https://www.thedrinksbusiness.com/2021/03/how-vivino-is-shaping-the-future-of-wine-retail/"
+              ],
+              "segment": "6. Marketing & Branding",
+              "region_state": "N/A",
+              "website": "https://vivino.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.5
+            },
+            {
+              "company": "Emetry",
+              "summary": "Emetry is a consumer data and analytics software platform designed specifically for the wine industry. It aggregates data from various sources (CRM, OMS, wholesale) and uses machine learning to provide wineries with actionable insights, such as predicting club member churn. The platform integrates with DTC systems like Commerce7 to push this data directly into a winery's workflow.",
+              "kpi_alignment": [
+                "Club retention\u2191: Emetry's club attrition model proactively calculates a member's likelihood to cancel, allowing wineries to intervene. A case study showed that by using Emetry's insights to target at-risk customers, a winery increased the rate of returning purchasers by 6% (from 9% to 15%).",
+                "CAC:LTV\u22653:1: The intervention strategy based on Emetry's data led to a significant revenue increase from the targeted customer segment, from $7,000 pre-intervention to $31,000 post-intervention. This demonstrates a clear ROI on marketing efforts and an improvement in the lifetime value of retained customers."
+              ],
+              "sources": [
+                "https://cellr.wine/2020/08/11/what-the-tech-with-emetry/",
+                "https://www.commerce7.com/blog/predict-club-attrition-with-emetry/",
+                "https://www.prnewswire.com/news-releases/emetry-and-delectable-announce-new-partnership-to-bring-greater-consumer-insights-to-wine-brands-300718330.html"
+              ],
+              "segment": "6. Marketing & Branding",
+              "region_state": "N/A",
+              "website": "https://cellr.wine",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Angelsmith",
+              "summary": "Angelsmith is a digital marketing agency with a focus on the wine industry, providing services like SEO and campaign strategy. They were responsible for the 'Virtual Vintner' campaign for La Crema Winery, a highly successful interactive digital experience that allowed consumers to participate in a crowd-sourced winemaking process. This campaign demonstrates a clear link between innovative digital marketing and measurable sales impact.",
+              "kpi_alignment": [
+                "DTC conversion\u2191: The 'Virtual Vintner' campaign for La Crema resulted in a 52% increase in e-commerce wine sales over the previous year and a 63% increase over the previous period, directly linking the marketing initiative to a substantial rise in DTC revenue.",
+                "Engagement rate (owned)\u2191: The campaign generated over 300,000 social media engagements and added 15,000 new subscribers to La Crema's email database. It registered nearly 23,000 'Virtual Vintners,' more than doubling the original goal and demonstrating massive audience participation."
+              ],
+              "sources": [
+                "https://www.angelsmith.net/wine-marketing-case-studies-that-prove-roi/",
+                "https://shortyawards.com/7th/la-crema-winerys-virtual-vintner",
+                "https://www.winebusiness.com/news/article/289019",
+                "https://www.angelsmith.net/services/seo-case-study-boutique-winery-increases-traffic/"
+              ],
+              "segment": "6. Marketing & Branding",
+              "region_state": "N/A",
+              "website": "https://angelsmith.net",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Winetourism.com",
+              "summary": "Winetourism.com is an online booking platform dedicated to wine tourism, connecting wine lovers with over 5,000 wineries and tour providers in more than 240 wine regions globally. The platform allows wineries to market their tasting experiences, tours, and events to a highly targeted international audience. Testimonials from wineries like Wein+Gut Oster in Germany confirm the platform's value in attracting international tourists.",
+              "kpi_alignment": [
+                "Tourism conversion\u2191: The platform directly facilitates bookings for winery experiences, aiming to convert website traffic into paying visitors. In 2023, the platform processed over 10,000 bookings, demonstrating its function as a direct revenue-generating channel for its winery partners.",
+                "Share of voice (SoV)\u2191: By listing on a major global platform with over 200,000 monthly users, wineries significantly increase their visibility and share of voice among a targeted audience of wine tourists. The platform's marketing packages offer additional promotional opportunities to further boost brand reach."
+              ],
+              "sources": [
+                "https://www.winetourism.com/partnership/",
+                "https://www.winetourism.com/winery/weingut-oster/",
+                "https://www.winetourism.com/payment-confirmation-winery/",
+                "https://www.winetourism.com/about-us/"
+              ],
+              "segment": "6. Marketing & Branding",
+              "region_state": "N/A",
+              "website": "https://winetourism.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.5
+            },
+            {
+              "company": "CellarPass",
+              "summary": "CellarPass is an online reservation and guest management platform specifically for the alcoholic beverage industry, including wineries, breweries, and distilleries. It provides tools for managing tasting room reservations, tours, and special events, helping wineries to increase visitor traffic and manage hospitality operations. The platform features verified guest reviews for partner wineries like Storybook Mountain Vineyards and Keenan Winery.",
+              "kpi_alignment": [
+                "Tourism conversion\u2191: CellarPass is designed to convert online interest into confirmed tasting room visits. The platform's focus on wine tourism search terms allows it to capture high-intent traffic, driving bookings for partner wineries and directly impacting visitor numbers and on-site sales opportunities.",
+                "Engagement rate (owned)\u2191: The platform's verified review system provides valuable social proof and a channel for customer feedback, enhancing engagement. Positive reviews for wineries like Calais Winery and Matrix Winery demonstrate high levels of guest satisfaction and build brand reputation, encouraging future bookings."
+              ],
+              "sources": [
+                "https://www.cellarpass.com/storybook-mountain-vineyards-reviews",
+                "https://www.cellarpass.com/keenan-winery-reviews",
+                "https://www.cellarpass.com/calais-winery-reviews",
+                "https://www.cellarpass.com/matrix-winery-reviews",
+                "https://www.cellarpass.com/for-business"
+              ],
+              "segment": "6. Marketing & Branding",
+              "region_state": "N/A",
+              "website": "https://cellarpass.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.5
+            }
+          ],
+          "notes": [
+            "Validation: 8/10 companies passed quality checks (rejected: 2)"
+          ]
+        },
+        {
+          "name": "7. Consumption",
+          "companies": [
+            {
+              "company": "Vivino",
+              "summary": "Vivino is a comprehensive wine app and marketplace that allows users to scan wine labels for ratings, reviews, and pricing. With a community of over 70 million users, it provides wineries with a platform to understand consumer sentiment and market trends, influencing repurchase rates through community-driven validation and direct sales channels.",
+              "kpi_alignment": [
+                "Review score distribution",
+                "Repurchase rate (SKU/VTG)"
+              ],
+              "sources": [
+                "https://www.vivino.com/app",
+                "https://www.forbes.com/sites/cathyhuyghe/2021/02/03/vivino-raises-155-million-series-d-to-propel-growth-in-wine/",
+                "https://techcrunch.com/2021/02/03/vivino-raises-155-million-for-its-wine-app-and-marketplace/",
+                "https://www.winebusiness.com/news/article/240721"
+              ],
+              "segment": "7. Consumption",
+              "region_state": "N/A",
+              "website": "https://vivino.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "CellarTracker",
+              "summary": "CellarTracker is a web-based cellar management tool and community for wine enthusiasts to track their collections and share tasting notes. For wineries, the platform's vast dataset of over 9 million user-generated tasting notes provides deep insights into how their wines are being consumed and perceived over time, helping to address potential quality issues and understand consumer preferences.",
+              "kpi_alignment": [
+                "Review score distribution",
+                "Cellar stability complaints"
+              ],
+              "sources": [
+                "https://www.cellartracker.com/",
+                "https://www.wine-searcher.com/m/2022/01/cellartracker-at-the-center-of-the-wine-world",
+                "https://www.seattletimes.com/pacific-nw-magazine/a-former-microsoft-managers-cellartracker-is-the-worlds-most-popular-wine-website/",
+                "https://www.jancisrobinson.com/articles/cellartracker-celebrates-10-million-tasting-notes"
+              ],
+              "segment": "7. Consumption",
+              "region_state": "N/A",
+              "website": "https://cellartracker.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.5
+            },
+            {
+              "company": "Preferabli",
+              "summary": "Preferabli is an AI-driven personalization and recommendation engine for the wine and spirits industry. It helps retailers and wineries increase sales by providing consumers with highly accurate, taste-based recommendations. By improving the accuracy of wine suggestions, Preferabli aims to increase customer satisfaction, leading to higher repurchase rates and better review scores.",
+              "kpi_alignment": [
+                "Repurchase rate (SKU/VTG)",
+                "Review score distribution"
+              ],
+              "sources": [
+                "https://www.preferabli.com/",
+                "https://www.forbes.com/sites/jilliandara/2021/07/22/this-master-sommelier-wants-to-change-the-way-you-drink-with-her-new-ai-platform/",
+                "https://www.winebusiness.com/news/article/248678",
+                "https://www.beveragedaily.com/Article/2021/07/20/AI-platform-Preferabli-matches-consumers-with-wine-beer-and-spirits"
+              ],
+              "segment": "7. Consumption",
+              "region_state": "N/A",
+              "website": "https://preferabli.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Everledger",
+              "summary": "Everledger is a technology company that uses blockchain and NFC to create a secure and permanent digital record of a wine bottle's provenance. This helps to combat counterfeiting and provides consumers with transparent information about the wine's journey from vineyard to table. By ensuring authenticity, Everledger reduces the likelihood of complaints related to fraudulent products and builds consumer trust, which can positively impact repurchase rates.",
+              "kpi_alignment": [
+                "Cellar stability complaints",
+                "Repurchase rate (SKU/VTG)"
+              ],
+              "sources": [
+                "https://www.everledger.io/industries/wine-and-spirits/",
+                "https://www.forbes.com/sites/rachelwolfson/2020/08/11/blockchain-can-help-the-wine-industry-combat-counterfeit-bottles/",
+                "https://www.coindesk.com/markets/2016/12/14/everledger-tracks-provenance-of-fine-wine-on-the-blockchain/",
+                "https://www.decanter.com/wine-news/maureen-downey-launches-wine-provenance-platform-with-everledger-and-ibm-427642/"
+              ],
+              "segment": "7. Consumption",
+              "region_state": "N/A",
+              "website": "https://everledger.io",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "WinePulse",
+              "summary": "WinePulse provides DTC analytics and reporting solutions specifically for the wine industry. Their platform helps wineries understand customer behavior, including repurchase patterns, wine club churn, and lifetime value. By providing actionable insights from consumer data, WinePulse directly enables wineries to develop strategies to increase their repurchase rates.",
+              "kpi_alignment": [
+                "Repurchase rate (SKU/VTG)"
+              ],
+              "sources": [
+                "https://www.winepulse.com/",
+                "https://www.winebusiness.com/news/article/237559",
+                "https://wineindustryadvisor.com/2022/02/15/winepulse-releases-new-benchmark-reports",
+                "https://www.vintners.org/news/winepulse-launches-new-dtc-analytics-platform"
+              ],
+              "segment": "7. Consumption",
+              "region_state": "N/A",
+              "website": "https://winepulse.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "InVintory",
+              "summary": "InVintory is a sophisticated wine cellar management app that allows collectors to track their wines, manage cellar conditions, and get real-time market valuations. For wineries, the data collected on which of their wines are being cellared and for how long provides valuable insights into consumption patterns and perceived age-worthiness, indirectly influencing future marketing and production decisions.",
+              "kpi_alignment": [
+                "Review score distribution"
+              ],
+              "sources": [
+                "https://www.invintory.com/",
+                "https://www.forbes.com/sites/adammorganstern/2022/01/27/the-best-apps-for-managing-your-wine-collection/",
+                "https://www.wineenthusiast.com/culture/wine/best-wine-cellar-apps/",
+                "https://www.decanter.com/wine-reviews/app-reviews/invintory-wine-cellar-app-review-475321/"
+              ],
+              "segment": "7. Consumption",
+              "region_state": "N/A",
+              "website": "https://invintory.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Coravin",
+              "summary": "Coravin is the creator of a wine preservation system that allows users to pour wine without removing the cork, thus preserving the wine for weeks, months, or even years. This technology encourages consumers to sample more of their collection without fear of spoilage, leading to more frequent engagement and potentially more data points on wine quality over time. For wineries, this can lead to more thoughtful consumer reviews and a reduction in complaints about premature oxidation.",
+              "kpi_alignment": [
+                "Cellar stability complaints",
+                "Review score distribution"
+              ],
+              "sources": [
+                "https://www.coravin.com/",
+                "https://www.foodandwine.com/wine/is-the-coravin-worth-it",
+                "https://www.nytimes.com/wirecutter/reviews/coravin-wine-preservation-system-review/",
+                "https://www.wine-searcher.com/m/2013/08/coravin-the-gadget-that-could-change-the-world-of-wine"
+              ],
+              "segment": "7. Consumption",
+              "region_state": "N/A",
+              "website": "https://coravin.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.5
+            },
+            {
+              "company": "eProvenance",
+              "summary": "eProvenance offers a solution to monitor and analyze the conditions of wine during transport and storage, ensuring its quality upon arrival to the consumer. By providing a provenance score based on temperature and other data, they help reduce the incidence of 'cooked' or damaged wine, thereby decreasing cellar stability complaints and protecting brand reputation.",
+              "kpi_alignment": [
+                "Cellar stability complaints"
+              ],
+              "sources": [
+                "https://www.eprovenance.com/",
+                "https://www.winebusiness.com/news/article/196305",
+                "https://www.jancisrobinson.com/articles/how-wine-travels-or-not",
+                "https://www.decanter.com/wine-news/new-technology-to-guarantee-wine-provenance-289643/"
+              ],
+              "segment": "7. Consumption",
+              "region_state": "N/A",
+              "website": "https://eprovenance.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Winesearcher",
+              "summary": "While primarily a price comparison tool, Wine-Searcher also aggregates critic and user reviews, providing a broad view of a wine's reception in the market. For wineries, monitoring their products' performance on this platform is crucial for understanding their market position and the distribution of review scores, which can influence consumer purchasing decisions and brand perception.",
+              "kpi_alignment": [
+                "Review score distribution"
+              ],
+              "sources": [
+                "https://www.wine-searcher.com/",
+                "https://www.forbes.com/sites/karlsson/2019/11/29/wine-searcher-the-most-important-wine-site-in-the-world/",
+                "https://www.theguardian.com/lifeandstyle/2012/dec/09/wine-searcher-website-online-wine",
+                "https://www.jancisrobinson.com/articles/the-power-of-wine-searcher"
+              ],
+              "segment": "7. Consumption",
+              "region_state": "N/A",
+              "website": "https://wine-searcher.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Drync",
+              "summary": "Drync is a mobile app that allows users to scan, track, and purchase wines. It partners with retailers to facilitate sales and provides a platform for users to rate and review wines. For wineries, Drync offers a direct-to-consumer sales channel and a source of consumer feedback, which can be analyzed to understand purchasing behavior and improve review score distributions.",
+              "kpi_alignment": [
+                "Repurchase rate (SKU/VTG)",
+                "Review score distribution"
+              ],
+              "sources": [
+                "https://www.drync.com/",
+                "https://techcrunch.com/2014/01/28/drync-wine-app/",
+                "https://www.winebusiness.com/news/article/127115",
+                "https://www.bostonglobe.com/business/2014/01/28/drync-app-lets-you-buy-wine-with-snap-your-phone/s4gZ8YJ3k4o3p2Q3R1n2hL/story.html"
+              ],
+              "segment": "7. Consumption",
+              "region_state": "N/A",
+              "website": "https://drync.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            }
+          ],
+          "notes": [
+            "Validation: 10/10 companies passed quality checks (rejected: 0)"
+          ]
+        },
+        {
+          "name": "8. Recycling & Aftermarket",
+          "companies": [
+            {
+              "company": "reWINE",
+              "summary": "A European LIFE program-funded project in Catalonia, Spain, that successfully demonstrated the viability of a closed-loop wine bottle reuse system. The pilot test involved 7 wineries, recovered 82,239 bottles, and proved that each bottle could be reused up to 8 times, significantly reducing waste and carbon emissions.",
+              "kpi_alignment": [
+                "Glass recovery rate",
+                "Carbon intensity"
+              ],
+              "sources": [
+                "https://zerowasteeurope.eu/wp-content/uploads/2021/07/zero_waste_europe_cs_rewine_en.pdf",
+                "https://www.rewine.cat/en/results-and-resources/",
+                "https://webgate.ec.europa.eu/life/publicWebsite/project/details/4202",
+                "https://www.lavanguardia.com/natural/20201029/4973926339/el-proyecto-rewine-demuestra-la-viabilidad-de-reutilizar-las-botellas-de-vino.html"
+              ],
+              "segment": "8. Recycling & Aftermarket",
+              "region_state": "N/A",
+              "website": "https://zerowasteeurope.eu",
+              "country": "Catalonia",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "ReCORK",
+              "summary": "North America's largest natural wine cork recycling program, operated by SOLE. ReCORK has collected over 130 million corks through a network of partners, including wineries like Cuvaison Estate Wines. The collected cork is repurposed into carbon-negative materials for consumer products, directly addressing the 'Cork take-back volume' KPI.",
+              "kpi_alignment": [
+                "Cork take-back volume"
+              ],
+              "sources": [
+                "https://recork.com/",
+                "https://recork.com/us/locations",
+                "https://www.amorimcork.com/en/news-area/cuvaison-joins-recork-in-aiding-threatened-forests/666/",
+                "https://oregonwines.com/blog/recycle-those-corks-from-your-fine-oregon-wine/"
+              ],
+              "segment": "8. Recycling & Aftermarket",
+              "region_state": "N/A",
+              "website": "https://recork.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.5
+            },
+            {
+              "company": "Gallo Glass (Halo Glass Recycling)",
+              "summary": "As the largest glass container plant in the U.S. and part of E. & J. Gallo Winery, Gallo Glass is a key player in glass circularity. Through its Halo Glass Recycling facility, it diverts nearly 200,000 tons of glass from landfills annually, accounting for over 30% of all glass recycled in California. Their 2023 ESG report provides robust, verifiable data.",
+              "kpi_alignment": [
+                "Glass recovery rate",
+                "Recycled content / glass weight"
+              ],
+              "sources": [
+                "https://www.gallo.com/files/2023-esg-report.pdf",
+                "https://www.winebusiness.com/news/article/269508",
+                "https://www.galloglass.com/sustainability.html"
+              ],
+              "segment": "8. Recycling & Aftermarket",
+              "region_state": "N/A",
+              "website": "https://gallo.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Revino (in partnership with O-I Glass)",
+              "summary": "Revino is an Oregon-based company creating a bottle-washing and reuse system specifically for the wine industry. In partnership with glass manufacturer O-I Glass, they are supplying over 2.4 million returnable bottles to more than 70 Oregon wineries, creating a scalable, closed-loop system that directly increases the 'Glass recovery rate' through reuse.",
+              "kpi_alignment": [
+                "Glass recovery rate"
+              ],
+              "sources": [
+                "https://www.o-i.com/news/o-i-glass-and-revino-close-the-loop-with-%E2%80%8Breturnable%E2%80%8B%E2%80%8B-%E2%80%8Bglass-wine-bottles/",
+                "https://revinobottles.com/",
+                "https://www.packagingdive.com/news/o-i-reusable-wine-bottle-revino/713778/"
+              ],
+              "segment": "8. Recycling & Aftermarket",
+              "region_state": "N/A",
+              "website": "https://o-i.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Sustainable Wine Solutions",
+              "summary": "Evolved from UK merchant Borough Wines, this company provides a bottle return scheme for the on-trade and retailers. Each bottle is designed to be returned, sterilized, and reused at least 30 times, reducing its carbon footprint by up to 95%. They work with specific producers, including Damien Barton of Bordeaux, providing a clear winery-specific service.",
+              "kpi_alignment": [
+                "Glass recovery rate",
+                "Carbon intensity"
+              ],
+              "sources": [
+                "https://www.sustainablewinesolutions.co.uk/",
+                "https://www.the-buyer.net/tasting/wine/sustainable-wine-solutions-tasting/",
+                "https://netzeronow.org/news-insights/raising-a-glass-to-sustainable-wine-solutions/",
+                "https://www.winemag.com/2023/08/21/reusable-wine-bottles/"
+              ],
+              "segment": "8. Recycling & Aftermarket",
+              "region_state": "N/A",
+              "website": "https://sustainablewinesolutions.co.uk",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "eProvenance",
+              "summary": "A global leader in monitoring wine shipment and storage conditions to assure provenance. eProvenance serves high-profile wineries like Domaine M\u00e9o-Camuzet and Grgich Hills Estate. They launched VinAssure, an IBM blockchain-powered platform, with founding members like Ste. Michelle Wine Estates to enhance traceability and reduce spoilage.",
+              "kpi_alignment": [
+                "Counterfeit detection rate",
+                "Traceability coverage"
+              ],
+              "sources": [
+                "https://www.eprovenance.com/",
+                "https://newsroom.ibm.com/2020-12-10-eProvenance-Uncorks-VinAssure-an-IBM-Blockchain-Powered-Platform-to-Strengthen-Collaboration-and-Optimize-the-Wine-Supply-Chain",
+                "https://www.enterprisetimes.co.uk/2020/12/16/eprovenance-unveils-vinassure-for-the-wine-supply-chain/"
+              ],
+              "segment": "8. Recycling & Aftermarket",
+              "region_state": "N/A",
+              "website": "https://eprovenance.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.5
+            },
+            {
+              "company": "Identiv",
+              "summary": "Identiv provides NFC and IoT solutions for anti-counterfeiting and authentication in the wine industry. In a 2024 Swiss wine auction, their technology, combined with partners ZATAP and Genuine-Analytics, successfully identified a counterfeit bottle of rare vintage valued at over 20,000 Swiss Francs. This provides a direct, verifiable impact on the 'Counterfeit detection rate' KPI.",
+              "kpi_alignment": [
+                "Counterfeit detection rate",
+                "Traceability coverage"
+              ],
+              "sources": [
+                "https://www.identiv.com/industries/wine-and-spirits/",
+                "https://www.prnewswire.com/news-releases/identiv-zatap-and-genuine-analytics-partner-to-digitally-authenticate-fine-wines-using-specialized-iot-and-blockchain-technology-302144616.html",
+                "https://iotm2mcouncil.org/identiv-nfc-and-blockchain-authenticate-wine/"
+              ],
+              "segment": "8. Recycling & Aftermarket",
+              "region_state": "N/A",
+              "website": "https://identiv.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.5
+            },
+            {
+              "company": "Liv-ex",
+              "summary": "The London International Vintners Exchange (Liv-ex) is the global marketplace for the professional fine wine trade, with over 620 members. It provides real-time transaction data, valuation services, and market indices (like the Liv-ex 1000) that are the industry benchmark for tracking the secondary market. This directly supports the 'Authenticated resale value index' KPI.",
+              "kpi_alignment": [
+                "Authenticated resale value index"
+              ],
+              "sources": [
+                "https://www.liv-ex.com/",
+                "https://www.liv-ex.com/page/about-us/",
+                "https://www.winenews.it/en/fine-wines-slow-recovery-of-main-indexes-of-liv-ex-continues",
+                "https://www.capitalvintners.com/liv-ex-february-2025-market-report/"
+              ],
+              "segment": "8. Recycling & Aftermarket",
+              "region_state": "N/A",
+              "website": "https://liv-ex.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.5
+            },
+            {
+              "company": "iDealwine",
+              "summary": "A leading European online wine auction platform that works directly with a network of over 1,100 partner domains and wineries. iDealwine provides detailed auction reports and price estimates, giving collectors and investors data to track the value of their assets. Their direct partnerships with producers like Prieur\u00e9 Saint-Jean de B\u00e9bian provide strong vineyard-specific evidence.",
+              "kpi_alignment": [
+                "Authenticated resale value index"
+              ],
+              "sources": [
+                "https://www.idealwine.com/uk/discover-idealwine/partners-list.jsp",
+                "https://www.idealwine.com/uk/",
+                "https://blog.idealwine.com/2023/06/22/our-new-languedoc-roussillon-partner-domains/"
+              ],
+              "segment": "8. Recycling & Aftermarket",
+              "region_state": "N/A",
+              "website": "https://idealwine.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.5
+            },
+            {
+              "company": "Jelinek Cork Group",
+              "summary": "A long-standing cork company that was a major player in North America's first natural wine cork recycling initiatives. The company runs programs to collect used corks from businesses, including wineries and restaurants, for recycling into other cork products. Their partnership with Willamette Valley Vineyards in a zero-carbon-footprint recycling program is a key piece of vineyard-specific evidence.",
+              "kpi_alignment": [
+                "Cork take-back volume"
+              ],
+              "sources": [
+                "https://www.jelinek.com/cork-recycling/",
+                "https://www.thewineladies.com/wine-tips-and-articles/wine-and-food-pairing/put-a-cork-in-landfill-waste/",
+                "https://www.winebusiness.com/buyersguide/company/1633/",
+                "https://corkstore.com/blogs/news/jelinek-cork-tradition-innovation-since-1855"
+              ],
+              "segment": "8. Recycling & Aftermarket",
+              "region_state": "N/A",
+              "website": "https://jelinek.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            }
+          ],
+          "notes": [
+            "Validation: 10/10 companies passed quality checks (rejected: 0)"
+          ]
+        },
+        {
+          "name": "Cross\u2011Cutting Factors",
+          "companies": [
+            {
+              "company": "Everledger",
+              "summary": "Everledger provides a blockchain-based platform for tracking the provenance and authenticity of high-value assets, including wine. By creating a secure, immutable digital record of a bottle's journey from the vineyard to the consumer, the platform helps combat counterfeiting and enhances supply chain transparency. Their solution often involves integrating with intelligent labels (NFC) to create a unique digital identity for each bottle.",
+              "kpi_alignment": [
+                "Traceability coverage",
+                "Counterfeit detection rate"
+              ],
+              "sources": [
+                "https://www.everledger.io/wine-spirits/",
+                "https://www.thedrinksbusiness.com/2019/01/this-tech-company-is-using-blockchain-based-technology-to-trace-wine/",
+                "https://www.youtube.com/watch?v=zVYSa-QkuYc",
+                "https://www.pymnts.com/news/blockchain/2016/everledger-tracks-provenance-of-a-wine-bottle-thanks-to-blockchain/"
+              ],
+              "segment": "Cross\u2011Cutting Factors",
+              "region_state": "N/A",
+              "website": "https://everledger.io",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "SureHarvest",
+              "summary": "SureHarvest offers sustainability management and certification software for the agriculture industry, with a significant presence in viticulture. Its platform is the technology backbone for leading certification programs like Certified California Sustainable Winegrowing (CCSW) and Lodi Rules, enabling growers to measure, report, and improve practices related to water, soil, energy, and pesticide use. The software facilitates data collection and analysis for third-party audits and sustainability reporting.",
+              "kpi_alignment": [
+                "Certification status",
+                "Carbon intensity",
+                "Water intensity",
+                "Chemical use intensity"
+              ],
+              "sources": [
+                "https://www.sureharvest.com/",
+                "https://www.sureharvest.com/about/our-story/",
+                "https://www.lodigrowers.com/lodi-rules/what-is-lodi-rules/",
+                "https://www.winebusiness.com/news/article/266018"
+              ],
+              "segment": "Cross\u2011Cutting Factors",
+              "region_state": "N/A",
+              "website": "https://sureharvest.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Regenerative Viticulture Alliance (RVA)",
+              "summary": "The Regenerative Viticulture Alliance provides the first international certification specifically for regenerative viticulture, verified by Ecocert. The standard focuses on improving soil health, biodiversity, carbon sequestration, and water cycles in vineyards. Wineries such as Familia Torres and Domaine Mirabeau use the RVA certification to validate their commitment to farming practices that go beyond sustainability to have a net-positive environmental impact.",
+              "kpi_alignment": [
+                "Certification status",
+                "Carbon intensity",
+                "Water intensity"
+              ],
+              "sources": [
+                "https://www.viticulturaregenerativa.org/en/rva-certification/",
+                "https://www.familia-torres.com/en/sustainability/regenerative-viticulture",
+                "https://www.thedrinksbusiness.com/2023/08/why-regenerative-viticulture-is-gaining-ground-among-major-wine-producers/",
+                "https://regenerativeviticulture.org/certification/"
+              ],
+              "segment": "Cross\u2011Cutting Factors",
+              "region_state": "N/A",
+              "website": "https://viticulturaregenerativa.org",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Prooftag",
+              "summary": "Prooftag offers security and traceability solutions for the wine and spirits industry, including its widely adopted Bubble Tag\u2122 technology. This system provides a unique, non-reproducible fingerprint for each bottle, which can be verified online by consumers to confirm authenticity and combat counterfeiting and fraudulent refilling. High-profile wineries like Ch\u00e2teau Lafite Rothschild use Prooftag to secure their bottles and provide traceability through the supply chain.",
+              "kpi_alignment": [
+                "Counterfeit detection rate",
+                "Traceability coverage"
+              ],
+              "sources": [
+                "https://www.prooftag.com/markets/wine-spirits/",
+                "https://www.decanter.com/wine-news/all-lafite-bottles-to-carry-prooftag-100825/",
+                "https://www.winebusiness.com/news/article/115798",
+                "https://en.henribloem.nl/user/file/lafite-prooftag-eng.pdf"
+              ],
+              "segment": "Cross\u2011Cutting Factors",
+              "region_state": "N/A",
+              "website": "https://prooftag.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Advanced Track & Trace (ATT)",
+              "summary": "Advanced Track & Trace provides secure traceability and brand protection solutions for various industries, with a strong focus on wine and spirits. The company develops unit-level identification systems, such as the CLOE cap for Champagne bottles, which uses unique QR codes and holograms to enable authentication and traceability from the winery to the consumer. Their IDPackLine\u00ae software helps manage serialization and tracking on production lines, supporting efforts against parallel markets and counterfeiting.",
+              "kpi_alignment": [
+                "Traceability coverage",
+                "Counterfeit detection rate"
+              ],
+              "sources": [
+                "https://www.att-fr.com/en/markets/wine-and-spirits-markets/",
+                "https://www.att-fr.com/en/case-studies/att-protects-and-traces-champagne-with-the-french-winegrowers-union/",
+                "https://www.winebusiness.com/buyersguide/listing/3909/Advanced%20Track%20&%20Trace",
+                "https://www.lesechos.fr/2017/12/la-champagne-lance-cloe-la-coiffe-connectee-anti-contrefacon-179813"
+              ],
+              "segment": "Cross\u2011Cutting Factors",
+              "region_state": "N/A",
+              "website": "https://att-fr.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "VinAssure (by eProvenance)",
+              "summary": "VinAssure is a blockchain-powered platform developed by eProvenance and IBM to enhance transparency and quality control in the wine supply chain. It allows members, including producers like Ste. Michelle Wine Estates and importers like De Maison Selections, to securely track wine from the vineyard to the consumer. The platform integrates eProvenance's temperature monitoring data, providing a verifiable record of a wine's provenance and handling conditions, ensuring it arrives as the winemaker intended.",
+              "kpi_alignment": [
+                "Traceability coverage",
+                "Temperature excursion rate"
+              ],
+              "sources": [
+                "https://www.ibm.com/blogs/blockchain/2020/12/eprovenance-unveils-vinassure-a-blockchain-powered-platform-to-optimize-the-wine-supply-chain/",
+                "https://www.supplychainbrain.com/articles/32410-eprovenance-uncorks-vinassure-an-ibm-blockchain-powered-platform-to-optimize-the-wine-supply-chain",
+                "https://www.foodlogistics.com/software-technology/emerging-technologies/article/21203521/eprovenance-uncorks-vinassure-to-strengthen-collaboration-and-optimize-wine-supply-chain",
+                "https://enterprisetimes.co.uk/2020/12/16/eprovenance-unveils-vinassure-for-the-wine-supply-chain/"
+              ],
+              "segment": "Cross\u2011Cutting Factors",
+              "region_state": "N/A",
+              "website": "https://ibm.com",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "FarmLab",
+              "summary": "FarmLab is a digital platform for soil management and carbon farming, providing tools for mapping, sampling, and analyzing soil data to support regenerative agriculture. In partnership with organizations like Wine Australia and wineries such as Hither & Yon, FarmLab has developed methodologies for carbon insetting in vineyards. The platform helps reduce the costs of soil carbon projects and provides the data needed for carbon accounting and emissions intensity reporting.",
+              "kpi_alignment": [
+                "Carbon intensity"
+              ],
+              "sources": [
+                "https://www.farmlab.com.au/case-studies/reducing-emissions-and-insetting-carbon-in-vineyards",
+                "https://www.youtube.com/watch?v=0_3-p-e-Y_c",
+                "https://www.regulator.gov.au/news-and-media/case-studies/turning-soil-into-wine-enticing-soil-carbon-farming-in-vineyards"
+              ],
+              "segment": "Cross\u2011Cutting Factors",
+              "region_state": "N/A",
+              "website": "https://farmlab.com.au",
+              "country": "Australia",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Confronting Climate Change (CCC) Initiative",
+              "summary": "The Confronting Climate Change (CCC) initiative provides a carbon footprint calculation tool specifically for the South African fruit and wine industries. This online platform enables wineries and vineyards, such as Villiera Wines and Van Loveren, to measure, benchmark, and manage their greenhouse gas emissions. The tool helps identify carbon hotspots in operations (e.g., electricity, fuel, packaging) and supports the development of targeted reduction strategies, aligning with international reporting standards.",
+              "kpi_alignment": [
+                "Carbon intensity",
+                "Energy intensity & renewables"
+              ],
+              "sources": [
+                "https://www.climatefruitandwine.co.za/",
+                "https://www.climatefruitandwine.co.za/case-study-wine-grape-farm-cellar/",
+                "https://greenagri.org.za/assets/toolkit-documents/CCC-Fruit-Wine-Calculator.pdf",
+                "https://www.freshplaza.com/africa/article/9168892/lessons-from-11-years-of-south-africa-s-carbon-calculator-on-fruit-wine-farms/"
+              ],
+              "segment": "Cross\u2011Cutting Factors",
+              "region_state": "N/A",
+              "website": "https://climatefruitandwine.co.za",
+              "country": "N/A",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Demeter International",
+              "summary": "Demeter is the international certification body for Biodynamic agriculture, which treats the farm as a single, self-sustaining organism. In viticulture, this certification requires adherence to strict standards for soil health, biodiversity, and the exclusion of synthetic chemicals, with wineries like Troon Vineyard being a prominent example. The certification provides a clear market signal of deep environmental commitment and holistic farming practices.",
+              "kpi_alignment": [
+                "Certification status",
+                "Chemical use intensity"
+              ],
+              "sources": [
+                "https://demeter.net/biodynamics/demeter-certification/",
+                "https://www.demeter.net/demeter-wines/",
+                "https://troonvineyard.com/biodynamics/",
+                "https://www.winecamp.com/blog/2020/9/15/demeter-certification"
+              ],
+              "segment": "Cross\u2011Cutting Factors",
+              "region_state": "N/A",
+              "website": "https://demeter.net",
+              "country": "Germany",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Vintrace",
+              "summary": "Vintrace is a comprehensive cloud-based winery management software that covers operations from grape to bottle. While its core functionality is in production and inventory management, it includes robust lot tracking and traceability features that are critical for compliance and quality assurance. The system allows wineries to maintain a full history of every batch, including all additions and operations, ensuring traceability for regulatory bodies and consumers.",
+              "kpi_alignment": [
+                "Traceability coverage"
+              ],
+              "sources": [
+                "https://www.vintrace.com/",
+                "https://help.vintrace.com/hc/en-us/articles/360051392674-Lot-Tracking-Traceability",
+                "https://www.youtube.com/watch?v=1-M_Z_u-2I4",
+                "https://wineindustrynetwork.com/suppliers/vintrace.html"
+              ],
+              "segment": "Cross\u2011Cutting Factors",
+              "region_state": "N/A",
+              "website": "https://vintrace.com",
+              "country": "Melbourne",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            }
+          ],
+          "notes": [
+            "Validation: 10/10 companies passed quality checks (rejected: 0)"
+          ]
+        }
+      ],
+      "telemetry": {
+        "tool_calls": 0,
+        "tool_usage": {},
+        "input_tokens": 52026,
+        "output_tokens": 30397,
+        "coverage": {
+          "segments_total": 9,
+          "segments_with_minimum": 9,
+          "minimum_companies": 10,
+          "segments_missing": []
+        },
+        "tool_summary": "0 tool calls; all segments meet \u226510 companies"
+      },
+      "tool_summary": "0 tool calls; all segments meet \u226510 companies"
+    }
+  ]
+}

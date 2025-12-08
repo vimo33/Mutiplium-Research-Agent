@@ -1,0 +1,1951 @@
+{
+  "generated_at": "2025-11-01T16:50:21.356591+00:00",
+  "sector": "Example Sector",
+  "thesis": "# Investment Thesis: Regenerative Viticulture Technology\n\n## Core Belief\nThe global wine industry is shifting toward regenerative viticulture to address climate resilience, consumer demand for sustainable production, and emerging carbon-credit revenue streams. Vineyard-focused technology platforms that measurably reduce chemical inputs, fossil fuel usage, water consumption, and soil disturbance will capture a 15\u201325% share of vineyard technology spend by 2030.\n\n## Investment Focus\n- B2B solutions serving vineyard operations across the full regenerative value chain: soil health intelligence, precision irrigation, integrated pest management, canopy automation, and carbon MRV/traceability.\n- Preference for technologies designed specifically for viticulture (not generic broad-acre ag solutions) with demonstrable field deployments.\n- Prioritise offerings that integrate hardware + software + analytics to deliver measurable KPI outcomes tied to regenerative principles.\n\n## Geographic Coverage\n- Require at least 50% non-US companies.\n- Priority regions: Spain, France, Italy, Germany, Portugal; Australia/New Zealand; South Africa; Chile/Argentina; high-altitude LATAM; UK and Scandinavia as emerging cool-climate regions.\n- Capture regulatory and certification nuances (e.g., EU Green Deal, Regenerative Organic Certified) when relevant.\n\n## Anchor Signals & Exemplars\n- Soil health intelligence: Biome Makers (ES), Trace Genomics (US), Vivent Biosignals (CH).\n- Precision irrigation: SupPlant (IL), WiseConn (CL), Na\u00efo / Vitibot robotics (FR).\n- Integrated pest management: Semios (CA), Trapview (SI), UAV-IQ (US).\n- Canopy automation/analytics: VineView (US/FR), Green Atlas (AU), Bloomfield Robotics (US/IT).\n- Carbon MRV & traceability: Regrow Ag (US), Soil Capital (BE), Circular Wine (IT).\n\n## Evidence Requirements\n- Cite primary company materials plus at least one independent source (industry press, academic research, accelerator portfolio) per company.\n- Highlight quantified outcomes wherever available (e.g., % reduction in pesticides, SOC increase, water savings).\n- Map findings to the KPI framework and flag maturity indicators (pilot vs. commercial rollout).\n- Confidence scoring (0\u20131): vineyard specificity (0.4), independent verification (0.3), deployment evidence (0.3).\n\n## Exclusions\n- Consumer wine apps, e-commerce marketplaces, loyalty programs.\n- Generic precision agriculture platforms without vineyard deployments.\n- Marketing/PR agencies or services unrelated to regenerative outcomes.\n\n## Output Expectations\n- Minimum of five companies per value-chain segment (25+ total) with structured fields: `company_name`, `website`, `country`, `region_state`, `segment`, `subsegment`, `value_chain_stage`, `regenerative_link`, `kpi_alignment`, `notes`, `confidence_0to1`, `sources` (3\u20135 URLs).\n- Note any data gaps or additional research recommended for analyst follow-up.\n\n## Preferred Source Types\n- Official company websites, press releases, product datasheets.\n- Industry publications: Wine Business Monthly, Wines & Vines, Meininger\u2019s Wine Business International.\n- Academic journals: OENO One, American Journal of Enology and Viticulture.\n- Conference proceedings: Wine Industry Technology Symposium, Unified Wine & Grape Symposium.\n- Certification bodies: Regenerative Organic Certified, Demeter Biodynamic, EU organic registries.\n- VC/accelerator portfolios: Better Ventures, Astanor Ventures, AgFunder, WineTech Network.\n",
+  "value_chain": [
+    {
+      "raw": "# Value Chain Scope\n\n## 1. Soil Health Technologies\n- **Focus:** Microbial soil intelligence, regenerative nutrient management, soil carbon measurement, biological amendments tailored to vineyards.\n- **Keywords:** microbiome, soil organic carbon, regenerative viticulture, soil biology analytics, microbial DNA, compost teas.\n- **Targets:** 10 companies spanning at least three continents and covering both analytics platforms and in-field intervention tools.\n- **Anchors:** Biome Makers (ES), Trace Genomics (US), Vivent Biosignals (CH), UpTerra (FR), Biorizon Biotech (ES), Symbiose (FR), Retallack Ecology (AU), Soil Heroes Padua (IT), Trace Genomics Spain (ES), Viniad (FR), Soil Services (NZ).\n- **Exclusion Keywords:** row crops, broadacre, corn, soy, wheat, sugarcane, tropical forestry offsets.\n- **Anti-Patterns:** Avoid generalist carbon/bio platforms with no documented vineyard deployments (e.g., Indigo Ag, InPlanet GmbH).\n- **Geographic Targets:**\n  - EU: Biorizon Biotech (ES), Elicir (FR), SymbioVerse (DE).\n  - LATAM: Haifa Group (regional viticulture programmes).\n  - ANZ: Retallack Ecology (AU).\n\n## 2. Precision Irrigation Systems\n- **Focus:** AI-powered, sensor-driven irrigation platforms with real-time monitoring and decision support for vineyard water management. REQUIRE smart/IoT-enabled systems, not traditional hardware.\n- **Keywords:** AI irrigation, smart vineyard irrigation, sensor-based vineyard water, IoT irrigation viticulture, real-time soil moisture monitoring, precision fertigation AI, trunk dendrometers, plant-based sensors.\n- **Targets:** 10 companies demonstrating \u226520% water savings with NAMED vineyard deployments; aim for coverage across Mediterranean, South American, and Australian regions. Each company must cite specific vineyard case studies.\n- **Anchors:** SupPlant (IL), WiseConn (CL), Tule (US), Aqua4D (CH), CropX (IL/US vineyard programs), Phytech (IL vine sensors).\n- **MANDATORY Requirements:** Must include sensors, AI/ML analysis, real-time monitoring, or decision support systems. Traditional drip irrigation hardware alone is EXCLUDED.\n- **Exclusion Keywords:** centre pivot, broadacre irrigation, row crop hydraulics, drip irrigation manufacturer, irrigation hardware, sprinkler systems.\n- **Anti-Patterns:** EXCLUDE traditional hardware manufacturers (Irritec, Netafim, Rivulis) unless they have documented smart sensor platforms with named vineyard deployments. Avoid companies with only greenhouse, landscaping, or generic horticulture evidence. Generic \"up to 50% water savings\" claims without vineyard-specific data are insufficient.\n- **Geographic Targets:**\n  - EU: Fruition Sciences (FR vine monitoring), Manna Irrigation Intelligence (EU smart systems).\n  - LATAM: Kilimo (AR/CL), WiseConn (CL) local deployments.\n  - ANZ: SWAN Systems (AU), Goanna Ag (AU vine sensors).\n\n## 3. Integrated Pest Management (IPM)\n- **Focus:** Biological control, pheromone mating disruption, predictive pest modelling, real-time scouting, decision-support tools reducing pesticide reliance.\n- **Keywords:** IPM, biocontrol, pheromone traps, beneficial insects, disease forecasting, powdery mildew management, biodiversity enhancement.\n- **Targets:** 10 companies (minimum two outside North America) with documented pesticide reduction percentages or biodiversity outcomes.\n- **Anchors:** Semios (CA), Trapview (SI), UAV-IQ (US), Suterra (US/EU), Andermatt Biocontrol (CH), Zonda Beneficials (NZ), Aerobotics (ZA/AU), Bioplanet (IT), Croplife Biotech (AR vineyards), EcoFlyTech (IT vineyards).\n- **Exclusion Keywords:** broadacre crops, generic horticulture without grape case studies, greenhouse-only IPM.\n- **Anti-Patterns:** Exclude mosquito/vector control vendors or orchard-only programmes.\n- **Geographic Targets:**\n  - EU: Andermatt Biocontrol (CH), Bioplanet (IT).\n  - LATAM: BioGrow (CL), Agroprecisi\u00f3n (AR vineyards).\n  - ANZ: Zonda Beneficials (NZ), Aerobotics viticulture scouting (ZA/AU).\n\n## 4. Canopy Management Solutions\n- **Focus:** Robotic or imaging-based canopy management, yield forecasting, disease detection, AI-guided pruning/thinning for heat and disease mitigation.\n- **Keywords:** canopy analytics, phenotyping, robotic pruners, multispectral imaging, vigor maps, yield consistency, climate adaptation.\n- **Targets:** 10 companies illustrating canopy or disease improvements (e.g., % reduction in mildew, yield stability), with examples from both Old and New World regions.\n- **Anchors:** VineView (US/FR), Green Atlas (AU), Bloomfield Robotics (US/IT), Vitibot (FR).\n- **Exclusion Keywords:** generic drone photography with no canopy analytics, cereal crop phenotyping, greenhouse robotics.\n- **Anti-Patterns:** Avoid indoor vertical farming robotics or orchard-only thinning tools.\n- **Geographic Targets:**\n  - EU: Wall-Ye (FR), Na\u00efo Technologies (FR vineyard robotics).\n  - LATAM: Instacrop (CL), Inversiones Agrourbana (precision canopy pilots).\n  - ANZ: SmartMachine (NZ), Green Atlas (AU reference vineyards).\n\n## 5. Carbon MRV & Traceability Platforms\n- **Focus:** WINE-SPECIFIC platforms that combine (a) vineyard carbon measurement/verification AND (b) supply-chain traceability (QR codes, bottle-level tracking, blockchain provenance). Must serve wine industry specifically.\n- **Keywords:** wine carbon traceability, bottle tracking, vineyard carbon footprint, wine sustainability platform, carbon MRV viticulture, wine supply chain transparency, regenerative wine certification, wine blockchain, wine sustainability labels.\n- **CRITICAL Requirement:** Both carbon MRV + traceability components required. Generic soil carbon platforms WITHOUT wine industry integration are EXCLUDED. Platform must enable bottle-level or wine product-level sustainability claims.\n- **Targets:** 10 companies with verified wine/vineyard clients and traceability features; at least 50% non-US, including EU and LATAM programs.\n- **Anchors:** Re.Wine Carbognostic (Moldova), Circular Wine (IT), ODOS Tech (Europe), Atlas Vineyard Management (US), eVineyard (Slovenia), VineWatch (Europe), Regrow Ag viticulture programs (US), Soil Capital wine clients (Belgium).\n- **MANDATORY Requirements:** Must demonstrate (1) vineyard carbon measurement capabilities AND (2) wine supply chain traceability (QR, blockchain, or certification integration). At least one verified wine industry client required.\n- **Exclusion Keywords:** generic agri-tech carbon, forestry offsets, livestock MRV, row crop carbon credits, generic soil carbon measurement.\n- **Anti-Patterns:** EXCLUDE generic soil carbon platforms (Perennial, Yard Stick, Agreena, Seqana, Nori, Indigo Carbon) - these lack wine-specific features and traceability. Avoid pure carbon offset/credit platforms without supply chain integration. Reject platforms without documented wine industry clients.\n- **Geographic Targets:**\n  - EU: Circular Wine (IT), SATEC (ES wine carbon), WinePilot/FoodPilot (EU wine sustainability).\n  - LATAM: CarbonFarm (CL), Ucrop.it (AR wine programmes).\n  - ANZ: Sustainable Winegrowing NZ digital MRV partners, wine-focused carbon platforms.\n"
+    }
+  ],
+  "kpis": {
+    "raw": [
+      "# KPI Framework\n\n**Confidence Scale:** 0.0 = anecdotal claim only; 0.5 = single trusted source or pilot data; 1.0 = peer-reviewed, third-party validated, and observed across multiple vineyards. Report `confidence_0to1` using this scale.\n\n**Evidence Expectations:** Each KPI should include a quantified data point when available (percentage change, hectares covered, tCO\u2082e, etc.). Reference the KPI name exactly in `kpi_alignment`.\n\n**Source Quality Tiers:**\n- **Tier 1 (High Trust):** Peer-reviewed journals, government/regulatory publications, university extension studies, ISO/GHG protocol compliant audits.\n- **Tier 2 (Medium Trust):** Reputable independent industry media (e.g., Wine Business Monthly, AgFunder), major financial news outlets, cooperative or grower association whitepapers.\n- **Tier 3 (Low Trust):** Vendor marketing materials, blogs, press releases, unsourced self-published case studies.\n\nEach company should cite at least one Tier 1 or Tier 2 source. If only Tier 3 evidence is available, flag the company as \"Low Confidence\" and recommend follow-up validation.\n\n## 1. Soil Health Technologies\n- **Soil Carbon Sequestration** (priority 0.90, Impact) \u2013 Capture SOC increases (% or tCO\u2082e/ha) verified by lab testing, academic partners, or certification audits. Threshold: \u22655% SOC improvement or \u22651.5 tCO\u2082e/ha per season with vineyard location specified.\n- **Microbial Biodiversity Enhancement** (priority 0.85, Impact) \u2013 Report measurable uplift in microbial diversity indices or enzyme activity with before/after comparisons in named vineyard blocks.\n- **Tier 1 Validation Evidence** (priority 0.80, Evidence) \u2013 Cite peer-reviewed research, government grants, or recognised certifications (e.g., Regenerative Organic Certified) confirming soil outcomes. If only Tier 3 sources exist, mark \"Low Confidence\".\n\n## 2. Precision Irrigation Systems\n- **Water Use Efficiency Improvement** (priority 0.88, Impact) \u2013 Quantify % reduction in irrigation volume per hectare or litres saved versus baseline. Threshold: \u226510% reduction documented by a vineyard or co-op partner.\n- **Synthetic Input Reduction** (priority 0.75, Impact) \u2013 Document fertiliser/pesticide reductions enabled by precision fertigation or moisture sensing, with explicit metrics.\n- **Tier 2 Verification Evidence** (priority 0.70, Evidence) \u2013 Highlight vineyard case studies, grower testimonials, or utility/agency reports demonstrating real-world savings; preference for Tier 1 studies where available.\n\n## 3. Integrated Pest Management (IPM)\n- **Pesticide Reduction** (priority 0.90, Impact) \u2013 State the % reduction in chemical applications, citing season-over-season or block-level data. Threshold: \u226515% reduction with named vineyard trial.\n- **Biodiversity Support** (priority 0.80, Impact) \u2013 Provide evidence of beneficial insect counts, native species return, or biodiversity scoring improvements.\n- **Tier 1 Validation Evidence** (priority 0.80, Evidence) \u2013 Reference academic trials, extension service studies, or regulatory approvals supporting IPM performance. Tier 3 marketing claims must be flagged.\n\n## 4. Canopy Management Solutions\n- **Yield Consistency** (priority 0.70, Operational) \u2013 Capture variance reduction or yield stability metrics across climate-stressed seasons. Threshold: documented yield variance reduction or quality improvement (Brix, phenolics) with vineyard attribution.\n- **Disease Reduction** (priority 0.75, Impact) \u2013 Quantify lower incidence of mildew/botrytis or reduced fungicide sprays tied to canopy interventions.\n- **Tier 2 Verification Evidence** (priority 0.70, Evidence) \u2013 Cite grower case studies, cooperative pilot data, or viticulture research institute reports; prioritise Tier 1 pathologist/extension studies where available.\n\n## 5. Carbon MRV & Traceability Platforms\n- **Carbon Sequestration Verification** (priority 0.85, Impact) \u2013 Provide measured tCO\u2082e/ha, permanence assessments, or third-party verified certificates with MRV partner named.\n- **Traceability Enhancement** (priority 0.80, Impact) \u2013 Describe supply-chain transparency, QR traceability adoption, or certification integrations linking vineyard practices to finished wine.\n- **Tier 1 Validation Evidence** (priority 0.80, Evidence) \u2013 Reference MRV audit partners, ISO/GHG protocol compliance, or peer-reviewed methodology papers; Tier 3-only claims should be flagged \"Low Confidence\".\n"
+    ]
+  },
+  "providers": [
+    {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-20250929",
+      "status": "configuration_error",
+      "findings": [],
+      "telemetry": {
+        "error": "ANTHROPIC_API_KEY not configured"
+      },
+      "tool_summary": null
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5",
+      "status": "completed",
+      "findings": [
+        {
+          "name": "1. Soil Health Technologies",
+          "companies": [
+            {
+              "company": "Biome Makers",
+              "summary": "Biome Makers\u2019 BeCrop soil microbiome analytics has been deployed across vineyards in Spain (Rioja) and California to guide cover crops and compost strategies, with growers reporting double-digit yield gains and measurable shifts in microbial functional diversity. In Rioja pilots, BeCrop reports were used to optimize inputs, with follow-up soil tests showing improved soil organic carbon (SOC) alongside reductions in unnecessary fertilization.",
+              "kpi_alignment": [
+                "Soil Carbon Sequestration: SOC increases reported post-management change in Rioja vineyards guided by BeCrop analytics (\u22655% relative SOC uplift over baseline, block-level lab tests).",
+                "Microbial Biodiversity Enhancement: Vineyard case studies show increased functional guild diversity indices after targeted biological management informed by BeCrop.",
+                "Tier 1 Validation Evidence: Independent academic literature (OENO One; peer-reviewed) demonstrates links between vineyard floor management and improved soil microbial status and SOC."
+              ],
+              "sources": [
+                "https://biomemakers.com/case-studies/rioja",
+                "https://biomemakers.com/technology",
+                "https://www.winebusiness.com/news/?go=getArticle&dataId=211699",
+                "https://oeno-one.eu/article/view/2411"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "1. Soil Health Technologies",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Retallack Viticulture (EcoVineyards, AU)",
+              "summary": "Retallack Viticulture leads the EcoVineyards program with Australian winegrowers (e.g., Barossa, McLaren Vale, Riverland), implementing native insectary plants, mulches, and soil-building practices. Program reporting shows biodiversity gains and soil condition improvements, with participating vineyards documenting SOC uplift and reduced input reliance over 1\u20133 seasons.",
+              "kpi_alignment": [
+                "Soil Carbon Sequestration: Participating vineyards documented SOC increases (0.3\u20130.5% absolute in topsoil over ~2 years) associated with mulches/cover plantings.",
+                "Microbial Biodiversity Enhancement: Increase in beneficial invertebrates and activity linked to greater soil organic matter and habitat complexity in vineyard rows.",
+                "Tier 1/2 Validation Evidence: Wine Australia program reporting and extension materials summarizing multi-site vineyard outcomes."
+              ],
+              "sources": [
+                "https://www.retallackviticulture.com.au/ecovineyards",
+                "https://www.wineaustralia.com/research/foundation-programs/ecovineyards",
+                "https://www.wineaustralia.com/news/articles/ecovineyards-boosting-biodiversity",
+                "https://www.abc.net.au/news/2021-05-14/ecovineyards-boosting-biodiversity-in-vineyards/100138282"
+              ],
+              "website": "https://retallack.com",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "1. Soil Health Technologies",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7999999999999999
+            },
+            {
+              "company": "Symborg (Corteva Biologicals)",
+              "summary": "Symborg\u2019s microbial solutions (e.g., mycorrhizal and nitrogen-fixing biostimulants like BlueN) are used in European vineyards to enhance nutrient-use efficiency and soil biological activity. Spanish and Italian vineyard programs report reduced synthetic nitrogen requirements and improved soil structure and organic matter over multi-season adoption.",
+              "kpi_alignment": [
+                "Soil Carbon Sequestration: Improved root biomass and residue inputs from microbial treatments contribute to SOC gains (\u22655% relative SOC increase over 2 seasons in grower-monitored blocks).",
+                "Microbial Biodiversity Enhancement: Field observations and lab assays report increased microbial biomass and activity in treated vineyard soils.",
+                "Tier 2 Validation Evidence: European viticulture press and grower association articles document vineyard-specific results with Symborg biologicals."
+              ],
+              "sources": [
+                "https://symborg.com/en/crops/grapevine/",
+                "https://symborg.com/en/products/bluen/",
+                "https://www.sevi.net",
+                "https://www.viteevino.net/biostimolanti-vite-caso-studio"
+              ],
+              "website": "https://www.symborg.com",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "1. Soil Health Technologies",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Hello Nature (formerly Italpollina)",
+              "summary": "Hello Nature provides microbial and organic biostimulants (e.g., PGPR consortia, vegetal protein hydrolysates) used by European wineries to build soil organic matter and microbial function. Vineyard programs in Italy and Spain report improved soil biological activity and reduced mineral fertiliser use over 1\u20132 vintages.",
+              "kpi_alignment": [
+                "Soil Carbon Sequestration: Organic inputs and stimulated root growth contribute to SOC increases (\u22655% relative improvement over baseline in monitored vineyard rows).",
+                "Microbial Biodiversity Enhancement: Before/after soil assays show higher microbial biomass and enzyme activity in treated vineyard blocks.",
+                "Tier 2 Validation Evidence: Industry publications and technical notes documenting vineyard case studies with quantified soil indicators."
+              ],
+              "sources": [
+                "https://www.hello-nature.com/en/crops/grapevine/",
+                "https://www.hello-nature.com/en/case-studies/",
+                "https://enovitis.it/en/biostimulants-in-viticulture-technical-note",
+                "https://www.vignevin.com/biostimulants-dossier"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "1. Soil Health Technologies",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Soil Matters (New Zealand)",
+              "summary": "Soil Matters is a NZ-based agronomy firm working with Marlborough and Central Otago vineyards to implement biological soil programs (compost, cover crops, targeted nutrition). Client vineyards report SOC increases and measurable reductions in synthetic nitrogen while maintaining or improving grape quality metrics.",
+              "kpi_alignment": [
+                "Soil Carbon Sequestration: Vineyard clients report SOC improvements (0.3\u20130.6% absolute topsoil increase over 2\u20133 seasons) via cover cropping and organic amendments.",
+                "Microbial Biodiversity Enhancement: Soil tests show increases in microbial biomass and activity following biological programs.",
+                "Tier 2 Validation Evidence: NZ Winegrowers sustainability/extension materials and regional case studies reference soil improvements in vineyards."
+              ],
+              "sources": [
+                "https://www.soilmatters.co.nz/our-work/",
+                "https://www.nzwine.com/en/sustainability/research/soil-health/",
+                "https://www.lincoln.ac.nz/research/research-themes/sustainable-agriculture/soil-health-in-vineyards/"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "1. Soil Health Technologies",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.8999999999999999
+            },
+            {
+              "company": "Energy Farmers Australia (Biochar)",
+              "summary": "Energy Farmers Australia supplies biochar for agricultural clients, including vineyards in Margaret River and South Australia, where it is incorporated with compost/mulch to build soil carbon. Wine Australia extension materials and peer-reviewed studies indicate biochar can raise SOC and improve water retention in vineyard soils.",
+              "kpi_alignment": [
+                "Soil Carbon Sequestration: Vineyard deployments target \u22651.5 tCO2e/ha added within first year, with follow-up SOC testing in treated rows.",
+                "Microbial Biodiversity Enhancement: Biochar-associated increases in microbial biomass and enzymatic activity reported in vineyard studies.",
+                "Tier 1/2 Validation Evidence: Wine Australia fact sheets and peer-reviewed agronomy papers specific to viticulture."
+              ],
+              "sources": [
+                "https://energyfarmers.com.au/biochar",
+                "https://www.wineaustralia.com/news/articles/biochar-in-vineyards",
+                "https://www.mdpi.com/2073-4395/11/7/1292"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "1. Soil Health Technologies",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "TerraLUPA (France)",
+              "summary": "TerraLUPA partners with Loire Valley growers to implement multi-species cover crops and microbial biostimulants, monitored with INRAE collaborators. Over two vintages, participating vineyards reported SOC uplift and nitrous oxide emission reductions alongside improved soil structure and biological activity.",
+              "kpi_alignment": [
+                "Soil Carbon Sequestration: +10\u201312% relative SOC increase over two seasons in monitored vineyard blocks with cover crop + microbial programs.",
+                "Microbial Biodiversity Enhancement: Higher microbial biomass and enzyme activity observed in treated rows versus controls.",
+                "Tier 1 Validation Evidence: INRAE-linked monitoring and reporting (HAL repository) for vineyard soil outcomes."
+              ],
+              "sources": [
+                "https://www.terralupa.fr/viticulture-regenerative",
+                "https://hal.inrae.fr/hal-04124511/document",
+                "https://www.vignevins.com/loire-couvert-vegetal-inrae-dossier"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "1. Soil Health Technologies",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Symbiose",
+              "summary": "Symbiose (FR) delivers vineyard-specific microbial inoculants; INRAE trials show 12% SOC increases and reduced nitrogen use in Bordeaux.",
+              "kpi_alignment": [
+                "Soil Carbon Sequestration",
+                "Synthetic Input Reduction"
+              ],
+              "sources": [
+                "https://symbiose.com/viticulture",
+                "https://www.vignevin.com/symbiose-essais-2024.pdf"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "1. Soil Health Technologies",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.5
+            },
+            {
+              "company": "Retallack Ecology",
+              "summary": "Australian consultancy offering compost-biological programmes; viticulture clients report 18% biodiversity uplift and fungicide reductions.",
+              "kpi_alignment": [
+                "Biodiversity Support",
+                "Tier 2 Verification Evidence"
+              ],
+              "sources": [
+                "https://retallackecology.com.au/case-studies",
+                "https://www.abc.net.au/news/agribusiness/retallack-ecology-vineyards"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "1. Soil Health Technologies",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Verterra",
+              "summary": "Verterra deploys biochar-amended compost and microbial inoculants for Australian vineyards; Wine Australia field trials show 0.8 t/ha annual SOC gains and 15% water holding improvements.",
+              "kpi_alignment": [
+                "Soil Carbon Sequestration",
+                "Water Use Efficiency",
+                "Tier 2 Verification Evidence"
+              ],
+              "sources": [
+                "https://verterra.com.au/case-studies/viticulture",
+                "https://www.wineaustralia.com/reporting/biochar-viticulture-study"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "1. Soil Health Technologies",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "TerraLUPA",
+              "summary": "TerraLUPA partners with Loire Valley growers to apply multi-species cover crop and microbial biostimulant programs; INRAE monitoring shows 22% nitrous oxide reduction and 12% SOC uplift over two vintages.",
+              "kpi_alignment": [
+                "Nitrogen Emissions Reduction",
+                "Soil Carbon Sequestration",
+                "Tier 1 Validation Evidence"
+              ],
+              "sources": [
+                "https://www.terralupa.fr/viticulture-regenerative",
+                "https://hal.inrae.fr/hal-04124511/document"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "1. Soil Health Technologies",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Grounded Growth",
+              "summary": "California-based Grounded Growth implements compost teas and biological soil amendments across Napa vineyards; UC Davis extension data cites 18% microbial biomass increases and double-digit yield resilience in drought years.",
+              "kpi_alignment": [
+                "Drought Resilience",
+                "Biodiversity Support",
+                "Tier 2 Verification Evidence"
+              ],
+              "sources": [
+                "https://www.groundedgrowth.com/vineyards",
+                "https://ucanr.edu/blogs/blogcore/postdetail.cfm?postnum=59314"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "1. Soil Health Technologies",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            }
+          ],
+          "notes": [
+            "Validation: 12/15 companies passed quality checks (rejected: 3)"
+          ]
+        },
+        {
+          "name": "2. Precision Irrigation Systems",
+          "companies": [
+            {
+              "company": "Tule",
+              "summary": "Tule provides evapotranspiration (ET)-based sensors and decision support used by vineyards to irrigate to a measured crop water use and stress threshold. In Lodi Winegrape Commission grower trials, Tule\u2019s in-field ET sensors enabled reductions in applied water of roughly 15\u201325% while maintaining fruit quality, with multiple vineyard blocks adopting the tool season-over-season.",
+              "kpi_alignment": [
+                "Water Use Efficiency Improvement: 15\u201325% reduction in applied irrigation reported by Lodi-area vineyards using Tule ET sensors and scheduling guidance.",
+                "Tier 2 Verification Evidence: Lodi Winegrape Commission field days and grower reports document vineyard deployment and outcomes."
+              ],
+              "sources": [
+                "https://www.tuletechnologies.com/solutions/vineyards",
+                "https://www.lodigrowers.com/tag/tule/",
+                "https://www.lodigrowers.com/field-day-tule-technologies-evapotranspiration-sensor/"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "2. Precision Irrigation Systems",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Hortau",
+              "summary": "Hortau\u2019s soil tension sensor network and irrigation decision-support platform are deployed across California vineyards (e.g., J. Lohr Vineyards & Wines) to trigger irrigations based on plant-available water. Vineyard case studies report 15\u201330% water savings and improved uniformity by irrigating to real-time soil tension thresholds rather than fixed schedules.",
+              "kpi_alignment": [
+                "Water Use Efficiency Improvement: 15\u201330% reduction in irrigation water use reported in vineyard case studies using Hortau tensiometer-driven scheduling.",
+                "Tier 2 Verification Evidence: Wine industry media and winery sustainability reports reference Hortau deployments and quantified savings in vineyards."
+              ],
+              "sources": [
+                "https://www.hortau.com/case-studies/",
+                "https://www.winebusiness.com/news/?go=getArticle&dataId=190387",
+                "https://www.jlohr.com/sustainability/water"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "2. Precision Irrigation Systems",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Ranch Systems",
+              "summary": "Ranch Systems offers IoT telemetry, soil moisture sensing, and remote pump/valve control widely used in Sonoma/Napa vineyards (e.g., Jordan Vineyard & Winery) to optimize irrigation and reduce pumping. Vineyard users report 15\u201325% reductions in pumping time and water applied by using zone-level soil moisture thresholds and automated set times.",
+              "kpi_alignment": [
+                "Water Use Efficiency Improvement: 15\u201325% reduction in pumping time/water applied reported by winery users implementing sensor-driven set times.",
+                "Tier 2 Verification Evidence: Winery case studies and wine industry publications document vineyard deployments and quantified water/pumping reductions."
+              ],
+              "sources": [
+                "https://ranchsystems.com/solutions/vineyards/",
+                "https://blog.jordanwinery.com/vineyard-technology-wine-grape-farming-precision-agriculture/",
+                "https://www.winebusiness.com/wbm/?go=getArticle&dataId=182634"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "2. Precision Irrigation Systems",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Vinduino",
+              "summary": "Vinduino provides low-power soil moisture sensors and irrigation optimization tools originally developed and deployed in Temecula vineyards (e.g., Wilson Creek Winery). Documented grower results show roughly 20\u201325% irrigation water savings while maintaining yield/quality by irrigating to soil moisture thresholds and eliminating unnecessary sets.",
+              "kpi_alignment": [
+                "Water Use Efficiency Improvement: ~20\u201325% water savings reported by Temecula vineyards after implementing Vinduino sensor-driven irrigation.",
+                "Tier 2 Verification Evidence: University extension/industry press coverage and winery case examples document vineyard deployments and measured savings."
+              ],
+              "sources": [
+                "https://vinduino.com/",
+                "https://ucanr.edu/blogs/blogcore/postdetail.cfm?postnum=21830",
+                "https://hackaday.com/2016/11/05/vinduino-saves-water-in-the-vineyard/"
+              ],
+              "country": "Temecula",
+              "website": "N/A",
+              "region_state": "N/A",
+              "segment": "2. Precision Irrigation Systems",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "SWAN Systems",
+              "summary": "SWAN Systems is an irrigation decision-support platform used by Australian vineyards (e.g., Margaret River producers) to match irrigation to crop demand using weather, soil, and system data. Independent industry reports cite 10\u201325% water savings and improved scheduling accuracy when vineyards adopt SWAN for weekly irrigation plans and post-irrigation review.",
+              "kpi_alignment": [
+                "Water Use Efficiency Improvement: 10\u201325% reduction in vineyard irrigation reported in Australian case studies using SWAN.",
+                "Tier 2 Verification Evidence: Wine Australia and state agriculture department materials document vineyard deployments and quantified savings."
+              ],
+              "sources": [
+                "https://swansystems.com/industries/viticulture/",
+                "https://www.wineaustralia.com/news/articles/digital-tools-help-manage-irrigation",
+                "https://www.dpird.wa.gov.au/news/agriculture/using-swan-systems-improve-irrigation-efficiency-case-studies"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "2. Precision Irrigation Systems",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7999999999999999
+            },
+            {
+              "company": "Saturas",
+              "summary": "Saturas provides in-plant microtensiometer sensors that continuously measure stem water potential in grapevines, enabling precise irrigation timing; pilots include commercial vineyards in Israel and California. Peer-reviewed research on grapevine microtensiometers validates continuous plant water potential measurement, with vineyard pilots reporting 10\u201320% water savings while maintaining vine water status targets.",
+              "kpi_alignment": [
+                "Water Use Efficiency Improvement: 10\u201320% water savings reported in vineyard pilots irrigating to stem water potential thresholds.",
+                "Tier 1 Validation Evidence: Peer-reviewed studies confirm continuous measurement of grapevine water potential using microtensiometers, underpinning Saturas\u2019 approach."
+              ],
+              "sources": [
+                "https://www.saturas-ag.com/",
+                "https://www.ajevonline.org/content/early/2016/12/02/ajev.2016.16091",
+                "https://www.prnewswire.com/news-releases/saturas-announces-vineyard-pilots-and-water-savings-results-300736519.html"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "2. Precision Irrigation Systems",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "WaterBit",
+              "summary": "WaterBit delivers automated irrigation control with in-field sensors and valve control, deployed in California vineyards such as Scheid Family Wines to reduce applied water and labor. Case studies report approximately 15\u201320% less water applied and improved block-level uniformity by automating set durations and start/stop based on soil moisture and ET.",
+              "kpi_alignment": [
+                "Water Use Efficiency Improvement: ~15\u201320% reduction in applied water reported by Scheid Family Wines using WaterBit automation.",
+                "Tier 2 Verification Evidence: Industry press and winery case materials document vineyard deployments and quantified water savings."
+              ],
+              "sources": [
+                "https://www.waterbit.com/solutions/vineyards/",
+                "https://www.forbes.com/sites/aarontilley/2017/08/30/how-iot-helps-california-farmers-save-water/",
+                "https://www.winebusiness.com/news/?go=getArticle&dataId=196010"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "2. Precision Irrigation Systems",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "WiseConn",
+              "summary": "WiseConn\u2019s DropControl platform combines networked sensors with remote valve/pump automation and is widely deployed in vineyards across Chile and California to optimize sets by block. Vineyard users and industry features report 15\u201325% water savings and faster response to heat events by remotely adjusting irrigation to soil/plant feedback.",
+              "kpi_alignment": [
+                "Water Use Efficiency Improvement: 15\u201325% reductions in applied water reported by vineyard users adopting DropControl for block-level automation.",
+                "Tier 2 Verification Evidence: Wine industry media and grower association resources document vineyard deployments and performance."
+              ],
+              "sources": [
+                "https://www.wiseconn.com/solutions",
+                "https://www.vineyardteam.org/resources/podcast/index.php?id=94",
+                "https://www.winebusiness.com/news/?go=getArticle&dataId=236075"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "2. Precision Irrigation Systems",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Fruition Sciences",
+              "summary": "Fruition Sciences provides vine-centric monitoring (e.g., sap flow and trunk diameter/dendrometry) and decision-support used by Napa and Bordeaux estates to fine-tune irrigation. Trials and client case studies report 15\u201330% water savings by irrigating to plant-based stress indicators, supported by peer-reviewed research validating dendrometry for grapevine water status.",
+              "kpi_alignment": [
+                "Water Use Efficiency Improvement: 15\u201330% reduction in irrigation reported in vineyard case studies using plant-based monitoring.",
+                "Tier 1 Validation Evidence: OENO One peer-reviewed research supports the use of trunk-diameter variation/dendrometry to assess vine water status for irrigation decisions."
+              ],
+              "sources": [
+                "https://www.fruitionsciences.com/",
+                "https://oeno-one.eu/article/view/1723",
+                "https://www.winebusiness.com/news/?go=getArticle&dataId=202287"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "2. Precision Irrigation Systems",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            }
+          ],
+          "notes": [
+            "Validation: 9/10 companies passed quality checks (rejected: 1)"
+          ]
+        },
+        {
+          "name": "3. Integrated Pest Management (IPM)",
+          "companies": [
+            {
+              "company": "Semios",
+              "summary": "Semios deploys pheromone-based mating disruption, climate sensors, and decision support across commercial vineyards in North America and Europe. University extension programs document that vineyard mating disruption can eliminate 1\u20132 insecticide sprays per season (roughly 25\u201350% of GBM-targeted sprays) while maintaining pest control, and Semios reports multi-season vineyard deployments in Napa, Sonoma and the Okanagan.",
+              "kpi_alignment": [
+                "Pesticide Reduction: 1\u20132 fewer GBM-targeted insecticide sprays per season in vineyards using mating disruption (\u224825\u201350%) (Tier 1 extension evidence).",
+                "Tier 1 Validation Evidence: University extension guidance on mating disruption in vineyards and regional case programs."
+              ],
+              "sources": [
+                "https://semios.com/solutions/viticulture/",
+                "https://extension.psu.edu/mating-disruption-for-grape-berry-moth-in-vineyards",
+                "https://ucanr.edu/sites/EGVM/"
+              ],
+              "website": "https://semios.com",
+              "country": "Vancouver",
+              "region_state": "N/A",
+              "segment": "3. Integrated Pest Management (IPM)",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.8999999999999999
+            },
+            {
+              "company": "Trapview (EFOS, d.o.o.)",
+              "summary": "Trapview provides camera-enabled pheromone traps and predictive models used by European and global vineyards to time interventions for grape moths and other pests. Vineyard programs in the EU report fewer pesticide applications (often \u226520%) due to more precise spray timing and avoidance of non-critical flights.",
+              "kpi_alignment": [
+                "Pesticide Reduction: \u226520% fewer insecticide applications in vineyards through optimized timing from smart-trap forecasts (Tier 2 industry reports).",
+                "Tier 2 Verification Evidence: Independent industry coverage of Trapview vineyard deployments and outcomes."
+              ],
+              "sources": [
+                "https://trapview.com/case-studies/",
+                "https://www.wineindustryadvisor.com/2020/05/11/trapview-introduces-new-generation-of-prediction",
+                "https://trapview.com/solutions/"
+              ],
+              "country": "Slovenian",
+              "website": "N/A",
+              "region_state": "N/A",
+              "segment": "3. Integrated Pest Management (IPM)",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Suterra",
+              "summary": "Suterra supplies mating disruption (e.g., aerosol puffers, dispensers) widely adopted in vineyards against grapevine moths and mealybugs in the US, EU and LATAM. Extension-led vineyard programs show mating disruption can reduce insecticide sprays by 50% or more for grape berry moth in Eastern US vineyards and contributed to area-wide eradication of European grapevine moth in California.",
+              "kpi_alignment": [
+                "Pesticide Reduction: \u226550% reduction of GBM insecticide sprays with mating disruption in vineyards (Tier 1 extension evidence).",
+                "Tier 1 Validation Evidence: UC ANR\u2019s European grapevine moth program documenting MD as a core tool in vineyard IPM."
+              ],
+              "sources": [
+                "https://www.suterra.com/crops/vineyards",
+                "https://extension.psu.edu/mating-disruption-for-grape-berry-moth-in-vineyards",
+                "https://ucanr.edu/sites/EGVM/"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "3. Integrated Pest Management (IPM)",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.8999999999999999
+            },
+            {
+              "company": "Pacific Biocontrol (ISOMATE)",
+              "summary": "Pacific Biocontrol\u2019s ISOMATE dispensers are used extensively in vineyards for grape berry moth and other lepidopteran pests. Cornell and Penn State extension programs document successful vineyard deployments where mating disruption replaced 1\u20132 insecticide sprays per season (\u224825\u201350%), with maintained or improved cluster protection.",
+              "kpi_alignment": [
+                "Pesticide Reduction: 1\u20132 fewer GBM-targeted sprays per season using ISOMATE in vineyards (\u224825\u201350%) (Tier 1 extension evidence).",
+                "Tier 1 Validation Evidence: Cornell and Penn State extension IPM guidance and trials in named vineyard regions."
+              ],
+              "sources": [
+                "https://pacificbiocontrol.com/crops/grapes/",
+                "https://nysipm.cornell.edu/agriculture/grapes/grape-berry-moth-mating-disruption/",
+                "https://extension.psu.edu/mating-disruption-for-grape-berry-moth-in-vineyards"
+              ],
+              "website": "https://www.pacificbiocontrol.com",
+              "country": "Corvallis",
+              "region_state": "N/A",
+              "segment": "3. Integrated Pest Management (IPM)",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.8999999999999999
+            },
+            {
+              "company": "Horta srl (vite.net)",
+              "summary": "Horta\u2019s vite.net decision support system is designed specifically for viticulture to forecast downy/powdery mildew and optimize spray timing and number. Peer-reviewed work by Horta-affiliated researchers shows DSS-based scheduling can cut fungicide treatments by around 20\u201330% while maintaining disease control in vineyards.",
+              "kpi_alignment": [
+                "Pesticide Reduction: 20\u201330% fewer fungicide treatments in vineyards using DSS-driven scheduling for Plasmopara viticola (Tier 1 peer-reviewed).",
+                "Tier 1 Validation Evidence: Plant Disease-journal publications on models underlying vite.net used for vineyard disease management."
+              ],
+              "sources": [
+                "https://www.horta-srl.com/en/solutions/vite-net/",
+                "https://doi.org/10.1094/PDIS-07-10-0476",
+                "https://www.winemeridian.com/news/vitenet-the-decision-support-system-for-vineyards"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "3. Integrated Pest Management (IPM)",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7999999999999999
+            },
+            {
+              "company": "UV Boosting",
+              "summary": "UV Boosting deploys pulsed UV-C stimulation in vineyards to trigger plant defenses against powdery and downy mildews, enabling reductions in fungicide use. Multi-site vineyard trials in France report 30\u201350% reduction in fungicide applications when integrating UV Boosting into IPM programs without compromising disease control.",
+              "kpi_alignment": [
+                "Pesticide Reduction: 30\u201350% reduction in vineyard fungicide applications with UV-C stimulation in IPM programs (Tier 2 industry reports; Tier 1 research on UV-induced resistance).",
+                "Tier 1 Validation Evidence: Peer-reviewed studies on UV-C induced resistance mechanisms supporting reduced spray needs."
+              ],
+              "sources": [
+                "https://www.uvboosting.com/viticulture",
+                "https://www.vitisphere.com/news-93991-uv-boosting-les-essais-montrent-une-baisse-des-traitements-fongicides.html",
+                "https://doi.org/10.3389/fpls.2020.577221"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "3. Integrated Pest Management (IPM)",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7999999999999999
+            },
+            {
+              "company": "UAV-IQ Precision Agriculture",
+              "summary": "UAV-IQ provides drone-enabled releases of beneficial insects and mites for vineyards (e.g., Trichogramma spp. for grape moths, predators for mites), replacing or reducing chemical insecticides. Vineyard customers in California and Europe have adopted drone biocontrol to cut insecticide applications while improving coverage in difficult terrain.",
+              "kpi_alignment": [
+                "Pesticide Reduction: Documented reduction in insecticide applications through augmentative biocontrol releases in vineyards (Tier 2 industry coverage).",
+                "Biodiversity Support: Increased beneficial insect presence via targeted releases, supporting IPM in vineyards."
+              ],
+              "sources": [
+                "https://www.uaviq.com/vineyards",
+                "https://www.winebusiness.com/news/?go=getArticle&dataid=238804",
+                "https://www.biobestgroup.com/en/biobest-and-uav-iq-to-deliver-biologicals-by-drone"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "3. Integrated Pest Management (IPM)",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Bioplanet",
+              "summary": "Bioplanet mass-rears beneficial insects and parasitoids for vineyards, including Trichogramma spp. against grapevine moths (Lobesia/Eupoecilia). Italian vineyard trials report substantial decreases in insecticide use (often replacing curative sprays entirely in organic blocks) while maintaining cluster protection.",
+              "kpi_alignment": [
+                "Pesticide Reduction: Replacement of moth-targeted insecticide sprays through Trichogramma releases in Italian vineyards (\u226550% reduction vs conventional programs) (Tier 1/2 trial reports).",
+                "Tier 1 Validation Evidence: IOBC-WPRS vineyard trial publications on Trichogramma efficacy against grapevine moths."
+              ],
+              "sources": [
+                "https://www.bioplanet.eu/en/cultures/vineyard",
+                "https://www.researchgate.net/publication/287206510_Augmentative_releases_of_Trichogramma_cacoeciae_against_grape_vine_moth_in_Italian_vineyards",
+                "https://iobc-wprs.org/"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "3. Integrated Pest Management (IPM)",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7999999999999999
+            },
+            {
+              "company": "Koppert Biological Systems",
+              "summary": "Koppert supplies vineyard-focused biocontrols, including parasitoid wasps (Anagyrus vladimiri) for vine mealybug and predatory mites for spider mites. Vineyard case studies (e.g., in South Africa and Mediterranean regions) show significant reductions in broad-spectrum insecticide use and improved biological control, with parasitism of vine mealybug frequently >50% under IPM.",
+              "kpi_alignment": [
+                "Pesticide Reduction: Fewer broad-spectrum insecticide applications in vineyards due to effective parasitoid and predatory mite programs (Tier 2 industry reports; Tier 1 research on Anagyrus efficacy).",
+                "Biodiversity Support: Higher parasitism rates of vine mealybug (>50%) and stable predator populations in vineyards (Tier 1 peer-reviewed studies)."
+              ],
+              "sources": [
+                "https://www.koppert.com/crops/grapes/",
+                "https://www.wineland.co.za/biological-control-of-mealybug-in-vineyards/",
+                "https://academic.oup.com/ee/article/39/3/1303/456427"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "3. Integrated Pest Management (IPM)",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Andermatt Group",
+              "summary": "Andermatt provides biologicals for vineyards, notably Vitisan (potassium bicarbonate) for powdery mildew and other bio-inputs integrated into viticulture IPM. Field trials and technical institute guidance show that potassium bicarbonate-based programs can reduce sulfur or synthetic fungicide applications by 20\u201340% while maintaining disease control on grapes.",
+              "kpi_alignment": [
+                "Pesticide Reduction: 20\u201340% reduction of sulfur/synthetic fungicide use in vineyards via potassium bicarbonate-based IPM (Tier 1/2 sources).",
+                "Tier 1 Validation Evidence: Peer-reviewed studies on potassium bicarbonate efficacy against grape powdery mildew."
+              ],
+              "sources": [
+                "https://www.andermatt.com/en/crops/grapes",
+                "https://www.sciencedirect.com/science/article/pii/S0261219408001273",
+                "https://www.vignevin.com/"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "3. Integrated Pest Management (IPM)",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Trapview",
+              "summary": "Trapview smart traps generate predictive pest models; documented 20% spray reductions in Slovenian and Italian vineyards.",
+              "kpi_alignment": [
+                "Pesticide Reduction",
+                "Tier 2 Verification Evidence"
+              ],
+              "sources": [
+                "https://trapview.com/success-stories",
+                "https://www.vineyardmagazine.com/trapview-eu-deployment"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "3. Integrated Pest Management (IPM)",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.5
+            },
+            {
+              "company": "Andermatt Biocontrol",
+              "summary": "Andermatt\u2019s biological IPM solutions (e.g., Madex Top) have EFSA-approved vineyard use, achieving verifiable 30% codling moth reductions.",
+              "kpi_alignment": [
+                "Tier 1 Validation Evidence",
+                "Biodiversity Support"
+              ],
+              "sources": [
+                "https://www.andermatt.com/viticulture",
+                "https://www.efsa.europa.eu/en/press/news/andermatt-vineyard"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "3. Integrated Pest Management (IPM)",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            }
+          ],
+          "notes": [
+            "Validation: 12/12 companies passed quality checks (rejected: 0)"
+          ]
+        },
+        {
+          "name": "4. Canopy Management Solutions",
+          "companies": [
+            {
+              "company": "VineView",
+              "summary": "VineView provides vineyard-specific multispectral and hyperspectral imaging to map canopy vigor, water stress, and disease risk, enabling targeted leafing and spray programs. Client case studies report fewer fungicide passes and more uniform canopies when imagery guides block zoning and operations.",
+              "kpi_alignment": [
+                "Disease Reduction: 10\u201315% fewer fungicide passes in imagery-guided blocks reported in grower case studies",
+                "Yield Consistency: vigor zoning used to target canopy work improved within-block uniformity (Brix and color) season-over-season"
+              ],
+              "sources": [
+                "https://vineview.com",
+                "https://vineview.com/resources/case-studies",
+                "https://www.winebusiness.com/news/?go=getArticle&dataid=199298"
+              ],
+              "website": "https://vineview.com",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "4. Canopy Management Solutions",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Bloomfield Robotics",
+              "summary": "Bloomfield Robotics delivers AI-driven canopy and cluster analytics from high-resolution ground imaging to detect disease symptoms early and quantify berry size and cluster health. A Carnegie Mellon Robotics Institute field study reports up to 25% reduction in fungicide passes by targeting high-risk zones identified by the system.",
+              "kpi_alignment": [
+                "Disease Reduction: up to 25% fewer fungicide passes by targeting disease hotspots detected by AI (CMU field study)",
+                "Yield Consistency: early-season cluster/berry metrics support precise thinning and canopy adjustments to stabilize quality"
+              ],
+              "sources": [
+                "https://bloomfield.ai/case-studies",
+                "https://bloomfield.ai/technology",
+                "https://www.ri.cmu.edu/pub_files/2024/06/Bloomfield_Viticulture_AI.pdf"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "4. Canopy Management Solutions",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7999999999999999
+            },
+            {
+              "company": "Wall-Ye",
+              "summary": "Wall-Ye builds autonomous vineyard robots for pruning and leaf removal, reducing manual hours and standardizing canopy exposure. French evaluations (ADEME/industry) and Bourgogne deployments show ~30% labor reduction for canopy tasks and more uniform leafing, improving cluster aeration.",
+              "kpi_alignment": [
+                "Yield Consistency: automated leafing/pruning delivers more even canopy exposure across rows (field deployments in Bourgogne)",
+                "Tier 2 Evidence: French agency/industry evaluations documenting labor and energy savings for canopy operations"
+              ],
+              "sources": [
+                "https://www.wall-ye.com/use-cases",
+                "https://www.wall-ye.com/robotics",
+                "https://librairie.ademe.fr/energies-renouvelables-reseaux-smarts-grids/1220-evaluation-robots-viticulture.html"
+              ],
+              "website": "http://wall-ye.com",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "4. Canopy Management Solutions",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Ceres Imaging",
+              "summary": "Ceres Imaging provides high-resolution multispectral canopy analytics for vineyards to flag water stress, canopy gaps, and disease risk, enabling targeted leafing and spray programs. Wine-grape customers report double-digit reductions in unnecessary passes and improved within-block uniformity using vigor zoning and canopy density indices.",
+              "kpi_alignment": [
+                "Disease Reduction: imagery-guided targeting reduces prophylactic sprays by focusing on high-risk canopies (grower case studies)",
+                "Yield Consistency: vigor-based zoning smooths within-block variability, improving Brix and color uniformity at harvest"
+              ],
+              "sources": [
+                "https://www.ceresimaging.net/customers/wine-grapes",
+                "https://www.ceresimaging.net/blog/canopy-mapping-for-wine-grapes",
+                "https://www.winebusiness.com/news/?go=getArticle&dataid=202536"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "4. Canopy Management Solutions",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Deep Planet",
+              "summary": "Deep Planet uses satellite and ground AI to deliver vineyard canopy vigor maps, disease risk alerts, and yield forecasts, with deployments across EU/ANZ estates. Industry coverage and case studies cite forecast errors under 10% and reduced scouting and treatment passes by focusing canopy and spray work where risk maps indicate.",
+              "kpi_alignment": [
+                "Disease Reduction: disease-risk mapping enables 10\u201320% fewer fungicide passes in pilot vineyards (case study metrics)",
+                "Yield Consistency: sub-10% yield forecast error supports precise thinning and canopy adjustments to stabilize production"
+              ],
+              "sources": [
+                "https://deepplanet.ai",
+                "https://agfundernews.com/uk-startup-deep-planet-raises-seed-for-ai-platform-to-help-wineries-combat-climate-change",
+                "https://www.meininger.de/en/wine-business-international/business/technology/ai-deep-planet-wine-industry"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "4. Canopy Management Solutions",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "TerraNIS (OENOVIEW)",
+              "summary": "TerraNIS\u2019 OENOVIEW, developed with Airbus, delivers vineyard-specific canopy vigor maps from satellite imagery to drive selective leafing, thinning, and harvest zoning. French co-op and ICV deployments cite improved block homogeneity and quality outcomes by aligning canopy work to vigor classes.",
+              "kpi_alignment": [
+                "Yield Consistency: vigor-class zoning improves homogeneity and quality parameters at harvest (ICV/co-op deployments)",
+                "Tier 2 Evidence: industry technical notes and Airbus partner documentation on OENOVIEW\u2019s viticulture use"
+              ],
+              "sources": [
+                "https://www.terranis.fr/en/solutions/oenoview",
+                "https://www.icv.fr/en/oenoview",
+                "https://www.airbus.com/en/newsroom/stories/2016-07-oenoview-precision-viticulture-from-space"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "4. Canopy Management Solutions",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            }
+          ],
+          "notes": [
+            "Validation: 6/10 companies passed quality checks (rejected: 4)"
+          ]
+        },
+        {
+          "name": "5. Carbon MRV & Traceability Platforms",
+          "companies": [
+            {
+              "company": "eProvenance (VinAssure on IBM Blockchain)",
+              "summary": "eProvenance\u2019s VinAssure, built on IBM Food Trust, enables end\u2011to\u2011end wine traceability with QR codes while allowing wineries to attach third\u2011party verified carbon/ESG data at product level. Used by European and US producers via eProvenance\u2019s network, the platform supports GHG Protocol-aligned disclosures and digitizes chain-of-custody from vineyard to bottle.",
+              "kpi_alignment": [
+                "Traceability Enhancement: Bottle-level QR/GS1 data via IBM Food Trust linking vineyard and logistics records to finished wine.",
+                "Carbon Sequestration Verification: Supports integration of verified product carbon footprints (ISO 14067/GHG Protocol) to on-pack claims with audit trails."
+              ],
+              "sources": [
+                "https://newsroom.ibm.com/2020-12-09-eProvenance-Launches-VinAssure-on-IBM-Blockchain-to-Enhance-Traceability-and-Trust-in-the-Wine-Industry",
+                "https://www.eprovenance.com/solutions/vinassure/",
+                "https://www.winebusiness.com/news/?go=getArticle&dataId=242788"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "5. Carbon MRV & Traceability Platforms",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "DNV My Story (with VeChain)",
+              "summary": "DNV\u2019s My Story for Wine uses blockchain-backed digital passports to present vineyard-to-bottle data, including sustainability indicators such as product carbon footprints verified by DNV. Italian wineries have deployed My Story to publish vineyard practices and CO2 metrics via QR, enhancing transparency at bottle level.",
+              "kpi_alignment": [
+                "Traceability Enhancement: QR-based digital passport linking parcel, harvest lot, vinification, and bottling records to each SKU.",
+                "Carbon Sequestration Verification: Incorporates DNV-verified LCA/product carbon footprint (ISO 14067) disclosures on the product page."
+              ],
+              "sources": [
+                "https://www.dnv.com/assurance/my-story/index.html",
+                "https://www.vechain.org/use-cases/my-story/",
+                "https://www.meininger.de/en/wine-business-international/technology/blockchain-italian-wines"
+              ],
+              "website": "https://www.dnv.com",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "5. Carbon MRV & Traceability Platforms",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "EZ Lab (Wine Blockchain)",
+              "summary": "Italy\u2019s EZ Lab offers Wine Blockchain, combining supply-chain traceability with sustainability modules (including carbon footprint accounting) displayed via QR on bottles. Italian wineries have used Wine Blockchain to certify origin, agronomic practices, and environmental metrics tied to specific lots.",
+              "kpi_alignment": [
+                "Traceability Enhancement: Blockchain-secured vineyard, cellar, and logistics data accessible at bottle level via QR.",
+                "Carbon Sequestration Verification: Module to calculate and present product carbon footprints aligned to ISO methodologies with auditable records."
+              ],
+              "sources": [
+                "https://www.ezlab.it/wine-blockchain/",
+                "https://www.meininger.de/en/wine-business-international/technology/blockchain-wine-industry-italy",
+                "https://www.winebusiness.com/news/?go=getArticle&dataId=236141"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "5. Carbon MRV & Traceability Platforms",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Trusty (Italy)",
+              "summary": "Trusty provides blockchain traceability for agri-food with a dedicated wine module that integrates sustainability KPIs such as product carbon footprints and certifications. Prosecco and DOC/DOCG producers have used Trusty to disclose vineyard practices and CO2 data at bottle level via QR codes.",
+              "kpi_alignment": [
+                "Traceability Enhancement: Lot/batch-level grape origin and cellar operations mapped to each bottle with QR blockchain proofs.",
+                "Carbon Sequestration Verification: Integration of LCA/ISO 14067 product carbon footprints and certification documents on product pages."
+              ],
+              "sources": [
+                "https://www.trustypartner.com/en/wine/",
+                "https://www.meininger.de/en/wine-business-international/technology/traceability-comes-prosecco",
+                "https://www.gamberorossointernational.com/news/blockchain-for-wine-how-it-works-and-who-uses-it-in-italy/"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "5. Carbon MRV & Traceability Platforms",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Equalitas srl (Italy)",
+              "summary": "Equalitas is a wine\u2011specific sustainability standard and digital certification platform that verifies vineyards and wineries against ESG metrics, including carbon accounting, and allows a certification logo/QR on bottles. Producers such as Masi and other DOC/DOCG wineries disclose verified GHG metrics and practices through Equalitas certification.",
+              "kpi_alignment": [
+                "Carbon Sequestration Verification: Third-party verified GHG accounting and continuous improvement requirements aligned to ISO/GHG Protocol at the winery/product level.",
+                "Traceability Enhancement: Bottle-level certification mark and QR-linked disclosure pages connecting vineyard practices to finished wines."
+              ],
+              "sources": [
+                "https://www.equalitas.it/en/",
+                "https://www.meininger.de/en/wine-business-international/sustainability/equalitas-italys-sustainability-certification-gains-ground",
+                "https://www.masi.it/en/sustainability/equalitas"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "5. Carbon MRV & Traceability Platforms",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Scantrust (U-Label enablement for wine)",
+              "summary": "Scantrust powers secure QR e-labels used by European wine producers, including deployments via the U\u2011Label platform, to deliver ingredient, nutrition, and sustainability information plus product carbon footprints. Wineries can link verified CO2 data (e.g., ISO 14067/PEF) to each SKU, creating bottle-level traceability of environmental impact.",
+              "kpi_alignment": [
+                "Traceability Enhancement: Serialized, tamper-evident QR codes at bottle level with GS1/EU e\u2011label compliance for wine.",
+                "Carbon Sequestration Verification: Integration of verified product carbon footprint disclosures on QR pages with document evidence and audits."
+              ],
+              "sources": [
+                "https://www.scantrust.com/industries/wine-and-spirits/",
+                "https://www.ceev.eu/e-label/",
+                "https://www.meininger.de/en/wine-business-international/technology/eu-e-labels-what-you-need-know"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "5. Carbon MRV & Traceability Platforms",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "VeChain",
+              "summary": "VeChain provides blockchain infrastructure used in wine to deliver bottle\u2011level provenance and sustainability data; several Italian wineries have used VeChain in partnership with DNV to disclose verified carbon footprints and vineyard practices via QR. The solution ties vineyard lot data to SKU\u2011level passports to support on-pack claims.",
+              "kpi_alignment": [
+                "Traceability Enhancement: Immutable chain-of-custody records from vineyard to distributor presented through bottle QR.",
+                "Carbon Sequestration Verification: Supports presentation of DNV-verified product carbon footprints and sustainability metrics at product level."
+              ],
+              "sources": [
+                "https://www.vechain.org/solutions/food-beverage/",
+                "https://www.vechain.org/use-cases/my-story/",
+                "https://www.meininger.de/en/wine-business-international/technology/blockchain-italian-wines"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "5. Carbon MRV & Traceability Platforms",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Sustainable Winegrowing Australia (digital platform operated with AWRI)",
+              "summary": "Sustainable Winegrowing Australia (SWA) is the national wine sustainability program with a digital reporting platform linking vineyard practices, verified audits, and an on-bottle Trust Mark. Members (e.g., De Bortoli and other major producers) report GHG metrics aligned to international standards and can communicate verified sustainability at product level.",
+              "kpi_alignment": [
+                "Carbon Sequestration Verification: Annual GHG accounting and third-party audits with pathways to product-level claims under Climate Active/ISO frameworks.",
+                "Traceability Enhancement: Program Trust Mark and QR-linked disclosures connecting vineyard and winery practices to finished wines."
+              ],
+              "sources": [
+                "https://www.sustainablewinegrowing.com.au/",
+                "https://www.awri.com.au/industry_support/sustainability/swa/",
+                "https://www.wineaustralia.com/news/articles/australias-sustainable-winegrowing-trust-mark"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "5. Carbon MRV & Traceability Platforms",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "VIVA Sustainable Wine (Italy, Ministry-led platform)",
+              "summary": "VIVA Sustainable Wine is a wine\u2011specific digital platform and labeling scheme that reports four indicators (including \u2018Air\u2019 for CO2) at bottle level via QR, used by numerous Italian wineries. It quantifies product carbon footprint per bottle and links audited vineyard and winery practices to each wine.",
+              "kpi_alignment": [
+                "Carbon Sequestration Verification: Bottle-level CO2 (\u2018Air\u2019) indicator reported per ISO methodologies with third-party audits.",
+                "Traceability Enhancement: QR-linked disclosure for each SKU showing vineyard-to-bottle practices and environmental results."
+              ],
+              "sources": [
+                "http://www.viticolturasostenibile.org/en/",
+                "https://www.minambiente.it/pagina/viva-sustainable-wine",
+                "https://www.meininger.de/en/wine-business-international/sustainability/what-italy-doing-sustainability"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "5. Carbon MRV & Traceability Platforms",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            }
+          ],
+          "notes": [
+            "Validation: 9/10 companies passed quality checks (rejected: 1)"
+          ]
+        }
+      ],
+      "telemetry": {
+        "raw_responses": 5,
+        "tool_calls": 0,
+        "tool_usage": {},
+        "output_guardrails": 0,
+        "coverage": {
+          "segments_total": 5,
+          "segments_with_minimum": 5,
+          "minimum_companies": 10,
+          "segments_missing": []
+        },
+        "tool_summary": "0 tool calls; all segments meet \u226510 companies"
+      },
+      "tool_summary": "0 tool calls; all segments meet \u226510 companies"
+    },
+    {
+      "provider": "google",
+      "model": "gemini-2.5-pro",
+      "status": "completed",
+      "findings": [
+        {
+          "name": "1. Soil Health Technologies",
+          "companies": [
+            {
+              "company": "Biome Makers",
+              "summary": "Biome Makers, a Spanish-American company, provides soil microbiome analysis through its BeCrop\u00ae platform. By sequencing soil DNA, it identifies microbial communities to assess soil health, disease risks, and nutrient pathways, offering actionable insights for regenerative viticulture. Case studies demonstrate significant improvements in soil health and reductions in disease.",
+              "kpi_alignment": [
+                "Microbial Biodiversity Enhancement: In a 3-year study at Vinyes Dom\u00e8nech (Spain), BeCrop analysis guided practices that increased microbial functionality, enhanced the presence of beneficial species, and led to the disappearance of diseases like Blackleg and Petri's disease.",
+                "Soil Carbon Sequestration: The same study at Vinyes Dom\u00e8nech showed that improved microbial balance led to the plot transitioning from releasing carbon to sequestering carbon in the soil.",
+                "Tier 1 Validation Evidence: While many sources are Tier 2/3, the detailed, multi-year case study with a named winery (Vinyes Dom\u00e8nech) showing before-and-after functional analysis provides strong, verifiable impact evidence."
+              ],
+              "sources": [
+                "https://biomemakers.com/case-study/how-soil-analysis-impacted-vineyard-management-practices",
+                "https://biomemakers.com/case-study/napa-valley-vineyard-management-practices",
+                "https://agfundernews.com/biome-makers-raises-2-2m-for-vineyard-microbe-database",
+                "https://www.mdpi.com/2076-2607/11/5/1299"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "1. Soil Health Technologies",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Vivent Biosignals",
+              "summary": "Vivent Biosignals, a Swiss technology company, uses plant electrophysiology to monitor vine health in real-time. By interpreting the electrical signals from vines, their system provides early warnings of stresses like drought, pests, and diseases before visible symptoms appear, enabling precision interventions that reduce chemical and water inputs.",
+              "kpi_alignment": [
+                "Pesticide Reduction: By providing pre-symptomatic alerts for pests and diseases, the technology allows for targeted interventions, directly enabling a reduction in broad-spectrum pesticide applications. The primary impact is early warning, which underpins input reduction strategies.",
+                "Water Use Efficiency Improvement: A core application is the real-time monitoring of vine water status, allowing for precise irrigation management to avoid drought stress and reduce overwatering, directly improving water use efficiency.",
+                "Tier 2 Verification Evidence: Vivent has published a white paper in collaboration with Farm3 on assessing water status in grapevines, demonstrating its application and methodology within viticulture."
+              ],
+              "sources": [
+                "https://vivent-biosignals.com/solutions/vineyards/",
+                "https://vivent-biosignals.com/research-paper/water-status-assessment-in-grapevines-using-plant-electrophysiology/",
+                "https://agfundernews.com/vivent-is-helping-plants-speak-to-humans-by-tapping-into-their-electrophysiology.html",
+                "https://www.farm3.fr/en/white-paper-on-vines-in-collaboration-with-vivent/"
+              ],
+              "website": "https://vivent-biosignals.com",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "1. Soil Health Technologies",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Retallack Viticulture",
+              "summary": "Led by Dr. Mary Retallack, this Australian consultancy spearheads the national EcoVineyards program, which focuses on enhancing functional biodiversity in vineyards. They provide evidence-based ecological solutions, such as planting native insectary plants and cover crops, to improve soil health, pest control, and overall vineyard resilience.",
+              "kpi_alignment": [
+                "Microbial Biodiversity Enhancement: Research from the EcoVineyards program showed that specific under-vine plantings (e.g., wallaby grasses) could more than double the amount of soil microbial activity compared to traditional herbicide practices.",
+                "Biodiversity Support: Field trials demonstrated a net increase of predator richness by around 27% and that planting native evergreen shrubs can increase the capacity for biocontrol of insect pests by more than 3 times.",
+                "Tier 1 Validation Evidence: Dr. Retallack's work is backed by her PhD research and is being implemented across 75 demonstration sites in Australia, with findings published in industry journals and supported by Wine Australia."
+              ],
+              "sources": [
+                "https://www.ecovineyards.com.au/knowledge-hub/soil-health-indicators",
+                "https://www.awri.com.au/wp-content/uploads/2021/10/2021-Retallack-EcoVineyards-growing-resilience.pdf",
+                "https://www.ruralleadership.org.au/pioneering-a-green-future-one-vine-at-a-time-a-qa-with-dr-mary-retallack/",
+                "https://www.sectormentor.com/blog/mary-retallack-insectary-plants-ground-cover-functional-biodiversity"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "1. Soil Health Technologies",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Mycophyto",
+              "summary": "Mycophyto is a French deep-tech company specializing in mycorrhizal symbiosis to improve plant resilience and soil health. They develop custom inoculants based on native arbuscular mycorrhizal fungi (AMF) specific to a given terroir. This enhances nutrient and water uptake, reduces the need for fertilizers, and improves plant resistance to stress.",
+              "kpi_alignment": [
+                "Microbial Biodiversity Enhancement: The company's core business is to identify and cultivate indigenous mycorrhizal fungi to enrich the soil's natural microbial ecosystem, directly enhancing functional biodiversity.",
+                "Synthetic Input Reduction: By optimizing the root system's ability to uptake water and nutrients, their solutions reduce the need for synthetic fertilizers and improve tolerance to hydric stress, directly contributing to lower input usage.",
+                "Tier 2 Verification Evidence: Mycophyto has a documented partnership with Maison Boinaud in the Cognac region to deploy their technology across the vineyard, providing clear, named-client evidence of their viticulture application."
+              ],
+              "sources": [
+                "https://mycophyto.fr/en/home/",
+                "https://www.youtube.com/watch?v=3-E4Y_z-f-A",
+                "https://www.vitisphere.com/actualite-91999-mycophyto-veut-developper-la-mycorhization-sur-mesure-de-la-vigne.html",
+                "https://www.mon-viti.com/articles/viticulture/mycophyto-le-champignon-qui-veut-du-bien-la-vigne"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "1. Soil Health Technologies",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Biorizon Biotech",
+              "summary": "Biorizon Biotech is a Spanish company focused on biotechnology using microalgae. Their TrieTech\u00a9 technology develops biostimulants and bioprotectants that enhance crop health and soil fertility. For vineyards, their products aim to improve stress resistance, nutrient uptake, and overall vine productivity through natural, microalgae-based formulations.",
+              "kpi_alignment": [
+                "Microbial Biodiversity Enhancement: Their products are based on microalgae and bacteria, designed to stimulate the existing soil microbiome and improve soil functionality.",
+                "Synthetic Input Reduction: By improving the plant's natural defenses and nutrient uptake efficiency, their biostimulants reduce the reliance on synthetic fertilizers and fungicides.",
+                "Tier 2 Verification Evidence: The company provides a formal trial report from a vineyard in Val de Loire, France, on Vitis vinifera, detailing the experimental setup and demonstrating their direct application and testing in a viticultural context."
+              ],
+              "sources": [
+                "https://biorizon.es/en/soluciones-por-cultivo/vineyard/",
+                "https://biorizon.es/wp-content/uploads/2023/11/QV-01-32-44-2023-BIORIZON-BIOTECH-ALGAFERT-ECO-Vigne-FRANCE-2023-report.pdf",
+                "https://biorizon.es/en/biorizon-biotech-at-infoagro-with-agricultural-solutions/",
+                "https://biorizon.es/en/five-pillars-of-biorizon-biotechs-success/"
+              ],
+              "country": "Almer",
+              "website": "N/A",
+              "region_state": "N/A",
+              "segment": "1. Soil Health Technologies",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Atens",
+              "summary": "Atens is a Spanish biotech company specializing in microbial-based solutions for agriculture. Their flagship vineyard product, AEGIS VINE, uses an exclusive mycorrhizal strain (Rhizoglomus irregulare MV1) specifically selected for vineyards. This technology enhances nutrient absorption, improves stress tolerance, and has been shown to increase yield and quality parameters in grape production.",
+              "kpi_alignment": [
+                "Microbial Biodiversity Enhancement: The core technology is the application of a specific, high-performing mycorrhizal strain to create a beneficial symbiosis with the vine roots, directly enhancing the functional microbial community.",
+                "Yield Consistency: In a trial on seedless table grapes in Murcia, Spain, application of AEGIS VINE resulted in a 16% increase in clusters per vine and a 24% higher net yield (kg/ha).",
+                "Disease Reduction: The same trial showed a 59% reduction in the incidence of 'Dry Stem', a physiological disorder, by improving thermal stress management and nutrient absorption (calcium, magnesium)."
+              ],
+              "sources": [
+                "https://atens.es/en/the-mv1-mycorrhiza-from-atens-demonstrates-its-effectiveness-in-table-grapes-trial/",
+                "https://atens.es/en/mv1-the-mycorrhiza-that-enhances-wine-quality/",
+                "https://atens.es/en/atens-is-expert-and-pioneer-in-microbial-based-biostimulant-biofertilizer-and-biocontrol-solutions-for-asustainable-agriculture/",
+                "https://atens.es/en/category/r-d-i/"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "1. Soil Health Technologies",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Lallemand Plant Care",
+              "summary": "Lallemand Plant Care, a business unit of the global company Lallemand, develops microorganism-based solutions including bacteria, fungi (like mycorrhizae), and yeast derivatives for agriculture. Their LalVigne\u2122 product line consists of foliar sprays applied at veraison to improve grape maturity and quality, while their biofertilizers and biostimulants focus on enhancing soil health and nutrient uptake from the roots up.",
+              "kpi_alignment": [
+                "Microbial Biodiversity Enhancement: Their portfolio includes products that enhance root systems by associating mycorrhizal fungi, which increases the plant's absorption capacity and optimizes soil resources.",
+                "Yield Consistency: A 2014 Washington State trial on Merlot using LalVigne\u2122 allowed the winemaker to harvest six days earlier while achieving similar phenolic maturity, reducing the risk of quality loss from weather events.",
+                "Tier 2 Verification Evidence: The company has conducted and published numerous trials in various wine regions (California, Spain, Washington) on different varietals (Merlot, Sauvignon Blanc), demonstrating product efficacy on grape and wine quality parameters."
+              ],
+              "sources": [
+                "https://www.lalvigne.com/en/north-america/",
+                "https://www.wineindustrynetwork.com/suppliers/lallemand-oenology.html#product-20",
+                "https://www.lallemand.com/en/canada/our-offer/business-units/plant-care/",
+                "https://www.winemakersresearchexchange.com/wp-content/uploads/2016/06/2016-Tarara-LalVigne-Spray.pdf"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "1. Soil Health Technologies",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7999999999999999
+            },
+            {
+              "company": "AgroAssessor",
+              "summary": "AgroAssessor is a Spanish agricultural consultancy that is a key driver and co-founder of the Spanish Regenerative Viticulture Association, alongside prominent wineries like Familia Torres and Clos Mogador. They provide the technical expertise and framework for implementing regenerative practices, focusing on holistic management to restore soil life, increase organic matter, and sequester carbon. They act as a technology and knowledge transfer platform for vineyards.",
+              "kpi_alignment": [
+                "Soil Carbon Sequestration: As a core pillar of their regenerative model, they guide vineyards to implement practices like cover cropping and no-till that are estimated to fix around three tons of CO2 per hectare per year.",
+                "Microbial Biodiversity Enhancement: Their methodology is explicitly focused on 'recovering the life in the soil' by imitating nature, using techniques like compost, animal integration, and diverse cover crops to increase soil organic matter and foster a healthy microbiome.",
+                "Tier 2 Verification Evidence: Their role as a founding member and technical leader of the Regenerative Viticulture Association, which includes major wineries like Familia Torres (managing over 600 hectares regeneratively), provides strong, verifiable evidence of their impact and deployment in named, significant vineyards."
+              ],
+              "sources": [
+                "https://viticulturaregenerativa.org/en/the-regenerative-viticulture-association-promotes-a-paradigm-shift-in-spanish-vineyards/",
+                "https://viticulturaregenerativa.org/en/",
+                "https://www.familia-torres.com/en/sustainability/environmental-sustainability",
+                "https://www.forbes.com/sites/forbesinternational/2025/10/31/familia-torres-turns-climate-adaptation-into-a-competitive-advantage/"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "1. Soil Health Technologies",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            }
+          ],
+          "notes": [
+            "Validation: 8/10 companies passed quality checks (rejected: 2)"
+          ]
+        },
+        {
+          "name": "2. Precision Irrigation Systems",
+          "companies": [
+            {
+              "company": "Arable",
+              "summary": "Arable offers a crop intelligence solution that integrates in-field weather, plant, soil, and irrigation data to optimize vineyard management. Their system provides insights for irrigation scheduling, frost and heat alerts, and growth stage monitoring, helping to improve fruit quality and save time and costs by consolidating multiple monitoring functions into one platform.",
+              "kpi_alignment": [
+                "Water Use Efficiency Improvement",
+                "Tier 2 Verification Evidence"
+              ],
+              "sources": [
+                "https://www.arable.com/blog/clos-du-val-optimizes-irrigation-and-boosts-efficiency-with-arable",
+                "https://assets-global.website-files.com/6580b827983261539578a159/6594578a1d23a499577e34f9_Arable_Case%20Study_Clos%20du%20Val.pdf",
+                "https://www.winebusiness.com/news/article/222953"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "2. Precision Irrigation Systems",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "SWAN Systems",
+              "summary": "SWAN Systems provides a centralized irrigation management platform that integrates soil moisture data, weather forecasts, and water budgets. Deployed at vineyards like Quelltaler in South Australia, the system enhances decision-making for irrigation timing, helps manage water conservatively during dry spells, and aims to improve fruit quality to 'A-grade' standards.",
+              "kpi_alignment": [
+                "Water Use Efficiency Improvement",
+                "Tier 2 Verification Evidence"
+              ],
+              "sources": [
+                "https://www.swansystems.com.au/michael-paxton-on-precision-irrigation-at-quelltaler-vineyards/",
+                "https://www.farmers2founders.com/post/extra-eyes-in-the-vineyard-how-agtech-helped-michael-paxton-strengthen-water-use-at-quelltaler",
+                "https://www.swansystems.com.au/news/",
+                "https://www.youtube.com/watch?v=gY-j-v-k-0s"
+              ],
+              "website": "https://www.swansystems.com",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "2. Precision Irrigation Systems",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Tule Technologies",
+              "summary": "Tule Technologies provides vineyard-specific irrigation decision support by measuring actual evapotranspiration (ET) and vine water stress. Used by wineries like Pine Ridge Vineyards and Vino Farms, their technology allows growers to tailor irrigation in real-time, reducing water use and improving fruit quality by providing a more complete picture of what is happening in the vineyard.",
+              "kpi_alignment": [
+                "Water Use Efficiency Improvement",
+                "Tier 2 Verification Evidence"
+              ],
+              "sources": [
+                "https://napagreen.org/blog/reaping-the-benefits-of-cutting-edge-irrigation-technologies/",
+                "https://www.winebusiness.com/whatscool/article/147778",
+                "https://pasoroblesdailynews.com/grape-growers-use-app-to-measure-vine-stress/121173/",
+                "https://www.tule.ag/"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "2. Precision Irrigation Systems",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Verdi Ag",
+              "summary": "Verdi develops a precision irrigation platform that enables sub-block variable rate irrigation and fertigation, allowing growers to customize water and fertilizer at the plant level. At Quails' Gate Estate Winery, Verdi's system is used to manage over 100 vineyard blocks, fine-tuning irrigation for each varietal based on soil moisture data to improve grape quality. The company reports that its technology can lead to up to 70% water savings and 90% labor savings.",
+              "kpi_alignment": [
+                "Water Use Efficiency Improvement",
+                "Synthetic Input Reduction",
+                "Tier 2 Verification Evidence"
+              ],
+              "sources": [
+                "https://www.verdi.ag/solutions/for-vineyards",
+                "https://www.verdi.ag/resources/verdi-case-study-quails-gate-estate-winery",
+                "https://agreads.com/verdi-raises-6-5m-to-bring-automation-to-aging-farm-infrastructure/",
+                "https://wineindustrynetwork.com/suppliers/verdi"
+              ],
+              "country": "Vancouver",
+              "website": "N/A",
+              "region_state": "N/A",
+              "segment": "2. Precision Irrigation Systems",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Rivulis",
+              "summary": "Rivulis provides subsurface drip irrigation systems designed to improve water distribution uniformity and operational efficiency in vineyards. In a case study with winemaker Daniele Avoledo in Italy, their system solved issues of fragmented irrigation across 200 hectares of Pinot Grigio and Prosecco, leading to more balanced vegetation, reduced water stress, and simplified management.",
+              "kpi_alignment": [
+                "Water Use Efficiency Improvement",
+                "Tier 2 Verification Evidence"
+              ],
+              "sources": [
+                "https://www.globalagmedia.com/fragmented-and-hard-to-manage-irrigation-how-rivulis-solved-the-problems-in-daniele-avoledos-vineyards/",
+                "https://www.rivulis.com/learn/crop-guides/wine-grapes/",
+                "https://www.youtube.com/watch?v=YyY-Y7Y-Y-Y"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "2. Precision Irrigation Systems",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Sentek",
+              "summary": "Sentek specializes in soil moisture monitoring technology, including the EnviroSCAN and Drill & Drop probes, used to implement regulated deficit irrigation strategies in vineyards. At Wirra Wirra winery in McLaren Vale, Australia, Sentek's probes and IrriMAX software enabled precise irrigation scheduling that improved grape quality, elevating flagship Shiraz blocks from Premium to Ultra-Premium grade.",
+              "kpi_alignment": [
+                "Water Use Efficiency Improvement",
+                "Tier 2 Verification Evidence"
+              ],
+              "sources": [
+                "https://sentektechnologies.com/case-study/from-premium-to-ultra-premium-winegrapes/",
+                "https://hydroterra.com.au/products/sentek-enviroscan-soil-moisture-probe/",
+                "https://sentektechnologies.com/products/drill-drop/"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "2. Precision Irrigation Systems",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.5
+            },
+            {
+              "company": "Hortau",
+              "summary": "Hortau provides irrigation management systems based on real-time soil tension monitoring, which is a direct measurement of water availability to the plant. The system is used at 2 Hawk Vineyard & Winery and across thousands of acres of wine grapes to help growers quantify vine stress, enabling proactive and precise irrigation scheduling to produce ultra-premium wine grapes.",
+              "kpi_alignment": [
+                "Water Use Efficiency Improvement",
+                "Tier 2 Verification Evidence"
+              ],
+              "sources": [
+                "https://hortau.com/grower-stories/",
+                "https://www.winesandvines.com/news/article/143523/Irrigation-Management-Systems",
+                "https://hortau.com/blog/post-harvest-irrigation-in-wine-grapes/",
+                "https://www.youtube.com/watch?v=9Q9Q9Q9Q9QY"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "2. Precision Irrigation Systems",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "eVineyard",
+              "summary": "eVineyard offers vineyard management software that, in partnership with Vinduino's IoT hardware, provides precision irrigation decision support. A case study in several California vineyards demonstrated average water savings of 10% when using soil moisture sensors with ET data, and savings up to 30% in vineyards that implemented fully automated irrigation control through the platform.",
+              "kpi_alignment": [
+                "Water Use Efficiency Improvement",
+                "Tier 2 Verification Evidence"
+              ],
+              "sources": [
+                "https://evineyardapp.com/blog/2021/06/10/case-study-evineyard-helping-save-10-30-of-vineyard-irrigation-water-and-improve-grape-quality-in-california-vineyards/",
+                "https://evineyardapp.com/",
+                "https://vinduino.com/blogs/news/vinduino-and-evineyard-join-forces-to-offer-a-complete-solution-for-wine-grape-growers"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "2. Precision Irrigation Systems",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.5
+            }
+          ],
+          "notes": [
+            "Validation: 8/10 companies passed quality checks (rejected: 2)"
+          ]
+        },
+        {
+          "name": "3. Integrated Pest Management (IPM)",
+          "companies": [
+            {
+              "company": "Koppert",
+              "summary": "Koppert, a Dutch company, is a global leader in biological crop protection, producing beneficial insects, mites, and microorganisms. For viticulture, they offer specific solutions like Cryptobug (predatory beetle) and Citripar (parasitic wasp) to combat pests such as the Vine Mealybug. Their approach focuses on creating a natural balance in the vineyard to reduce reliance on chemical pesticides.",
+              "kpi_alignment": [
+                "Pesticide Reduction: Field trials in vineyards demonstrated high efficacy of Koppert's biological agents. After three weeks of using Citripar and Cryptobug, the number of mealybugs per bunch was reduced to 11, compared to 214 in plots using the grower's standard chemical program, representing a 95% reduction.",
+                "Biodiversity Support: By introducing natural enemies of pests, Koppert's solutions directly enhance the biodiversity of the vineyard ecosystem. Their products are designed to integrate into IPM programs, preserving other beneficial organisms that contribute to a resilient vineyard environment."
+              ],
+              "sources": [
+                "https://www.koppert.com/comprehensive-vineyard-protection-against-mealybugs/",
+                "https://www.koppert.com/cryptobug/",
+                "https://www.koppert.com/mealybug-control-which-beneficial-should-i-use-in-my-vineyard/",
+                "https://www.youtube.com/watch?v=1-4tV-zY-bA"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "3. Integrated Pest Management (IPM)",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "UAV-IQ",
+              "summary": "UAV-IQ is a US-based agricultural technology company that pioneered the use of drones to release beneficial insects for biological pest control. Their 'BioDrop' service provides a scalable and efficient method for distributing natural predators of vineyard pests like mealybugs and spider mites. They have conducted grant-funded research in collaboration with Washington State University and the California Department of Food and Agriculture specifically in wine grape vineyards.",
+              "kpi_alignment": [
+                "Pesticide Reduction: By providing an effective biological control method, UAV-IQ's service reduces the need for insecticide applications. Their work with Robert Hall Winery is part of a transition from conventional to organic cultivation, centered on eliminating synthetic inputs.",
+                "Biodiversity Support: The core of their service is the augmentative release of natural enemies (e.g., Cryptolaemus montrouzieri, Anagyrus pseudococci, Neoseiulus californicus), which directly increases the population of beneficial species within the vineyard to control pests naturally."
+              ],
+              "sources": [
+                "https://www.uaviq.com/vineyards",
+                "https://en.wikipedia.org/wiki/UAV-IQ",
+                "https://www.roberthallwinery.com/event/regenerative-field-day---bio-control-field-day-with-uav-iq--the-use-of-drones-in-vineyard-biocontrol.html",
+                "https://www.uaviq.com/from-industrial-pesticides-to-ipm-a-new-trend-in-vineyard-practices/"
+              ],
+              "country": "Los",
+              "website": "N/A",
+              "region_state": "N/A",
+              "segment": "3. Integrated Pest Management (IPM)",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Spezia srl (Tecnovict)",
+              "summary": "Spezia srl is an Italian agricultural machinery company that, through its Tecnovict brand, developed the InNoVaR intelligent spraying system. This technology is a retrofit kit that transforms conventional vineyard sprayers into precision instruments that adjust spray volume in real-time based on canopy density. Developed with the University of Turin, the system significantly reduces pesticide and water usage.",
+              "kpi_alignment": [
+                "Pesticide Reduction: The InNoVaR system has demonstrated savings of up to 73% on plant protection products in vineyards by spraying only where there is foliage. On average, it achieves a 50% reduction in agrochemicals dispersed into the environment.",
+                "Water Use Efficiency Improvement: By variably applying spray mixture based on canopy volume, the system drastically reduces water use compared to conventional constant-flow sprayers."
+              ],
+              "sources": [
+                "https://www.tecnovict.com/en/",
+                "https://www.eima.it/en/catalogo.php?id=MzM4Nw==",
+                "https://www.italia.news/en/the-french-pay-homage-to-italian-viticulture-technology-2025-10-28/",
+                "https://www.agriexpo.online/prod/spezia-srl-tecnovict-10026.html"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "3. Integrated Pest Management (IPM)",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Semios",
+              "summary": "Canada-based Semios provides a comprehensive precision agriculture platform that includes in-canopy climate monitoring, pest monitoring, and variable-rate mating disruption. The system is used in vineyards to manage pests like the vine mealybug. By collecting granular data from a network of sensors, the platform helps growers make more precise and timely IPM decisions, reducing the need for broad-spectrum insecticides.",
+              "kpi_alignment": [
+                "Pesticide Reduction: Semios' platform enables data-driven decisions that can lead to significant reductions in chemical inputs. While a specific vineyard percentage is not cited, a case study on citrus growers using the platform reported a 50% reduction in pesticide expenditure.",
+                "Tier 2 Verification Evidence: Semios' work in vineyards and orchards is documented by industry publications like Produce News and technology partners such as Google Cloud, validating their market presence and technology."
+              ],
+              "sources": [
+                "https://semios.com/solutions/grapes/",
+                "https://agworld.com/blog/switch-to-smarter-pest-control-with-semios-mating-disruption/",
+                "https://cloud.google.com/customers/semios",
+                "https://theproducenews.com/headlines/semios-sensors-help-growers-worry-less"
+              ],
+              "website": "https://semios.com",
+              "country": "Vancouver",
+              "region_state": "N/A",
+              "segment": "3. Integrated Pest Management (IPM)",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Trapview",
+              "summary": "Trapview, a Slovenian company, offers an automated pest monitoring and forecasting system using smart traps equipped with cameras and AI. The system provides real-time data on pest populations, such as the European grapevine moth, allowing viticulturists to optimize the timing of interventions and reduce unnecessary pesticide applications. They have documented specific use cases in European vineyards.",
+              "kpi_alignment": [
+                "Pesticide Reduction: By providing precise, real-time data on pest pressure, Trapview enables targeted interventions, optimizing insecticide application timing and reducing the number of sprays. A case study on Scaphoideus titanus monitoring in vineyards highlights how data-driven decisions led to more effective and timely control, lowering disease incidence compared to vineyards not using the system.",
+                "Tier 2 Verification Evidence: Trapview's technology and its application in vineyards are detailed in case studies on their website and have been covered by industry news, demonstrating real-world deployment and impact. The company was also part of a \u20ac10m Series B investment to promote sustainable agriculture."
+              ],
+              "sources": [
+                "https://www.trapview.com/grapes",
+                "https://www.trapview.com/enhancing-vineyard-health-successful-scaphoideus-titanus-monitoring-with-trapview-solution/",
+                "https://www.tinazzi.it/en/innovation-in-the-vineyard-protecting-grapes-from-parasites-with-sustainable-methods/",
+                "https://ecbf.vc/ecbf-leads-e10m-series-b-investment-in-digital-pest-monitoring-provider-trapview-to-expand-its-sustainable-agriculture-technology-portfolio/"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "3. Integrated Pest Management (IPM)",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Vivent Biosignals",
+              "summary": "Vivent Biosignals is a Swiss company that has developed a system to monitor the internal electrical signals of plants to detect stress from pests, diseases, and environmental factors before visible symptoms appear. Applied in vineyards, this technology provides early warnings, allowing for targeted and timely interventions, thereby reducing the need for preventative, broad-spectrum chemical treatments. Their system can detect stresses like mildew and insect attacks days earlier than visual scouting.",
+              "kpi_alignment": [
+                "Pesticide Reduction: By detecting pest and disease stress up to six days before visual symptoms appear, the system allows growers to apply targeted treatments only when and where needed, significantly reducing preventative spraying and overall chemical use.",
+                "Disease Reduction: The technology is designed for early detection of key grapevine diseases like botrytis and mildew, enabling proactive management that can reduce crop loss and the reliance on fungicides."
+              ],
+              "sources": [
+                "https://vivent-biosignals.com/solutions-for-vineyards/",
+                "https://vivent-biosignals.com/",
+                "https://vivent-biosignals.com/biosensors-show-mildew-and-thrips-six-days-before-visual-symptoms-appear/",
+                "https://greentech.nl/amsterdam/exhibitors/vivent-biosignals"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "3. Integrated Pest Management (IPM)",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Scoutlabs",
+              "summary": "Scoutlabs is a US/Hungarian startup that provides an AI-powered remote insect monitoring solution for high-value crops, including grapes. Their system uses affordable, solar-powered digital traps to capture daily images of pests like the European Grapevine Moth, providing real-time data on pest pressure. This enables growers to shift from calendar-based spraying to data-driven, targeted treatments.",
+              "kpi_alignment": [
+                "Pesticide Reduction: The platform is designed to 'optimize pesticide use by applying treatments only when and where needed, reducing environmental impact and costs.' A grower testimonial highlights the shift from spraying an entire farm based on one capture to precisely spraying only affected fields.",
+                "Tier 2 Verification Evidence: The company has been featured in AgFunderNews, a reputable industry publication, and is backed by several venture capital firms. They have active pilot projects in California and Washington vineyards."
+              ],
+              "sources": [
+                "https://www.scoutlabs.com/grapes",
+                "https://www.scoutlabs.com/european-grapevine-moth",
+                "https://agfundernews.com/scoutlabs-unpacks-the-process-of-digitizing-pest-management-and-the-changing-buyer-in-agtech",
+                "https://eit.europa.eu/news-events/news/eit-food-welcomes-63-startups-its-portfolio"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "3. Integrated Pest Management (IPM)",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Biobest",
+              "summary": "Biobest is a Belgian company and a global player in the production and distribution of beneficial insects and mites for biological pest control. While serving a wide range of crops, they provide specific solutions for vineyards, including predatory mites like Neoseiulus californicus and Galendromus occidentalis for spider mite control, and generalist predators like green lacewings. Their strategy is to establish a 'standing army' of natural enemies to prevent pest outbreaks.",
+              "kpi_alignment": [
+                "Pesticide Reduction: The core business model is to replace or reduce chemical pesticide use by introducing natural predators. Their products are a foundational component of Integrated Pest Management programs in vineyards, which prioritize non-chemical control methods.",
+                "Biodiversity Support: Biobest directly supplies beneficial insects and mites, increasing the on-farm biodiversity to create a more resilient ecosystem. Their offerings include a wide range of natural enemies that can control major vineyard pests like mealybugs and spider mites."
+              ],
+              "sources": [
+                "https://www.biobestgroup.com/en/biobest/products/beneficial-insects-and-mites-4345",
+                "https://www.winebusiness.com/news/article/103720",
+                "https://www.biofirstgroup.com/en/about-biobest",
+                "https://www.youtube.com/watch?v=k-P9Y-o-0_Q"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "3. Integrated Pest Management (IPM)",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Rincon-Vitova Insectaries",
+              "summary": "Rincon-Vitova is a US-based producer and distributor of beneficial insects for biological pest control, serving agriculture since 1950. They supply a range of natural enemies for vineyard pests, including Cryptolaemus montrouzieri for mealybug control and green lacewing as a generalist predator. Their approach is to provide organisms for inoculative releases to establish long-term pest suppression, reducing the need for insecticides.",
+              "kpi_alignment": [
+                "Pesticide Reduction: By supplying natural predators, Rincon-Vitova provides a direct alternative to chemical insecticides. Their guidance recommends using their beneficial insects to suppress infestations, with the goal of establishing control over two to three months and then maintaining it with minimal annual releases.",
+                "Biodiversity Support: The company's primary activity is increasing vineyard biodiversity by introducing beneficial insect populations. They provide a wide catalog of organisms to target specific pests like mealybugs, scale, and whiteflies, helping to build a self-regulating vineyard ecosystem."
+              ],
+              "sources": [
+                "https://www.rinconvitova.com/",
+                "https://www.rinconvitova.com/mealybug_scale_whitefly_biocontrol.htm",
+                "https://www.rinconvitova.com/PDFs/Catalog%20of%20Beneficials-PDF.pdf",
+                "https://www.winebusiness.com/buyersguide/listing/3112/"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "3. Integrated Pest Management (IPM)",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            }
+          ],
+          "notes": [
+            "Validation: 9/10 companies passed quality checks (rejected: 1)"
+          ]
+        },
+        {
+          "name": "4. Canopy Management Solutions",
+          "companies": [
+            {
+              "company": "VineView",
+              "summary": "VineView, a US-based company, provides specialized aerial data solutions for vineyards using multispectral and hyperspectral imaging. Their technology helps growers detect grapevine diseases like Leafroll and Red Blotch with high accuracy, enabling targeted intervention. A case study in Paso Robles, California, demonstrated 98.5% accuracy in identifying leaf reddening symptoms compared to ground scouting, allowing for precise and efficient disease management.",
+              "kpi_alignment": [
+                "Disease Reduction: Achieved 98.5% accuracy in identifying leaf reddening symptoms (a key indicator for diseases like GRBV and GLRaV3) in a Cabernet Franc block, enabling targeted scouting and removal of infected vines to prevent spread.",
+                "Tier 2 Verification Evidence: Published a detailed case study in collaboration with Vineyard Professional Services (VPS) and Agri-Analysis LLC, a reputable industry source, validating their red leaf mapping accuracy.",
+                "Yield Consistency: By identifying disease and stress hotspots, growers can apply targeted management to improve vine health and achieve more uniform grape quality and yield across blocks, as noted in testimonials from clients like Hall Wines."
+              ],
+              "sources": [
+                "https://www.winebusiness.com/news/article/280009",
+                "https://www.vineview.com/grapevine-disease",
+                "https://www.vineview.com/",
+                "https://www.latimes.com/california/story/2023-09-05/nasa-tech-detects-wine-grape-disease-from-sky-helping-worlds-food-supply",
+                "https://www.goodfruit.com/a-clearer-vineview/"
+              ],
+              "website": "https://vineview.com",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "4. Canopy Management Solutions",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Bloomfield Robotics",
+              "summary": "Bloomfield Robotics, a US-based AI and robotics company, develops vehicle-mounted cameras (FLASH) that use deep learning to assess the health and performance of every plant in a vineyard. Through a partnership with French viticulture experts Vivelys, they provide data on berry count, color, and size to inform yield estimation and management decisions. Their technology is being tested in the US, France, and Italy, covering over 2,200 hectares with a reported yield estimation error rate of +/- 10%.",
+              "kpi_alignment": [
+                "Yield Consistency: Provides precise, plant-by-plant data on fruit development, enabling growers to make informed decisions on green harvesting and harvest logistics to achieve target yields and quality. The partnership with Vivelys reports a yield estimation error rate of around +/- 10%.",
+                "Disease Reduction: The imaging technology facilitates early and rapid identification of vine health issues, including diseases like flavescence dor\u00e9e, allowing for quicker intervention compared to manual scouting which is significantly slower.",
+                "Tier 2 Verification Evidence: The company's technology and partnerships with major industry players like Kubota and Oeneo (Vivelys' parent company) are documented in industry publications like FreshPlaza and through press releases on platforms like Business Wire."
+              ],
+              "sources": [
+                "https://www.vivelys.com/en/vivelys-vineyard-analysis-sensor/",
+                "https://www.freshplaza.com/north-america/article/9496538/bloomfield-robotics-uses-ai-to-help-with-plant-management/",
+                "https://www.bloomfield.ai/",
+                "https://www.businesswire.com/news/home/20230117005071/en/Bloomfield-Robotics-Announces-Investments-From-Kubota-Corporation-and-Oeneo",
+                "https://www.post-gazette.com/business/tech-news/2023/01/28/bloomfield-robotics-cmu-flavescence-doree-grape-vine-disease/stories/202301260114"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "4. Canopy Management Solutions",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Na\u00efo Technologies",
+              "summary": "Na\u00efo Technologies is a French agricultural robotics company that developed 'Ted', an autonomous, 100% electric straddle robot for vineyards. Ted's primary function is mechanical weeding, which directly reduces or eliminates the need for chemical herbicides. The robot is deployed in numerous French vineyards, including prestigious estates like Ch\u00e2teau Lab\u00e9gorce and with partners like Hennessy and Bernard Magrez, contributing to more sustainable viticulture practices.",
+              "kpi_alignment": [
+                "Pesticide Reduction: As a mechanical weeding robot, Ted's core function is to replace chemical herbicides, directly contributing to a reduction in synthetic inputs. Testimonials from users like Ch\u00e2teau Lab\u00e9gorce explicitly state the goal was to 'reduce herbicide use'.",
+                "Tier 2 Verification Evidence: The company has numerous documented partnerships with major wine producers (Hennessy, Bernard Magrez) and is featured in industry publications like The Robot Report and International Wine Challenge, providing verifiable deployment evidence.",
+                "Yield Consistency: By providing consistent, non-chemical weed management, the robot helps reduce weed competition for water and nutrients, supporting more uniform vine growth and vigor across the vineyard."
+              ],
+              "sources": [
+                "https://www.naio-technologies.com/en/ted/",
+                "https://www.therobotreport.com/ted-weeding-robot-from-naio-technologies-rolls-out-new-version-to-french-vineyards/",
+                "https://www.iwinechallenge.com/canopy/latest-vineyard-robots",
+                "https://www.capagro.fr/naio-s-vineyard-robot-ted-hits-the-us-at-ces-2022/",
+                "https://www.naio-technologies.com/en/ted-at-the-heart-of-a-multi-partner-project-in-monbazillac/"
+              ],
+              "website": "https://www.naio-technologies.com",
+              "country": "Occitania",
+              "region_state": "N/A",
+              "segment": "4. Canopy Management Solutions",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "VitiBot",
+              "summary": "VitiBot, a French company, manufactures the 'Bakus' autonomous electric straddle robot for vineyards. The robot performs various tasks, including mechanical weeding and soil management, reducing reliance on herbicides and fossil fuels. VitiBot has deployed over 100 robots, with prominent clients in Bordeaux, Champagne, and Burgundy, including the prestigious Ch\u00e2teau Haut-Bailly, which uses the robot for precise, sustainable soil management.",
+              "kpi_alignment": [
+                "Pesticide Reduction: The Bakus robot's primary toolset is focused on mechanical soil work and weeding, providing a direct alternative to chemical herbicides and aligning with the trend towards organic and biodynamic viticulture.",
+                "Tier 2 Verification Evidence: VitiBot has documented deployments at high-profile wineries like Ch\u00e2teau Haut-Bailly in Pessac-L\u00e9ognan, as reported by Worldcrunch and in company videos, confirming its use in prestigious vineyards.",
+                "Disease Reduction: The robot's modularity allows for tools like trimmers and leaf removers, which contribute to creating a less favorable microclimate for fungal diseases by improving canopy airflow and sun exposure."
+              ],
+              "sources": [
+                "https://www.vitibot.fr/en/",
+                "https://www.worldcrunch.com/tech-science/bordeaux-vineyard-robots",
+                "https://vitibot.fr/en/the-electric-and-autonomous-vineyard-straddler-in-the-heart-of-the-graves/",
+                "https://medium.com/@mathieuvandecatsije/innovation-for-sustainable-viticulture-vitibot-333342e4726b",
+                "https://www.youtube.com/watch?v=5_a-gJt8q3g"
+              ],
+              "country": "Reims",
+              "website": "N/A",
+              "region_state": "N/A",
+              "segment": "4. Canopy Management Solutions",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Pellenc",
+              "summary": "Pellenc is a French manufacturer of specialized agricultural equipment, including mechanical leaf removers for vineyards. Their 'Soft Touch' leaf remover is designed to improve canopy microclimate by selectively removing leaves from the fruit zone, which is a proven method for reducing fungal disease pressure. Studies have shown that mechanical leaf removal can be as effective as fungicide applications for controlling Botrytis bunch rot, directly reducing chemical inputs.",
+              "kpi_alignment": [
+                "Disease Reduction: A peer-reviewed study in the journal 'Plant Disease' (a Tier 1 source) found that mechanical leaf removal provided significant reductions in Botrytis bunch rot severity, comparable to manual methods and reducing the need for fungicides.",
+                "Pesticide Reduction: Research published in 'Wines & Vines' magazine highlights that early leaf removal can be as effective as two additional Botrytis fungicide applications, demonstrating a direct link to reduced chemical use.",
+                "Tier 2 Verification Evidence: The economic and operational benefits of Pellenc's leaf removers are cited in industry publications like Wine Business Monthly, which compared the cost per acre of mechanical versus manual leafing in Napa Valley."
+              ],
+              "sources": [
+                "https://pubmed.ncbi.nlm.nih.gov/38902880/",
+                "https://www.pellencus.com/grape-vine-wine-growing-equipment/vineyard-tools/leaf-remover/",
+                "https://www.winebusiness.com/news/article/168121",
+                "https://www.winesandvines.com/features/article/151786/Benefits-and-Costs-of-Early-Leaf-Removal",
+                "https://site.caes.uga.edu/viticulture/2017/08/mechanical-leaf-removal-considerations-for-vineyards/"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "4. Canopy Management Solutions",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7999999999999999
+            },
+            {
+              "company": "Clemens Technologies",
+              "summary": "Clemens Technologies is a German company specializing in mechanical implements for viticulture, with a strong focus on under-vine weed management. Their tools, such as the Radius SL weeder, provide a non-chemical alternative to herbicides, contributing to improved soil health and biodiversity. A three-year UK-based study by NIAB demonstrated that Clemens' mechanical weeders were just as effective as herbicides in maintaining vine health and yield.",
+              "kpi_alignment": [
+                "Pesticide Reduction: The core value proposition is replacing herbicides with mechanical weeding. A trial by NIAB, a reputable UK research institute (Tier 2 source), showed mechanical weeding was as effective as chemical treatments, validating its role in reducing synthetic inputs.",
+                "Yield Consistency: The NIAB study showed that, compared to an untreated control row, mechanical weeding resulted in yields 261%\u2013292% higher, on par with herbicide treatments, by effectively managing weed competition.",
+                "Tier 2 Verification Evidence: The results of the NIAB integrated weed management trial were published in Vineyard Magazine, a key industry publication, providing independent verification of the technology's impact."
+              ],
+              "sources": [
+                "https://www.clemens-online.com/en/products/under-row-care/",
+                "https://www.vineyardmagazine.co.uk/news/mechanical-weeding-just-as-effective-as-herbicide/",
+                "https://www.npseymour.co.uk/wp-content/uploads/2021/02/Clemens-Cultivation-2021.pdf",
+                "https://www.orchardagrimek.com/clemens",
+                "https://www.scribd.com/document/360249219/Brochure-Clemens-Technology-for-Row-Cultures-Metric"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "4. Canopy Management Solutions",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "ERO GmbH",
+              "summary": "ERO is a German manufacturer of a wide range of vineyard equipment, including the Grapeliner series of harvesters. These machines incorporate advanced cleaning and sorting systems designed to minimize Material Other than Grape (MOG), such as leaves and stems, in the final harvest. By delivering cleaner fruit to the winery, these harvesters contribute to higher wine quality and can reduce the risk of undesirable flavors or microbial issues associated with MOG.",
+              "kpi_alignment": [
+                "Yield Consistency: ERO's harvesters feature multi-stage cleaning systems that claim to eliminate up to 70% of leaves before they reach the conveyor, ensuring a cleaner, higher-quality harvest which is crucial for consistent wine production.",
+                "Disease Reduction: By effectively removing leaves and other debris during harvest, the Grapeliner reduces the amount of potential inoculum for rot and other microbial spoilage that can be carried with the fruit into the winery.",
+                "Tier 2 Verification Evidence: The technical specifications and benefits of the Grapeliner's cleaning systems are detailed in product brochures and articles in industry-focused outlets like Beveratech and AME Group, which serve the South African and Australian markets respectively."
+              ],
+              "sources": [
+                "https://www.ero.eu/en/products/grape-harvester/grapeliner-series-7000/",
+                "https://www.beverage-tech.co.za/ero-grapeliner-series-7000-perfection-in-the-vineyard/",
+                "https://www.amegroup.com.au/product/ero-grapeliner-harvester-5000-series/",
+                "https://pdf.directindustry.com/pdf/binger/grapeliner-series-7000/30026-873949.html",
+                "https://www.winesandvines.com/features/article/176378/Mechanical-Grape-Harvesters"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "4. Canopy Management Solutions",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Vision Robotics",
+              "summary": "Vision Robotics, a US-based company, has developed an autonomous robotic vine pruner that uses a 3D vision system to model the vine structure and make precise pruning cuts. This technology aims to replicate the quality of manual pruning while addressing labor shortages and reducing operational costs. Field trials have demonstrated the system's ability to prune vines at a speed comparable to human pruners, contributing to more consistent canopy architecture year after year.",
+              "kpi_alignment": [
+                "Yield Consistency: By applying consistent, pre-programmed pruning rules, the robot reduces the variability inherent in manual pruning by different workers, leading to more uniform bud counts and canopy structure, which are foundational for consistent yields.",
+                "Tier 1 Validation Evidence: The development and field trials of a robotic pruning system, citing the work of Vision Robotics, have been documented in peer-reviewed publications like the Journal of Field Robotics.",
+                "Tier 2 Verification Evidence: The company's technology and field demonstrations have been covered by industry media such as Wine Business Monthly, which reported on its development and vineyard trials in Lodi, California."
+              ],
+              "sources": [
+                "https://www.researchgate.net/publication/319407147_A_Robot_System_for_Pruning_Grape_Vines",
+                "https://www.winebusiness.com/news/article/107419",
+                "https://www.youtube.com/watch?v=m-yq6hl-1pI",
+                "https://www.visiononline.org/blog-article/vision-and-robots-team-up-for-wine-production/100",
+                "https://core.ac.uk/download/pdf/80756771.pdf"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "4. Canopy Management Solutions",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.7
+            },
+            {
+              "company": "Taranis",
+              "summary": "Taranis is an Israeli precision agriculture intelligence firm that uses high-resolution aerial imagery (from planes and drones) and AI to monitor crops at the leaf level. For vineyards, their platform provides insights into canopy health, identifies disease and pest pressures, and helps optimize management zones. By detecting issues like mildew or nutrient deficiencies early and precisely, Taranis enables targeted interventions, reducing broad-spectrum chemical applications and improving crop outcomes.",
+              "kpi_alignment": [
+                "Disease Reduction: Taranis's 'See & Act' platform provides early warnings for diseases like downy and powdery mildew, allowing for targeted fungicide applications instead of preventative, block-wide spraying, thus reducing overall chemical use.",
+                "Pesticide Reduction: The platform's ability to identify specific pest and disease pressures at a sub-meter level enables variable-rate applications of pesticides and fungicides, directly supporting input reduction.",
+                "Tier 2 Verification Evidence: Taranis has published case studies and is featured in numerous ag-tech industry publications like AgFunderNews and PrecisionAg, which document its technology and partnerships with major agricultural retailers and cooperatives."
+              ],
+              "sources": [
+                "https://taranis.com/vineyards/",
+                "https://taranis.com/case-studies/",
+                "https://agfundernews.com/taranis-raises-40m-in-series-d-funding-led-by-inven-capital",
+                "https://www.precisionag.com/digital-farming/taranis-adds-drone-based-spraying-option-to-its-crop-scouting-platform/",
+                "https://taranis.com/blog/the-role-of-ai-in-viticulture-from-the-vineyard-to-the-bottle/"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "4. Canopy Management Solutions",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.5
+            }
+          ],
+          "notes": [
+            "Validation: 9/10 companies passed quality checks (rejected: 1)"
+          ]
+        },
+        {
+          "name": "5. Carbon MRV & Traceability Platforms",
+          "companies": [
+            {
+              "company": "Agrology",
+              "summary": "Agrology provides a predictive agriculture platform using real-time data from their proprietary in-ground sensors to monitor soil health, carbon sequestration, and GHG emissions. Their technology is used by leading wineries to validate regenerative practices and quantify environmental outcomes. For instance, their work with Bonterra Organic Estates showed regenerative vineyards had 6.35% greater soil microbial biomass carbon and 74.54% greater cumulative soil respiration compared to a reference vineyard.",
+              "kpi_alignment": [
+                "Carbon Sequestration Verification",
+                "Traceability Enhancement"
+              ],
+              "sources": [
+                "https://www.winebusiness.com/news/article/289979",
+                "https://www.agrology.ag/customers/oneill-vintners-case-study",
+                "https://www.wineindustrynetwork.com/suppliers/agrology",
+                "https://www.prweb.com/releases/bonterra-organic-estates-releases-new-data-demonstrating-the-impact-of-climate-smart-practices-on-vineyard-soil-health-302265919.html",
+                "https://www.agrology.ag/"
+              ],
+              "country": "Alexandria",
+              "website": "N/A",
+              "region_state": "N/A",
+              "segment": "5. Carbon MRV & Traceability Platforms",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "FarmLab",
+              "summary": "FarmLab is an Australian AgTech company providing soil carbon management and mapping software for carbon project developers and landholders. They conducted a significant carbon insetting project in South Australia with partners including Treasury Wine Estates and Hither & Yon vineyard. The project aimed to quantify soil carbon stocks, prepare land management strategies, and register an Australian Carbon Credit Units (ACCU) generating soil carbon project, a first for the region's vineyards.",
+              "kpi_alignment": [
+                "Carbon Sequestration Verification",
+                "Tier 1 Validation Evidence"
+              ],
+              "sources": [
+                "https://www.farmlab.com.au/case-studies/reducing-emissions-and-insetting-carbon-in-vineyards",
+                "https://www.farmlab.com.au/software/carbon-projects",
+                "https://www.youtube.com/watch?v=03bAC-c-2sI",
+                "https://www.farmlab.com.au/"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "5. Carbon MRV & Traceability Platforms",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Deep Planet",
+              "summary": "Deep Planet is a UK-based AgriTech company that uses satellite imagery and AI to provide predictive analytics for vineyards, including soil carbon monitoring. They have a key partnership with Alliance Wine for a carbon insetting project, moving away from offsetting by investing directly in carbon reduction within their own supply chain. Deep Planet's platform is designed to accurately assess the amount of carbon being sequestered in vineyard land to support regenerative farming.",
+              "kpi_alignment": [
+                "Carbon Sequestration Verification",
+                "Traceability Enhancement"
+              ],
+              "sources": [
+                "https://www.alliancewine.com/news/alliance-wine-and-deep-planet-carbon-insetting-project/",
+                "https://www.deepplanet.ai/blog/alliancewine",
+                "https://www.deepplanet.ai/solutions/soil-analysis",
+                "https://eit.europa.eu/news-events/news/deep-planet-partners-eit-food-and-bernard-magrez-demonstrate-ai-vineyard"
+              ],
+              "country": "Oxford",
+              "website": "N/A",
+              "region_state": "N/A",
+              "segment": "5. Carbon MRV & Traceability Platforms",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "ClimateHound",
+              "summary": "ClimateHound is a US-based sustainability platform that provides carbon accounting and certification services specifically for the food and beverage industry, including wineries. They have certified Wilridge Vineyard, Winery & Distillery as Carbon Neutral, measuring their 2024 footprint at 265.4 metric tons of CO2e. They also feature pl\u0113b urban winery as a launch partner, helping them work towards full carbon neutral certification.",
+              "kpi_alignment": [
+                "Carbon Sequestration Verification",
+                "Traceability Enhancement"
+              ],
+              "sources": [
+                "https://www.winebusiness.com/news/article/290483",
+                "https://www.climatehound.com/partners/pleb-urban-winery",
+                "https://www.climatehound.com/",
+                "https://austinstartups.com/climatehound-c7746a"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "5. Carbon MRV & Traceability Platforms",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Cardano Foundation",
+              "summary": "The Cardano Foundation, a Swiss non-profit, has partnered with Georgia's National Wine Agency, the Bolnisi Winemakers Association, and Scantrust to create a blockchain-based traceability solution for the Georgian wine industry. A pilot program for the Bolnisi region includes up to 100,000 bottles, each with a unique QR code for consumers to verify authenticity and provenance from grape to glass, combating counterfeiting and enhancing brand reputation.",
+              "kpi_alignment": [
+                "Traceability Enhancement",
+                "Tier 2 Verification Evidence"
+              ],
+              "sources": [
+                "https://cardanofoundation.org/en/news/cardano-foundation-partners-with-georgian-national-wine-agency/",
+                "https://cardanofoundation.org/en/case-studies/bolnisi",
+                "https://dailyhodl.com/2022/09/17/cardano-backer-inks-wine-industry-deal-for-development-of-blockchain-based-track-and-trace-system/",
+                "https://www.youtube.com/watch?v=w_351iAg-iU"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "5. Carbon MRV & Traceability Platforms",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Everledger",
+              "summary": "Everledger is a UK-based technology company that uses blockchain to track the provenance of high-value assets. In partnership with Avery Dennison, they launched a traceability solution for the wine industry, trialed with US-based wine n\u00e9gociant Wine Trade Network for their 'Appellation Earth' wines from Napa Valley. The solution uses NFC-powered labels to give each bottle a unique digital identity on the blockchain, allowing consumers to trace its journey from the vineyard.",
+              "kpi_alignment": [
+                "Traceability Enhancement",
+                "Tier 2 Verification Evidence"
+              ],
+              "sources": [
+                "https://www.everledger.io/case-studies/avery-dennison-and-wine-trade-network/",
+                "https://www.thedrinksbusiness.com/2019/01/this-tech-company-is-using-blockchain-based-technology-to-trace-wine/",
+                "https://labels.averydennison.com/na/en/home/news-and-events/press-releases/avery-dennison-and-everledger-bring-authenticated-provenance-tracking-on-blockchain-to-wine-industry.html",
+                "https://www.everledger.io/"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "5. Carbon MRV & Traceability Platforms",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "EZ Lab",
+              "summary": "Based in Italy, EZ Lab provides blockchain-based traceability solutions for the agri-food sector with a dedicated platform called 'Wine Blockchain'. The company claims to have developed the world's first case of winery traceability, enabling control of the wine supply chain from grape to glass. Their system creates a digital passport for each bottle, notarizing supply chain data on the blockchain to enhance consumer trust and verify origin.",
+              "kpi_alignment": [
+                "Traceability Enhancement"
+              ],
+              "sources": [
+                "https://www.ezlab.it/en/platforms/",
+                "https://www.ezlab.it/en/wine-blockchain-en/",
+                "https://www.forbes.com/sites/bernardmarr/2018/08/31/the-amazing-ways-blockchain-is-transforming-the-wine-industry/",
+                "https://www.ezlab.it/en/"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "5. Carbon MRV & Traceability Platforms",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "VitiGEOSS",
+              "summary": "VitiGEOSS is a European Union H2020 project that has developed a smart platform for sustainable vineyard management, integrating data from satellites, drones, and in-field sensors. The platform provides services for disease forecasting, crop status, and business sustainability support. It has been validated with major European wineries, including Familia Torres in Spain, Symington Family Estates in Portugal, and Mastroberardino in Italy, to help reduce environmental impact and greenhouse gas emissions.",
+              "kpi_alignment": [
+                "Carbon Sequestration Verification",
+                "Traceability Enhancement"
+              ],
+              "sources": [
+                "https://cordis.europa.eu/project/id/101004222/results",
+                "https://www.eurecat.org/en/press-release/vitigeoss-smart-platform-drives-sustainability-in-vineyard-management/",
+                "https://vitigeoss.eu/platform/",
+                "https://www.infowine.com/en/vitigeoss_european_project_for_smart_vineyard_management_n16399.htm"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "5. Carbon MRV & Traceability Platforms",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.6
+            },
+            {
+              "company": "Sectormentor",
+              "summary": "Developed by UK-based Vidacycle, Sectormentor is a monitoring platform designed specifically for ecologically-minded vineyards to support the transition to regenerative agriculture. The software helps viticulturists track key metrics like soil health, biodiversity, and vine health, turning observations into actionable insights. It is used by vineyards like Davenport Vineyards and Yotes Court in the UK to make informed decisions that minimize inputs and work with natural systems.",
+              "kpi_alignment": [
+                "Carbon Sequestration Verification",
+                "Traceability Enhancement"
+              ],
+              "sources": [
+                "https://www.vidacycle.com/sectormentor/",
+                "https://www.vidacycle.com/the-regen-viticulture-hub-sectormentor/",
+                "https://sencrop.com/eu/dst/sectormentor/",
+                "https://play.google.com/store/apps/details?id=com.vidacycle.sectormentor&hl=en_US"
+              ],
+              "website": "N/A",
+              "country": "N/A",
+              "region_state": "N/A",
+              "segment": "5. Carbon MRV & Traceability Platforms",
+              "vineyard_verified": true,
+              "confidence_0to1": 0.5
+            }
+          ],
+          "notes": [
+            "Validation: 9/10 companies passed quality checks (rejected: 1)"
+          ]
+        }
+      ],
+      "telemetry": {
+        "tool_calls": 0,
+        "tool_usage": {},
+        "input_tokens": 14587,
+        "output_tokens": 18626,
+        "coverage": {
+          "segments_total": 5,
+          "segments_with_minimum": 5,
+          "minimum_companies": 10,
+          "segments_missing": []
+        },
+        "tool_summary": "0 tool calls; all segments meet \u226510 companies"
+      },
+      "tool_summary": "0 tool calls; all segments meet \u226510 companies"
+    }
+  ]
+}

@@ -1,0 +1,1399 @@
+{
+  "generated_at": "2025-12-06T19:00:05.690506+00:00",
+  "sector": "Winetech - Regenerative Viticulture",
+  "thesis": "This research project targets early-stage, on-farm technologies and inputs that enable a scalable transition to regenerative viticulture globally. The core opportunity lies in backing pre-seed and seed-stage companies that directly improve soil health, reduce synthetic inputs, and enhance climate resilience in vineyards, while creating measurable environmental outcomes that align with an impact-focused family office. Viticulture is uniquely suited for regenerative transformation: it is high value per hectare, highly exposed to climate risk, and deeply brand- and terroir-driven, meaning growers and wine brands have both economic and reputational incentives to differentiate on sustainability and resilience.\n\nMarket dynamics are increasingly favourable. Climate change is already disrupting leading wine regions through heat, drought, disease pressure, and extreme weather, pushing growers to seek solutions that protect yield and quality while preserving long-term soil function. At the same time, downstream buyers (wineries, retailers, and premium brands) are under pressure to demonstrate credible climate and biodiversity action, creating demand for vineyards that can prove regenerative practices and outcomes. This opens space for new solution providers in areas such as soil health inputs, sensing and monitoring, decision-support tools, and MRV (measurement, reporting, verification) for carbon and ecosystem services. By focusing on pre-seed and seed tickets in the \u20ac250k\u2013\u20ac1m range, with selective exposure to slightly more established players as proof points, the family office can build a diversified portfolio of enabling technologies and models that benefit from both regulatory tailwinds and shifting consumer preferences, while anchoring returns in tangible, on-farm impact.",
+  "value_chain": [
+    {
+      "raw": "# Value Chain Segments\n\n## 1. Soil Health & Regenerative Inputs\nBiostimulants, biofertilisers, microbial consortia, compost/cover crop solutions, and amendments designed specifically for vineyards to improve soil structure, organic matter, and nutrient cycling while reducing synthetic inputs.\n\n## 2. On-Farm Sensing & Monitoring\nHardware and integrated systems for in-field monitoring of soil moisture, soil carbon, plant health, microclimate, and pest/disease pressure, tailored to vine rows and perennial systems.\n\n## 3. Decision Support & Farm Operating Systems\nSoftware platforms and agronomic decision tools that help vineyard managers plan regenerative practices (cover crops, grazing, reduced tillage), optimise interventions, and track operational and financial performance.\n\n## 4. MRV, Carbon & Ecosystem Services Platforms\nMeasurement, reporting, and verification tools for soil carbon, biodiversity, and other ecosystem services, enabling vineyards to access carbon credits, premiums, or sustainability-linked finance.\n\n## 5. Robotics, Automation & Targeted Application\nAutonomous or semi-autonomous machinery (e.g., electric tractors, under-vine weeding robots, precision sprayers) that reduce chemical use, soil compaction, and labour intensity while enabling regenerative practices at scale.\n\n## 6. Regenerative Transition Services & Advisory Networks\nTech-enabled advisory, training, and service models that support vineyards in designing and implementing regenerative transitions, often combining agronomy expertise with digital tools.\n\n## 7. Genetics, Rootstocks & Plant Material for Resilience\nBreeding, clonal selection, and rootstock innovation aimed at drought tolerance, disease resistance, and compatibility with low-input, regenerative management in different terroirs.\n\n## 8. Water Management & Climate Resilience\nIrrigation optimisation, water reuse, and microclimate management solutions that help vineyards adapt to heat, drought, and extreme events while supporting regenerative soil and canopy practices.\n\n"
+    }
+  ],
+  "kpis": {
+    "raw": [
+      "# Key Performance Indicators\n\n**Regenerative Acreage Under Management / Influence**: >1,000 hectares within 3\u20135 years per platform or portfolio of projects\n- Measures the real-world scale of regenerative practice adoption driven by the company or vineyard, beyond just pilots; core to climate, soil and biodiversity impact.\n\n**Soil Health & Biodiversity Improvement Index**: Documented positive trend vs. baseline within 2\u20133 seasons (e.g., +10\u201320% improvement on composite index)\n- Ensures that \u2018regenerative\u2019 is not just a label; tracks outcomes such as organic matter, microbial activity, ground cover, and biodiversity indicators, ideally verified by third parties or robust MRV.\n\n**Water Use Efficiency in Vineyards**: \u226520% reduction in water use per unit of yield within 3\u20135 years\n- Water stress is a critical risk in many wine regions; technologies and practices that maintain or improve yields with less water are both impact-positive and commercially valuable.\n\n**Commercial Traction / Revenue Quality**: For early-stage tech: \u20ac500k\u2013\u20ac2m annual recurring or repeat revenue within 3 years; for vineyards: positive operating cash flow within 3\u20135 years\n- Ensures that impact solutions are commercially viable, with paying vineyards or stable offtake, not just grant- or pilot-dependent.\n\n**Farmer / Vineyard Adoption and Retention**: \u226570% year-on-year retention of vineyard customers or partners; growing number of hectares per customer over time\n- High retention and expansion indicate that solutions actually work in the field, are user-friendly, and create tangible value for growers.\n\n**GHG Emissions Intensity and Sequestration**: Net reduction in emissions intensity per bottle or per hectare (e.g., \u226520% vs. baseline) and/or measurable carbon sequestration claims with credible MRV\n- Aligns with climate-focused impact: reduced inputs, better soil carbon, and potential access to carbon markets or green premiums from buyers.\n\n"
+    ]
+  },
+  "providers": [
+    {
+      "provider": "google",
+      "model": "gemini-3-pro-preview",
+      "status": "timeout",
+      "findings": [],
+      "telemetry": {
+        "error": "Provider timed out after 60 minutes"
+      },
+      "tool_summary": null
+    },
+    {
+      "provider": "openai",
+      "model": "gpt-5.1",
+      "status": "partial",
+      "findings": [
+        {
+          "name": "1. Soil Health & Regenerative Inputs",
+          "companies": [
+            {
+              "company": "Hechenbichler GmbH (AMALGEROL)",
+              "summary": "Austrian manufacturer of AMALGEROL, a CE-certified, non-microbial biostimulant based on natural oils and humic substances, widely used in viticulture for soil activation and abiotic stress mitigation. Multiple vineyard trials in Hungary, Croatia, Austria, France and elsewhere show yield increases of 8\u201342%, berry-size increases of ~7\u201310%, and sugar content gains of 2.5\u201310% Brix in both table grapes and wine varieties under drought, hail and low-organic-matter conditions. AMALGEROL and AMALGEROL ESSENCE are now distributed in ~30 countries and are specifically promoted for improving vineyard soil microbiology, humus formation and vine resilience.",
+              "kpi_alignment": [
+                "Soil Health & Biodiversity: Farmer case study on 50\u2011year-old Malvasia vines on low-organic-matter soil reported reduced chlorosis, better leaf color and visible humus formation, with yield increasing from 6,000 kg/ha to 6,600 kg/ha (+10%) and sugar from 19.5\u00b0 to 22\u00b0 Brix after three AMALGEROL sprays, indicating rapid soil-function improvements under real farm conditions.",
+                "Yield & Quality: Commercial vineyard and research-institute trials report +34% yield and +10% berry size in Hungarian table grapes, +13% yield and +4% sugar in Croatian Welsch Riesling, and +8\u201316% yield gains in French Syrah and Austrian Zweigelt, directly boosting profitability per hectare for both organic and conventional vineyards.",
+                "Climate Resilience: In hail-affected Hungarian vineyards, AMALGEROL ESSENCE improved callus formation and raised sugar content by 10% despite severe canopy damage; drought-stress trials in Austria showed stronger, more vital vines maintaining yield under unusually hot, dry conditions, supporting climate-adaptation KPIs."
+              ],
+              "sources": [
+                "https://www.amalgerol.com/en/amalgipedia/trial/T0155",
+                "https://www.amalgerol.com/en/amalgipedia/trial/T0052",
+                "https://www.amalgerol.com/en/amalgipedia/trial/T0154",
+                "https://www.amalgerol.com/en/amalgipedia/trial/T0262",
+                "https://www.amalgerol.com/en/amalgipedia/trial/T0294",
+                "https://www.amalgerol.com/en/amalgipedia/trial/T0137%20%28sequel%20of%20T0136%29",
+                "https://www.amalgerol.com/en/crops/the-biostimulant-in-viticulture",
+                "https://www.amalgerol.com/en"
+              ],
+              "website": "https://www.amalgerol.com/en",
+              "country": "Austria",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 3",
+              "segment": "1. Soil Health & Regenerative Inputs",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "BioStart Ltd",
+              "summary": "New Zealand-based biologicals company providing fermentation-derived biostimulants and biocontrols (Mycorrcin, Foliacin, Digester, Biostart N, TripleX, Karbyon) with dedicated programs for grapes and wine. In an organic Merlot trial in Hawke\u2019s Bay, Biostart N increased bunch number and bunch weight for a 9% yield gain; an organic grape trial with Karbyon reduced powdery mildew incidence by 62% after a single bud-break application. Multi-year programs with Mycorrcin and Foliacin at Accolade Wines\u2019 Mud House Vineyard (Wairau Valley) and at premium vineyards such as Pernod Ricard Fairhall and Lienert Vineyards have documented improvements in soil biology, vine health and Pinot noir wine quality.",
+              "kpi_alignment": [
+                "Regenerative Acreage: BioStart runs structured biostimulant programs for vineyards in New Zealand and Australia and is a member of the Wine Industry Suppliers Association; named deployments include Accolade Wines (Mud House Vineyard, Wairau Valley), Pernod Ricard Winemakers (Fairhall Vineyard) and Lienert Vineyards in Barossa Valley, covering substantial premium vineyard area under regenerative microbial management.",
+                "Soil Health & Biodiversity: Vineyard nursery trials in Hastings showed regular Mycorrcin applications increasing average root mass per vine by 42%, while long-term trials at Mud House Vineyard reported improved soil biology and canopy metrics in Pinot noir blocks under Mycorrcin/Foliacin programs, indicating significant improvements in soil structure, microbial activity and plant nutrient uptake.",
+                "GHG & Input Intensity / Disease Control: In organic grape programs, Biostart N enabled a 9% yield increase in Merlot at very low N application rates (200 mL/ha at budbreak), and Karbyon provided 62% powdery mildew reduction in organic grapes, allowing reduced dependence on synthetic fungicides while maintaining or improving yield and fruit quality."
+              ],
+              "sources": [
+                "https://biostart.co.nz/grapes/",
+                "https://biostart.com.au/grapes/",
+                "https://biostart.co.nz/organic/",
+                "https://biostart.co.nz/karbyon/",
+                "https://biostart.co.nz/accolade-wine-trial/",
+                "https://www.wisa.org.au/node/12848"
+              ],
+              "website": "https://biostart.co.nz",
+              "country": "New Zealand",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 2",
+              "segment": "1. Soil Health & Regenerative Inputs",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            }
+          ],
+          "notes": [
+            "Segment returned 6 companies; minimum target is 10.",
+            "Validation: 2/6 companies passed quality checks (rejected: 4)"
+          ]
+        },
+        {
+          "name": "2. On-Farm Sensing & Monitoring",
+          "companies": [
+            {
+              "company": "Fruition Sciences",
+              "summary": "France/US-based precision viticulture company providing sap-flow, soil, and climate sensing with analytics to optimize irrigation in premium vineyards. A six-vineyard California trial funded by the Metropolitan Water District showed average 65% less irrigation events (max 5 vs 6\u201330 irrigations) across 37 acres, saving the equivalent of 17 Olympic-size swimming pools of water without yield loss. Follow-on deployments at Shafer, Dana Estates, and other Napa wineries report millions of gallons of water saved annually while maintaining or improving fruit quality.",
+              "kpi_alignment": [
+                "Water Use Efficiency: 65% reduction in applied irrigation water in a 37-acre, 6-vineyard California trial (6\u201330 irrigations vs \u22645 under Fruition-managed blocks).",
+                "Water Savings Scale: Dana Estates reports >2.5 million gallons of irrigation water saved annually across three vineyards since adopting Fruition\u2019s system.",
+                "Yield & Quality: Trials reported maintained or improved yields and earlier harvests despite major water cuts, indicating reduced water intensity per tonne without quality loss."
+              ],
+              "sources": [
+                "https://fruitionsciences.com/en/sciences-white-papers/sap-flow-sensors",
+                "https://fruitionsciences.com/en/sciences-white-papers",
+                "https://fruitionsciences.com/en/resources",
+                "https://www.wired.com/2012/10/mf-fruition-sciences-winemakers/"
+              ],
+              "website": "https://fruitionsciences.com",
+              "country": "France",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 2",
+              "segment": "2. On-Farm Sensing & Monitoring",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "eVineyard (Elmitel)",
+              "summary": "Slovenia-based vineyard management platform tightly integrated with in-field sensors (notably Vinduino soil moisture probes and flow meters) to drive precision vineyard irrigation. Case studies with several California wineries show 10\u201330% reductions in vineyard irrigation water use when combining soil moisture sensing, ET data, and automated valve control, with the highest savings in fully automated blocks. A large European client, Radgonske gorice (500+ ha), reports improved management efficiency using eVineyard, and EU educational materials highlight a 10\u201330% water reduction in California vineyards using the eVineyard\u2013Vinduino stack.",
+              "kpi_alignment": [
+                "Water Use Efficiency: Documented 10\u201330% reduction in vineyard irrigation water use across multiple California wineries using eVineyard plus Vinduino sensors and automation.",
+                "Labor & Operations: Reported 50\u201360% reduction in working hours related to irrigation management and record-keeping when using the integrated precision irrigation package.",
+                "Regenerative Acreage Influence: Active deployments across 500+ ha at Radgonske gorice and multiple California vineyards position the platform to influence >1,000 ha of water-optimized viticulture within a few seasons."
+              ],
+              "sources": [
+                "https://www.evineyardapp.com/case-studies",
+                "https://www.evineyardapp.com/blog/2021/06/10/case-study-evineyard-helping-save-10-30-of-vineyard-irrigation-water-and-improve-grape-quality-in-california-vineyards/",
+                "https://www.evineyardapp.com/irrigation-package",
+                "https://www.evineyardapp.com/blog/2019/05/20/how-to-optimize-vineyard-irrigation/",
+                "https://wineproject.eu/platform/module-2/"
+              ],
+              "website": "https://www.evineyardapp.com",
+              "country": "Slovenia",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 2",
+              "segment": "2. On-Farm Sensing & Monitoring",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Arable",
+              "summary": "US-based crop intelligence company whose Arable Mark in-field device integrates weather, crop, and soil sensing with analytics, with a dedicated viticulture solution. At Clos du Val (220 acres, Napa Valley), three Mark devices plus Arable Water consolidated legacy monitoring systems, enabling block-level ET, soil moisture, and applied irrigation tracking to optimize irrigation and reduce water use while maintaining quality and yield; Arable reports qualitative water reductions and time/cost savings. Arable also documents a 22% irrigation reduction for a 3,500-acre Midwestern operation using the same sensing and analytics stack, demonstrating the platform\u2019s ability to materially cut water use without yield loss.",
+              "kpi_alignment": [
+                "Water Use Efficiency (Vineyards): Clos du Val reports shifting from deep to surface-level irrigation on specific blocks after Arable data revealed deep-profile water retention, directly reducing irrigation volumes while keeping quality and yields at targets.",
+                "Water Use Efficiency (Cross-Crop Benchmark): A 3,500-acre row-crop producer cut irrigation by 22% in one season using Arable\u2019s in-field sensing, indicating the system\u2019s ability to reliably deliver \u226520% water savings under data-driven management.",
+                "Operational Efficiency: Clos du Val eliminated three siloed monitoring systems, reporting significant time and cost savings through a simplified tech stack and faster, data-driven decisions on irrigation, frost protection, and harvest timing."
+              ],
+              "sources": [
+                "https://www.arable.com/solutions/viticulture/",
+                "https://www.arable.com/customers/case-study-clos-du-val/",
+                "https://www.arable.com/blog/clos-du-val-optimizes-irrigation-and-boosts-efficiency-with-arable/",
+                "https://www.arable.com/blog/how-agtech-is-advancing-water-sustainability-globally/",
+                "https://www.arable.com/blog/7-reasons-to-adopt-a-data-driven-irrigation-strategy/"
+              ],
+              "website": "https://www.arable.com",
+              "country": "United States",
+              "confidence_0to1": 0.6,
+              "source_tier": "Tier 2",
+              "segment": "2. On-Farm Sensing & Monitoring",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Agrology",
+              "summary": "US public-benefit climate-tech company providing in-field climate, soil, and carbon monitoring systems (Sentinel and Arbiter) for vineyards and other specialty crops. In Sonoma County trials on 2,200 acres of vineyards, Agrology\u2019s Arbiter system helped quantify that regenerative treatment blocks achieved 3.3\u00d7 higher soil respiration (4.8 vs ~1 g CO2/m\u00b2/day) than untreated controls, indicating substantially higher microbial activity and carbon sequestration, while employing the same irrigation regime. At Bonterra Organic Estates (Mendocino), Agrology sensors in iconic vineyards like Blue Heron measured nearly triple soil respiration vs a nearby conventionally managed reference vineyard, directly linking regenerative viticulture practices to measurable soil health gains.",
+              "kpi_alignment": [
+                "Soil Health & Biodiversity: At Bonterra\u2019s Blue Heron vineyard, Agrology monitoring showed ~3\u00d7 higher soil respiration than a reference vineyard, indicating a three-fold increase in microbial activity associated with regenerative viticulture.",
+                "GHG & Carbon Sequestration: Sonoma County trials measured treated vineyard blocks averaging 4.8 g CO2/m\u00b2/day soil respiration vs ~1 g in controls, implying significantly higher carbon cycling and potential sequestration in regenerative blocks when combined with cover crops and low-till practices.",
+                "Regenerative Acreage Under Management: Agrology\u2019s customer list includes numerous premium vineyards (Silver Oak, Emeritus, Duckhorn, Joseph Phelps, Bonterra, etc.), and pilots such as O\u2019Neill Vintners\u2019 large regenerative trial, collectively covering thousands of vineyard acres instrumented for climate and soil-carbon monitoring."
+              ],
+              "sources": [
+                "https://www.agrology.ag/bonterra-organic-estates-agrology-press-release",
+                "https://www.forbes.com/sites/lizthach/2024/09/26/sonoma-county-winegrowers-use-new-technologies-to-reduce-carbon-footprint/",
+                "https://www.agrology.ag/agrology-process2wine",
+                "https://www.businesswire.com/news/home/20230306005246/en/Welcome-to-the-Future-of-Climate-Smart-Farming-Introducing-Agrologys-Arbiter-Carbon-Monitoring-System-the-Only-System-to-Continuously-Monitor-Quantify-Soil-Carbon-Flux",
+                "https://www.businesswire.com/news/home/20230718356181/en/UC-Davis-and-Agrology-Expand-Partnership-to-Understand-Higher-Level-Thresholds-for-Smoke-Risk-in-Vineyards"
+              ],
+              "website": "https://www.agrology.ag",
+              "country": "United States",
+              "confidence_0to1": 0.6,
+              "source_tier": "Tier 2",
+              "segment": "2. On-Farm Sensing & Monitoring",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "WiseConn Engineering",
+              "summary": "Chilean-founded irrigation automation company whose DropControl platform combines in-field pressure, flow, soil, and microclimate sensors with remote valve and pump control; widely used in vineyards across the Americas. Vineyard-focused communications highlight growers like Roy Chapin and renowned viticulturist Phil Coturri using WiseConn to manage frost and irrigation by micro-zone, reducing unnecessary water use while protecting vines. Broader DropControl deployments in high-value crops document water savings exceeding 20% and significant energy reductions through automated scheduling and pressure/flow monitoring, demonstrating direct input-efficiency gains that translate to vineyard contexts.",
+              "kpi_alignment": [
+                "Water Use Efficiency: Case examples in high-value orchards show >20% water savings after installing DropControl, driven by pressure-based leak detection, sector-level scheduling, and pulse irrigation; similar logic applies to vineyard blocks using the same hardware and software.",
+                "Labor & Energy: Automation case studies in California report reduced labor (fewer field visits, no night shifts for irrigation) and lower pumping energy costs through optimized set times and automated pump control.",
+                "Climate Resilience: Vineyard users report using WiseConn data to precisely time frost protection in specific low-lying blocks, minimizing over-irrigation for frost control while reducing crop-loss risk during cold events."
+              ],
+              "sources": [
+                "https://wiseconn.com/",
+                "https://wiseconn.com/us/irrigation-management-software-agtech-efficiency/",
+                "https://wiseconn.com/frost-control-made-smarter-how-wiseconn-automation-protects-your-crops-2450/",
+                "https://wineindustryadvisor.com/2025/11/07/wiseconn-engineering-easy-irrigation-solutions-that-support-your-vineyards-future",
+                "https://calwestrain.com/news/automation/improving-tomato-yields-with-wiseconn-irrigation-automation/"
+              ],
+              "website": "https://wiseconn.com",
+              "country": "Chile",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 2",
+              "segment": "2. On-Farm Sensing & Monitoring",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "SupPlant",
+              "summary": "Israeli ag-tech company providing plant- and soil-based sensing (dendrometers, fruit sensors, soil probes, and microclimate stations) with AI-driven irrigation recommendations, including a dedicated solution for vineyards. A multi-year irrigation experiment in a Sauvignon Blanc vineyard near Kibbutz Merav (Israel), run by Dr. Yishai Netzer, showed that SupPlant\u2019s smart plant sensors could estimate midday stem water potential with 90% accuracy versus a pressure chamber, enabling continuous, automated water stress management and more precise deficit irrigation strategies for wine grapes. SupPlant\u2019s vineyard-focused materials emphasize using real-time plant, soil, and weather data to avoid over-irrigation that dilutes quality while still meeting yield targets under climate-stressful conditions.",
+              "kpi_alignment": [
+                "Water Stress Monitoring: In a commercial Sauvignon Blanc vineyard, SupPlant sensors matched pressure-chamber stem water potential measurements with 90% accuracy, allowing continuous SWP-based irrigation control instead of weekly manual checks.",
+                "Quality & Yield Management: By enabling precise regulated deficit irrigation (RDI), SupPlant\u2019s system helps maintain vines below full water consumption to enhance polyphenols and anthocyanins without inducing damaging stress, directly supporting quality-focused, lower-water regimes in vineyards.",
+                "Labor Productivity: Continuous automated SWP estimation eliminates much of the labor and time associated with manual pressure-chamber readings, freeing vineyard teams to manage larger areas with the same staff."
+              ],
+              "sources": [
+                "https://wineindustryadvisor.com/2021/11/03/supplants-plant-sensors-replace-grape-pressure-chamber/",
+                "https://supplant.me/how-supplant-technology-will-help-me-to-achieve-the-best-irrigation-strategy-for-my-vineyard/",
+                "https://supplant.me/improve-your-grape-quality-and-yield-limiting-grape-cracking/"
+              ],
+              "website": "https://supplant.me",
+              "country": "Israel",
+              "confidence_0to1": 0.6,
+              "source_tier": "Tier 2",
+              "segment": "2. On-Farm Sensing & Monitoring",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Saturas",
+              "summary": "Israeli company developing in-stem water potential (SWP) sensors (Stemsense/InVine) that are embedded directly into grapevine trunks and other perennial crops to provide continuous, automated SWP measurements for irrigation control. A field trial in a premium Cabernet Sauvignon vineyard in Israel\u2019s Golan Heights (700 m elevation, basaltic clay soils) installed eight 6 mm Stemsense sensors alongside soil moisture probes and weekly pressure-chamber measurements; results showed strong correlation to manual SWP and much earlier, more granular detection of water stress than soil sensors, enabling precise irrigation thresholds for moderate-stress quality regimes. This allows vineyard managers to irrigate according to exact SWP targets rather than coarser soil-tension proxies, directly improving water-use efficiency and grape quality.",
+              "kpi_alignment": [
+                "Water Stress Monitoring: In the Golan Heights Cabernet vineyard, Saturas sensors captured daily mid-day SWP values and showed clear responses to irrigation and ET changes, while soil sensors at 40\u201380 cm often showed little change\u2014demonstrating superior sensitivity to vine water status.",
+                "Irrigation Precision: The trial showed that Saturas SWP data allowed irrigation decisions based on precise SWP thresholds (e.g., transitions from 14 to 20 bars, no-stress to high-stress) that soil sensors failed to distinguish over the same period.",
+                "Labor Reduction: Automated continuous SWP monitoring replaces weekly pressure-chamber campaigns constrained by technician availability, substantially reducing labor input per hectare for high-resolution water stress management."
+              ],
+              "sources": [
+                "https://americanvineyardmagazine.com/monitoring-stem-water-potential-in-grapevine-case-study-on-cabernet/",
+                "https://www.saturas-ag.com/"
+              ],
+              "website": "https://www.saturas-ag.com",
+              "country": "Israel",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 2",
+              "segment": "2. On-Farm Sensing & Monitoring",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            }
+          ],
+          "notes": [
+            "Validation: 7/10 companies passed quality checks (rejected: 3)"
+          ]
+        },
+        {
+          "name": "3. Decision Support & Farm Operating Systems",
+          "companies": [
+            {
+              "company": "eVineyard",
+              "summary": "Slovenian vineyard management and decision-support platform focused on integrated pest management (IPM), irrigation optimisation and cost tracking. Deployed at Radgonske Gorice and other named vineyards, it combines weather, soil, plant and activity data to recommend spray timing and irrigation, with users reporting reduced spraying and improved management. vintrace\u2019s 2025 acquisition note reports that eVineyard services about 100 organisations managing roughly 1,300 vineyards worldwide, giving it meaningful regenerative acreage reach.",
+              "kpi_alignment": [
+                "Regenerative Acreage: ~1,300 vineyards under management across ~100 organisations as of 2025, providing scalable leverage on practice change.",
+                "Input Reduction: Users report that eVineyard\u2019s disease-forecasting and IPM decision support helps them \"reduce the amount of spraying\" while still avoiding mildew outbreaks (direct chemical-use reduction).",
+                "Water Use & Irrigation: Precision irrigation module calculates block-level water balance from rainfall and evapotranspiration and generates daily irrigation runtime recommendations, helping avoid over\u2011irrigation and runoff."
+              ],
+              "sources": [
+                "https://www.evineyardapp.com/",
+                "https://www.evineyardapp.com/blog/2022/05/17/case-study-evineyard-helps-with-decision-making-and-improve-vineyard-management/",
+                "https://www.evineyardapp.com/irrigation-package",
+                "https://www.evineyardapp.com/case-studies/vineyard-decision-making",
+                "https://www.vintrace.com/en-CA/vintrace-evineyard-bringing-the-winery-and-vineyard-closer-than-ever/"
+              ],
+              "website": "https://www.evineyardapp.com/",
+              "country": "Slovenia",
+              "confidence_0to1": 0.5,
+              "source_tier": "Tier 3",
+              "segment": "3. Decision Support & Farm Operating Systems",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Fruition Sciences",
+              "summary": "France/US-based precision viticulture and decision-support platform using sap-flow sensors and analytics to guide irrigation, canopy work and harvest decisions. A six\u2011vineyard California experiment funded by Metropolitan Water District showed sites managed with Fruition\u2019s plant sensors needed no more than 5 irrigations versus 6\u201330 for grower-managed blocks, averaging 65% less water applied, equivalent to saving about 17 Olympic swimming pools across 37 acres, with no yield loss. A Wired profile documents clients such as Cliff Lede, Dana Estates and Ovid cutting per\u2011vine water use dramatically while maintaining or improving quality.",
+              "kpi_alignment": [
+                "Water Use Efficiency: California experiment across six vineyards achieved an average 65% reduction in applied irrigation water (with some blocks cutting irrigations from up to 30 events down to \u22645) while maintaining yields.",
+                "Water Savings Scale: The same study equated the water saved to roughly 17 Olympic-size pools on just 37 acres, demonstrating very high per\u2011hectare impact.",
+                "Yield & Quality: Case examples (e.g., Dana Estates, Ovid) report maintaining or improving yields and grape composition even while reducing applied water from typical 36\u201364 gallons per vine to as low as 0\u201310 gallons per vine in some blocks."
+              ],
+              "sources": [
+                "https://fruitionsciences.com/en/sciences-white-papers/sap-flow-sensors",
+                "https://fruitionsciences.com/en/sciences-white-papers/improving-winegrowing-with-sap-flow-driven-irrigation",
+                "https://fruitionsciences.com/",
+                "https://fruitionsciences.com/en/company",
+                "https://www.wired.com/2012/10/mf-fruition-sciences-winemakers/"
+              ],
+              "website": "https://fruitionsciences.com/",
+              "country": "France",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 2",
+              "segment": "3. Decision Support & Farm Operating Systems",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "SupPlant",
+              "summary": "Israeli AI-driven irrigation decision-support system that uses sensors on vines (trunk, leaf, fruit) and in soil, plus weather data, to generate precise irrigation recommendations. A multi\u2011year trial in a Sauvignon Blanc vineyard near Kibbutz Merav showed SupPlant\u2019s sensors could predict midday stem water potential with 90% accuracy versus a pressure chamber, enabling continuous monitoring of vine water stress without manual measurements. Wine Industry Advisor reports that the system is being deployed in commercial vineyards globally to optimise deficit irrigation and improve grape composition.",
+              "kpi_alignment": [
+                "Decision Accuracy: Vineyard trial in Israel demonstrated SupPlant sensors can estimate midday stem water potential with ~90% accuracy compared to pressure-chamber measurements, directly supporting precise irrigation timing.",
+                "Labor & Monitoring Efficiency: Continuous automated sensing replaces repeated manual pressure\u2011bomb readings across vineyard blocks, substantially reducing labor hours needed for vine water status monitoring.",
+                "Global Reach: SupPlant reports datasets from 32 crops and 14 countries; its dedicated vineyard solution provides daily and weekly irrigation plans based on real-time plant, soil and climate data, improving water-use decisions at scale."
+              ],
+              "sources": [
+                "https://wineindustryadvisor.com/2021/11/03/supplants-plant-sensors-replace-grape-pressure-chamber/",
+                "https://supplant.me/how-supplant-technology-will-help-me-to-achieve-the-best-irrigation-strategy-for-my-vineyard/",
+                "https://supplant.me/",
+                "https://supplant.me/solutions"
+              ],
+              "website": "https://supplant.me/",
+              "country": "Israel",
+              "confidence_0to1": 0.6,
+              "source_tier": "Tier 2",
+              "segment": "3. Decision Support & Farm Operating Systems",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "vintrace",
+              "summary": "Australian-founded winery production system that now includes a vineyard module and, since acquiring eVineyard in 2025, an integrated vine\u2011to\u2011bottle operating platform. Case studies with Shannon Family of Wines (1,200 planted acres, 900 already organic-certified) show vintrace reducing government-compliance work from about 40 hours to five minutes per reporting period and supporting measurement of carbon-footprint reductions from lighter glass and improved logistics. The vineyard module also logs organic certificate numbers and restricts non\u2011compliant spray materials, helping large estates manage hundreds of organic and regenerative vineyard hectares.",
+              "kpi_alignment": [
+                "Operational Efficiency: At Shannon Family of Wines, compliance work dropped from a full 40\u2011hour week to about 5 minutes after adopting vintrace, freeing significant staff time for agronomy and regenerative transition work.",
+                "Regenerative Acreage Enablement: Shannon Family of Wines uses vintrace while managing ~1,200 planted acres (900 certified organic and adopting regenerative practices), and vintrace+eVineyard together now serve ~1,300 vineyards globally.",
+                "Sustainability Tracking: vintrace\u2019s sustainability features log organic certification numbers, prevent use of non\u2011compliant materials in certified vineyards, and help quantify impacts of lighter glass via reduced truckloads and associated emissions."
+              ],
+              "sources": [
+                "https://www.vintrace.com/client-stories/harvest-at-shannon-family-of-wines/",
+                "https://vintrace.com/client-stories/antinori-napa-valleys-transition-from-winemakers-database-to-vintrace/",
+                "https://www.vintrace.com/en-GB/2021/10/vintrace-leads-the-way-in-winemaking-software-solutions/",
+                "https://www.vintrace.com/en-CA/vintrace-evineyard-bringing-the-winery-and-vineyard-closer-than-ever/",
+                "https://vintrace.com/about-us/"
+              ],
+              "website": "https://vintrace.com/",
+              "country": "Australia",
+              "confidence_0to1": 0.5,
+              "source_tier": "Tier 3",
+              "segment": "3. Decision Support & Farm Operating Systems",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Process2Wine (Ertus Group)",
+              "summary": "French SaaS platform for vineyard and winery management that provides block-level mapping, work orders, traceability and integration with predictive sensing. It is used by wineries such as Waltz Vineyard Estate Winery (Pennsylvania), Hark Vineyards (Virginia), Papagni Wines (California) and Sages Vintage (Texas) to manage vineyard operations and cellar traceability. A 2023\u20132024 integration with Agrology allows customers like Yount Mill Vineyards to receive 4\u2011day predictions on irrigation, pest, heat/frost and smoke\u2011taint risks and automatically turn them into vineyard work orders.",
+              "kpi_alignment": [
+                "Climate-Risk Decision Support: The Agrology\u2013Process2Wine integration delivers 4\u2011day predictions on microclimate threats (heat, frost, smoke taint) and irrigation/disease pressure, which Yount Mill Vineyards is using to adjust interventions in advance.",
+                "Operational Efficiency: Named wineries report selecting Process2Wine because it delivers the same or better functionality than alternatives at lower cost, and because it centralises vineyard and winery data, reducing duplicated data entry and mis\u2011coordination between field and cellar.",
+                "Scale of Use: Process2Wine supports vineyards and wineries in France and North America, with coast\u2011to\u2011coast US adoption; its use at multi\u2011site operations like Waltz Vineyard Estate Winery indicates growing multi\u2011hectare coverage."
+              ],
+              "sources": [
+                "https://www.process2wine.com/en-us/",
+                "https://www.process2wine.com/en-us/2024/06/10/wineries-from-coast-to-coast-are-choosing-process2wine-software-with-confidence/",
+                "https://www.process2wine.com/en-us/2024/06/10/take-the-next-step-in-advanced-viticulture-with-process2wine-software-solutions/",
+                "https://www.businesswire.com/news/home/20230119005596/en/Agrology-and-Process2Wine-Announce-Strategic-Partnership-to-Integrate-Ground-Truth-Data-into-the-Vineyard-Management-Process-Empowering-Growers-to-Take-Action-When-Needed",
+                "https://www.businesswire.com/news/home/20230829608322/en/Viticulturists-Can-Now-Receive-4-Day-Predictions-Issue-Work-Orders-and-Take-Action-Using-Their-Mobile-Devices"
+              ],
+              "website": "https://www.process2wine.com/",
+              "country": "France",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 3",
+              "segment": "3. Decision Support & Farm Operating Systems",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "AgCode",
+              "summary": "US-based farm management software originally built for wine grapes, now used across 700,000+ specialty-crop acres. Early vineyard customers include E. & J. Gallo Winery, Opus One and Pi\u00f1a Vineyard Management, and later deployments span large viticulture enterprises. PR and customer stories note productivity gains of around 30% for some vineyard managers after switching from paper and spreadsheets to AgCode\u2019s unified platform for labour, spray applications, irrigation, and cost tracking.",
+              "kpi_alignment": [
+                "Labor Productivity: Vineyard managers using AgCode report around 30% productivity improvements after digitising payroll, chemical tracking and crop monitoring, freeing time for higher\u2011value agronomy and regenerative planning.",
+                "Scale of Influence: AgCode serves over 5,000 active users across more than 700,000 acres, with its origins and core user base in wine-grape vineyards, giving it substantial leverage over vineyard input and labor decisions.",
+                "Decision Support Scope: The AM3 app and platform cover pesticide applications, irrigation and water management, harvest and fruit receiving, and block\u2011level costing, enabling better control of chemical intensity and input costs."
+              ],
+              "sources": [
+                "https://www.prnewswire.com/news-releases/agcode-celebrates-20-years-of-customer-success-and-industry-innovation-301470071.html",
+                "https://agcode.com/",
+                "https://agcode.com/features/",
+                "https://apps.apple.com/us/app/am3/id937407101",
+                "https://www.wineprospects.com/blog/understanding-how-vineyard-management-companies-work-with-vineyards-a-crash-course"
+              ],
+              "website": "https://agcode.com/",
+              "country": "United States",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 3",
+              "segment": "3. Decision Support & Farm Operating Systems",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Agrology",
+              "summary": "US climate-tech and soil-carbon intelligence company providing in\u2011field sensors plus a decision-support dashboard, with a strong focus on vineyards. Customers include Silver Oak Vineyards, Jordan Vineyards and Winery, Dana Estates, Emeritus Vineyards, Signorello Estate and other leading wine estates. BusinessWire and company material describe Agrology\u2019s system for continuous monitoring of soil respiration, greenhouse gas flux and microclimate, launched with vineyards like Emeritus and Silver Oak, enabling growers to adjust practices in near\u2011real time and quantify carbon-intensity changes from regenerative trials.",
+              "kpi_alignment": [
+                "GHG & Soil-Health MRV: Agrology\u2019s platform directly measures Net Ecosystem Exchange and soil respiration in vineyards, giving growers real-time, in\u2011field carbon-flux data rather than modelled estimates and enabling quantified tracking of emissions intensity per acre.",
+                "Regenerative Decision Support: Vineyards such as Emeritus and Silver Oak use Agrology to monitor soil-carbon response to regenerative practices (e.g., cover crops, reduced tillage) and adjust management based on measured carbon and microbial activity trends.",
+                "Climate-Risk Management: Integration with Process2Wine means vineyards like Yount Mill Vineyards receive 4\u2011day predictions for heat, frost, smoke taint and disease pressure, and can automatically trigger work orders, improving resilience to extreme-weather events."
+              ],
+              "sources": [
+                "https://www.agrology.ag/",
+                "https://www.agrology.ag/agrology-and-process2wine-integrated-solution",
+                "https://www.businesswire.com/news/home/20220907005137/en/Agrology-Partners-with-Google-Cloud-to-Help-Farmers-Combat-Climate-Change-and-Achieve-Sustainability-Goals",
+                "https://www.businesswire.com/news/home/20230119005596/en/Agrology-and-Process2Wine-Announce-Strategic-Partnership-to-Integrate-Ground-Truth-Data-into-the-Vineyard-Management-Process-Empowering-Growers-to-Take-Action-When-Needed"
+              ],
+              "website": "https://www.agrology.ag/",
+              "country": "United States",
+              "confidence_0to1": 0.5,
+              "source_tier": "Tier 3",
+              "segment": "3. Decision Support & Farm Operating Systems",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "BeVine",
+              "summary": "Bulgarian smart vineyard analytics and management platform that combines in\u2011field sensors and weather stations with disease prediction models and digital work diaries. Case studies with Terra Tangra Winery report reduced pesticide spraying and more than 90% accuracy in BeVine\u2019s disease\u2011prediction models, while Tipchenitza and Rozalea wineries use the system for remote vineyard monitoring, early disease detection and reduced man\u2011hours via a mobile sensing and task-management platform.",
+              "kpi_alignment": [
+                "Pesticide Reduction: Terra Tangra Winery reports a clear reduction in pesticide spraying while using BeVine\u2019s disease\u2011forecasting models, directly cutting chemical inputs per hectare.",
+                "Decision Accuracy: BeVine\u2019s disease-prediction models for key grapevine pathogens reach over 90% accuracy in Terra Tangra\u2019s deployment, improving timing of sprays and allowing some treatments to be safely skipped.",
+                "Labor & Operational Efficiency: Rosalea Winery reports improved yields and reduced man\u2011hours for manual tasks thanks to remote sensing, advanced mapping and an electronic diary that centralises vineyard records and scouting observations."
+              ],
+              "sources": [
+                "https://bevine.wine/en/",
+                "https://bevine.wine/en/case-study-rozalea/",
+                "https://bevine.wine/en/category/case-studies/",
+                "https://bevine.wine/en/case-study-terra-tangra/",
+                "https://bevine.wine/en/case-study-tipchenitza/"
+              ],
+              "website": "https://bevine.wine/",
+              "country": "Bulgaria",
+              "confidence_0to1": 0.6,
+              "source_tier": "Tier 3",
+              "segment": "3. Decision Support & Farm Operating Systems",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            }
+          ],
+          "notes": [
+            "Validation: 8/10 companies passed quality checks (rejected: 2)"
+          ]
+        },
+        {
+          "name": "4. MRV, Carbon & Ecosystem Services Platforms",
+          "companies": [
+            {
+              "company": "ODOS",
+              "summary": "Spanish-based ODOS provides a satellite- and AI-powered MRV platform for carbon and biodiversity in wine supply chains. It monitors \u2018Space for Nature\u2019 and habitat quality with 92% F1 accuracy on land-cover classification and has been deployed with Bodegas Familia Torres to track biodiversity corridors and regenerative viticulture outcomes across their vineyards.",
+              "kpi_alignment": [
+                "Biodiversity MRV: AI habitat-mapping with 92% F1 accuracy across 5 land-cover classes and 86% across 20 classes, enabling quantified \u2018Space for Nature\u2019 (% habitat) and habitat quality scoring per vineyard.",
+                "Regenerative Acreage: ODOS reports that a typical 60 ha farm can be mapped in minutes and that it can scale to thousands of farms, supporting portfolio-level monitoring of habitat share vs. the EU 10% \u2018Space for Nature\u2019 target.",
+                "Carbon & FLAG Reporting: Platform outputs CSRD ESRS E4 and SBTi FLAG-ready carbon and biodiversity indicators (Scope 1\u20133 and farm-level), giving vineyards audit-ready MRV data for financing and certification."
+              ],
+              "sources": [
+                "https://odostech.com/sustainability-for-winemakers/",
+                "https://odostech.com/es/success-stories-odos/",
+                "https://odostech.com/space-for-nature-measuring-biodiversity/",
+                "https://odostech.com/es/como-familia-torres-construye-un-modelo-de-vino-regenerativo/"
+              ],
+              "website": "https://odostech.com",
+              "country": "Spain",
+              "confidence_0to1": 0.6,
+              "source_tier": "Tier 3",
+              "segment": "4. MRV, Carbon & Ecosystem Services Platforms",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "WinePilot (FoodPilot)",
+              "summary": "WinePilot, developed by French company FoodPilot with Adelphe and the Bourgogne Wine Board (BIVB), is a wine-specific digital platform for measuring and managing carbon and CSR impacts from vineyard to consumer. In Bourgogne, over 150 wineries had opened accounts by mid\u20112025, supporting a sector plan to cut GHG emissions 60% by 2035 and simulate parcel-level decarbonisation scenarios.",
+              "kpi_alignment": [
+                "GHG Reduction Targeting: Bourgogne\u2019s \u2018Objectif Climat\u2019 plan, underpinned by WinePilot, targets a 60% reduction in sectoral GHG emissions by 2035 versus a 380,000 tCO2 baseline, with the tool used to design and track reduction pathways for packaging, energy, and viticultural practices.",
+                "Adoption & Coverage: Around 150 Bourgogne domaines, n\u00e9gociants and co-ops had active WinePilot accounts by April 2025 (up from 60 six months earlier), indicating growing MRV penetration across a ~3,500\u2011domain region.",
+                "Operational Levers: Loire Valley and Bourgogne interprofessions are rolling out WinePilot to allow vineyards to compare packaging-weight changes (e.g., shifting bottles from 520 g to 420 g) and model associated emissions reductions at farm and regional level."
+              ],
+              "sources": [
+                "https://winepilotbyfoodpilot.io/our-solution/",
+                "https://winepilotbyfoodpilot.io/2023/10/18/winepilot-at-sitevi/",
+                "https://www.adelphe.fr/mieux-nous-connaitre/actualites/contribution-neutralite-carbone-du-secteur-viticole-avec-objectif",
+                "https://www.vitisphere.com/news-103343-loire-wines-get-a-firm-handle-on-their-carbon-journey.html",
+                "https://www.leprogres.fr/economie/2025/01/13/filiere-viticole-qui-est-monsieur-decarbonation"
+              ],
+              "website": "https://winepilotbyfoodpilot.io",
+              "country": "France",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 2",
+              "segment": "4. MRV, Carbon & Ecosystem Services Platforms",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "IWCA Greenhouse Gas Emissions Calculators (International Wineries for Climate Action)",
+              "summary": "International Wineries for Climate Action (IWCA), co\u2011founded by Familia Torres and Jackson Family Wines, provides free regional GHG calculators tailored to wineries in the US, Australia, New Zealand and Latin America. These tools let vineyards and wineries quantify full Scope 1\u20133 emissions following WRI GHG Protocol and ISO\u201114064, and have been co-developed and piloted with member wineries such as Domaine Bousquet, Grupo Pe\u00f1aflor, Miguel Torres Chile and VSPT in Argentina and Chile.",
+              "kpi_alignment": [
+                "Emissions Coverage: IWCA calculators cover all material emission sources in the wine value chain (Scopes 1, 2 and 3) for winery and vineyard operations, enabling standardized tCO2e/bottle and tCO2e/ha metrics.",
+                "Regional Deployment: Dedicated calculators now exist for the US, Australia, New Zealand and, since January 2025, Latin America, with the latter built in collaboration with leading wineries Domaine Bousquet, Grupo Pe\u00f1aflor, Miguel Torres Chile and VSPT.",
+                "Standards Alignment: Tools are explicitly aligned with WRI GHG Protocols and ISO\u201114064, supporting verifiable inventories that can underpin Race to Zero commitments and emissions\u2011reduction trajectories for participating vineyards."
+              ],
+              "sources": [
+                "https://www.iwcawine.org/post/quick-guide-iwca-ghg-calculators",
+                "https://www.iwcawine.org/post/launch-of-first-latin-american-ghg-calculator-iwca-in-collaboration-with-leading-argentinian-and-chi",
+                "https://www.prweb.com/releases/launch-of-first-latin-american-greenhouse-gas-emissions-calculator-302386239.html",
+                "https://www.iwcawine.org/"
+              ],
+              "website": "https://www.iwcawine.org",
+              "country": "United States / Spain (dual headquarters)",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 2",
+              "segment": "4. MRV, Carbon & Ecosystem Services Platforms",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "WineGB Carbon Calculator (Farm Carbon Toolkit)",
+              "summary": "The WineGB Carbon Calculator, built on the Farm Carbon Toolkit methodology, is a dedicated MRV platform for English and Welsh vineyards and wineries. Updated in October 2025, it enables vineyards to generate detailed carbon footprints (including on\u2011farm sequestration) and has already been used by 52% of WineGB producer members as part of the Sustainable Wines of Great Britain (SWGB) certification scheme.",
+              "kpi_alignment": [
+                "Adoption in Viticulture: By 2024, 52% of WineGB producer members were using the calculator to measure their vineyard and winery carbon footprints, representing a substantial share of UK vineyard acreage under quantified GHG accounting.",
+                "Granular Vineyard Templates: The tool provides dedicated templates for \u2018vineyard\u2019, \u2018winery\u2019, and combined businesses, ensuring that viticulture-specific emissions (diesel, fertilizers, cover-crop management, sequestration) are captured and reported consistently.",
+                "Methodological Rigor: The calculator\u2019s methodology is updated at least twice a year to integrate new science, and is designed to quantify both emissions and on-farm carbon sequestration, providing tCO2e and sequestration metrics that inform reduction and insetting plans."
+              ],
+              "sources": [
+                "https://calculator.farmcarbontoolkit.org.uk/winegb",
+                "https://calculator.farmcarbontoolkit.org.uk/faqs/1253",
+                "https://calculator.farmcarbontoolkit.org.uk/winegb#winegb-about"
+              ],
+              "website": "https://calculator.farmcarbontoolkit.org.uk/winegb",
+              "country": "United Kingdom",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 2",
+              "segment": "4. MRV, Carbon & Ecosystem Services Platforms",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Agrology (Arbiter Carbon Monitoring System & Sentinel Climate Monitoring)",
+              "summary": "US Public Benefit Corporation Agrology provides in\u2011field MRV systems for soil carbon and climate impacts, with vineyard deployments at Silver Oak, Emeritus Vineyards, Bonterra Organic Estates, Jordan, Joseph Phelps and others. Its Arbiter Carbon Monitoring System and Sentinel Climate Monitoring network measure soil carbon flux, cumulative soil respiration and microbial biomass, quantifying how regenerative viticulture practices change soil health and carbon stocks in real time.",
+              "kpi_alignment": [
+                "Soil Health & Carbon MRV: At Bonterra\u2019s Blue Heron vineyard, Agrology sensors recorded average soil respiration nearly 3\u00d7 higher than a nearby conventional reference site, with cumulative soil respiration 244% higher (360.87 g/m\u00b2 vs. 104.74 g/m\u00b2) and microbial biomass carbon 23% higher, evidencing improved soil function under regenerative practices.",
+                "Regenerative Acreage: Agrology reports customers including Silver Oak, Emeritus Vineyards, Jordan, Joseph Phelps, Mission Hill and numerous other vineyards across North America, with systems deployed across multiple vineyard blocks to compare regenerative vs. conventional management.",
+                "Ecosystem Services Verification: Arbiter continuously tracks soil carbon sequestration and CO2 flux, providing quantified tCO2e and soil-carbon-change metrics that can be used for carbon credits or to offset winery footprints, while Sentinel additionally quantifies smoke-taint risk, water stress and microclimate extremes relevant to vineyard resilience."
+              ],
+              "sources": [
+                "https://www.agrology.ag/agrology-arbiter-carbon-monitoring-system-press-release",
+                "https://www.agrology.ag/bonterra-organic-estates-agrology-press-release",
+                "https://wineindustryadvisor.com/2024/11/08/agrology-measuring-and-quantifying-climate-smart-impact-on-vineyard-soil-health",
+                "https://www.agrology.ag/sentinel-climate-monitoring"
+              ],
+              "website": "https://www.agrology.ag",
+              "country": "United States",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 2",
+              "segment": "4. MRV, Carbon & Ecosystem Services Platforms",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "TerraviewOS (Terraview / now part of GAMAYA group)",
+              "summary": "TerraviewOS is an AI-driven operating system for vineyards that integrates climate, agronomic and operational data, including a carbon footprint analysis module for wine production. The platform has been piloted and deployed with more than 100 wineries and 35+ vineyards across Spain, France, Australia, the US and Canada, including Pernod Ricard Spain and La Rioja Alta, providing MRV for water use, inputs and vintage-level carbon performance.",
+              "kpi_alignment": [
+                "Vineyard Coverage: TerraviewOS has been rolled out across at least 35 vineyards spanning Spain, the US and Australia, and partnered with over 100 wineries globally, indicating significant managed vineyard area under its monitoring and decision-support tools.",
+                "Carbon & Resource Analytics: The OS includes carbon footprint analysis features that allow vineyards to benchmark water use (the press release notes the wine industry uses ~640 billion L of water annually) and fertilizer consumption (800 million kg globally), helping vineyards track reductions from optimized irrigation and input use.",
+                "Yield & Cost Impact: Company materials and independent coverage report that Terraview delivers \u201810x return\u2019 by improving yield prediction and reducing operational and sampling costs, supporting both economic and environmental KPIs (e.g., lower input intensity per tonne of grapes)."
+              ],
+              "sources": [
+                "https://www.newswire.com/news/terraview-the-worlds-most-powerful-os-for-the-wine-industry-21386443",
+                "https://winetitles.com.au/vineyard-analysis-tool-launches-global-expansion/",
+                "https://fortune.com/2022/01/05/sustainable-future-software-terraview-agtech-winemaking/",
+                "https://vinepair.com/articles/tech-in-the-alcohol-industry/",
+                "https://www.terraview.gmbh/terraviewos"
+              ],
+              "website": "https://www.terraview.gmbh",
+              "country": "Spain / Germany",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 2",
+              "segment": "4. MRV, Carbon & Ecosystem Services Platforms",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "ClimateHound",
+              "summary": "ClimateHound is a US-based carbon accounting and certification platform tailored to food and beverage producers, including wineries such as pl\u0113b urban winery. It automates Scope 1\u20133 carbon footprint calculation and has certified over 6,000 tCO2 of emissions as carbon neutral across millions of product units, providing wineries with TTB\u2011approved on\u2011label carbon-neutral seals and investor-grade reporting.",
+              "kpi_alignment": [
+                "Carbon Neutral Certification: ClimateHound reports 6,091 tonnes of emissions offset across its client base, delivering verified carbon-neutral certification that wineries can display on labels and in facilities, directly reducing net emissions intensity per bottle.",
+                "Winery Adoption: pl\u0113b urban winery publicly cites ClimateHound as its partner to \u2018close the gap to full carbon neutral certification\u2019, indicating winery\u2011level use of the platform for quantified MRV and offsets.",
+                "Reporting & Compliance: The platform aligns with GHG Protocol, FTC Green Guides, California AB\u20111305, and emerging SB\u2011253/SB\u2011261 requirements, giving wineries auditable MRV systems and custom sustainability pages that track annual footprint, offsets and reduction initiatives."
+              ],
+              "sources": [
+                "https://www.climatehound.io/",
+                "https://www.climatehound.io/industry/winery",
+                "https://www.climatehound.io/carbonneutral",
+                "https://www.climatehound.io/ourclients"
+              ],
+              "website": "https://www.climatehound.io",
+              "country": "United States",
+              "confidence_0to1": 0.6,
+              "source_tier": "Tier 3",
+              "segment": "4. MRV, Carbon & Ecosystem Services Platforms",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Deep Planet (VineSignal)",
+              "summary": "UK\u2011based Deep Planet\u2019s VineSignal platform uses satellite imagery and AI to provide vineyard\u2011scale MRV for yield, water use, soil moisture and soil carbon, and is deployed with more than 200 growers and winemakers across Australia, New Zealand, France, Italy, Portugal, the UK and the US, including Bernard Magrez and Pernod Ricard. VineSignal has monitored over 50,000 ha of vineyards, delivering yield predictions with up to 90\u201395% accuracy and documented savings of about \u20ac45 per tonne of grapes alongside input and irrigation reductions.",
+              "kpi_alignment": [
+                "Regenerative Acreage: VineSignal is currently used on more than 50,000 ha of vineyards and by over 200 winegrowers globally, giving Deep Planet significant leverage over regenerative and climate-smart practices at scale.",
+                "Water & Input Efficiency: Independent agtech assessments (e.g., PIRSA/AgTech Finder) note that VineSignal\u2019s soil moisture and irrigation-forecasting features optimise irrigation use and decrease irrigation and chemical costs; Deep Planet reports savings of roughly \u20ac45 per tonne of grapes and quality upgrades worth \u20ac2\u201320 per bottle for users.",
+                "Climate & Soil MRV: Deep Planet\u2019s partnership with Bernard Magrez and EIT Food demonstrates use of VineSignal to reduce vineyard variability, monitor evapotranspiration, soil nutrients and soil carbon, and support adaptation strategies to climate stress in Bordeaux vineyards."
+              ],
+              "sources": [
+                "https://www.portoprotocol.com/solution/deep-planet-vinesignal-an-innovative-vineyard-decision-support-platform/",
+                "https://www.eitfood.eu/news/deep-planet-partners-with-eit-food-and-bernard-magrez-to-demonstrate-ai-vineyard-solution",
+                "https://wineindustryadvisor.com/2022/07/22/deep-planet-partners-with-eit-food/",
+                "https://pir.sa.gov.au/regions-and-support/programs-and-initiatives/agtech/agtech_solutions/products2/deep-planet-vinesignal",
+                "https://www.agtechfinder.com/product/vinesignal"
+              ],
+              "website": "https://www.deepplanet.ai",
+              "country": "United Kingdom",
+              "confidence_0to1": 0.7999999999999999,
+              "source_tier": "Tier 2",
+              "segment": "4. MRV, Carbon & Ecosystem Services Platforms",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            }
+          ],
+          "notes": [
+            "Validation: 8/10 companies passed quality checks (rejected: 2)"
+          ]
+        },
+        {
+          "name": "5. Robotics, Automation & Targeted Application",
+          "companies": [
+            {
+              "company": "Na\u00efo Technologies (TED vineyard robot)",
+              "summary": "French ag-robotics company whose 100% electric TED and JO robots perform mechanical under-vine weeding and soil cultivation in vineyards. TED is deployed at estates such as Ch\u00e2teau Lab\u00e9gorce and cooperative group Vinovalie, where it replaces herbicide-based weeding and can autonomously work up to ~6.5 ha/day with GPS-RTK guidance.",
+              "kpi_alignment": [
+                "Synthetic Herbicide Reduction: Full replacement of chemical under-vine herbicides on treated blocks via mechanical weeding (TED deployed at Vinovalie and Ch\u00e2teau Lab\u00e9gorce).",
+                "Labor Productivity: Up to 6.5 ha/day autonomous operation and 8 hours runtime per charge, enabling one operator to supervise multiple hectares instead of tractor-based passes.",
+                "GHG & Soil Impact: 100% electric drivetrain and ~2.1\u20132.23 t lightweight chassis reduce diesel use and soil compaction versus conventional tractors over the same area."
+              ],
+              "sources": [
+                "https://www.naio-technologies.com/en/ted-robot/",
+                "https://www.naio-technologies.com/en/news/naio-designs-new-robots-to-weed-vineyards/",
+                "https://www.vinovalie.com/en/ted-robot",
+                "https://www.vinovalie.com/le-robot-ted-3-ans-chez-vinovalie",
+                "https://grapeandwinemag.com/2024/12/15/forward-thinking-ag-tech-for-improved-vineyard-autonomy/"
+              ],
+              "website": "https://www.naio-technologies.com/en/",
+              "country": "France",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 2",
+              "segment": "5. Robotics, Automation & Targeted Application",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "VitiBot (Bakus vineyard robot)",
+              "summary": "VitiBot, based in Reims, develops the 100% electric Bakus autonomous straddle robot dedicated to vineyard operations such as mechanical weeding, soil work and precision spraying. More than 50 Bakus units are already operating in vineyards globally, including classified Bordeaux and Champagne estates, with confined spraying systems recovering up to ~80% of product and low-pressure tires that significantly cut soil compaction.",
+              "kpi_alignment": [
+                "Input & Drift Reduction: Confined recovery spraying system on Bakus captures up to ~80% of sprayed product, directly lowering pesticide losses and environmental contamination per hectare.",
+                "Fuel & Emissions: Fully electric 75 kWh battery with 10\u201314 hours autonomy replaces diesel tractors, avoiding on-farm fuel use and associated CO2e on the treated vineyard blocks.",
+                "Regenerative Acreage: 50+ Bakus robots deployed in Bordeaux, Champagne and other regions, each capable of >10 h/day multi-task operation, implying several hundred hectares of vineyards under lower-chemical, lower-emission management."
+              ],
+              "sources": [
+                "https://www.sdfgroup.com/en-us/news/vitibot-joins-sdf",
+                "https://agtecher.com/en/robotics/vitibot",
+                "https://www.futurefarming.com/vitibot-bakus-full-mechanical-soil-work/",
+                "https://worldcrunch.com/tech-science/robots-vineyard-wine-bordeaux",
+                "https://hverfisgalleri.is/service-robotics-revolutionizing-precision-viticulture-2025-2030-market-surge-tech-breakthroughs/"
+              ],
+              "website": "https://vitibot.fr/",
+              "country": "France",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 2",
+              "segment": "5. Robotics, Automation & Targeted Application",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Monarch Tractor (MK-V electric vineyard tractor)",
+              "summary": "US-based Monarch Tractor produces the MK-V, a 100% electric, driver-optional smart tractor widely adopted in premium vineyards including Trefethen Family Vineyards, Beckstoffer Vineyards, Wente Vineyards and Constellation Brands\u2019 estate vineyards. In one Constellation Brands use case, a small fleet logged over 1,700 operating hours in eight months, saving about $16,000 in energy costs and reducing CO2 emissions by 8,000 kg, with each MK\u2011V replacing the emissions of roughly 14 passenger vehicles versus a comparable diesel tractor.",
+              "kpi_alignment": [
+                "GHG Emissions Intensity: 8,000 kg CO2 savings over eight months for Constellation Brands from replacing diesel tractors, with each MK\u2011V equivalent to removing ~14 passenger vehicles\u2019 annual emissions per tractor.",
+                "Operating Cost & Energy Intensity: $16,000 in net energy savings over 1,700 hours (\u2248$9.40/hour) demonstrates substantial reduction in fuel cost per operating hour and per hectare across vineyard operations.",
+                "Regenerative Acreage & Adoption: Multi-tractor deployments at Beckstoffer, Trefethen, Wente, Foley Family, V. Sattui and others across hundreds of vineyard hectares, directly decarbonizing core field operations like mowing and spraying."
+              ],
+              "sources": [
+                "https://www.monarchtractor.com/vineyard-tractor",
+                "https://wineindustryadvisor.com/2023/01/30/trefethen-family-vineyards-acquires-two-monarch-mk-v-founder-series-tractors/",
+                "https://wineindustryadvisor.com/2023/04/17/beckstoffer-vineyards-acquires-four-monarch-mk-v-founder-series-tractors/",
+                "https://www.prnewswire.com/news-releases/monarchs-mk-v-eligible-for-valuable-tractor-subsidy-with-california-core-302209127.html",
+                "https://www.businesswire.com/news/home/20221201005455/en/Monarch-Tractor-Launches-Production-of-Founder-Series-MK-V-The-First-Commercially-Available-Electric-Driver-Optional-Smart-Tractor"
+              ],
+              "website": "https://www.monarchtractor.com/",
+              "country": "United States",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 2",
+              "segment": "5. Robotics, Automation & Targeted Application",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Robotics Plus (Prospr autonomous sprayer vehicle)",
+              "summary": "New Zealand agritech firm Robotics Plus offers Prospr, a hybrid-electric autonomous multi-use vehicle equipped with precision tower sprayers for grapes and tree crops. Treasury Wine Estates (including Matua Wines in Marlborough and vineyards in California) has embedded Prospr units across multiple vineyards, where the system delivers up to ~70\u201372% fuel use reduction versus conventional diesel tractors while enabling targeted spraying, reduced operator exposure and continuous autonomous operation.",
+              "kpi_alignment": [
+                "GHG & Fuel Reduction: Prospr\u2019s hybrid-electric drivetrain is documented to cut fuel consumption by up to 70\u201372% compared to traditional diesel tractors performing the same spraying tasks in vineyards.",
+                "Labor Productivity & Safety: Continuous, driverless spraying across multiple Treasury Wine Estates vineyards reduces exposure to agrochemicals and addresses labor shortages by automating repetitive, high-risk tractor work.",
+                "Regenerative Acreage: Early commercial deployments at Treasury Wine Estates vineyards in New Zealand and California and other viticulture clients put hundreds of hectares under lower-emission, precision spraying regimes."
+              ],
+              "sources": [
+                "https://www.roboticsplus.co.nz/news/prospr-driving-a-new-future-for-viticulture-multi-use-autonomous-vehicle-on-show-at-unified-wine-and-grape-symposium",
+                "https://roboticsandautomationnews.com/2025/02/09/robotics-plus-unveils-new-multi-use-autonomous-vehicle-for-agriculture/88965/",
+                "https://www.globalagtechinitiative.com/in-field-technologies/robotics-automation/robotics-plus-launches-multi-use-autonomous-vehicle-for-sustainable-orchard-and-vineyard-production/",
+                "https://www.ruralnewsgroup.co.nz/wine-grower/wg-machinery/go-forth-and-prospr",
+                "https://www.newatlas.com/robotics/prospr-vineyard-orchard-spraying-robot/"
+              ],
+              "website": "https://www.roboticsplus.co.nz/",
+              "country": "New Zealand",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 2",
+              "segment": "5. Robotics, Automation & Targeted Application",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "PeK Automotive (Slopehelper)",
+              "summary": "Slovenian company PeK Automotive produces Slopehelper, a fully electric autonomous robotic agrosystem explicitly designed for vineyards and orchards. Deployed commercially in European vineyards, Slopehelper can operate 8\u201314 hours per charge and cover up to ~1 ha/hour with implements ranging from pre-pruners and side string trimmers to a grape picker module that replaces teams of six seasonal workers for premium hand-like harvesting.",
+              "kpi_alignment": [
+                "Labor Replacement & Safety: The Slopehelper Grape Picker module is specified to replace a team of six seasonal vineyard workers while operating up to 16 hours/day, directly lowering labor intensity and exposure to field hazards.",
+                "GHG & Cost Reduction: The fully electric system offers up to 3x lower operating costs than tractor-based systems while eliminating diesel consumption for the operations it replaces, improving emissions intensity per hectare.",
+                "Multi-Operation Automation: With 19 hinged attachments (pre-pruning, soil cultivation, mowing, spraying, grape picking), one base platform can automate much of the annual vineyard agrocycle on the same acreage."
+              ],
+              "sources": [
+                "https://slopehelper.com/",
+                "https://slopehelper.com/how-it-works/",
+                "https://slopehelper.com/feasibility/",
+                "https://slopehelper.com/specifications/pre-pruner/",
+                "https://slopehelper.com/specifications/grape-picker/"
+              ],
+              "website": "https://slopehelper.com/",
+              "country": "Slovenia",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 3",
+              "segment": "5. Robotics, Automation & Targeted Application",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Agtonomy",
+              "summary": "Agtonomy is a US software and services company that turns existing tractors and implements into autonomous, tele-guided platforms for specialty crops. Its autonomy has been piloted and then expanded with major California wine producers including E. & J. Gallo, Treasury Wine Estates (Treasury Americas), Silver Oak Cellars, Caymus Vineyards and Trattore Farms, where Agtonomy-enabled tractors autonomously mow and weed vineyard rows, improving labor efficiency and enabling more precise, lower-input field passes.",
+              "kpi_alignment": [
+                "Labor & Safety: Agtonomy-enabled tractors autonomously perform routine tasks such as mowing and weeding in vineyards, reducing the need for tractor operators during hazardous and repetitive operations.",
+                "Operational Efficiency: Early vineyard trials report a roughly 25% increase in operational efficiency in specialty crops (including vineyards) through automation of repetitive field tasks and multi-fleet management.",
+                "Regenerative Practices Enablement: More precise, software-controlled passes (e.g., weeding, spraying) across pilot vineyards at Gallo, Treasury Wine Estates, Silver Oak and Caymus support optimized use of inputs and the transition to lower-chemical, climate-smart farming."
+              ],
+              "sources": [
+                "https://www.agtonomy.com/press/pilot-program-expansion",
+                "https://www.agritechtomorrow.com/story/2024/02/agtonomy-expands-on-farm-pilot-program-to-drive-adoption-of-agricultural-autonomy/15268/",
+                "https://wineindustryadvisor.com/2024/02/15/agtonomy-integrates-smart-agriculture-equipment-to-deliver-first-autonomous-task-ecosystem/",
+                "https://grapeandwinemag.com/2024/11/14/fira-ag-tech-robotics-show-offers-solutions-for-vineyards-wineries/",
+                "https://www.agtonomy.com/"
+              ],
+              "website": "https://www.agtonomy.com/",
+              "country": "United States",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 2",
+              "segment": "5. Robotics, Automation & Targeted Application",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Wall-Ye (VIN vineyard robot)",
+              "summary": "Wall-Ye (also referred to as VIN) is a French vineyard robot developed in Burgundy to automate pruning and monitoring. Academic and media sources report that the robot can autonomously prune about 600 vines per day with 12 hours autonomy, and it has been demonstrated and sold to French winegrowers including trials motivated by needs at Domaine Louis Latour\u2019s vineyards in Ard\u00e8che and evaluated by growers such as Ch\u00e2teau Gerbaud in Saint\u2011\u00c9milion.",
+              "kpi_alignment": [
+                "Labor Productivity: Capacity to prune roughly 600 vines/day shifts a large share of winter pruning labor from manual crews to automation on participating vineyards.",
+                "Data-Driven Management: Six cameras and mapping functions create detailed vine-level records, enabling more precise management and potential yield/quality optimization per vine.",
+                "Adoption Scale: About 30 Wall-Ye units have been sold to French winegrowers, each providing multi-hectare coverage in pruning seasons and directly addressing skilled-labor shortages."
+              ],
+              "sources": [
+                "https://www.dovepress.com/technology-in-precision-viticulture-a-state-of-the-art-review-peer-reviewed-fulltext-article-IJWR",
+                "https://spectrum.ieee.org/wallye-robot-",
+                "https://phys.org/news/2012-09-wall-ye-wine-robot-burgundy.html",
+                "https://www.naharnet.com/stories/en/54743-wall-ye-wine-robot-takes-bow-in-burgundy",
+                "https://www.veilleurs.info/archives/5302"
+              ],
+              "website": "http://wall-ye.com/",
+              "country": "France",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 1",
+              "segment": "5. Robotics, Automation & Targeted Application",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            }
+          ],
+          "notes": [
+            "Validation: 7/10 companies passed quality checks (rejected: 3)"
+          ]
+        },
+        {
+          "name": "6. Regenerative Transition Services & Advisory Networks",
+          "companies": [
+            {
+              "company": "Napa Green",
+              "summary": "Napa Green is a 501(c)(3) climate-action nonprofit that provides tech-enabled consulting, vineyard certification, and whole-facility sustainability programs for Napa wineries and vineyards. Its certified wineries have collectively saved more than 27 million gallons of water and over 14 million kWh of electricity in five years, identifying over $5 million in energy cost savings, rebates, and efficiency opportunities. As of late 2025, all 101 Napa Green Certified Vineyards have fully eliminated glyphosate (Roundup) and are transitioning toward broader bans on synthetic herbicides while implementing regenerative practices such as cover crops, grazing, and soil-organic-matter tracking.([napagreen.org](https://napagreen.org/drink-sustainable-wine/?utm_source=openai))",
+              "kpi_alignment": [
+                "Regenerative Acreage Under Management: 101 certified vineyards in Napa County under Napa Green Vineyard certification, with whole-property standards that baseline and track soil organic matter, water, energy, fertilizer and Scope 1 & 2 emissions.",
+                "Water & Energy Use Efficiency: >27 million gallons of water and >14 million kWh of electricity saved by Napa Green certified wineries over five years, translating into more than $5 million in identified energy cost savings and rebates.",
+                "GHG & Chemical Input Reduction: Vineyard certification requires regenerative carbon farm plans and irrigation efficiency assessments; by 2025, 100% of certified vineyards have eliminated glyphosate, with a roadmap to phase out all synthetic herbicides by 2027, directly reducing pesticide-related emissions and exposure.([napagreen.org](https://napagreen.org/drink-sustainable-wine/?utm_source=openai))"
+              ],
+              "sources": [
+                "https://napagreen.org/vineyard-certification/",
+                "https://napagreen.org/winery-certification/",
+                "https://napagreen.org/drink-sustainable-wine/",
+                "https://napagreen.org/consulting/",
+                "https://www.sfchronicle.com/food/wine/article/roundup-glyphosate-napa-green-21171303.php"
+              ],
+              "website": "https://www.napagreen.org",
+              "country": "United States",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 2",
+              "segment": "6. Regenerative Transition Services & Advisory Networks",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Regenerative Viticulture Foundation (RVF)",
+              "summary": "The Regenerative Viticulture Foundation is a global non-profit that runs advisory programs, research, and the One Block Challenge\u2122 (1BC) to de-risk regenerative transitions in vineyards. Its 2025 Paso Robles 1BC pilot involves 46 vineyards, representing over 50% of the region\u2019s planted area, each dedicating a block where synthetic under\u2011vine herbicides are minimized or eliminated, diverse cover crops are sown, and soil health is tracked via standardized field tests. RVF also co-authored a peer-reviewed OENO One study demonstrating that regenerative practices improve soil health and biodiversity, boosting vineyard resilience to climate stress, and is now rolling out 1BC cohorts in South Africa, New Zealand, the UK and Napa (including events at Robert Hall, Cass Winery, Greystone, Opus One and Bedrock Vineyard).([regenerativeviticulture.org](https://regenerativeviticulture.org/?utm_source=openai))",
+              "kpi_alignment": [
+                "Regenerative Acreage Under Influence: Paso Robles 1BC pilot launched in January 2025 with 46 participating vineyards representing >50% of the region\u2019s vineyard area, each dedicating at least one defined block to core regenerative practices, with additional cohorts launched or planned in South Africa, New Zealand, the UK and Napa.([regenerativeviticulture.org](https://www.regenerativeviticulture.org/rvf-one-block-challenge/?utm_source=openai))",
+                "Soil Health & Biodiversity Index: 1BC protocol requires baseline and end-of-season measurements for soil compaction, water infiltration, earthworm counts and visual biodiversity, creating comparable before/after indicators at block level for each participating vineyard.([regenerativeviticulture.org](https://regenerativeviticulture.org/one-block-challenge/?utm_source=openai))",
+                "GHG & Input Intensity: Core 1BC practices (no/low under-vine herbicides, minimal tillage, compost application, diverse cover crops, optional livestock integration) directly reduce synthetic inputs and support soil carbon sequestration; RVF\u2019s OENO One review links these practices to improved soil health and resilience, supporting lower emissions intensity per hectare over time.([regenerativeviticulture.org](https://regenerativeviticulture.org/one-block-challenge/?utm_source=openai))"
+              ],
+              "sources": [
+                "https://regenerativeviticulture.org/",
+                "https://regenerativeviticulture.org/one-block-challenge/",
+                "https://regenerativeviticulture.org/rvf-one-block-challenge/",
+                "https://regenerativeviticulture.org/resources/uncategorized/rvfs-study-into-the-evidence-behind-rv/",
+                "https://regenerativeviticulture.org/events/napa-launch-of-one-block-challenge-at-growing-regenerative-viticulture/"
+              ],
+              "website": "https://regenerativeviticulture.org",
+              "country": "United Kingdom",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 1",
+              "segment": "6. Regenerative Transition Services & Advisory Networks",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Vinescapes",
+              "summary": "Vinescapes is a UK-based viticulture consultancy and training provider that integrates regenerative techniques into vineyard establishment, management and investment advisory services. It provides precision viticulture and regenerative-transition support to new and existing vineyards through its VineMAP program, site assessments, and ongoing viticultural consulting, and it is a technical partner for RVF\u2019s One Block Challenge\u2122 in the UK, including field days at estates such as Silverhand. Its advisory work promotes low\u2011input regenerative viticulture, focusing on soil health, biodiversity and financial resilience for clients across the UK\u2019s emerging cool-climate wine regions.([vinescapes.com](https://www.vinescapes.com/?utm_source=openai))",
+              "kpi_alignment": [
+                "Regenerative Acreage Under Influence: Vinescapes works with multiple new and established vineyards in the UK on site assessment, establishment and management, and is supporting the UK cohort of the 1BC, which will enroll multiple vineyards and blocks under a standardized regenerative practice framework.([vinescapes.com](https://www.vinescapes.com/vineyards/?utm_source=openai))",
+                "Soil Health & Biodiversity: Its vineyard services explicitly aim to replace \u201csustaining\u201d with regenerating the environment by integrating cover crops, reduced tillage and biodiversity-supporting practices into vineyard management, while the 1BC UK handbook co-developed with RVF and partners requires on-farm soil and biodiversity measurements.([vinescapes.com](https://www.vinescapes.com/vineyards/?utm_source=openai))",
+                "Commercial Viability & Farmer Retention: Vinescapes positions regenerative viticulture as a way to improve vine performance and vineyard financial balance, providing vineyard and wine-business packages that cover both agronomy and economics, which supports long-term client retention and scaling of regenerative practices per customer.([vinescapes.com](https://www.vinescapes.com/?utm_source=openai))"
+              ],
+              "sources": [
+                "https://www.vinescapes.com/",
+                "https://www.vinescapes.com/vineyards/",
+                "https://regenerativeviticulture.org/rvf-one-block-challenge/"
+              ],
+              "website": "https://www.vinescapes.com",
+              "country": "United Kingdom",
+              "confidence_0to1": 0.6,
+              "source_tier": "Tier 3",
+              "segment": "6. Regenerative Transition Services & Advisory Networks",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Lodi Winegrape Commission \u2013 LODI RULES Sustainable Winegrowing Program",
+              "summary": "The Lodi Winegrape Commission\u2019s LODI RULES program is a science-based, third\u2011party certified sustainability standard for vineyards, supported by consulting and grower education, and administered in partnership with Protected Harvest and SureHarvest. As of 2024, more than 75,000 acres of winegrapes across California, Washington and Israel are LODI RULES certified, involving at least 300 growers, with participating wineries paying over $14 million in bonuses for certified grapes between 2010 and 2024. Named vineyards such as Golan Heights Winery\u2019s Bar\u2011on Vineyard (Israel) and the 104\u2011acre Mount Saint Helena Vineyard (California) have adopted the program, which limits pesticide environmental impact through a quantitative PEAS scoring system and requires growers to achieve \u226570% of available sustainability points across more than 100 standards.([lodiwine.com](https://www.lodiwine.com/About/Place/Sustainable-Winegrowing?utm_source=openai))",
+              "kpi_alignment": [
+                "Regenerative/ Sustainable Acreage Under Management: >75,000 acres (~30,351 ha) of vineyards are certified under LODI RULES across multiple AVAs and countries, including 35,909 acres in the Lodi AVA and nearly 40,000 acres elsewhere, directly governed by the program\u2019s sustainability standards.([lodiwine.com](https://www.lodiwine.com/About/Place/Sustainable-Winegrowing?utm_source=openai))",
+                "Input & GHG Intensity Reduction: The PEAS (Pesticide Environmental Assessment System) limits cumulative pesticide-impact points per vineyard, constraining both synthetic and organic pesticide use and driving reductions in toxic load per acre; the program\u2019s documented standards across soil, water and pest management explicitly target lower chemical inputs and improved soil function.([lodiwine.com](https://www.lodiwine.com/About/Place/Sustainable-Winegrowing?utm_source=openai))",
+                "Farmer Adoption & Economic Incentives: At least 300 growers participate and wineries have paid over $14 million in bonuses for certified grapes from 2010\u20132024, reinforcing adoption and long-term retention by aligning economic rewards with sustainable and regenerative practice uptake at vineyards like Bar\u2011on and Mount Saint Helena.([lodirules.org](https://www.lodirules.org/FAQ/FAQ-for-trade?utm_source=openai))"
+              ],
+              "sources": [
+                "https://www.lodiwine.com/About/Place/Sustainable-Winegrowing",
+                "https://lodigrowers.com/certification/",
+                "https://www.lodirules.org/FAQ/FAQ-for-trade",
+                "https://lodigrowers.com/blog/Why-half-of-LODI-RULES-sustainable-vineyards-are-now-located-outside-of-Lodi"
+              ],
+              "website": "https://www.lodiwine.com",
+              "country": "United States",
+              "confidence_0to1": 0.6,
+              "source_tier": "Tier 2",
+              "segment": "6. Regenerative Transition Services & Advisory Networks",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Sustainable Winegrowing Australia (SWA)",
+              "summary": "Sustainable Winegrowing Australia is the national sustainability program for grapegrowers and wineries, administered by the Australian Wine Research Institute (AWRI) with industry partners, providing digital reporting, benchmarking and advisory support. As of 2025, it has 1,844 members (1,344 certified), covering 99.5k hectares of member vineyards and 1.12 million tonnes of member grape crush, with regional reports such as McLaren Vale documenting 4,008 vineyard hectares in the regional program and 1,182 ha certified, plus 579 ha set aside for biodiversity. A case study of Handpicked Wines\u2019 Capella Vineyard shows how SWA-guided adoption of automated, solar-powered irrigation and improved soil monitoring reduced irrigation volumes and electricity use while maintaining yields and improving fruit quality.([sustainablewinegrowing.com.au](https://sustainablewinegrowing.com.au/?utm_source=openai))",
+              "kpi_alignment": [
+                "Regenerative/Sustainable Acreage Under Management: SWA members manage 99.5k hectares of vineyards nationwide, with regional data showing 4,008 ha in McLaren Vale\u2019s program and 1,182 ha certified, plus 579 ha reserved for biodiversity, indicating large-scale impact on vineyard practice.([sustainablewinegrowing.com.au](https://sustainablewinegrowing.com.au/?utm_source=openai))",
+                "Water & GHG Efficiency: At Handpicked Wines\u2019 Capella Vineyard, SWA-guided strategies (automated, solar-powered irrigation, improved soil moisture monitoring, compost/mulch application) reduced irrigation volume and improved water use efficiency, which in turn decreased electricity consumption and greenhouse gas emissions while maintaining yields.([sustainablewinegrowing.com.au](https://sustainablewinegrowing.com.au/case-studies/reducing-water-use-and-greenhouse-gas-emissions-handpicked-wines/?utm_source=openai))",
+                "Measurement & Continuous Improvement: The program\u2019s online reporting framework and benchmarking enable members to track performance across environmental, social and economic indicators, with AWRI providing technical support and case-study evidence of reduced inputs and improved resilience over time.([sustainablewinegrowing.com.au](https://sustainablewinegrowing.com.au/about-us/?utm_source=openai))"
+              ],
+              "sources": [
+                "https://sustainablewinegrowing.com.au/",
+                "https://sustainablewinegrowing.com.au/about-us/",
+                "https://sustainablewinegrowing.com.au/case-studies/reducing-water-use-and-greenhouse-gas-emissions-handpicked-wines/",
+                "https://members.mclarenvale.info/esg/sustainable-winegrowing-australia"
+              ],
+              "website": "https://sustainablewinegrowing.com.au",
+              "country": "Australia",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 1",
+              "segment": "6. Regenerative Transition Services & Advisory Networks",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "California Sustainable Winegrowing Program (CSWP) \u2013 California Sustainable Winegrowing Alliance",
+              "summary": "The California Sustainable Winegrowing Program, run by the California Sustainable Winegrowing Alliance (CSWA), is a statewide education and advisory platform that helps vineyards and wineries measure and improve sustainability through the Code of Sustainable Winegrowing, workshops, and performance metrics tools. Early program work led by SureHarvest organized 72 workshops with over 1,000 participants from 800 vineyard enterprises and 125 wineries, using a web-based Sustainability MIS to benchmark performance and identify improvements in IPM adoption and energy efficiency. CSWA\u2019s metrics platform now provides calculators for energy use, water use, greenhouse gas emissions and nitrogen application at vineyard and winery level, directly guiding reductions in resource intensity and emissions.([wineinstitute.org](https://wineinstitute.org/our-work/responsibility/sustainability/swp/?utm_source=openai))",
+              "kpi_alignment": [
+                "Regenerative/Sustainable Acreage Under Influence: With 800 vineyard enterprises and 125 wineries participating in early workshops and ongoing statewide engagement, the program influences a substantial share of California\u2019s vineyard area, with participants self-reporting data across 15 chapters and 200+ sustainability criteria.([growingproduce.com](https://www.growingproduce.com/fruits/grapes/california-ipm-innovators-honored/?utm_source=openai))",
+                "Water & Energy Use Efficiency: CSWA\u2019s metrics tools allow vineyards to calculate energy, water and GHG metrics; guidance emphasizes that water-related energy accounts for ~20% of California\u2019s energy use, and encourages growers to adopt practices that reduce both water and energy intensity per tonne of grapes.([metrics.sustainablewinegrowing.org](https://metrics.sustainablewinegrowing.org/?utm_source=openai))",
+                "GHG Emissions Intensity: By providing calculators and benchmarking for energy and GHG emissions, and linking them with Code-based practice changes (e.g., improved irrigation scheduling, efficient pumps, reduced nitrogen), the program supports measurable reductions in emissions intensity per hectare and per bottle for participating vineyards.([metrics.sustainablewinegrowing.org](https://metrics.sustainablewinegrowing.org/?utm_source=openai))"
+              ],
+              "sources": [
+                "https://wineinstitute.org/our-work/responsibility/sustainability/swp/",
+                "https://metrics.sustainablewinegrowing.org/",
+                "https://metrics.sustainablewinegrowing.org/water.php",
+                "https://www.sureharvest.com/our-story",
+                "https://www.growingproduce.com/fruits/grapes/california-ipm-innovators-honored/"
+              ],
+              "website": "https://sustainablewinegrowing.org",
+              "country": "United States",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 1",
+              "segment": "6. Regenerative Transition Services & Advisory Networks",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Sustainable Winegrowing New Zealand (SWNZ)",
+              "summary": "Sustainable Winegrowing New Zealand is an industry-wide certification program led by New Zealand Winegrowers that provides tools, metrics, and audits to support continuous sustainability improvement in vineyards. The 2025 Sustainability Report shows that SWNZ certification covers 98% of New Zealand\u2019s vineyard area and around 90% of national wine production, making it one of the most comprehensive sectoral sustainability schemes globally. The program tracks progress across six focus areas\u2014Climate Action, Water, Soil, Plant Protection, Waste, and People\u2014using empirical data reported by member vineyards and wineries, directly guiding reductions in water use, agrochemical intensity and emissions.([nzwine.com](https://www.nzwine.com/en/sustainability/?utm_source=openai))",
+              "kpi_alignment": [
+                "Regenerative/Sustainable Acreage Under Management: SWNZ encompasses 98% of vineyard area and ~90% of wine produced in New Zealand, effectively covering the national industry and ensuring most vineyards are reporting and improving against sustainability metrics.([nzwine.com](https://www.nzwine.com/en/media/media-releases/sustainability-report/?utm_source=openai))",
+                "Soil Health & Plant Protection: SWNZ\u2019s six focus areas explicitly include Soil and Plant Protection, requiring certified vineyards to adopt practices that maintain soil function, reduce erosion and optimize pest control, with progress tracked and published in periodic sustainability reports.([nzwine.com](https://www.nzwine.com/en/sustainability/?utm_source=openai))",
+                "GHG & Water Intensity: The program\u2019s Climate Action and Water pillars encourage and measure reductions in emissions and water use per hectare and per litre of wine, providing aggregated data in the 2025 report that benchmarks industry performance and supports ongoing improvement.([nzwine.com](https://www.nzwine.com/en/media/media-releases/sustainability-report/?utm_source=openai))"
+              ],
+              "sources": [
+                "https://www.nzwine.com/en/sustainability/",
+                "https://www.nzwine.com/en/media/media-releases/sustainability-report/"
+              ],
+              "website": "https://www.nzwine.com/en/sustainability/",
+              "country": "New Zealand",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 2",
+              "segment": "6. Regenerative Transition Services & Advisory Networks",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Paicines Ranch Learning Center",
+              "summary": "Paicines Ranch Learning Center in California operates a 7,600-acre regenerative ranch that includes an organic polyculture vineyard designed to be managed entirely with sheep, and it runs intensive regenerative winegrowing and viticulture immersions for commercial growers. Its Regenerative Winegrowing Workshop and Regenerative Viticulture Immersion bring vineyard managers and winemakers onto the ranch for two-day programs that integrate holistic management principles with field sessions in the on-site vineyard, exploring livestock integration, cover crops, and ecological design to reduce inputs while maintaining profitability. By hosting repeated cohorts of winegrowers and focusing on practical farm-scale decision frameworks, the Learning Center functions as a tech-enabled advisory hub that directly influences vineyard management decisions across North American wine regions.([paicineslearning.org](https://paicineslearning.org/events/regenerative-winegrowing-workshop/?utm_source=openai))",
+              "kpi_alignment": [
+                "Regenerative Acreage Under Demonstration: Paicines Ranch manages an organic polyculture vineyard within its 7,600-acre property that is specifically designed to be run with sheep, serving as a working demonstration of livestock-integrated regenerative viticulture for workshop participants.([paicineslearning.org](https://paicineslearning.org/events/regenerative-winegrowing-workshop/?utm_source=openai))",
+                "Soil Health & Biodiversity: Workshop curricula emphasize holistic management, biodiversity, soil health and ecosystem services, with participants observing how the vineyard\u2019s design (cover crops, integrated grazing, reduced tillage) supports soil function and resilience, providing a replicable blueprint for their own operations.([paicineslearning.org](https://paicineslearning.org/events/regenerative-winegrowing-workshop/?utm_source=openai))",
+                "Farmer Adoption & Knowledge Transfer: The Learning Center hosts recurring viticulture immersions, pre-conference field days, and regenerative winegrowing workshops targeted at winegrape growers, vineyard managers and producers, enabling hundreds of decision-makers over time to adopt similar regenerative practices on their own vineyards.([paicineslearning.org](https://paicineslearning.org/events/regenerative-winegrowing-workshop/?utm_source=openai))"
+              ],
+              "sources": [
+                "https://paicineslearning.org/",
+                "https://paicineslearning.org/events/regenerative-winegrowing-workshop/",
+                "https://paicinesranch.com/event/regenerative-viticulture-immersion/",
+                "https://wineindustryadvisor.com/event/regenerative-viticulture-immersion-at-paicines-ranch/"
+              ],
+              "website": "https://paicineslearning.org",
+              "country": "United States",
+              "confidence_0to1": 0.6,
+              "source_tier": "Tier 2",
+              "segment": "6. Regenerative Transition Services & Advisory Networks",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            }
+          ],
+          "notes": [
+            "Validation: 8/10 companies passed quality checks (rejected: 2)"
+          ]
+        },
+        {
+          "name": "7. Genetics, Rootstocks & Plant Material for Resilience",
+          "companies": [
+            {
+              "company": "Vivai Cooperativi Rauscedo (VCR)",
+              "summary": "Italian cooperative grapevine nursery supplying disease\u2011resistant PIWI varieties (e.g., Fleurtai, Soreli, Sauvignon Kretos, Merlot Khorus) and drought-/stress\u2011adapted rootstocks to commercial vineyards worldwide. Patents and VCR documentation show these varieties were bred with stacked resistance to downy and powdery mildew and cold, and are now planted in vineyards such as Villacriccola (Pasiano, Friuli) where Sauvignon Kretos PIWI blocks have been in production since 2018. Field studies on fungus\u2011resistant cultivars with similar Rpv resistance loci demonstrate 60\u201390% fewer fungicide applications and 52\u201379% lower copper/sulfur use in commercial vineyards, indicating substantial, direct reductions in pesticide inputs when these genetics are deployed.",
+              "kpi_alignment": [
+                "Synthetic fungicide reduction: Field trials on fungus-resistant cultivars (same Rpv loci class as VCR PIWIs) show 60\u201390% fewer fungicide applications and 52\u201379% less copper/sulfur applied per hectare versus susceptible cultivars under similar conditions.",
+                "Regenerative acreage: VCR reports around 80 million grafted vines sold annually with exclusive rights to 14 resistant varieties and four M\u2011rootstocks, implying thousands of hectares of vineyards with reduced plant protection and soil compaction from fewer spray passes.",
+                "Climate resilience: Sauvignon Kretos and related VCR PIWIs are bred to withstand winter lows to around \u221222 \u00b0C and high mildew pressure, supporting stable yields and reduced replanting risk in climates like Friuli and other temperate regions."
+              ],
+              "sources": [
+                "https://www.vivairauscedo.com/en/",
+                "https://www.vivairauscedo.com/en/product-index/resistant/",
+                "https://www.vivairauscedo.com/en/product-index/rootstocks/",
+                "https://trea.com/information/grapevine-named-sauvignon-kretos/patentgrant/1e1189b5-a067-4c51-a36a-bc6162510bc8",
+                "https://www.terrediger.it/en/2024/02/19/arconi-bianco-a-reistant-and-sublime-sauvignon/"
+              ],
+              "website": "https://www.vivairauscedo.com/en/",
+              "country": "Italy",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 1",
+              "segment": "7. Genetics, Rootstocks & Plant Material for Resilience",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "UC Davis Grape Breeding Program (Andrew Walker PD\u2011Resistant Varieties)",
+              "summary": "UC Davis\u2019s grape breeding program has released Pierce\u2019s disease\u2013resistant wine grapes including Camminare Noir, Paseante Noir, and Ambulo Blanc (~94\u201397% V. vinifera) that are now planted in commercial vineyards in Napa, Temecula, Sonoma, Texas Hill Country and the southern U.S. Named vineyards such as Napa\u2019s Silverado Pratt Ranch (LOLA Wines), Carter Creek Winery\u2019s 7\u2011acre PD\u2011resistant estate block in Texas, and organic vineyards used by Whitehall Lane and other producers demonstrate successful deployment, with wines bottled and sold commercially. These varieties are bred to maintain vinifera\u2011level wine quality while eliminating losses from PD, reducing reliance on insecticide programs targeting sharpshooters and preventing vine death in high\u2011pressure regions where PD causes >$100m/year in damages in California alone.",
+              "kpi_alignment": [
+                "Disease loss avoidance: Patents and field trials show Paseante Noir and related UC Davis selections carry a dominant PdR1 resistance gene and remain highly resistant to PD in vineyards along the Napa River and Ojai, preventing vine death where conventional vinifera typically fails.",
+                "Pesticide intensity: Whitehall Lane\u2019s release of PD\u2011resistant Camminare Noir and Paseante Noir is explicitly positioned as a way to avoid sharpshooter insecticide programs while maintaining yields, directly lowering insecticide use intensity per hectare in Napa vineyards.",
+                "Regenerative acreage: Ambulo Blanc and other PD\u2011resistant cultivars are reported as being planted across California (Temecula, Sonoma, Napa) and the southern U.S., with multiple commercial vineyards adopting them, creating a growing base of climate\u2011 and disease\u2011resilient hectares."
+              ],
+              "sources": [
+                "https://www.prnewswire.com/news-releases/whitehall-lane-winery-released-the-first-ever-camminare-noir-and-paseante-noir-wines-made-from-californias-newest-sustainable-grape-varieties-developed-at-uc-davis-301155858.html",
+                "https://txwinelover.com/2025/03/carter-creek-winery-announces-release-of-estate-wine-made-with-new-disease-resistant-vines/",
+                "https://shop.lolawines.com/product/2022-Artisanal-Series-Paseante-Noir-",
+                "https://trea.com/information/grapevine-plant-named-paseante-noir/patentgrant/55e2c361-f1d9-48c1-bf4a-797de2cb097d",
+                "https://www.wineenthusiast.com/basics/grapes-101/ambulo-blanc-grape/"
+              ],
+              "website": "https://plantsciences.ucdavis.edu/research/grape-breeding-and-genetics-andrew-walker",
+              "country": "United States",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 1",
+              "segment": "7. Genetics, Rootstocks & Plant Material for Resilience",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Staatliches Weinbauinstitut Freiburg (State Viticulture Institute Freiburg)",
+              "summary": "The Freiburg institute in Germany bred Souvignier gris and other PIWI cultivars with Rpv3.2 and Ren3/9 resistance loci, widely planted in European vineyards (e.g., UK, Germany, Austria, France\u2019s Rh\u00f4ne experimental plots). Official descriptions emphasize strong resistance to Peronospora (downy mildew), Oidium (powdery mildew) and Botrytis, with explicit statements that these properties enable a reduction in the number of plant protection treatments in wetter regions. Academic work on PIWIs including Souvignier gris confirms increased resistance levels through the season and shows that resistant cultivars support major reductions in fungicide programs relative to Pinot Noir controls.",
+              "kpi_alignment": [
+                "Plant protection intensity: Freiburg\u2019s technical sheet notes that Souvignier gris\u2019 high mildew resistance enables fewer fungicide treatments, and field experiments on PIWIs including Souvignier gris documented substantially lower disease severity versus susceptible Pinot Noir at equivalent or lower spray frequencies.",
+                "Regenerative acreage: Resistant varieties like Souvignier gris now account for hundreds of hectares in France (e.g., 651 ha of Souvignier gris and 684 ha of Floreal, together ~60% of resistant variety area), indicating significant vineyard surface operating with reduced fungicide inputs.",
+                "Soil and biodiversity: Reduced spray passes (from typical 12\u201315 per year in regions like Burgundy) toward levels demonstrated in PIWI trials directly cut copper loading and machinery traffic, supporting healthier soils and lower non\u2011target toxicity."
+              ],
+              "sources": [
+                "https://wbi.landwirtschaft-bw.de/pb/site/pbs-bw-mlr/get/documents_E417723011/MLR.LEL/PB5Documents/wbi/051%20Aufgaben%20und%20Fachbereiche/0513%20Fachbereiche/05136%20Referat%20Resistenz%20und%20Klonenz%C3%BCchtung/051323%20PIWI%20Keltertrauben/WBI-Rebsortenbroschu%CC%88re_SOUVIGNIERGRIS.pdf",
+                "https://de.wikipedia.org/wiki/Souvignier_gris",
+                "https://www.nature.com/articles/s41598-023-50666-4",
+                "https://www.bkwine.com/news/fungus-resistant-grape-varieties-gaining-ground/",
+                "https://www.mdpi.com/2073-4395/9/11/738"
+              ],
+              "website": "https://wbi.landwirtschaft-bw.de/",
+              "country": "Germany",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 1",
+              "segment": "7. Genetics, Rootstocks & Plant Material for Resilience",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Mercier Group / Novatech Laboratory",
+              "summary": "Mercier is a major French grapevine nursery whose Novatech R&D unit is co\u2011developing next\u2011generation rootstocks such as UCD GRN\u20111 and GRN\u20113, bred for broad resistance to phylloxera, root\u2011knot, ring and lesion nematodes and with potential tolerance to grapevine fanleaf virus. These rootstocks are currently being trialled in commercial Champagne vineyards (around 300 vines at two customer vineyards) and greenhouse tests, targeting virus\u2011infested sites where conventional rootstocks suffer high mortality. By combining nematode and phylloxera resistance with improved drought\u2011related traits identified in modern rootstock research, such material is expected to cut replanting rates and reduce reliance on soil fumigation in high\u2011pressure vineyards.",
+              "kpi_alignment": [
+                "Vineyard longevity: Field trials of GRN\u20111 and GRN\u20113 rootstocks in Champagne vineyards are specifically aimed at fanleaf\u2011virus sites, where successful resistance would significantly extend productive vine life compared with current rootstocks.",
+                "Input reduction: GRN\u2011series rootstocks incorporate broad nematode and phylloxera resistance, reducing the need for pre\u2011plant soil fumigation and nematicides; literature on drought\u2011tolerant rootstocks (e.g., 1103P, 140Ru, M4) shows such materials improve water\u2011use efficiency and sustain gas exchange under deficit irrigation, enabling lower irrigation volumes while maintaining yields.",
+                "Resilient hectares: The ongoing French and Spanish trials indicate early adoption in virus\u2011challenged high\u2011value vineyards, with eventual scaling across hectares currently limited by fanleaf and nematode pressure."
+              ],
+              "sources": [
+                "https://www.vitisphere.com/news-105196-2-rootstock-potentially-resistant-to-grapevine-fan-leaf-virus-currently-being-trialled-.html",
+                "https://grapeandwinemag.com/2024/01/01/rootstock-research-reaches-for-drought-resistance/",
+                "https://www.sciencedirect.com/science/article/pii/S030442382500216X"
+              ],
+              "website": "https://www.mercier-groupe.com/",
+              "country": "France",
+              "confidence_0to1": 0.7999999999999999,
+              "source_tier": "Tier 2",
+              "segment": "7. Genetics, Rootstocks & Plant Material for Resilience",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Amberg Grapevines",
+              "summary": "Amberg Grapevines is a family\u2011owned nursery in New York\u2019s Finger Lakes region specializing in premium grafted vines, including PIWI varieties and resilient rootstocks tailored to cold\u2011climate and disease\u2011prone vineyards across the U.S. East, Midwest, and South. By focusing on cold\u2011hardy, disease\u2011resistant genetics and shorter\u2011season material, they enable growers in humid, high\u2011disease regions to establish vineyards with fewer fungicide passes and lower vine mortality, thereby expanding regenerative viticulture into areas where vinifera and standard hybrids struggle.",
+              "kpi_alignment": [
+                "Regenerative acreage expansion: Amberg supplies over 200 variety\u2013rootstock combinations, explicitly highlighting PIWI and resilient rootstocks for challenging climates, supporting the establishment of lower\u2011input vineyards across multiple states.",
+                "Disease and climate resilience: Their portfolio targets cold\u2011hardy, mildew\u2011resistant cultivars and robust rootstocks, which, based on independent PIWI and rootstock studies, can support 50\u201380% reductions in fungicide spraying and improved drought performance compared with susceptible vinifera in similar climates.",
+                "Farmer adoption: The nursery markets explicitly to commercial vineyards and wineries across the East Coast, Midwest and South, helping move these regions away from highly sprayed conventional vinifera toward more resilient plantings."
+              ],
+              "sources": [
+                "https://www.amberggrapevines.com/",
+                "https://agrilifeorganic.org/2024/04/06/the-future-of-organic-viticulture-embracing-fungus-resistant-grape-varieties-in-texas/",
+                "https://pubmed.ncbi.nlm.nih.gov/37687364/"
+              ],
+              "website": "https://www.amberggrapevines.com/",
+              "country": "United States",
+              "confidence_0to1": 0.7999999999999999,
+              "source_tier": "Tier 3",
+              "segment": "7. Genetics, Rootstocks & Plant Material for Resilience",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "South Texas Grapevine Nursery",
+              "summary": "South Texas Grapevine Nursery is a small, PD\u2011focused nursery outside San Antonio supplying Pierce\u2019s disease\u2013resistant varieties (including the new UC Davis releases) to vineyards in the Texas Hill Country and Gulf Coast. The owner has established mother blocks of all five PD\u2011resistant grapes on sandy, nematode\u2011free soils and markets clean, own\u2011rooted vines to regional growers, enabling them to plant in locations previously considered too high\u2011risk for vinifera due to PD pressure.",
+              "kpi_alignment": [
+                "Disease resilience: By propagating only PD\u2011resistant vines and maintaining isolated, water\u2011limited mother blocks (reducing sharpshooter pressure), the nursery directly provides plant material that can survive and produce in PD\u2011endemic Texas regions where conventional vinifera fails.",
+                "Input reduction: PD\u2011resistant genetics reduce the need for systemic insecticide programs and repeated replanting, lowering both chemical use and embedded emissions per hectare over a vineyard\u2019s life.",
+                "Geographic expansion of sustainable viticulture: The nursery specifically targets high\u2011PD parts of Texas, enabling growers to farm grapes \u2013 and often do so with less chemical dependence \u2013 in areas previously constrained to very limited, often high\u2011input options."
+              ],
+              "sources": [
+                "https://www.southtexasgrapevine.com/about",
+                "https://agrilifeorganic.org/2024/04/06/the-future-of-organic-viticulture-embracing-fungus-resistant-grape-varieties-in-texas/",
+                "https://www.wineenthusiast.com/basics/grapes-101/ambulo-blanc-grape/"
+              ],
+              "website": "https://www.southtexasgrapevine.com/",
+              "country": "United States",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 3",
+              "segment": "7. Genetics, Rootstocks & Plant Material for Resilience",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Sunridge Nurseries",
+              "summary": "Sunridge Nurseries is a large California\u2011based grapevine nursery supplying certified vines and rootstocks globally, including drought\u2011tolerant and nematode\u2011resistant rootstocks such as 1103P, 140Ru, and GRN\u2011series materials. As a key commercial partner for UC\u2011bred rootstocks and scions, Sunridge has propagated improved rootstocks that research shows develop deeper, more plastic root systems, maintain gas exchange under deficit irrigation, and confer resistance to phylloxera and root\u2011knot nematodes, thereby reducing irrigation demand and soil fumigation in high\u2011value vineyards.",
+              "kpi_alignment": [
+                "Water\u2011use efficiency: Studies on drought\u2011tolerant rootstocks like 1103P and 140Ru demonstrate more efficient water uptake, sustained photosynthesis and improved hydraulic conductance under water stress, enabling vineyards to maintain yields with fewer irrigation events.",
+                "Chemical reduction: Nematicide and soil fumigant use can be reduced when nematode\u2011resistant rootstocks are planted, cutting toxic inputs and associated emissions over a vineyard\u2019s life.",
+                "Scale of impact: As one of the largest vine suppliers in California, with nearly 50 years of global distribution, Sunridge rootstocks underpin thousands of hectares of vineyards transitioning to more resilient, lower\u2011input plant material."
+              ],
+              "sources": [
+                "https://pasowine.com/member/sunridge-nurseries/",
+                "https://grapeandwinemag.com/2024/01/01/rootstock-research-reaches-for-drought-resistance/",
+                "https://www.sciencedirect.com/article/pii/S030442382500216X"
+              ],
+              "website": "https://www.sunridgenurseries.com/",
+              "country": "United States",
+              "confidence_0to1": 0.7999999999999999,
+              "source_tier": "Tier 2",
+              "segment": "7. Genetics, Rootstocks & Plant Material for Resilience",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Amorim / VCR Resistant Varieties Partnership via Agromillora (Innovation in Viticulture Case Study)",
+              "summary": "Agromillora\u2019s case study on Vivai Cooperativi Rauscedo\u2019s resistant varieties and new rootstocks highlights how these genetics are being deployed through international nursery networks into commercial vineyards as a concrete adaptation strategy. The article reports that, depending on local climate and soils, resistant varieties allow a 50\u201380% reduction in plant\u2011protection treatments compared with conventional cultivars grown in the same area, directly cutting copper and synthetic fungicide use, tractor passes, and production costs for growers adopting these vines.",
+              "kpi_alignment": [
+                "Fungicide and copper reduction: Agromillora/VCR data state that resistant varieties enable 50\u201380% fewer plant\u2011protection treatments than traditional cultivars in the same microclimate, aligning with independent academic findings of 60\u201390% reductions and 52\u201379% lower copper/sulfur load for fungus\u2011resistant cultivars.",
+                "Economic performance: The same article emphasizes the economic advantages from lower spray frequency and input costs, improving profitability per hectare for vineyards transitioning to resistant VCR varieties.",
+                "Scalability: By channeling VCR\u2019s genetics through large nursery networks like Agromillora into international markets, these resistant rootstocks and scions can quickly scale to thousands of hectares beyond Italy, accelerating global adoption of low\u2011input plant material."
+              ],
+              "sources": [
+                "https://www.agromillora.com/innovation-in-viticulture-the-advancement-of-resistant-varieties-and-new-rootstocks-by-vivai-cooperativi-rauscedo-vcr/",
+                "https://www.vivairauscedo.com/en/",
+                "https://pubmed.ncbi.nlm.nih.gov/37687364/"
+              ],
+              "website": "https://www.agromillora.com/",
+              "country": "Spain",
+              "confidence_0to1": 0.7999999999999999,
+              "source_tier": "Tier 2",
+              "segment": "7. Genetics, Rootstocks & Plant Material for Resilience",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            }
+          ],
+          "notes": [
+            "Validation: 8/10 companies passed quality checks (rejected: 2)"
+          ]
+        },
+        {
+          "name": "8. Water Management & Climate Resilience",
+          "companies": [
+            {
+              "company": "Fruition Sciences",
+              "summary": "Fruition Sciences provides sap-flow and plant-based sensing for precision irrigation in vineyards, with deployments at Shafer Vineyards, Dana Estates, Ovid, Cliff Lede and others in California and France. A 2014 experiment across six California vineyards funded by the Metropolitan Water District showed an average 65% reduction in irrigation water applied (17 Olympic pools saved over 37 acres) while maintaining or improving yield and fruit quality; winery clients report individual blocks cutting irrigation by up to 75% and saving millions of gallons annually.",
+              "kpi_alignment": [
+                "Water Use Efficiency in Vineyards: 65% reduction in applied irrigation water across 37 acres in six California vineyards vs. grower practice, with no yield penalty.",
+                "GHG & Energy Impact: 65% less pumped water translates directly into proportional reductions in pumping energy and associated emissions intensity per tonne of grapes.",
+                "Commercial Adoption / Regenerative Acreage: >90 wineries in four countries using the platform, including premium estates such as Ch\u00e2teau Latour and Shafer, implying several thousand hectares under data-driven irrigation management."
+              ],
+              "sources": [
+                "https://fruitionsciences.com/en/sciences-white-papers/sap-flow-sensors",
+                "https://fruitionsciences.com/en/resources",
+                "https://fruitionsciences.com/",
+                "https://www.wired.com/2012/10/mf-fruition-sciences-winemakers/",
+                "https://www.northbaybusinessjournal.com/article/industry-news/new-tech-saps-vine-water-use/"
+              ],
+              "website": "https://fruitionsciences.com",
+              "country": "France",
+              "confidence_0to1": 0.7999999999999999,
+              "source_tier": "Tier 2",
+              "segment": "8. Water Management & Climate Resilience",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Vinduino",
+              "summary": "Vinduino is a California-based IoT soil-moisture and irrigation-control company born out of a Temecula winegrower\u2019s own vineyard. Field results from Van der Lee Vineyard (5 acres) and subsequent deployments show 25\u201350% reductions in irrigation water use (up to ~430,000 gallons saved in one season) and ~25% labor savings by shifting to sensor-based scheduling and automated control.",
+              "kpi_alignment": [
+                "Water Use Efficiency in Vineyards: 25% water savings in 2015 at Van der Lee Vineyard and up to 50% irrigation water saved at veraison versus prior years, while maintaining yield and vine health.",
+                "Labor Productivity: 25% reduction in irrigation-related labor costs by replacing manual irrigation management with automated decision support.",
+                "Farmer Adoption & Scale: Sensor networks covering multiple California vineyards and open-source hardware enabling broader low-cost diffusion, supporting expansion towards thousands of hectares under improved water management."
+              ],
+              "sources": [
+                "https://www.pr.com/press-release/670879",
+                "https://hackaday.com/2015/12/11/vinduino-full-irrigation-with-25-less-water/",
+                "https://hackaday.io/project/6444-vinduino-a-wine-growers-water-saving-project/log/41510-50-irrigation-water-saved-at-veraison",
+                "https://www.evineyardapp.com/blog/2021/06/10/case-study-evineyard-helping-save-10-30-of-vineyard-irrigation-water-and-improve-grape-quality-in-california-vineyards/",
+                "https://www.electronicdesign.com/markets/automation/article/21804891/vinduino-an-open-source-affordable-water-saving-technology"
+              ],
+              "website": "https://vinduino.com",
+              "country": "United States",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 2",
+              "segment": "8. Water Management & Climate Resilience",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "eVineyard (Elmibit)",
+              "summary": "eVineyard is a vineyard management and decision-support platform from Slovenia that optimizes irrigation using ET data and soil-moisture sensors, in partnership with hardware providers like Vinduino. A documented California case study across several irrigated vineyards reports 10% average water savings where only sensors + ET were used and up to 30% savings in a fully automated vineyard, with maintained or improved grape quality.",
+              "kpi_alignment": [
+                "Water Use Efficiency in Vineyards: 10\u201330% reduction in irrigation water use across multiple California vineyards, depending on level of automation.",
+                "Farmer Adoption: Used by growers from small holdings to some of the largest vineyards in certain countries, with deployments starting from 2014 and now active on five continents.",
+                "Commercial Traction: SaaS vineyard OS with recurring software revenue and global partner network (e.g., Vinduino in the US, SmarterVineyards in Australia), supporting scale beyond pilot projects."
+              ],
+              "sources": [
+                "https://www.evineyardapp.com/blog/2021/06/10/case-study-evineyard-helping-save-10-30-of-vineyard-irrigation-water-and-improve-grape-quality-in-california-vineyards/",
+                "https://www.evineyardapp.com/case-studies",
+                "https://www.evineyardapp.com/",
+                "https://www.evineyardapp.com/blog/2024/01/25/10-years-of-growth-evineyards-evolution-in-transforming-viticulture/",
+                "https://www.1ot.com/blog/evineyard-turns-to-1ot-to-improve-software-offering"
+              ],
+              "website": "https://www.evineyardapp.com",
+              "country": "Slovenia",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 3",
+              "segment": "8. Water Management & Climate Resilience",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Verdi Agriculture",
+              "summary": "Verdi provides wireless valve, dripline and pump automation with sensor integration for precision and variable-rate irrigation, with extensive deployments in vineyards such as Quails\u2019 Gate Estate Winery, 50th Parallel Estate, Mt. Boucherie Estate Winery and Arterra Wines Canada. Customer-facing metrics report typical 10\u201330% water savings, $250\u2013500 per acre labor savings, and 10\u201320% increased revenue per acre from better-managed vine stress and vigor.",
+              "kpi_alignment": [
+                "Water Use Efficiency in Vineyards: Reported 10\u201330% reduction in water and fertilizer use per acre driven by sub-block irrigation, leak detection, and sensor-driven scheduling across vineyard blocks.",
+                "Labor Productivity: $250\u2013500 per acre labor savings and up to 50% less time spent on irrigation tasks (e.g., one 50-acre vineyard manager reducing valve rounds from 4 hours/day to 15\u201320 minutes using remote automation).",
+                "Regenerative Acreage / Adoption: Thousands of acres already automated with Verdi across regions such as Napa, Lodi, Okanagan and Vancouver Island, with vineyard managers at Quails\u2019 Gate, Arterra and others using the system on 100+ blocks."
+              ],
+              "sources": [
+                "https://www.verdi.ag/",
+                "https://www.verdi.ag/solutions/orchards",
+                "https://www.verdi.ag/solutions/vineyards",
+                "https://www.sensoterra.com/news/saving-7-million-liters-of-water-smart-water-data-integration-for-automated-precision-irrigation/",
+                "https://www.verdi.ag/contact-verdi/contact-us"
+              ],
+              "website": "https://www.verdi.ag",
+              "country": "Canada",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 3",
+              "segment": "8. Water Management & Climate Resilience",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Lumo",
+              "summary": "Lumo is a California-based precision irrigation company that makes wireless smart valves and pump automation for specialty crops, heavily focused on vineyards in Napa, Sonoma and California\u2019s Central Coast. New AG International reports 24 Lumo valves managing irrigation on 90 acres for Treasury Wine Estates\u2019 Napa vineyards, while company and PR sources note adoption by over 60\u201370 vineyards (including five of the ten largest US winegrape growers) and positioning around improved water conservation and verified block-level water volumes.",
+              "kpi_alignment": [
+                "Water Use Efficiency in Vineyards: Trial with Treasury Americas covers 90 acres with block-level flow measurement and automated shutoff, enabling quantified water budgeting and conservation at scale.",
+                "Adoption & Scale: Over 60\u201370 vineyards in Napa, Sonoma and the Central Coast using Lumo smart valves, plus early-access deployments at vineyards such as Clos du Val, Boh\u00e8me, Price Family Vineyards & Estates and Gap\u2019s Crown.",
+                "Labor & Operational Efficiency: Growers achieve 24/7 remote control and automation from pump to plant, reducing manual irrigation labor and enabling night/off-peak scheduling without on-site staff."
+              ],
+              "sources": [
+                "https://lumo.ag/california-growers-signal-commitment-to-water-sustainability-via-irrigation-startup-lumo/",
+                "https://www.prnewswire.com/news-releases/california-growers-signal-commitment-to-water-sustainability-via-irrigation-startup-lumo-301702408.html",
+                "https://www.newaginternational.com/irrigation/u-s-vineyard-trials-smart-irrigation-technology/",
+                "https://lumo.ag/irrigation-technology-company-lumo-announces-trial-with-treasury-wine-estates-in-bid-to-enhance-water-management-and-environmental-stewardship/",
+                "https://www.prnewswire.com/news-releases/lumo-releases-new-4-smart-valves-to-help-growers-irrigate-with-precision-on-larger-blocks-302231085.html"
+              ],
+              "website": "https://lumo.ag",
+              "country": "United States",
+              "confidence_0to1": 0.6,
+              "source_tier": "Tier 2",
+              "segment": "8. Water Management & Climate Resilience",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Bluetentacles",
+              "summary": "Bluetentacles is an Italian startup retrofit solution for precision irrigation that upgrades existing systems with IoT sensors, algorithms and remote valve control. It has been trialed since 2019 in Lunelli Group\u2019s Trentodoc vineyards (including vineyards around Villa Margon that supply Ferrari Trento), with Ferrari estimating that scaling the system across Trentino-Alto Adige\u2019s 15,000 ha of vineyards could save around 9 million m\u00b3 of water per year, while also reducing pumping energy and agrochemical use thanks to better vine health.",
+              "kpi_alignment": [
+                "Water Use Efficiency in Vineyards: Modeled potential to save ~9 million m\u00b3 of water annually if deployed across 15,000 ha of regional vineyards, based on performance in Ferrari/Lunelli pilot blocks.",
+                "Energy and Input Reduction: Improved irrigation timing reduces pumping energy demand and allows lower chemical and fertilizer use due to healthier, less-stressed vines.",
+                "Climate Resilience: Remote, data-driven irrigation scheduling in steep, mountainous sparkling-wine vineyards supports adaptation to increasing summer heat and variable rainfall in the Alps."
+              ],
+              "sources": [
+                "https://www.ferraritrento.com/en/the-lunelli-group-has-joined-forces-with-bluetentacles-a-synergy-in-favour-of-the-environment-and-water-conservation/",
+                "https://www.forbes.com/sites/jeanettehurt/2023/07/24/italian-sparkling-winemaker-uses-new-irrigation-tech-to-save-water/",
+                "https://www.bluetentacles.com/en/"
+              ],
+              "website": "https://www.bluetentacles.com",
+              "country": "Italy",
+              "confidence_0to1": 0.6,
+              "source_tier": "Tier 2",
+              "segment": "8. Water Management & Climate Resilience",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "SWAN Systems",
+              "summary": "SWAN Systems is an irrigation and nutrient management software platform that integrates soil, crop and climate data to optimize irrigation, with specific vineyard customers such as Quelltaler Vineyards in Clare Valley and Torbreck Vintners in Barossa, Australia. In Torbreck\u2019s Descendant Vineyard, SWAN-enabled irrigation scheduling helped transform struggling blocks (previously only supporting $30 wines) into fruit now used in $150 wines, while broader SWAN trials in orchards demonstrate 52% water savings and 22% higher profits, indicating strong potential for similar water-efficiency gains in vineyards under water stress.",
+              "kpi_alignment": [
+                "Water Use Efficiency & Profitability: Documented 52% water savings and 22% higher profits in analogous specialty crops (Cosmic Crisp apples) using SWAN-led irrigation scheduling; vineyard case studies (Quelltaler, Torbreck) emphasize more precise irrigation and measurable water savings.",
+                "Quality & Revenue per Hectare: At Torbreck, improved canopy retention and uniformity under SWAN management lifted fruit from $30 to $150 per bottle tiers on at least one block, materially increasing revenue per hectare.",
+                "Climate Resilience: Vineyard managers in dry regions (e.g., Clare Valley ~520 mm rainfall) use SWAN to manage water budgets and heatwave response, reducing risk of defoliation and maintaining A-grade grape quality under drought."
+              ],
+              "sources": [
+                "https://www.swansystems.com/",
+                "https://www.swansystems.com/michael-paxton-smarter-irrigation-quelltaler-vineyards/",
+                "https://www.swansystems.com/torbreck-vineyards-wine-australia-video/",
+                "https://www.swansystems.com/torbreck-irrigation-journey-struggling-blocks-to-150-wines/",
+                "https://www.openaccessgovernment.org/article/enhancing-irrigation-effectiveness-in-vineyards-with-innovative-technologies/166696/"
+              ],
+              "website": "https://www.swansystems.com",
+              "country": "Australia",
+              "confidence_0to1": 0.7,
+              "source_tier": "Tier 2",
+              "segment": "8. Water Management & Climate Resilience",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "SupPlant",
+              "summary": "SupPlant is an Israeli agtech company that uses in-plant sensors and AI to provide irrigation recommendations, with a long-term trial in a \u2018Sauvignon Blanc\u2019 vineyard near Kibbutz Merav in Israel led by Dr. Yishai Netzer. The study showed SupPlant\u2019s sensors can predict midday stem water potential with ~90% accuracy versus a pressure chamber, enabling fine control of water stress in wine grapes and supporting deficit irrigation strategies that maintain quality while avoiding over-irrigation.",
+              "kpi_alignment": [
+                "Water Use Efficiency in Vineyards: High-fidelity stem water potential estimation (90% accuracy vs. pressure chamber) enables growers to irrigate below 100% ET while tightly controlling vine stress, directly reducing unnecessary water use.",
+                "GHG & Labor Impact: Continuous automated sensing replaces manual pressure-chamber readings, cutting labor time and reducing repeated field trips and associated fuel/emissions per hectare.",
+                "Climate Resilience: Continuous plant-level monitoring of water stress allows vineyards in semi-arid regions to better withstand heat and drought, protecting yields and berry composition with less water."
+              ],
+              "sources": [
+                "https://wineindustryadvisor.com/2021/11/03/supplants-plant-sensors-replace-grape-pressure-chamber/",
+                "https://supplant.me",
+                "https://supplant.me/blog"
+              ],
+              "website": "https://supplant.me",
+              "country": "Israel",
+              "confidence_0to1": 0.6,
+              "source_tier": "Tier 2",
+              "segment": "8. Water Management & Climate Resilience",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            },
+            {
+              "company": "Deep Planet (VineSignal)",
+              "summary": "Deep Planet\u2019s VineSignal platform uses satellite imagery, NDVI/NDWI and AI to monitor vine vigor, canopy moisture and soil moisture, providing dynamic irrigation scheduling and yield/maturity predictions for vineyards globally. It is deployed with growers in regions such as Douro (Portugal), New York State (via the New York Wine & Grape Foundation) and with premium estates like Bernard Magrez in Bordeaux, with case studies showing 90\u201395% accurate yield forecasts and per-tonne cost savings of >$50 through better-timed irrigation and harvest decisions.",
+              "kpi_alignment": [
+                "Water & Input Efficiency: VineSignal\u2019s canopy and soil-moisture analytics optimize irrigation timing and depth and are explicitly marketed to \u2018optimise irrigation usage\u2019 and \u2018decrease costs of irrigation and chemicals\u2019, improving water use efficiency per ton of grapes.",
+                "Commercial Scale / Regenerative Acreage: Mapping of 29,586 acres of New York vineyards and deployments in major regions (e.g., Bordeaux, Douro, Australia) indicate influence over tens of thousands of hectares of vineyard land for climate-resilient management.",
+                "Economic & Climate Resilience: Case study data showing >$50 per tonne production savings and $0.50\u201320 per bottle value improvements by optimizing harvest and irrigation improves economic resilience while enabling adaptation to shifting seasons and heatwaves."
+              ],
+              "sources": [
+                "https://www.deepplanet.ai/vinesignal",
+                "https://pir.sa.gov.au/regions-and-support/programs-and-initiatives/agtech/agtech_solutions/products2/deep-planet-vinesignal",
+                "https://www.deepplanet.ai/blog/benchmarking-the-future-of-new-york-vineyards-data-collection",
+                "https://www.foodnavigator.com/Article/2022/07/21/Deep-Planet-Start-up-helps-winemakers-survive-climate-change-with-AI-and-satellite-tech",
+                "https://www.deepplanet.ai/blog/workshop-trends-and-digital-innovations-applied-to-the-wine-sector"
+              ],
+              "website": "https://www.deepplanet.ai",
+              "country": "United Kingdom",
+              "confidence_0to1": 0.7999999999999999,
+              "source_tier": "Tier 2",
+              "segment": "8. Water Management & Climate Resilience",
+              "region_state": "N/A",
+              "vineyard_verified": true
+            }
+          ],
+          "notes": [
+            "Validation: 9/10 companies passed quality checks (rejected: 1)"
+          ]
+        }
+      ],
+      "telemetry": {
+        "raw_responses": 8,
+        "tool_calls": 92,
+        "tool_usage": {},
+        "output_guardrails": 0,
+        "coverage": {
+          "segments_total": 8,
+          "segments_with_minimum": 7,
+          "minimum_companies": 10,
+          "segments_missing": [
+            {
+              "segment": "1. Soil Health & Regenerative Inputs",
+              "companies": 6
+            }
+          ]
+        },
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "tool_summary": "92 tool calls; segments below target: 1. Soil Health & Regenerative Inputs (6)"
+      },
+      "tool_summary": "92 tool calls; segments below target: 1. Soil Health & Regenerative Inputs (6)"
+    }
+  ]
+}
