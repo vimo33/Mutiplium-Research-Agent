@@ -108,7 +108,9 @@ export function DiscoveryProgress({ project, onComplete, onBack }: DiscoveryProg
   // Fetch run logs
   const fetchLogs = useCallback(async (runId: string) => {
     try {
-      const response = await fetch(`${API_BASE}/runs/${runId}/events?limit=50`);
+      const response = await fetch(`${getApiBaseUrl()}/runs/${runId}/events?limit=50`, {
+        headers: getAuthHeaders(),
+      });
       if (response.ok) {
         const data = await response.json();
         const events = data.events || [];

@@ -466,7 +466,7 @@ export function ReviewView({
         {showDataPanel && currentCompany && (
           <DataQualityPanel
             company={currentCompany}
-            review={currentReview}
+            review={currentReview ?? undefined}
             onAddFlag={(flag) => addFlag(currentCompany.company, flag)}
             onRemoveFlag={(flag) => removeFlag(currentCompany.company, flag)}
             onEditField={(field, value) => setDataEdit(currentCompany.company, field, value)}

@@ -4,6 +4,7 @@ import './Badge.css';
 interface BadgeProps {
   children: ReactNode;
   variant?: 'default' | 'primary' | 'success' | 'warning' | 'danger' | 'info';
+  size?: 'sm' | 'md' | 'lg' | string;
   dot?: boolean;
   onRemove?: () => void;
   className?: string;
