@@ -216,7 +216,7 @@ export function useReviews(companies: CompanyData[] = [], projectId?: string) {
   // Track if we've loaded from server
   const hasLoadedFromServer = useRef(false);
   // Debounce timer for server saves
-  const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const saveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   
   // Load reviews from server on mount (if projectId provided)
   useEffect(() => {
