@@ -51,6 +51,11 @@ services:
       # Chat model (defaults to gpt-4o if gpt-5.1 unavailable)
       - key: CHAT_MODEL
         value: gpt-4o
+      # Supabase for persistent storage
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_KEY
+        sync: false
 
   # ==========================================================================
   # Frontend Dashboard (Static Site)

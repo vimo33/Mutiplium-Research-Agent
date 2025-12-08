@@ -21,6 +21,25 @@ from pydantic import BaseModel, Field
 from multiplium.runs import RunRegistry
 
 # =============================================================================
+# Supabase Client (optional - for persistent storage)
+# =============================================================================
+
+supabase_client = None
+try:
+    from supabase import create_client, Client
+    
+    SUPABASE_URL = os.getenv("SUPABASE_URL")
+    SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_KEY")
+    
+    if SUPABASE_URL and SUPABASE_KEY:
+        supabase_client: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+        print(f"✅ Supabase connected: {SUPABASE_URL}")
+    else:
+        print("⚠️ Supabase not configured - using file storage")
+except ImportError:
+    print("⚠️ Supabase package not installed - using file storage")
+
+# =============================================================================
 # Configuration
 # =============================================================================
 
@@ -1919,7 +1938,7 @@ def get_chat_history(session_id: str) -> dict:
 
 
 # ============================================================================
-# Project Chat Persistence (tied to project ID)
+# Project Chat Persistence (tied to project ID) - Supabase + file fallback
 # ============================================================================
 
 CHAT_DATA_DIR = DATA_ROOT / "data" / "chats"
@@ -1932,18 +1951,43 @@ class SaveChatRequest(BaseModel):
 
 @app.post("/projects/{project_id}/chat/save", dependencies=[Depends(verify_api_key)])
 def save_project_chat(project_id: str, request: SaveChatRequest) -> dict:
-    """Save chat messages and artifacts for a project."""
+    """Save chat messages and artifacts for a project to Supabase (and file fallback)."""
+    now = datetime.utcnow().isoformat() + "Z"
     
-    # Ensure directory exists
+    # Try Supabase first
+    if supabase_client:
+        try:
+            row = {
+                "project_id": project_id,
+                "messages": request.messages,
+                "artifacts": request.artifacts,
+                "updated_at": now,
+            }
+            supabase_client.table("chats").upsert(
+                row,
+                on_conflict="project_id"
+            ).execute()
+            
+            # Also update the in-memory session if it exists
+            session_id = f"project_{project_id}"
+            if session_id in CHAT_SESSIONS:
+                system_msg = next((m for m in CHAT_SESSIONS[session_id] if m["role"] == "system"), None)
+                CHAT_SESSIONS[session_id] = [system_msg] if system_msg else []
+                CHAT_SESSIONS[session_id].extend(request.messages)
+            
+            return {"status": "saved", "project_id": project_id, "source": "supabase"}
+        except Exception as e:
+            print(f"Supabase chat save error, falling back to file: {e}")
+    
+    # File fallback
     CHAT_DATA_DIR.mkdir(parents=True, exist_ok=True)
-    
     chat_file = CHAT_DATA_DIR / f"{project_id}.json"
     
     chat_data = {
         "project_id": project_id,
         "messages": request.messages,
         "artifacts": request.artifacts,
-        "updated_at": datetime.utcnow().isoformat() + "Z",
+        "updated_at": now,
     }
     
     with chat_file.open("w") as f:
@@ -1952,18 +1996,44 @@ def save_project_chat(project_id: str, request: SaveChatRequest) -> dict:
     # Also update the in-memory session if it exists
     session_id = f"project_{project_id}"
     if session_id in CHAT_SESSIONS:
-        # Keep system prompt, replace rest
         system_msg = next((m for m in CHAT_SESSIONS[session_id] if m["role"] == "system"), None)
         CHAT_SESSIONS[session_id] = [system_msg] if system_msg else []
         CHAT_SESSIONS[session_id].extend(request.messages)
     
-    return {"status": "saved", "project_id": project_id}
+    return {"status": "saved", "project_id": project_id, "source": "file"}
 
 
 @app.get("/projects/{project_id}/chat/load", dependencies=[Depends(verify_api_key)])
 def load_project_chat(project_id: str) -> dict:
-    """Load saved chat messages and artifacts for a project."""
+    """Load saved chat messages and artifacts for a project from Supabase (or file fallback)."""
     
+    # Try Supabase first
+    if supabase_client:
+        try:
+            response = supabase_client.table("chats").select("*").eq("project_id", project_id).single().execute()
+            if response.data:
+                return {
+                    "project_id": project_id,
+                    "messages": response.data.get("messages", []),
+                    "artifacts": response.data.get("artifacts", {}),
+                    "updated_at": response.data.get("updated_at"),
+                    "found": True,
+                    "source": "supabase",
+                }
+            else:
+                return {
+                    "project_id": project_id,
+                    "messages": [],
+                    "artifacts": {},
+                    "found": False,
+                    "source": "supabase",
+                }
+        except Exception as e:
+            # No row found or other error - fall back to file
+            if "0 rows" not in str(e):
+                print(f"Supabase chat load error, falling back to file: {e}")
+    
+    # File fallback
     chat_file = CHAT_DATA_DIR / f"{project_id}.json"
     
     if not chat_file.exists():
@@ -1972,6 +2042,7 @@ def load_project_chat(project_id: str) -> dict:
             "messages": [],
             "artifacts": {},
             "found": False,
+            "source": "file",
         }
     
     try:
@@ -1984,6 +2055,7 @@ def load_project_chat(project_id: str) -> dict:
             "artifacts": chat_data.get("artifacts", {}),
             "updated_at": chat_data.get("updated_at"),
             "found": True,
+            "source": "file",
         }
     except Exception as e:
         return {
@@ -1992,6 +2064,7 @@ def load_project_chat(project_id: str) -> dict:
             "artifacts": {},
             "found": False,
             "error": str(e),
+            "source": "file",
         }
 
 
@@ -2068,7 +2141,7 @@ async def project_chat_stream(project_id: str, request: ChatRequest):
 
 
 # =============================================================================
-# Reviews API - Server-side storage for company reviews
+# Reviews API - Server-side storage for company reviews (Supabase + file fallback)
 # =============================================================================
 
 REVIEWS_DATA_DIR = DATA_ROOT / "data" / "reviews"
@@ -2082,8 +2155,48 @@ class SaveReviewsRequest(BaseModel):
 
 @app.get("/projects/{project_id}/reviews", dependencies=[Depends(verify_api_key)])
 def load_project_reviews(project_id: str) -> dict:
-    """Load saved reviews for a project."""
+    """Load saved reviews for a project from Supabase (or file fallback)."""
     
+    # Try Supabase first
+    if supabase_client:
+        try:
+            response = supabase_client.table("reviews").select("*").eq("project_id", project_id).execute()
+            if response.data:
+                # Convert rows to dict format
+                reviews = {}
+                latest_updated = None
+                for row in response.data:
+                    reviews[row["company_name"]] = {
+                        "company": row["company_name"],
+                        "status": row.get("status", "pending"),
+                        "score": row.get("score"),
+                        "notes": row.get("notes", ""),
+                        "dataFlags": row.get("data_flags", []),
+                        "dataEdits": row.get("data_edits", {}),
+                        "reviewedAt": row.get("reviewed_at"),
+                    }
+                    if row.get("updated_at"):
+                        if not latest_updated or row["updated_at"] > latest_updated:
+                            latest_updated = row["updated_at"]
+                
+                return {
+                    "project_id": project_id,
+                    "reviews": reviews,
+                    "updated_at": latest_updated,
+                    "found": True,
+                    "source": "supabase",
+                }
+            else:
+                return {
+                    "project_id": project_id,
+                    "reviews": {},
+                    "found": False,
+                    "source": "supabase",
+                }
+        except Exception as e:
+            print(f"Supabase error, falling back to file: {e}")
+    
+    # File fallback
     reviews_file = REVIEWS_DATA_DIR / f"{project_id}.json"
     
     if not reviews_file.exists():
@@ -2091,6 +2204,7 @@ def load_project_reviews(project_id: str) -> dict:
             "project_id": project_id,
             "reviews": {},
             "found": False,
+            "source": "file",
         }
     
     try:
@@ -2102,6 +2216,7 @@ def load_project_reviews(project_id: str) -> dict:
             "reviews": reviews_data.get("reviews", {}),
             "updated_at": reviews_data.get("updated_at"),
             "found": True,
+            "source": "file",
         }
     except Exception as e:
         return {
@@ -2109,14 +2224,48 @@ def load_project_reviews(project_id: str) -> dict:
             "reviews": {},
             "found": False,
             "error": str(e),
+            "source": "file",
         }
 
 
 @app.put("/projects/{project_id}/reviews", dependencies=[Depends(verify_api_key)])
 def save_project_reviews(project_id: str, request: SaveReviewsRequest) -> dict:
-    """Save reviews for a project."""
-    from datetime import datetime
+    """Save reviews for a project to Supabase (and file fallback)."""
+    now = datetime.utcnow().isoformat() + "Z"
+    saved_count = 0
     
+    # Try Supabase first
+    if supabase_client:
+        try:
+            for company_name, review_data in request.reviews.items():
+                row = {
+                    "project_id": project_id,
+                    "company_name": company_name,
+                    "status": review_data.get("status", "pending"),
+                    "score": review_data.get("score"),
+                    "notes": review_data.get("notes", ""),
+                    "data_flags": review_data.get("dataFlags", []),
+                    "data_edits": review_data.get("dataEdits", {}),
+                    "reviewed_at": review_data.get("reviewedAt"),
+                    "updated_at": now,
+                }
+                # Upsert (insert or update on conflict)
+                supabase_client.table("reviews").upsert(
+                    row, 
+                    on_conflict="project_id,company_name"
+                ).execute()
+                saved_count += 1
+            
+            return {
+                "status": "saved",
+                "project_id": project_id,
+                "review_count": saved_count,
+                "source": "supabase",
+            }
+        except Exception as e:
+            print(f"Supabase save error, falling back to file: {e}")
+    
+    # File fallback
     reviews_file = REVIEWS_DATA_DIR / f"{project_id}.json"
     
     # Load existing reviews to merge
@@ -2135,7 +2284,7 @@ def save_project_reviews(project_id: str, request: SaveReviewsRequest) -> dict:
     reviews_data = {
         "project_id": project_id,
         "reviews": merged_reviews,
-        "updated_at": datetime.utcnow().isoformat() + "Z",
+        "updated_at": now,
     }
     
     try:
@@ -2146,6 +2295,7 @@ def save_project_reviews(project_id: str, request: SaveReviewsRequest) -> dict:
             "status": "saved",
             "project_id": project_id,
             "review_count": len(merged_reviews),
+            "source": "file",
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to save reviews: {e}")
