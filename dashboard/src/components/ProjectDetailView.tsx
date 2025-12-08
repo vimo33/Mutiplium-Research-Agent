@@ -153,7 +153,7 @@ export function ProjectDetailView({
     );
   }, [companies, project.framework.valueChain]);
 
-  const reviewsHook = useReviews(segmentFilteredCompanies);
+  const reviewsHook = useReviews(segmentFilteredCompanies, project.id);
 
   // Filter companies
   const filteredCompanies = useMemo(() => {

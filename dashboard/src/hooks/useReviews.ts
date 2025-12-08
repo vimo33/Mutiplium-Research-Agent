@@ -7,8 +7,9 @@ import type {
   DataQualityFlag 
 } from '../types';
 import type { CompanyData } from '../components/CompanyCard';
+import { getApiBaseUrl, getAuthHeaders } from '../api';
 
-// LocalStorage key
+// LocalStorage key (used as fallback/cache)
 const STORAGE_KEY = 'multiplium_reviews';
 
 // Initial state
@@ -205,15 +206,48 @@ export function detectDataQualityFlags(company: CompanyData): DataQualityFlag[] 
 }
 
 // Main hook
-export function useReviews(companies: CompanyData[] = []) {
+export function useReviews(companies: CompanyData[] = [], projectId?: string) {
   // Use lazy initialization to load from localStorage synchronously
   // This prevents the race condition where empty state was saved before load completed
   const [state, dispatch] = useReducer(reviewReducer, undefined, getInitialState);
   
   // Track if this is the first render to avoid saving initial state
   const isInitialMount = useRef(true);
+  // Track if we've loaded from server
+  const hasLoadedFromServer = useRef(false);
+  // Debounce timer for server saves
+  const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
-  // Save to localStorage on changes (but not on initial mount)
+  // Load reviews from server on mount (if projectId provided)
+  useEffect(() => {
+    if (!projectId || hasLoadedFromServer.current) return;
+    
+    async function loadFromServer() {
+      try {
+        const response = await fetch(`${getApiBaseUrl()}/projects/${projectId}/reviews`, {
+          headers: getAuthHeaders(),
+        });
+        if (response.ok) {
+          const data = await response.json();
+          if (data.found && data.reviews && Object.keys(data.reviews).length > 0) {
+            // Merge server reviews with local (server takes precedence)
+            dispatch({ type: 'LOAD_REVIEWS', reviews: { ...state.reviews, ...data.reviews } });
+            // Also update localStorage cache
+            try {
+              localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...state.reviews, ...data.reviews }));
+            } catch {}
+          }
+        }
+      } catch (e) {
+        console.warn('Failed to load reviews from server, using local cache:', e);
+      }
+      hasLoadedFromServer.current = true;
+    }
+    
+    loadFromServer();
+  }, [projectId]);
+  
+  // Save to localStorage AND server on changes (debounced)
   useEffect(() => {
     // Skip the first render to avoid overwriting with initial state
     if (isInitialMount.current) {
@@ -221,12 +255,38 @@ export function useReviews(companies: CompanyData[] = []) {
       return;
     }
     
+    // Save to localStorage immediately (cache)
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state.reviews));
     } catch (e) {
       console.error('Failed to save reviews to localStorage:', e);
     }
-  }, [state.reviews]);
+    
+    // Debounced save to server (if projectId provided)
+    if (projectId && hasLoadedFromServer.current) {
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
+      }
+      
+      saveTimeoutRef.current = setTimeout(async () => {
+        try {
+          await fetch(`${getApiBaseUrl()}/projects/${projectId}/reviews`, {
+            method: 'PUT',
+            headers: getAuthHeaders(),
+            body: JSON.stringify({ reviews: state.reviews }),
+          });
+        } catch (e) {
+          console.error('Failed to save reviews to server:', e);
+        }
+      }, 1000); // Debounce 1 second
+    }
+    
+    return () => {
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
+      }
+    };
+  }, [state.reviews, projectId]);
   
   // Initialize reviews for new companies (detect data quality issues)
   useEffect(() => {

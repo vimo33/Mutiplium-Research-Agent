@@ -2066,3 +2066,86 @@ async def project_chat_stream(project_id: str, request: ChatRequest):
         },
     )
 
+
+# =============================================================================
+# Reviews API - Server-side storage for company reviews
+# =============================================================================
+
+REVIEWS_DATA_DIR = DATA_ROOT / "data" / "reviews"
+REVIEWS_DATA_DIR.mkdir(parents=True, exist_ok=True)
+
+
+class SaveReviewsRequest(BaseModel):
+    """Request to save reviews for a project."""
+    reviews: dict[str, dict]  # company_name -> review data
+
+
+@app.get("/projects/{project_id}/reviews", dependencies=[Depends(verify_api_key)])
+def load_project_reviews(project_id: str) -> dict:
+    """Load saved reviews for a project."""
+    
+    reviews_file = REVIEWS_DATA_DIR / f"{project_id}.json"
+    
+    if not reviews_file.exists():
+        return {
+            "project_id": project_id,
+            "reviews": {},
+            "found": False,
+        }
+    
+    try:
+        with reviews_file.open("r") as f:
+            reviews_data = json.load(f)
+        
+        return {
+            "project_id": project_id,
+            "reviews": reviews_data.get("reviews", {}),
+            "updated_at": reviews_data.get("updated_at"),
+            "found": True,
+        }
+    except Exception as e:
+        return {
+            "project_id": project_id,
+            "reviews": {},
+            "found": False,
+            "error": str(e),
+        }
+
+
+@app.put("/projects/{project_id}/reviews", dependencies=[Depends(verify_api_key)])
+def save_project_reviews(project_id: str, request: SaveReviewsRequest) -> dict:
+    """Save reviews for a project."""
+    from datetime import datetime
+    
+    reviews_file = REVIEWS_DATA_DIR / f"{project_id}.json"
+    
+    # Load existing reviews to merge
+    existing_reviews = {}
+    if reviews_file.exists():
+        try:
+            with reviews_file.open("r") as f:
+                existing_data = json.load(f)
+                existing_reviews = existing_data.get("reviews", {})
+        except:
+            pass
+    
+    # Merge new reviews with existing (new takes precedence)
+    merged_reviews = {**existing_reviews, **request.reviews}
+    
+    reviews_data = {
+        "project_id": project_id,
+        "reviews": merged_reviews,
+        "updated_at": datetime.utcnow().isoformat() + "Z",
+    }
+    
+    try:
+        with reviews_file.open("w") as f:
+            json.dump(reviews_data, f, indent=2)
+        
+        return {
+            "status": "saved",
+            "project_id": project_id,
+            "review_count": len(merged_reviews),
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to save reviews: {e}")
