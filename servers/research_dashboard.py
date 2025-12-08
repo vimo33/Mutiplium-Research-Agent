@@ -284,7 +284,17 @@ PROJECTS_FILE = DATA_ROOT / "data" / "projects.json"
 
 
 def load_projects() -> dict[str, dict]:
-    """Load projects from JSON file."""
+    """Load projects from Supabase (or file fallback)."""
+    # Try Supabase first
+    if supabase_client:
+        try:
+            response = supabase_client.table("projects").select("*").execute()
+            if response.data:
+                return {row["id"]: row["data"] for row in response.data}
+        except Exception as e:
+            print(f"Supabase projects load error, falling back to file: {e}")
+    
+    # File fallback
     if PROJECTS_FILE.exists():
         try:
             with PROJECTS_FILE.open("r") as f:
@@ -295,7 +305,21 @@ def load_projects() -> dict[str, dict]:
 
 
 def save_projects(projects: dict[str, dict]) -> None:
-    """Save projects to JSON file."""
+    """Save projects to Supabase (and file fallback)."""
+    # Try Supabase first
+    if supabase_client:
+        try:
+            for project_id, project_data in projects.items():
+                supabase_client.table("projects").upsert({
+                    "id": project_id,
+                    "data": project_data,
+                    "updated_at": datetime.utcnow().isoformat() + "Z",
+                }).execute()
+            print(f"✅ Saved {len(projects)} projects to Supabase")
+        except Exception as e:
+            print(f"Supabase projects save error, falling back to file: {e}")
+    
+    # Always save to file as backup
     PROJECTS_FILE.parent.mkdir(parents=True, exist_ok=True)
     with PROJECTS_FILE.open("w") as f:
         json.dump(projects, f, indent=2)
@@ -423,29 +447,73 @@ def list_reports() -> dict[str, list[dict[str, object]]]:
     return {"reports": reports}
 
 
+def upload_report_to_supabase(report_path: str, data: dict) -> bool:
+    """Upload a report to Supabase Storage."""
+    if not supabase_client:
+        return False
+    
+    try:
+        # Convert path to storage path (e.g., reports/discoveries/xxx/report.json)
+        storage_path = report_path.replace("\\", "/")
+        
+        # Upload as JSON
+        content = json.dumps(data).encode("utf-8")
+        supabase_client.storage.from_("reports").upload(
+            storage_path,
+            content,
+            {"content-type": "application/json", "upsert": "true"}
+        )
+        print(f"✅ Uploaded report to Supabase: {storage_path}")
+        return True
+    except Exception as e:
+        print(f"Failed to upload report to Supabase: {e}")
+        return False
+
+
+def download_report_from_supabase(report_path: str) -> dict | None:
+    """Download a report from Supabase Storage."""
+    if not supabase_client:
+        return None
+    
+    try:
+        storage_path = report_path.replace("\\", "/")
+        response = supabase_client.storage.from_("reports").download(storage_path)
+        if response:
+            return json.loads(response.decode("utf-8"))
+    except Exception as e:
+        print(f"Report not in Supabase: {storage_path} - {e}")
+    return None
+
+
 @app.get("/reports/{report_path:path}/raw", dependencies=[Depends(verify_api_key)])
 def get_report_raw(report_path: str) -> dict[str, object]:
-    """Fetch raw JSON data from a report file."""
-    report_file = WORKSPACE_ROOT / report_path
+    """Fetch raw JSON data from a report file (Supabase or local)."""
     
-    if not report_file.exists():
-        raise HTTPException(status_code=404, detail=f"Report not found: {report_path}")
-    
-    if not report_file.suffix == ".json":
+    if not report_path.endswith(".json"):
         raise HTTPException(status_code=400, detail="Only JSON reports are supported")
     
-    # Security check: ensure path is within reports directory
-    try:
-        report_file.resolve().relative_to((WORKSPACE_ROOT / "reports").resolve())
-    except ValueError:
-        raise HTTPException(status_code=403, detail="Access denied")
+    # Try local file first
+    report_file = WORKSPACE_ROOT / report_path
+    if report_file.exists():
+        # Security check: ensure path is within reports directory
+        try:
+            report_file.resolve().relative_to((WORKSPACE_ROOT / "reports").resolve())
+        except ValueError:
+            raise HTTPException(status_code=403, detail="Access denied")
+        
+        try:
+            with report_file.open("r") as f:
+                data = json.load(f)
+            return data
+        except json.JSONDecodeError:
+            raise HTTPException(status_code=500, detail="Invalid JSON in report file")
     
-    try:
-        with report_file.open("r") as f:
-            data = json.load(f)
+    # Try Supabase Storage
+    data = download_report_from_supabase(report_path)
+    if data:
         return data
-    except json.JSONDecodeError:
-        raise HTTPException(status_code=500, detail="Invalid JSON in report file")
+    
+    raise HTTPException(status_code=404, detail=f"Report not found: {report_path}")
 
 
 @app.post("/runs", status_code=201, dependencies=[Depends(verify_api_key)])
@@ -1299,7 +1367,7 @@ def get_discovery_status(project_id: str) -> dict[str, object]:
             project["updated_at"] = datetime.utcnow().isoformat() + "Z"
             save_projects(projects)
     
-    # If completed, update project status
+    # If completed, update project status and upload report to Supabase
     if run_data.get("status") == "completed" and has_report:
         # Check if this is discovery or deep research
         params = run_data.get("params", {})
@@ -1307,9 +1375,19 @@ def get_discovery_status(project_id: str) -> dict[str, object]:
             project["status"] = "ready_for_review"
         else:
             project["status"] = "discovery_complete"
-        project["report_path"] = str(report_path.relative_to(WORKSPACE_ROOT))
+        
+        rel_report_path = str(report_path.relative_to(WORKSPACE_ROOT))
+        project["report_path"] = rel_report_path
         project["updated_at"] = datetime.utcnow().isoformat() + "Z"
         save_projects(projects)
+        
+        # Upload report to Supabase Storage for persistence
+        try:
+            with report_path.open("r") as f:
+                report_data = json.load(f)
+            upload_report_to_supabase(rel_report_path, report_data)
+        except Exception as e:
+            print(f"Failed to upload report to Supabase: {e}")
     
     # Extract cost data from run
     total_cost = run_data.get("total_cost", 0.0)
