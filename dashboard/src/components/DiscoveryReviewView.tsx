@@ -60,14 +60,20 @@ export function DiscoveryReviewView({
   async function loadDiscoveryCompanies() {
     try {
       setLoading(true);
-      // Try to get discovery report path from project or discovery status
-      const statusResponse = await fetch(`${getApiBaseUrl()}/projects/${project.id}/discovery-status`, {
-        headers: getAuthHeaders(),
-      });
-      if (!statusResponse.ok) throw new Error('Failed to fetch discovery status');
       
-      const statusData = await statusResponse.json();
-      const reportPath = statusData.report_path;
+      // First check if project already has a report path (legacy projects)
+      let reportPath = project.reportPath;
+      
+      // If no reportPath on project, try to get it from discovery status API
+      if (!reportPath) {
+        const statusResponse = await fetch(`${getApiBaseUrl()}/projects/${project.id}/discovery-status`, {
+          headers: getAuthHeaders(),
+        });
+        if (statusResponse.ok) {
+          const statusData = await statusResponse.json();
+          reportPath = statusData.report_path;
+        }
+      }
       
       if (!reportPath) {
         throw new Error('No discovery report found');
