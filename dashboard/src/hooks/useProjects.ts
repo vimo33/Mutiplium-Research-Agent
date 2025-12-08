@@ -172,7 +172,7 @@ function reportToProject(report: Report, reportData?: any): Project {
   };
 }
 
-export function useProjects() {
+export function useProjects(enabled: boolean = true) {
   const [projects, setProjects] = useState<Project[]>(() => {
     try {
       const stored = localStorage.getItem(PROJECTS_STORAGE_KEY);
@@ -234,6 +234,9 @@ export function useProjects() {
 
   // Load projects from backend API and legacy reports on mount
   useEffect(() => {
+    // Don't load until enabled (e.g., auth is ready)
+    if (!enabled) return;
+    
     // Prevent double-loading in React strict mode
     if (hasLoaded.current) return;
     hasLoaded.current = true;
@@ -350,7 +353,7 @@ export function useProjects() {
     };
     
     loadAllProjects();
-  }, [apiProjectToProject]);
+  }, [enabled, apiProjectToProject]);
 
   // Persist to localStorage whenever projects change
   useEffect(() => {

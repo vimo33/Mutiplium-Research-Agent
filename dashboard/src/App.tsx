@@ -47,7 +47,7 @@ export default function App() {
   // Review stats for sidebar (read from localStorage)
   const [reviewStats, setReviewStats] = useState({ pending: 0, progress: 0 });
   
-  // Projects hook
+  // Projects hook - only load after auth is confirmed
   const {
     projects,
     archivedProjects,
@@ -58,7 +58,7 @@ export default function App() {
     archiveProject,
     unarchiveProject,
     deleteProject,
-  } = useProjects();
+  } = useProjects(authState === "authenticated");
   
   // Check authentication on mount
   useEffect(() => {
