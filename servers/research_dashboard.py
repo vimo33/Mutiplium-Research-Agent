@@ -2315,7 +2315,7 @@ def load_project_reviews(project_id: str) -> dict:
 @app.put("/projects/{project_id}/reviews", dependencies=[Depends(verify_api_key)])
 def save_project_reviews(project_id: str, request: SaveReviewsRequest) -> dict:
     """Save reviews for a project to Supabase (and file fallback)."""
-    import requests as http_requests
+    import httpx  # Using httpx instead of requests (already in dependencies)
     
     now = datetime.utcnow().isoformat() + "Z"
     saved_count = 0
@@ -2349,12 +2349,12 @@ def save_project_reviews(project_id: str, request: SaveReviewsRequest) -> dict:
                     "Content-Type": "application/json",
                     "Prefer": "resolution=merge-duplicates",
                 }
-                response = http_requests.post(
-                    f"{supabase_url}/rest/v1/reviews",
-                    headers=headers,
-                    json=rows_to_upsert,
-                    timeout=30,
-                )
+                with httpx.Client(timeout=30.0) as client:
+                    response = client.post(
+                        f"{supabase_url}/rest/v1/reviews",
+                        headers=headers,
+                        json=rows_to_upsert,
+                    )
                 
                 if response.status_code in [200, 201]:
                     saved_count = len(rows_to_upsert)
@@ -2545,7 +2545,7 @@ def test_supabase_upsert():
 @app.get("/debug/test-rest-upsert")
 def test_rest_api_upsert():
     """Test REST API upsert directly (bypassing Python client)."""
-    import requests as http_requests
+    import httpx  # Using httpx instead of requests
     from datetime import datetime
     
     supabase_url = os.getenv("SUPABASE_URL")
@@ -2573,12 +2573,12 @@ def test_rest_api_upsert():
             "Prefer": "resolution=merge-duplicates",
         }
         
-        response = http_requests.post(
-            f"{supabase_url}/rest/v1/reviews",
-            headers=headers,
-            json=[test_row],
-            timeout=30,
-        )
+        with httpx.Client(timeout=30.0) as client:
+            response = client.post(
+                f"{supabase_url}/rest/v1/reviews",
+                headers=headers,
+                json=[test_row],
+            )
         
         return {
             "success": response.status_code in [200, 201],
