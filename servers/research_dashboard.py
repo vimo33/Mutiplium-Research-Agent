@@ -2319,6 +2319,7 @@ def save_project_reviews(project_id: str, request: SaveReviewsRequest) -> dict:
     
     now = datetime.utcnow().isoformat() + "Z"
     saved_count = 0
+    supabase_error = None
     
     # Try Supabase REST API directly (more reliable than Python client)
     supabase_url = os.getenv("SUPABASE_URL")
@@ -2341,7 +2342,7 @@ def save_project_reviews(project_id: str, request: SaveReviewsRequest) -> dict:
                 }
                 rows_to_upsert.append(row)
             
-            # Use REST API directly for upsert
+            # Use REST API directly for upsert - batch in chunks of 50
             if rows_to_upsert:
                 headers = {
                     "apikey": supabase_key,
@@ -2349,25 +2350,37 @@ def save_project_reviews(project_id: str, request: SaveReviewsRequest) -> dict:
                     "Content-Type": "application/json",
                     "Prefer": "resolution=merge-duplicates",
                 }
-                with httpx.Client(timeout=30.0) as client:
-                    response = client.post(
-                        f"{supabase_url}/rest/v1/reviews",
-                        headers=headers,
-                        json=rows_to_upsert,
-                    )
                 
-                if response.status_code in [200, 201]:
-                    saved_count = len(rows_to_upsert)
+                chunk_size = 50
+                all_succeeded = True
+                
+                with httpx.Client(timeout=60.0) as client:
+                    for i in range(0, len(rows_to_upsert), chunk_size):
+                        chunk = rows_to_upsert[i:i + chunk_size]
+                        response = client.post(
+                            f"{supabase_url}/rest/v1/reviews",
+                            headers=headers,
+                            json=chunk,
+                        )
+                        
+                        if response.status_code in [200, 201]:
+                            saved_count += len(chunk)
+                        else:
+                            all_succeeded = False
+                            supabase_error = f"Chunk {i//chunk_size + 1} failed: {response.status_code} - {response.text[:300]}"
+                            print(f"Supabase REST API error: {supabase_error}")
+                            break
+                
+                if all_succeeded and saved_count > 0:
                     return {
                         "status": "saved",
                         "project_id": project_id,
                         "review_count": saved_count,
                         "source": "supabase",
                     }
-                else:
-                    print(f"Supabase REST API error: {response.status_code} - {response.text[:500]}")
         except Exception as e:
             import traceback
+            supabase_error = str(e)
             print(f"Supabase save error, falling back to file: {e}")
             print(f"Full traceback: {traceback.format_exc()}")
     
@@ -2561,6 +2574,61 @@ def test_rest_api_upsert():
             "company_name": f"RESTTest_{now[:19]}",
             "status": "approved",
             "notes": "REST API test",
+            "data_flags": [],
+            "data_edits": {},
+            "updated_at": now,
+        }
+        
+        headers = {
+            "apikey": supabase_key,
+            "Authorization": f"Bearer {supabase_key}",
+            "Content-Type": "application/json",
+            "Prefer": "resolution=merge-duplicates",
+        }
+        
+        with httpx.Client(timeout=30.0) as client:
+            response = client.post(
+                f"{supabase_url}/rest/v1/reviews",
+                headers=headers,
+                json=[test_row],
+            )
+        
+        return {
+            "success": response.status_code in [200, 201],
+            "status_code": response.status_code,
+            "response_text": response.text[:500] if response.text else "empty",
+            "row_sent": test_row,
+        }
+    except Exception as e:
+        import traceback
+        return {
+            "success": False,
+            "error": str(e),
+            "traceback": traceback.format_exc(),
+        }
+
+
+# Debug endpoint to test updating an existing company (upsert)
+@app.get("/debug/test-existing-upsert")
+def test_existing_upsert():
+    """Test upserting an existing company to verify upsert works."""
+    import httpx
+    from datetime import datetime
+    
+    supabase_url = os.getenv("SUPABASE_URL")
+    supabase_key = os.getenv("SUPABASE_SERVICE_KEY")
+    
+    if not supabase_url or not supabase_key:
+        return {"error": "Supabase URL or key not set"}
+    
+    try:
+        now = datetime.utcnow().isoformat() + "Z"
+        # Use an existing company that should already be in the database
+        test_row = {
+            "project_id": "legacy_reports_deep_research_new_report_20251202T214603Z_",
+            "company_name": "Smart Apply, Inc.",  # Existing company
+            "status": "approved",
+            "notes": f"Updated via debug endpoint at {now}",
             "data_flags": [],
             "data_edits": {},
             "updated_at": now,
