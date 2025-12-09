@@ -2539,3 +2539,57 @@ def test_supabase_upsert():
             "error": str(e),
             "traceback": traceback.format_exc(),
         }
+
+
+# Debug endpoint to test REST API upsert directly
+@app.get("/debug/test-rest-upsert")
+def test_rest_api_upsert():
+    """Test REST API upsert directly (bypassing Python client)."""
+    import requests as http_requests
+    from datetime import datetime
+    
+    supabase_url = os.getenv("SUPABASE_URL")
+    supabase_key = os.getenv("SUPABASE_SERVICE_KEY")
+    
+    if not supabase_url or not supabase_key:
+        return {"error": "Supabase URL or key not set", "url": supabase_url, "key_set": bool(supabase_key)}
+    
+    try:
+        now = datetime.utcnow().isoformat() + "Z"
+        test_row = {
+            "project_id": "test_rest_api",
+            "company_name": f"RESTTest_{now[:19]}",
+            "status": "approved",
+            "notes": "REST API test",
+            "data_flags": [],
+            "data_edits": {},
+            "updated_at": now,
+        }
+        
+        headers = {
+            "apikey": supabase_key,
+            "Authorization": f"Bearer {supabase_key}",
+            "Content-Type": "application/json",
+            "Prefer": "resolution=merge-duplicates",
+        }
+        
+        response = http_requests.post(
+            f"{supabase_url}/rest/v1/reviews",
+            headers=headers,
+            json=[test_row],
+            timeout=30,
+        )
+        
+        return {
+            "success": response.status_code in [200, 201],
+            "status_code": response.status_code,
+            "response_text": response.text[:500] if response.text else "empty",
+            "row_sent": test_row,
+        }
+    except Exception as e:
+        import traceback
+        return {
+            "success": False,
+            "error": str(e),
+            "traceback": traceback.format_exc(),
+        }
