@@ -2342,7 +2342,9 @@ def save_project_reviews(project_id: str, request: SaveReviewsRequest) -> dict:
                 "source": "supabase",
             }
         except Exception as e:
+            import traceback
             print(f"Supabase save error, falling back to file: {e}")
+            print(f"Full traceback: {traceback.format_exc()}")
     
     # File fallback
     reviews_file = REVIEWS_DATA_DIR / f"{project_id}.json"
@@ -2451,3 +2453,26 @@ def save_project_framework(project_id: str, request: SaveFrameworkRequest) -> di
             raise HTTPException(status_code=500, detail=f"Failed to save framework: {e}")
     
     raise HTTPException(status_code=500, detail="Supabase not configured")
+
+
+# Debug endpoint to check Supabase connection
+@app.get("/debug/supabase-status")
+def check_supabase_status():
+    """Check if Supabase is connected and working."""
+    status = {
+        "supabase_client_exists": supabase_client is not None,
+        "supabase_url": os.getenv("SUPABASE_URL", "NOT SET"),
+        "supabase_key_set": bool(os.getenv("SUPABASE_SERVICE_KEY")),
+    }
+    
+    if supabase_client:
+        try:
+            # Try a simple query
+            response = supabase_client.table("reviews").select("count").limit(1).execute()
+            status["test_query"] = "success"
+            status["test_result"] = str(response.data)
+        except Exception as e:
+            status["test_query"] = "failed"
+            status["test_error"] = str(e)
+    
+    return status
