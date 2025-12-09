@@ -2315,6 +2315,7 @@ def save_project_reviews(project_id: str, request: SaveReviewsRequest) -> dict:
     # Try Supabase first
     if supabase_client:
         try:
+            rows_to_upsert = []
             for company_name, review_data in request.reviews.items():
                 row = {
                     "project_id": project_id,
@@ -2327,12 +2328,12 @@ def save_project_reviews(project_id: str, request: SaveReviewsRequest) -> dict:
                     "reviewed_at": review_data.get("reviewedAt"),
                     "updated_at": now,
                 }
-                # Upsert (insert or update on conflict)
-                supabase_client.table("reviews").upsert(
-                    row, 
-                    on_conflict="project_id,company_name"
-                ).execute()
-                saved_count += 1
+                rows_to_upsert.append(row)
+            
+            # Batch upsert all reviews at once
+            if rows_to_upsert:
+                supabase_client.table("reviews").upsert(rows_to_upsert).execute()
+                saved_count = len(rows_to_upsert)
             
             return {
                 "status": "saved",
