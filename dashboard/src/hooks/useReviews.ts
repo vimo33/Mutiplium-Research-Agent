@@ -244,7 +244,7 @@ export function useReviews(companies: CompanyData[] = [], projectId?: string) {
       } catch (e) {
         console.warn('Failed to load reviews from server, using local cache:', e);
       }
-      loadedProjectId.current = projectId;
+      loadedProjectId.current = projectId || null;
     }
     
     loadFromServer();
@@ -265,8 +265,8 @@ export function useReviews(companies: CompanyData[] = [], projectId?: string) {
       console.error('Failed to save reviews to localStorage:', e);
     }
     
-    // Debounced save to server (if projectId provided)
-    if (projectId && hasLoadedFromServer.current) {
+    // Debounced save to server (if projectId provided and we've loaded for this project)
+    if (projectId && loadedProjectId.current === projectId) {
       if (saveTimeoutRef.current) {
         clearTimeout(saveTimeoutRef.current);
       }
