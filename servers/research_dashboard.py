@@ -25,6 +25,7 @@ from multiplium.runs import RunRegistry
 # =============================================================================
 
 supabase_client = None
+SUPABASE_INIT_ERROR = None
 try:
     from supabase import create_client, Client
     
@@ -32,12 +33,17 @@ try:
     SUPABASE_KEY = os.getenv("SUPABASE_SERVICE_KEY")
     
     if SUPABASE_URL and SUPABASE_KEY:
-        supabase_client: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+        supabase_client = create_client(SUPABASE_URL, SUPABASE_KEY)
         print(f"✅ Supabase connected: {SUPABASE_URL}")
     else:
+        SUPABASE_INIT_ERROR = "URL or KEY not set"
         print("⚠️ Supabase not configured - using file storage")
-except ImportError:
-    print("⚠️ Supabase package not installed - using file storage")
+except ImportError as e:
+    SUPABASE_INIT_ERROR = f"ImportError: {e}"
+    print(f"⚠️ Supabase package not installed - using file storage: {e}")
+except Exception as e:
+    SUPABASE_INIT_ERROR = f"Exception: {e}"
+    print(f"⚠️ Supabase init failed: {e}")
 
 # =============================================================================
 # Configuration
@@ -2463,6 +2469,7 @@ def check_supabase_status():
         "supabase_client_exists": supabase_client is not None,
         "supabase_url": os.getenv("SUPABASE_URL", "NOT SET"),
         "supabase_key_set": bool(os.getenv("SUPABASE_SERVICE_KEY")),
+        "init_error": SUPABASE_INIT_ERROR,
     }
     
     if supabase_client:
