@@ -2483,3 +2483,40 @@ def check_supabase_status():
             status["test_error"] = str(e)
     
     return status
+
+
+# Debug endpoint to test upsert and see error
+@app.get("/debug/test-upsert")
+def test_supabase_upsert():
+    """Test upserting a single review to see any errors."""
+    from datetime import datetime
+    
+    if not supabase_client:
+        return {"error": "Supabase client not initialized", "init_error": SUPABASE_INIT_ERROR}
+    
+    try:
+        now = datetime.utcnow().isoformat() + "Z"
+        test_row = {
+            "project_id": "test_project",
+            "company_name": f"TestCompany_{now[:10]}",
+            "status": "approved",
+            "notes": "Test upsert",
+            "data_flags": [],
+            "data_edits": {},
+            "updated_at": now,
+        }
+        
+        response = supabase_client.table("reviews").upsert([test_row]).execute()
+        
+        return {
+            "success": True,
+            "response_data": str(response.data)[:500],
+            "row_inserted": test_row,
+        }
+    except Exception as e:
+        import traceback
+        return {
+            "success": False,
+            "error": str(e),
+            "traceback": traceback.format_exc(),
+        }
