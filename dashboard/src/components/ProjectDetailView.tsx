@@ -127,6 +127,35 @@ export function ProjectDetailView({
     }
   }, [project.id]);
 
+  // Load framework from Supabase (thesis/KPIs/valueChain)
+  useEffect(() => {
+    if (!project.id) return;
+    
+    fetch(`${getApiBaseUrl()}/projects/${project.id}/framework`, {
+      headers: getAuthHeaders(),
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.found) {
+          // Merge Supabase framework with local project framework
+          const hasRemoteData = data.thesis || data.kpis?.length > 0 || data.value_chain?.length > 0;
+          const hasLocalData = project.framework.thesis || project.framework.kpis?.length > 0 || project.framework.valueChain?.length > 0;
+          
+          // Only update if Supabase has data and local doesn't, or Supabase is newer
+          if (hasRemoteData && !hasLocalData) {
+            onUpdateProject({
+              framework: {
+                thesis: data.thesis || project.framework.thesis,
+                kpis: data.kpis?.length > 0 ? data.kpis : project.framework.kpis,
+                valueChain: data.value_chain?.length > 0 ? data.value_chain : project.framework.valueChain,
+              },
+            });
+          }
+        }
+      })
+      .catch(err => console.warn('Failed to load framework from server:', err));
+  }, [project.id]);
+
   async function loadCompanies(reportPath: string) {
     try {
       setLoading(true);
@@ -275,11 +304,25 @@ export function ProjectDetailView({
     URL.revokeObjectURL(url);
   };
 
-  // Update framework
+  // Update framework (local + Supabase)
   const handleUpdateFramework = (updates: Partial<ResearchFramework>) => {
+    const newFramework = { ...project.framework, ...updates };
+    
+    // Update locally
     onUpdateProject({
-      framework: { ...project.framework, ...updates },
+      framework: newFramework,
     });
+    
+    // Sync to Supabase
+    fetch(`${getApiBaseUrl()}/projects/${project.id}/framework`, {
+      method: 'PUT',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({
+        thesis: newFramework.thesis,
+        kpis: newFramework.kpis,
+        value_chain: newFramework.valueChain,
+      }),
+    }).catch(err => console.error('Failed to save framework to server:', err));
   };
 
   // Calculate stats

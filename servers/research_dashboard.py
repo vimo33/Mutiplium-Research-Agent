@@ -2377,3 +2377,76 @@ def save_project_reviews(project_id: str, request: SaveReviewsRequest) -> dict:
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to save reviews: {e}")
+
+
+# =============================================================================
+# Frameworks API - Server-side storage for thesis/KPIs/valueChain
+# =============================================================================
+
+class SaveFrameworkRequest(BaseModel):
+    """Request to save framework for a project."""
+    thesis: str = ""
+    kpis: list[dict] = []
+    value_chain: list[dict] = []
+
+
+@app.get("/projects/{project_id}/framework", dependencies=[Depends(verify_api_key)])
+def load_project_framework(project_id: str) -> dict:
+    """Load saved framework for a project from Supabase."""
+    
+    if supabase_client:
+        try:
+            response = supabase_client.table("frameworks").select("*").eq("project_id", project_id).single().execute()
+            if response.data:
+                return {
+                    "project_id": project_id,
+                    "thesis": response.data.get("thesis", ""),
+                    "kpis": response.data.get("kpis", []),
+                    "value_chain": response.data.get("value_chain", []),
+                    "updated_at": response.data.get("updated_at"),
+                    "found": True,
+                    "source": "supabase",
+                }
+        except Exception as e:
+            if "0 rows" not in str(e):
+                print(f"Supabase framework load error: {e}")
+    
+    return {
+        "project_id": project_id,
+        "thesis": "",
+        "kpis": [],
+        "value_chain": [],
+        "found": False,
+        "source": "supabase",
+    }
+
+
+@app.put("/projects/{project_id}/framework", dependencies=[Depends(verify_api_key)])
+def save_project_framework(project_id: str, request: SaveFrameworkRequest) -> dict:
+    """Save framework for a project to Supabase."""
+    now = datetime.utcnow().isoformat() + "Z"
+    
+    if supabase_client:
+        try:
+            row = {
+                "project_id": project_id,
+                "thesis": request.thesis,
+                "kpis": request.kpis,
+                "value_chain": request.value_chain,
+                "updated_at": now,
+            }
+            supabase_client.table("frameworks").upsert(
+                row,
+                on_conflict="project_id"
+            ).execute()
+            
+            return {
+                "status": "saved",
+                "project_id": project_id,
+                "source": "supabase",
+            }
+        except Exception as e:
+            print(f"Supabase framework save error: {e}")
+            raise HTTPException(status_code=500, detail=f"Failed to save framework: {e}")
+    
+    raise HTTPException(status_code=500, detail="Supabase not configured")
