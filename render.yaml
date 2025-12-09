@@ -25,7 +25,7 @@ services:
     name: multiplium-dashboard-api
     runtime: python
     plan: free
-    buildCommand: pip install -e . && pip install uvicorn python-dotenv
+    buildCommand: pip install -e . && pip install uvicorn python-dotenv supabase
     startCommand: uvicorn servers.research_dashboard:app --host 0.0.0.0 --port $PORT
     # Note: Free tier doesn't support persistent disks. Data stored in container.
     # Upgrade to Starter ($7/mo) for persistent storage.
