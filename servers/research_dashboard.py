@@ -2357,8 +2357,9 @@ def save_project_reviews(project_id: str, request: SaveReviewsRequest) -> dict:
                 with httpx.Client(timeout=60.0) as client:
                     for i in range(0, len(rows_to_upsert), chunk_size):
                         chunk = rows_to_upsert[i:i + chunk_size]
+                        # on_conflict parameter is REQUIRED for upsert to work with non-primary-key unique constraints
                         response = client.post(
-                            f"{supabase_url}/rest/v1/reviews",
+                            f"{supabase_url}/rest/v1/reviews?on_conflict=project_id,company_name",
                             headers=headers,
                             json=chunk,
                         )
@@ -2588,7 +2589,7 @@ def test_rest_api_upsert():
         
         with httpx.Client(timeout=30.0) as client:
             response = client.post(
-                f"{supabase_url}/rest/v1/reviews",
+                f"{supabase_url}/rest/v1/reviews?on_conflict=project_id,company_name",
                 headers=headers,
                 json=[test_row],
             )
@@ -2643,7 +2644,7 @@ def test_existing_upsert():
         
         with httpx.Client(timeout=30.0) as client:
             response = client.post(
-                f"{supabase_url}/rest/v1/reviews",
+                f"{supabase_url}/rest/v1/reviews?on_conflict=project_id,company_name",
                 headers=headers,
                 json=[test_row],
             )
