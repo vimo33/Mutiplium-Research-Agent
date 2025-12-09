@@ -2315,11 +2315,16 @@ def load_project_reviews(project_id: str) -> dict:
 @app.put("/projects/{project_id}/reviews", dependencies=[Depends(verify_api_key)])
 def save_project_reviews(project_id: str, request: SaveReviewsRequest) -> dict:
     """Save reviews for a project to Supabase (and file fallback)."""
+    import requests as http_requests
+    
     now = datetime.utcnow().isoformat() + "Z"
     saved_count = 0
     
-    # Try Supabase first
-    if supabase_client:
+    # Try Supabase REST API directly (more reliable than Python client)
+    supabase_url = os.getenv("SUPABASE_URL")
+    supabase_key = os.getenv("SUPABASE_SERVICE_KEY")
+    
+    if supabase_url and supabase_key:
         try:
             rows_to_upsert = []
             for company_name, review_data in request.reviews.items():
@@ -2336,17 +2341,31 @@ def save_project_reviews(project_id: str, request: SaveReviewsRequest) -> dict:
                 }
                 rows_to_upsert.append(row)
             
-            # Batch upsert all reviews at once
+            # Use REST API directly for upsert
             if rows_to_upsert:
-                supabase_client.table("reviews").upsert(rows_to_upsert).execute()
-                saved_count = len(rows_to_upsert)
-            
-            return {
-                "status": "saved",
-                "project_id": project_id,
-                "review_count": saved_count,
-                "source": "supabase",
-            }
+                headers = {
+                    "apikey": supabase_key,
+                    "Authorization": f"Bearer {supabase_key}",
+                    "Content-Type": "application/json",
+                    "Prefer": "resolution=merge-duplicates",
+                }
+                response = http_requests.post(
+                    f"{supabase_url}/rest/v1/reviews",
+                    headers=headers,
+                    json=rows_to_upsert,
+                    timeout=30,
+                )
+                
+                if response.status_code in [200, 201]:
+                    saved_count = len(rows_to_upsert)
+                    return {
+                        "status": "saved",
+                        "project_id": project_id,
+                        "review_count": saved_count,
+                        "source": "supabase",
+                    }
+                else:
+                    print(f"Supabase REST API error: {response.status_code} - {response.text[:500]}")
         except Exception as e:
             import traceback
             print(f"Supabase save error, falling back to file: {e}")
