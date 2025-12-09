@@ -231,14 +231,26 @@ export function useProjects(enabled: boolean = true) {
 
   // Track if we've already loaded to prevent double-fetching
   const hasLoaded = useRef(false);
+  
+  // Reset hasLoaded when enabled changes from false to true
+  useEffect(() => {
+    if (!enabled) {
+      hasLoaded.current = false;
+    }
+  }, [enabled]);
 
   // Load projects from backend API and legacy reports on mount
   useEffect(() => {
     // Don't load until enabled (e.g., auth is ready)
-    if (!enabled) return;
+    if (!enabled) {
+      return;
+    }
     
     // Prevent double-loading in React strict mode
-    if (hasLoaded.current) return;
+    if (hasLoaded.current) {
+      setIsLoading(false);
+      return;
+    }
     hasLoaded.current = true;
 
     const loadAllProjects = async () => {

@@ -213,22 +213,25 @@ export function useReviews(companies: CompanyData[] = [], projectId?: string) {
   
   // Track if this is the first render to avoid saving initial state
   const isInitialMount = useRef(true);
-  // Track if we've loaded from server
-  const hasLoadedFromServer = useRef(false);
+  // Track if we've loaded from server for this specific project
+  const loadedProjectId = useRef<string | null>(null);
   // Debounce timer for server saves
   const saveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   
   // Load reviews from server on mount (if projectId provided)
   useEffect(() => {
-    if (!projectId || hasLoadedFromServer.current) return;
+    // Skip if no projectId or already loaded for this project
+    if (!projectId || loadedProjectId.current === projectId) return;
     
     async function loadFromServer() {
       try {
+        console.log(`Loading reviews from server for project: ${projectId}`);
         const response = await fetch(`${getApiBaseUrl()}/projects/${projectId}/reviews`, {
           headers: getAuthHeaders(),
         });
         if (response.ok) {
           const data = await response.json();
+          console.log(`Reviews loaded from ${data.source}:`, Object.keys(data.reviews || {}).length);
           if (data.found && data.reviews && Object.keys(data.reviews).length > 0) {
             // Merge server reviews with local (server takes precedence)
             dispatch({ type: 'LOAD_REVIEWS', reviews: { ...state.reviews, ...data.reviews } });
@@ -241,7 +244,7 @@ export function useReviews(companies: CompanyData[] = [], projectId?: string) {
       } catch (e) {
         console.warn('Failed to load reviews from server, using local cache:', e);
       }
-      hasLoadedFromServer.current = true;
+      loadedProjectId.current = projectId;
     }
     
     loadFromServer();
