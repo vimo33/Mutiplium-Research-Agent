@@ -223,6 +223,10 @@ export function useReviews(companies: CompanyData[] = [], projectId?: string) {
     // Skip if no projectId or already loaded for this project
     if (!projectId || loadedProjectId.current === projectId) return;
     
+    // Set loadedProjectId IMMEDIATELY so saves can start working
+    // This prevents the race condition where user reviews before load completes
+    loadedProjectId.current = projectId;
+    
     async function loadFromServer() {
       try {
         console.log(`Loading reviews from server for project: ${projectId}`);
@@ -240,15 +244,61 @@ export function useReviews(companies: CompanyData[] = [], projectId?: string) {
               localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...state.reviews, ...data.reviews }));
             } catch {}
           }
+        } else {
+          console.warn(`Failed to load reviews: ${response.status}`);
         }
       } catch (e) {
         console.warn('Failed to load reviews from server, using local cache:', e);
       }
-      loadedProjectId.current = projectId || null;
     }
     
     loadFromServer();
   }, [projectId]);
+  
+  // Track pending saves for beforeunload
+  const pendingSaveRef = useRef<{ projectId: string; reviews: typeof state.reviews } | null>(null);
+  
+  // Helper function to save reviews to server
+  const saveToServer = useCallback(async (pid: string, reviews: typeof state.reviews) => {
+    try {
+      console.log(`Saving ${Object.keys(reviews).length} reviews to server for project: ${pid}`);
+      const response = await fetch(`${getApiBaseUrl()}/projects/${pid}/reviews`, {
+        method: 'PUT',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ reviews }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(`✅ Reviews saved to ${data.source}:`, data.review_count);
+        pendingSaveRef.current = null;
+      } else {
+        console.error('❌ Failed to save reviews:', response.status, await response.text());
+      }
+    } catch (e) {
+      console.error('❌ Failed to save reviews to server:', e);
+    }
+  }, []);
+  
+  // Handle page close - flush pending saves
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (pendingSaveRef.current) {
+        // Use fetch with keepalive for reliable saves on page close (supports headers unlike sendBeacon)
+        const { projectId: pid, reviews } = pendingSaveRef.current;
+        const url = `${getApiBaseUrl()}/projects/${pid}/reviews`;
+        fetch(url, {
+          method: 'PUT',
+          headers: getAuthHeaders(),
+          body: JSON.stringify({ reviews }),
+          keepalive: true, // Allows request to outlive the page
+        }).catch(() => {}); // Ignore errors on page close
+        console.log('Flushed pending reviews on page close');
+      }
+    };
+    
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, []);
   
   // Save to localStorage AND server on changes (debounced)
   useEffect(() => {
@@ -267,21 +317,17 @@ export function useReviews(companies: CompanyData[] = [], projectId?: string) {
     
     // Debounced save to server (if projectId provided and we've loaded for this project)
     if (projectId && loadedProjectId.current === projectId) {
+      // Track pending save for beforeunload
+      pendingSaveRef.current = { projectId, reviews: state.reviews };
+      
       if (saveTimeoutRef.current) {
         clearTimeout(saveTimeoutRef.current);
       }
       
-      saveTimeoutRef.current = setTimeout(async () => {
-        try {
-          await fetch(`${getApiBaseUrl()}/projects/${projectId}/reviews`, {
-            method: 'PUT',
-            headers: getAuthHeaders(),
-            body: JSON.stringify({ reviews: state.reviews }),
-          });
-        } catch (e) {
-          console.error('Failed to save reviews to server:', e);
-        }
-      }, 1000); // Debounce 1 second
+      // Reduced debounce to 500ms for more reliable saves
+      saveTimeoutRef.current = setTimeout(() => {
+        saveToServer(projectId, state.reviews);
+      }, 500);
     }
     
     return () => {
@@ -289,7 +335,7 @@ export function useReviews(companies: CompanyData[] = [], projectId?: string) {
         clearTimeout(saveTimeoutRef.current);
       }
     };
-  }, [state.reviews, projectId]);
+  }, [state.reviews, projectId, saveToServer]);
   
   // Initialize reviews for new companies (detect data quality issues)
   useEffect(() => {
