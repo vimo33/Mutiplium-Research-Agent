@@ -47,7 +47,7 @@ export type RunEvent = {
 // Review System Types
 // ============================================================================
 
-export type ReviewStatus = 'pending' | 'approved' | 'rejected' | 'maybe' | 'needs_review';
+export type ReviewStatus = 'pending' | 'approved' | 'rejected' | 'maybe';
 
 export type DataQualityFlag = 
   | 'missing_website' 

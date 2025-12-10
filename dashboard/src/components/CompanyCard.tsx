@@ -149,7 +149,6 @@ const reviewStatusConfig: Record<ReviewStatus, { icon: JSX.Element; variant: 'su
   approved: { icon: <ReviewCheckIcon />, variant: 'success' },
   rejected: { icon: <ReviewXIcon />, variant: 'danger' },
   maybe: { icon: <ReviewMaybeIcon />, variant: 'warning' },
-  needs_review: { icon: <span>!</span>, variant: 'default' },
 };
 
 // Field checks for missing data detection

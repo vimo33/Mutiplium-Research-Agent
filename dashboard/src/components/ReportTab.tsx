@@ -60,7 +60,6 @@ const statusConfig: Record<ReviewStatus, { label: string; variant: 'success' | '
   approved: { label: 'Approved', variant: 'success', icon: <CheckIcon /> },
   rejected: { label: 'Rejected', variant: 'danger', icon: <XIcon /> },
   maybe: { label: 'Maybe', variant: 'warning', icon: <QuestionIcon /> },
-  needs_review: { label: 'Needs Review', variant: 'default', icon: <span>!</span> },
 };
 
 type SortField = 'company' | 'segment' | 'status' | 'score' | 'confidence';
@@ -144,7 +143,7 @@ export function ReportTab({
           comparison = (a.segment || '').localeCompare(b.segment || '');
           break;
         case 'status':
-          const statusOrder = { approved: 1, maybe: 2, rejected: 3, pending: 4, needs_review: 5 };
+          const statusOrder = { approved: 1, maybe: 2, rejected: 3, pending: 4 };
           const statusA = reviewA?.status || 'pending';
           const statusB = reviewB?.status || 'pending';
           comparison = statusOrder[statusA] - statusOrder[statusB];

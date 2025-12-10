@@ -97,7 +97,7 @@ function reviewReducer(state: ReviewState, action: ReviewAction): ReviewState {
           [action.company]: {
             ...existing,
             dataFlags: flags,
-            status: flags.length > 0 ? 'needs_review' : existing.status,
+            // Don't change status - flags are separate from review status
           },
         },
       };
@@ -384,10 +384,9 @@ export function useReviews(companies: CompanyData[] = [], projectId?: string) {
         case 'status': {
           const statusOrder: Record<ReviewStatus, number> = {
             pending: 0,
-            needs_review: 1,
-            maybe: 2,
-            approved: 3,
-            rejected: 4,
+            maybe: 1,
+            approved: 2,
+            rejected: 3,
           };
           const statusA = reviewA?.status || 'pending';
           const statusB = reviewB?.status || 'pending';
