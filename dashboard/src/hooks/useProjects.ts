@@ -269,41 +269,49 @@ export function useProjects(enabled: boolean = true) {
         }
         
         // 2. Also fetch legacy reports
-        const { reports } = await listReports();
-        const legacyProjects: Project[] = [];
-        
-        if (reports && reports.length > 0) {
-          // Sort by total_companies (desc) then by timestamp (desc) to prioritize meaningful reports
-          const sortedReports = reports
-            .sort((a, b) => {
-              // First by company count (higher is better)
-              const companyDiff = (b.total_companies || 0) - (a.total_companies || 0);
-              if (companyDiff !== 0) return companyDiff;
-              // Then by timestamp
-              return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
-            });
+        let legacyProjects: Project[] = [];
+        try {
+          console.log('Fetching legacy reports...');
+          const { reports } = await listReports();
+          console.log(`Found ${reports?.length || 0} reports`);
           
-          const processedPaths = new Set<string>();
-          
-          for (const report of sortedReports) {
-            if (processedPaths.has(report.path)) continue;
-            processedPaths.add(report.path);
-            if (legacyProjects.length >= 50) break;
+          if (reports && reports.length > 0) {
+            // Sort by total_companies (desc) then by timestamp (desc) to prioritize meaningful reports
+            const sortedReports = reports
+              .sort((a, b) => {
+                // First by company count (higher is better)
+                const companyDiff = (b.total_companies || 0) - (a.total_companies || 0);
+                if (companyDiff !== 0) return companyDiff;
+                // Then by timestamp
+                return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+              });
             
-            try {
-              const reportData = await fetchReportData(report.path);
-              const project = reportToProject(report, reportData);
-              legacyProjects.push(project);
-            } catch (err) {
-              const project = reportToProject(report);
-              legacyProjects.push(project);
+            const processedPaths = new Set<string>();
+            
+            for (const report of sortedReports) {
+              if (processedPaths.has(report.path)) continue;
+              processedPaths.add(report.path);
+              if (legacyProjects.length >= 50) break;
+              
+              try {
+                const reportData = await fetchReportData(report.path);
+                const project = reportToProject(report, reportData);
+                legacyProjects.push(project);
+              } catch (err) {
+                const project = reportToProject(report);
+                legacyProjects.push(project);
+              }
             }
           }
+          console.log(`Processed ${legacyProjects.length} legacy projects`);
+        } catch (err) {
+          console.warn('Could not fetch legacy reports:', err);
         }
         
         // 3. Fetch archived state from server
         let archivedProjectIds = new Set<string>();
         try {
+          console.log('Fetching archived projects...');
           const archiveResponse = await fetch(`${getApiBaseUrl()}/projects/archived`, {
             headers: getAuthHeaders(),
           });
@@ -311,6 +319,7 @@ export function useProjects(enabled: boolean = true) {
             const archiveData = await archiveResponse.json();
             if (Array.isArray(archiveData.archived)) {
               archivedProjectIds = new Set(archiveData.archived.map((a: any) => a.project_id));
+              console.log(`Found ${archivedProjectIds.size} archived projects`);
             }
           }
         } catch (err) {
@@ -318,6 +327,7 @@ export function useProjects(enabled: boolean = true) {
         }
         
         // 4. Combine all projects (API first, then legacy) - NO localStorage merge
+        console.log(`Combining: ${apiProjects.length} API + ${legacyProjects.length} legacy projects`);
         const allProjects = [...apiProjects, ...legacyProjects];
         
         // Dedupe by ID AND reportPath, keeping first occurrence (API projects first)
@@ -342,6 +352,7 @@ export function useProjects(enabled: boolean = true) {
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         );
         
+        console.log(`✅ Loaded ${sortedProjects.length} projects (${archivedProjectIds.size} archived)`);
         setProjects(sortedProjects);
       } catch (err) {
         console.error('Failed to load projects:', err);
