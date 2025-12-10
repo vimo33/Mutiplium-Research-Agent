@@ -143,12 +143,14 @@ const ReviewMaybeIcon = () => (
   </svg>
 );
 
-// Review status config
-const reviewStatusConfig: Record<ReviewStatus, { icon: JSX.Element; variant: 'success' | 'danger' | 'warning' | 'default' }> = {
+// Review status config (with fallback for legacy statuses)
+const reviewStatusConfig: Record<string, { icon: JSX.Element; variant: 'success' | 'danger' | 'warning' | 'default' }> = {
   pending: { icon: <span>-</span>, variant: 'default' },
   approved: { icon: <ReviewCheckIcon />, variant: 'success' },
   rejected: { icon: <ReviewXIcon />, variant: 'danger' },
   maybe: { icon: <ReviewMaybeIcon />, variant: 'warning' },
+  // Fallback for legacy 'needs_review' status
+  needs_review: { icon: <span>-</span>, variant: 'default' },
 };
 
 // Field checks for missing data detection

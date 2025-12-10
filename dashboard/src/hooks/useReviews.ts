@@ -382,15 +382,16 @@ export function useReviews(companies: CompanyData[] = [], projectId?: string) {
         case 'name':
           return a.company.localeCompare(b.company);
         case 'status': {
-          const statusOrder: Record<ReviewStatus, number> = {
+          const statusOrder: Record<string, number> = {
             pending: 0,
+            needs_review: 0, // Legacy fallback - treat as pending
             maybe: 1,
             approved: 2,
             rejected: 3,
           };
           const statusA = reviewA?.status || 'pending';
           const statusB = reviewB?.status || 'pending';
-          return statusOrder[statusA] - statusOrder[statusB];
+          return (statusOrder[statusA] ?? 0) - (statusOrder[statusB] ?? 0);
         }
         case 'score':
           return (reviewB?.score ?? 0) - (reviewA?.score ?? 0);

@@ -54,12 +54,14 @@ const SortIcon = ({ direction }: { direction: 'asc' | 'desc' | null }) => (
   </svg>
 );
 
-// Status badge config
-const statusConfig: Record<ReviewStatus, { label: string; variant: 'success' | 'danger' | 'warning' | 'default'; icon: JSX.Element }> = {
+// Status badge config (with fallback for legacy statuses)
+const statusConfig: Record<string, { label: string; variant: 'success' | 'danger' | 'warning' | 'default'; icon: JSX.Element }> = {
   pending: { label: 'Pending', variant: 'default', icon: <span>-</span> },
   approved: { label: 'Approved', variant: 'success', icon: <CheckIcon /> },
   rejected: { label: 'Rejected', variant: 'danger', icon: <XIcon /> },
   maybe: { label: 'Maybe', variant: 'warning', icon: <QuestionIcon /> },
+  // Fallback for legacy 'needs_review' status - treat as pending
+  needs_review: { label: 'Pending', variant: 'default', icon: <span>-</span> },
 };
 
 type SortField = 'company' | 'segment' | 'status' | 'score' | 'confidence';

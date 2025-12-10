@@ -65,12 +65,14 @@ const WarningIcon = () => (
   </svg>
 );
 
-// Status badge colors
-const statusConfig: Record<ReviewStatus, { label: string; variant: 'success' | 'danger' | 'warning' | 'info' | 'default' }> = {
+// Status badge colors (with fallback for legacy statuses)
+const statusConfig: Record<string, { label: string; variant: 'success' | 'danger' | 'warning' | 'info' | 'default' }> = {
   pending: { label: 'Pending', variant: 'default' },
   approved: { label: 'Approved', variant: 'success' },
   rejected: { label: 'Rejected', variant: 'danger' },
   maybe: { label: 'Maybe', variant: 'warning' },
+  // Fallback for legacy 'needs_review' status - treat as pending
+  needs_review: { label: 'Pending', variant: 'default' },
 };
 
 // Flag labels
