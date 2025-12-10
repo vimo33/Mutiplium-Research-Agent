@@ -765,6 +765,35 @@ class ArchiveRequest(BaseModel):
     archivedAt: str | None = None
 
 
+@app.get("/projects/archived", dependencies=[Depends(verify_api_key)])
+def get_archived_projects() -> dict[str, list]:
+    """Get list of archived project IDs from Supabase."""
+    import httpx
+    
+    supabase_url = os.getenv("SUPABASE_URL")
+    supabase_key = os.getenv("SUPABASE_SERVICE_KEY")
+    
+    archived = []
+    
+    if supabase_url and supabase_key:
+        try:
+            headers = {
+                "apikey": supabase_key,
+                "Authorization": f"Bearer {supabase_key}",
+            }
+            with httpx.Client(timeout=30.0) as client:
+                response = client.get(
+                    f"{supabase_url}/rest/v1/archived_projects?select=project_id,archived_at",
+                    headers=headers,
+                )
+                if response.status_code == 200:
+                    archived = response.json()
+        except Exception as e:
+            print(f"Failed to fetch archived projects from Supabase: {e}")
+    
+    return {"archived": archived}
+
+
 @app.post("/projects/{project_id}/archive", dependencies=[Depends(verify_api_key)])
 def archive_project(project_id: str, request: ArchiveRequest) -> dict[str, object]:
     """Archive or unarchive a project (synced to Supabase for all partners)."""

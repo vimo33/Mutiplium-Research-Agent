@@ -173,15 +173,8 @@ function reportToProject(report: Report, reportData?: any): Project {
 }
 
 export function useProjects(enabled: boolean = true) {
-  const [projects, setProjects] = useState<Project[]>(() => {
-    try {
-      const stored = localStorage.getItem(PROJECTS_STORAGE_KEY);
-      return stored ? JSON.parse(stored) : [];
-    } catch {
-      return [];
-    }
-  });
-  
+  // Start with empty state - always load fresh from server
+  const [projects, setProjects] = useState<Project[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -308,54 +301,48 @@ export function useProjects(enabled: boolean = true) {
           }
         }
         
-        // 3. Merge all projects: API projects take priority, but preserve local state
-        setProjects(prev => {
-          // Build a map of local state to preserve (archived, reviews, etc.)
-          const localStateById = new Map<string, { archived?: boolean; archivedAt?: string }>();
-          const localStateByPath = new Map<string, { archived?: boolean; archivedAt?: string }>();
-          
-          prev.forEach(p => {
-            const state = { archived: p.archived, archivedAt: p.archivedAt };
-            localStateById.set(p.id, state);
-            if (p.reportPath) {
-              localStateByPath.set(p.reportPath, state);
-            }
+        // 3. Fetch archived state from server
+        let archivedProjectIds = new Set<string>();
+        try {
+          const archiveResponse = await fetch(`${getApiBaseUrl()}/projects/archived`, {
+            headers: getAuthHeaders(),
           });
-          
-          // Merge local state into new projects
-          const mergeLocalState = (project: Project): Project => {
-            const stateById = localStateById.get(project.id);
-            const stateByPath = project.reportPath ? localStateByPath.get(project.reportPath) : undefined;
-            const localState = stateById || stateByPath;
-            
-            if (localState && localState.archived) {
-              return { ...project, archived: localState.archived, archivedAt: localState.archivedAt };
+          if (archiveResponse.ok) {
+            const archiveData = await archiveResponse.json();
+            if (Array.isArray(archiveData.archived)) {
+              archivedProjectIds = new Set(archiveData.archived.map((a: any) => a.project_id));
             }
-            return project;
-          };
-          
-          const allProjects = [
-            ...apiProjects.map(mergeLocalState),
-            ...legacyProjects.map(mergeLocalState),
-            ...prev
-          ];
-          
-          // Dedupe by ID AND reportPath, keeping first occurrence (API projects first)
-          const seenIds = new Set<string>();
-          const seenPaths = new Set<string>();
-          const deduped = allProjects.filter(p => {
-            if (seenIds.has(p.id)) return false;
-            if (p.reportPath && seenPaths.has(p.reportPath)) return false;
-            seenIds.add(p.id);
-            if (p.reportPath) seenPaths.add(p.reportPath);
-            return true;
-          });
-          
-          // Sort by createdAt descending
-          return deduped.sort((a, b) => 
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-          );
+          }
+        } catch (err) {
+          console.warn('Could not fetch archived state:', err);
+        }
+        
+        // 4. Combine all projects (API first, then legacy) - NO localStorage merge
+        const allProjects = [...apiProjects, ...legacyProjects];
+        
+        // Dedupe by ID AND reportPath, keeping first occurrence (API projects first)
+        const seenIds = new Set<string>();
+        const seenPaths = new Set<string>();
+        const deduped = allProjects.filter(p => {
+          if (seenIds.has(p.id)) return false;
+          if (p.reportPath && seenPaths.has(p.reportPath)) return false;
+          seenIds.add(p.id);
+          if (p.reportPath) seenPaths.add(p.reportPath);
+          return true;
         });
+        
+        // Apply archived state from server
+        const projectsWithArchiveState = deduped.map(p => ({
+          ...p,
+          archived: archivedProjectIds.has(p.id),
+        }));
+        
+        // Sort by createdAt descending
+        const sortedProjects = projectsWithArchiveState.sort((a, b) => 
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+        
+        setProjects(sortedProjects);
       } catch (err) {
         console.error('Failed to load projects:', err);
         setError(err instanceof Error ? err.message : 'Failed to load projects');
@@ -367,9 +354,15 @@ export function useProjects(enabled: boolean = true) {
     loadAllProjects();
   }, [enabled, apiProjectToProject]);
 
-  // Persist to localStorage whenever projects change
+  // Cache to localStorage (secondary, server is source of truth)
   useEffect(() => {
-    localStorage.setItem(PROJECTS_STORAGE_KEY, JSON.stringify(projects));
+    if (projects.length > 0) {
+      try {
+        localStorage.setItem(PROJECTS_STORAGE_KEY, JSON.stringify(projects));
+      } catch {
+        // Ignore localStorage errors
+      }
+    }
   }, [projects]);
 
   // Get active (non-archived) projects sorted by date descending
