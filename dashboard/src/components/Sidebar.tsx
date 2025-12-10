@@ -161,16 +161,6 @@ export function Sidebar({
         </ul>
       </nav>
 
-      {/* Stats Summary (when projects exist) */}
-      {reviewPendingCount > 0 && (
-        <div className="sidebar__stats">
-          <div className="sidebar__stat">
-            <span className="sidebar__stat-value">{reviewPendingCount}</span>
-            <span className="sidebar__stat-label">Pending Reviews</span>
-          </div>
-        </div>
-      )}
-
       {/* Admin Section */}
       <div className="sidebar__admin">
         <div className="sidebar__section-divider">

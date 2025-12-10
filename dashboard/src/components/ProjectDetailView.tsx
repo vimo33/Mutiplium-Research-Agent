@@ -72,6 +72,13 @@ const ListIcon = () => (
   </svg>
 );
 
+const TableIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <rect x="2" y="2" width="14" height="14" rx="2" />
+    <path d="M2 6h14M2 10h14M2 14h14M6 2v14M12 2v14" />
+  </svg>
+);
+
 const DownloadIcon = () => (
   <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.5">
     <path d="M9 3v9m0 0l-3-3m3 3l3-3M3 15h12" strokeLinecap="round" strokeLinejoin="round" />
@@ -94,8 +101,10 @@ export function ProjectDetailView({
   const [selectedCompany, setSelectedCompany] = useState<CompanyData | null>(null);
   const [compareList, setCompareList] = useState<string[]>([]);
   const [showCompareView, setShowCompareView] = useState(false);
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [viewMode, setViewMode] = useState<'grid' | 'list' | 'table'>('grid');
   const [showShortlistedOnly, setShowShortlistedOnly] = useState(false);
+  const [segmentFilter, setSegmentFilter] = useState<string>('all');
+  const [countryFilter, setCountryFilter] = useState<string>('all');
   const [contextPopup, setContextPopup] = useState<ContextPopupType>(null);
   const [projectCost, setProjectCost] = useState<ProjectCost | null>(null);
 
@@ -184,6 +193,23 @@ export function ProjectDetailView({
 
   const reviewsHook = useReviews(segmentFilteredCompanies, project.id);
 
+  // Get unique segments and countries for filters
+  const uniqueSegments = useMemo(() => {
+    const segments = new Set<string>();
+    segmentFilteredCompanies.forEach(c => {
+      if (c.segment) segments.add(c.segment);
+    });
+    return Array.from(segments).sort();
+  }, [segmentFilteredCompanies]);
+
+  const uniqueCountries = useMemo(() => {
+    const countries = new Set<string>();
+    segmentFilteredCompanies.forEach(c => {
+      if (c.country) countries.add(c.country);
+    });
+    return Array.from(countries).sort();
+  }, [segmentFilteredCompanies]);
+
   // Filter companies
   const filteredCompanies = useMemo(() => {
     let result = segmentFilteredCompanies;
@@ -198,13 +224,23 @@ export function ProjectDetailView({
       );
     }
 
+    // Segment filter
+    if (segmentFilter !== 'all') {
+      result = result.filter(c => c.segment === segmentFilter);
+    }
+
+    // Country filter
+    if (countryFilter !== 'all') {
+      result = result.filter(c => c.country === countryFilter);
+    }
+
     // Shortlisted only
     if (showShortlistedOnly) {
       result = result.filter(c => shortlistedCompanies.includes(c.company));
     }
 
     return result;
-  }, [segmentFilteredCompanies, searchQuery, showShortlistedOnly, shortlistedCompanies]);
+  }, [segmentFilteredCompanies, searchQuery, segmentFilter, countryFilter, showShortlistedOnly, shortlistedCompanies]);
 
   // Compute which companies appear in multiple value chain segments
   const companySegmentMap = useMemo(() => {
@@ -465,6 +501,30 @@ export function ProjectDetailView({
                 />
               </div>
 
+              {/* Filters */}
+              <div className="project-detail__filters">
+                <select
+                  className="project-detail__filter-select"
+                  value={segmentFilter}
+                  onChange={(e) => setSegmentFilter(e.target.value)}
+                >
+                  <option value="all">All Segments</option>
+                  {uniqueSegments.map(seg => (
+                    <option key={seg} value={seg}>{seg}</option>
+                  ))}
+                </select>
+                <select
+                  className="project-detail__filter-select"
+                  value={countryFilter}
+                  onChange={(e) => setCountryFilter(e.target.value)}
+                >
+                  <option value="all">All Countries</option>
+                  {uniqueCountries.map(c => (
+                    <option key={c} value={c}>{c}</option>
+                  ))}
+                </select>
+              </div>
+
               <Toggle
                 label="Shortlisted only"
                 checked={showShortlistedOnly}
@@ -476,14 +536,23 @@ export function ProjectDetailView({
                 <button
                   className={`project-detail__view-btn ${viewMode === 'grid' ? 'project-detail__view-btn--active' : ''}`}
                   onClick={() => setViewMode('grid')}
+                  title="Grid view"
                 >
                   <GridIcon />
                 </button>
                 <button
                   className={`project-detail__view-btn ${viewMode === 'list' ? 'project-detail__view-btn--active' : ''}`}
                   onClick={() => setViewMode('list')}
+                  title="List view"
                 >
                   <ListIcon />
+                </button>
+                <button
+                  className={`project-detail__view-btn ${viewMode === 'table' ? 'project-detail__view-btn--active' : ''}`}
+                  onClick={() => setViewMode('table')}
+                  title="Table view"
+                >
+                  <TableIcon />
                 </button>
               </div>
 
@@ -508,8 +577,8 @@ export function ProjectDetailView({
             </div>
           )}
 
-          {/* Companies Tab */}
-          {!loading && !error && activeTab === 'companies' && (
+          {/* Companies Tab - Grid/List View */}
+          {!loading && !error && activeTab === 'companies' && viewMode !== 'table' && (
             <div className={`project-detail__companies project-detail__companies--${viewMode}`}>
               {filteredCompanies.length === 0 ? (
                 <div className="project-detail__empty">
@@ -530,6 +599,91 @@ export function ProjectDetailView({
                     reviewStatus={reviewsHook.getReview(company.company)?.status}
                   />
                 ))
+              )}
+            </div>
+          )}
+
+          {/* Companies Tab - Table View */}
+          {!loading && !error && activeTab === 'companies' && viewMode === 'table' && (
+            <div className="project-detail__table-container">
+              {filteredCompanies.length === 0 ? (
+                <div className="project-detail__empty">
+                  <p>No companies found</p>
+                </div>
+              ) : (
+                <table className="project-detail__table">
+                  <thead>
+                    <tr>
+                      <th>Company</th>
+                      <th>Segment</th>
+                      <th>Country</th>
+                      <th>Confidence</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredCompanies.map((company, index) => {
+                      const review = reviewsHook.getReview(company.company);
+                      const status = review?.status || 'pending';
+                      const isShortlisted = shortlistedCompanies.includes(company.company);
+                      
+                      return (
+                        <tr
+                          key={`${company.company}-${index}`}
+                          className={`project-detail__table-row ${selectedCompany?.company === company.company ? 'project-detail__table-row--selected' : ''}`}
+                          onClick={() => setSelectedCompany(company)}
+                        >
+                          <td className="project-detail__table-company">
+                            <span className="project-detail__table-name">{company.company}</span>
+                            {company.website && (
+                              <a 
+                                href={company.website} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="project-detail__table-link"
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                ↗
+                              </a>
+                            )}
+                          </td>
+                          <td>{company.segment || '-'}</td>
+                          <td>{company.country || '-'}</td>
+                          <td>
+                            {company.confidence_0to1 
+                              ? `${Math.round(company.confidence_0to1 * 100)}%`
+                              : '-'}
+                          </td>
+                          <td>
+                            <Badge 
+                              variant={status === 'approved' ? 'success' : status === 'rejected' ? 'danger' : status === 'maybe' ? 'warning' : 'default'}
+                              size="sm"
+                            >
+                              {status}
+                            </Badge>
+                          </td>
+                          <td className="project-detail__table-actions">
+                            <button
+                              className={`project-detail__table-action ${isShortlisted ? 'project-detail__table-action--active' : ''}`}
+                              onClick={(e) => { e.stopPropagation(); onToggleShortlist(company.company); }}
+                              title={isShortlisted ? 'Remove from shortlist' : 'Add to shortlist'}
+                            >
+                              ★
+                            </button>
+                            <button
+                              className={`project-detail__table-action ${compareList.includes(company.company) ? 'project-detail__table-action--active' : ''}`}
+                              onClick={(e) => { e.stopPropagation(); toggleCompare(company.company); }}
+                              title="Compare"
+                            >
+                              ⊕
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
               )}
             </div>
           )}

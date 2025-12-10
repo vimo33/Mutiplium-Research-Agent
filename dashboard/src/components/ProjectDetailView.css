@@ -257,6 +257,131 @@
   gap: 8px;
 }
 
+/* Filters */
+.project-detail__filters {
+  display: flex;
+  gap: 8px;
+}
+
+.project-detail__filter-select {
+  padding: 6px 12px;
+  border: 1px solid var(--slate-200);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  color: var(--color-text-primary);
+  font-size: 13px;
+  cursor: pointer;
+  min-width: 130px;
+}
+
+.project-detail__filter-select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary-alpha);
+}
+
+/* Table View */
+.project-detail__table-container {
+  flex: 1;
+  margin: 16px 24px 24px;
+  overflow: auto;
+  border: 1px solid var(--slate-200);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+}
+
+.project-detail__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.project-detail__table thead {
+  position: sticky;
+  top: 0;
+  background: var(--slate-50);
+  z-index: 1;
+}
+
+.project-detail__table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  border-bottom: 1px solid var(--slate-200);
+  white-space: nowrap;
+}
+
+.project-detail__table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--slate-100);
+  color: var(--color-text-primary);
+}
+
+.project-detail__table-row {
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.project-detail__table-row:hover {
+  background: var(--slate-50);
+}
+
+.project-detail__table-row--selected {
+  background: var(--color-primary-alpha);
+}
+
+.project-detail__table-company {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.project-detail__table-name {
+  font-weight: 500;
+}
+
+.project-detail__table-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.project-detail__table-link:hover {
+  opacity: 1;
+}
+
+.project-detail__table-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.project-detail__table-action {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--slate-200);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+  color: var(--slate-400);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.project-detail__table-action:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.project-detail__table-action--active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--white);
+}
+
 /* Review */
 .project-detail__review {
   flex: 1;

@@ -58,9 +58,14 @@
 .report-tab__toolbar {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
   gap: 1rem;
   flex-wrap: wrap;
+}
+
+.report-tab__toolbar .search-input {
+  flex: 1;
+  min-width: 200px;
+  max-width: 300px;
 }
 
 .report-tab__filters {
@@ -116,20 +121,30 @@
 }
 
 /* Column widths for better alignment */
-.report-tab__table th:nth-child(1) { width: 25%; } /* Company */
-.report-tab__table th:nth-child(2) { width: 20%; } /* Segment */
-.report-tab__table th:nth-child(3) { width: 10%; } /* Country */
-.report-tab__table th:nth-child(4) { width: 12%; } /* Status */
-.report-tab__table th:nth-child(5) { width: 8%; }  /* Score */
-.report-tab__table th:nth-child(6) { width: 10%; } /* Confidence */
-.report-tab__table th:nth-child(7) { width: 15%; } /* Notes */
+.report-tab__table th:nth-child(1),
+.report-tab__table td:nth-child(1) { width: 22%; min-width: 180px; } /* Company */
+.report-tab__table th:nth-child(2),
+.report-tab__table td:nth-child(2) { width: 15%; min-width: 120px; } /* Segment */
+.report-tab__table th:nth-child(3),
+.report-tab__table td:nth-child(3) { width: 10%; min-width: 80px; }  /* Country */
+.report-tab__table th:nth-child(4),
+.report-tab__table td:nth-child(4) { width: 12%; min-width: 100px; } /* Status */
+.report-tab__table th:nth-child(5),
+.report-tab__table td:nth-child(5) { width: 8%; min-width: 70px; }   /* Score */
+.report-tab__table th:nth-child(6),
+.report-tab__table td:nth-child(6) { width: 10%; min-width: 90px; }  /* Confidence */
+.report-tab__table th:nth-child(7),
+.report-tab__table td:nth-child(7) { width: 23%; }                   /* Notes */
 
 .report-tab__th--sortable {
   cursor: pointer;
   user-select: none;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+}
+
+.report-tab__th--sortable svg {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 4px;
 }
 
 .report-tab__th--sortable:hover {
