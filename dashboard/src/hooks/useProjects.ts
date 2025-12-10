@@ -467,7 +467,7 @@ export function useProjects(enabled: boolean = true) {
     ));
   }, []);
 
-  // Archive project
+  // Archive project (local + Supabase)
   const archiveProject = useCallback((id: string) => {
     const now = new Date().toISOString();
     setProjects(prev => prev.map(p =>
@@ -475,15 +475,30 @@ export function useProjects(enabled: boolean = true) {
         ? { ...p, archived: true, archivedAt: now, updatedAt: now }
         : p
     ));
+    
+    // Sync to backend/Supabase
+    fetch(`${getApiBaseUrl()}/projects/${id}/archive`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ archived: true, archivedAt: now }),
+    }).catch(err => console.error('Failed to sync archive status:', err));
   }, []);
 
-  // Unarchive project
+  // Unarchive project (local + Supabase)
   const unarchiveProject = useCallback((id: string) => {
+    const now = new Date().toISOString();
     setProjects(prev => prev.map(p =>
       p.id === id
-        ? { ...p, archived: false, archivedAt: undefined, updatedAt: new Date().toISOString() }
+        ? { ...p, archived: false, archivedAt: undefined, updatedAt: now }
         : p
     ));
+    
+    // Sync to backend/Supabase
+    fetch(`${getApiBaseUrl()}/projects/${id}/archive`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ archived: false }),
+    }).catch(err => console.error('Failed to sync unarchive status:', err));
   }, []);
 
   // Delete project permanently

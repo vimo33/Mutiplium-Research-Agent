@@ -279,22 +279,40 @@
 
 /* Missing Data Indicator */
 .company-card__missing-data {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 4px 8px;
+  justify-content: center;
+  padding: 4px;
   background: var(--color-warning-soft);
   border: 1px solid var(--color-warning);
   border-radius: var(--radius-sm);
-  font-size: 11px;
-  font-weight: 500;
   color: var(--color-warning);
   cursor: help;
 }
 
 .company-card__missing-data svg {
   flex-shrink: 0;
+  width: 14px;
+  height: 14px;
   color: var(--color-warning);
+}
+
+.company-card__missing-count {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 14px;
+  height: 14px;
+  padding: 0 3px;
+  background: var(--color-warning);
+  border-radius: 7px;
+  font-size: 9px;
+  font-weight: 600;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Hover effects */

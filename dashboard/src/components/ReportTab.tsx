@@ -1,22 +1,15 @@
 import { useMemo, useState } from 'react';
 import type { CompanyData } from './CompanyCard';
 import type { CompanyReview, ReviewStatus } from '../types';
-import { Badge, Button, SearchInput } from './ui';
+import { Badge } from './ui';
 import './ReportTab.css';
 
 interface ReportTabProps {
   companies: CompanyData[];
   getReview: (company: string) => CompanyReview | undefined;
-  onExportCSV: () => void;
+  onExportCSV?: () => void; // Made optional since not used in UI anymore
   onSelectCompany?: (company: CompanyData) => void;
 }
-
-// Icons
-const DownloadIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-    <path d="M8 2v8m0 0l-3-3m3 3l3-3M2 14h12" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
 
 const CheckIcon = () => (
   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2">
@@ -70,10 +63,8 @@ type FilterStatus = 'all' | 'reviewed' | ReviewStatus;
 export function ReportTab({
   companies,
   getReview,
-  onExportCSV,
   onSelectCompany,
 }: ReportTabProps) {
-  const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState<FilterStatus>('all');
   const [sortField, setSortField] = useState<SortField>('score');
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
@@ -107,16 +98,6 @@ export function ReportTab({
   // Filter and sort companies
   const filteredCompanies = useMemo(() => {
     let result = [...companies];
-
-    // Search filter
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      result = result.filter(c =>
-        c.company.toLowerCase().includes(query) ||
-        c.segment?.toLowerCase().includes(query) ||
-        c.country?.toLowerCase().includes(query)
-      );
-    }
 
     // Status filter
     if (filterStatus !== 'all') {
@@ -161,7 +142,7 @@ export function ReportTab({
     });
 
     return result;
-  }, [companies, searchQuery, filterStatus, sortField, sortDirection, getReview]);
+  }, [companies, filterStatus, sortField, sortDirection, getReview]);
 
   // Handle sort click
   const handleSort = (field: SortField) => {
@@ -217,15 +198,8 @@ export function ReportTab({
         </div>
       </div>
 
-      {/* Toolbar */}
+      {/* Toolbar - filters only */}
       <div className="report-tab__toolbar">
-        <SearchInput
-          placeholder="Search companies..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          onClear={() => setSearchQuery('')}
-        />
-
         <div className="report-tab__filters">
           <select
             className="report-tab__select"
@@ -240,11 +214,6 @@ export function ReportTab({
             <option value="pending">Pending</option>
           </select>
         </div>
-
-        <Button variant="primary" size="sm" onClick={onExportCSV}>
-          <DownloadIcon />
-          Export CSV
-        </Button>
       </div>
 
       {/* Table */}

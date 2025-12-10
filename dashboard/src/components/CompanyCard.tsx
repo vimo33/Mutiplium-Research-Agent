@@ -317,7 +317,7 @@ export function CompanyCard({
         {missingCount > 0 && (
           <div className="company-card__missing-data" title={`${missingCount} field${missingCount > 1 ? 's' : ''} missing`}>
             <WarningIcon />
-            <span>{missingCount} missing</span>
+            <span className="company-card__missing-count">{missingCount}</span>
           </div>
         )}
         <button 

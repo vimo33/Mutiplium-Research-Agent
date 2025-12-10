@@ -752,11 +752,76 @@ def delete_project(project_id: str) -> dict[str, str]:
     projects = load_projects()
     if project_id not in projects:
         raise HTTPException(status_code=404, detail="Project not found")
-    
+
     del projects[project_id]
     save_projects(projects)
-    
+
     return {"status": "deleted"}
+
+
+class ArchiveRequest(BaseModel):
+    """Request to archive/unarchive a project."""
+    archived: bool
+    archivedAt: str | None = None
+
+
+@app.post("/projects/{project_id}/archive", dependencies=[Depends(verify_api_key)])
+def archive_project(project_id: str, request: ArchiveRequest) -> dict[str, object]:
+    """Archive or unarchive a project (synced to Supabase for all partners)."""
+    import httpx
+    from datetime import datetime
+    
+    now = datetime.utcnow().isoformat() + "Z"
+    
+    # Update local projects storage
+    projects = load_projects()
+    if project_id in projects:
+        projects[project_id]["archived"] = request.archived
+        projects[project_id]["archived_at"] = request.archivedAt if request.archived else None
+        projects[project_id]["updated_at"] = now
+        save_projects(projects)
+    
+    # Sync to Supabase archived_projects table
+    supabase_url = os.getenv("SUPABASE_URL")
+    supabase_key = os.getenv("SUPABASE_SERVICE_KEY")
+    
+    if supabase_url and supabase_key:
+        try:
+            headers = {
+                "apikey": supabase_key,
+                "Authorization": f"Bearer {supabase_key}",
+                "Content-Type": "application/json",
+                "Prefer": "resolution=merge-duplicates",
+            }
+            
+            if request.archived:
+                # Add to archived_projects table
+                data = {
+                    "project_id": project_id,
+                    "archived_at": request.archivedAt or now,
+                    "updated_at": now,
+                }
+                with httpx.Client(timeout=30.0) as client:
+                    client.post(
+                        f"{supabase_url}/rest/v1/archived_projects?on_conflict=project_id",
+                        headers=headers,
+                        json=data,
+                    )
+            else:
+                # Remove from archived_projects table
+                with httpx.Client(timeout=30.0) as client:
+                    client.delete(
+                        f"{supabase_url}/rest/v1/archived_projects?project_id=eq.{project_id}",
+                        headers=headers,
+                    )
+        except Exception as e:
+            print(f"Failed to sync archive status to Supabase: {e}")
+    
+    return {
+        "status": "archived" if request.archived else "unarchived",
+        "project_id": project_id,
+        "archived": request.archived,
+    }
 
 
 @app.post("/projects/{project_id}/enrich-brief", dependencies=[Depends(verify_api_key)])

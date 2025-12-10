@@ -453,44 +453,46 @@ export function ProjectDetailView({
       <div className="project-detail__content">
         {/* Main Area - Full Width */}
         <div className="project-detail__main project-detail__main--full">
-          {/* Toolbar */}
-          <div className="project-detail__toolbar">
-            <div className="project-detail__search">
-              <SearchInput
-                placeholder="Search companies..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onClear={() => setSearchQuery('')}
+          {/* Toolbar - only show search/shortlist/export for companies tab */}
+          {activeTab === 'companies' && (
+            <div className="project-detail__toolbar">
+              <div className="project-detail__search">
+                <SearchInput
+                  placeholder="Search companies..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onClear={() => setSearchQuery('')}
+                />
+              </div>
+
+              <Toggle
+                label="Shortlisted only"
+                checked={showShortlistedOnly}
+                onChange={(e) => setShowShortlistedOnly(e.target.checked)}
+                size="sm"
               />
+
+              <div className="project-detail__view-toggle">
+                <button
+                  className={`project-detail__view-btn ${viewMode === 'grid' ? 'project-detail__view-btn--active' : ''}`}
+                  onClick={() => setViewMode('grid')}
+                >
+                  <GridIcon />
+                </button>
+                <button
+                  className={`project-detail__view-btn ${viewMode === 'list' ? 'project-detail__view-btn--active' : ''}`}
+                  onClick={() => setViewMode('list')}
+                >
+                  <ListIcon />
+                </button>
+              </div>
+
+              <Button variant="secondary" size="sm" onClick={exportCSV}>
+                <DownloadIcon />
+                Export
+              </Button>
             </div>
-
-            <Toggle
-              label="Shortlisted only"
-              checked={showShortlistedOnly}
-              onChange={(e) => setShowShortlistedOnly(e.target.checked)}
-              size="sm"
-            />
-
-            <div className="project-detail__view-toggle">
-              <button
-                className={`project-detail__view-btn ${viewMode === 'grid' ? 'project-detail__view-btn--active' : ''}`}
-                onClick={() => setViewMode('grid')}
-              >
-                <GridIcon />
-              </button>
-              <button
-                className={`project-detail__view-btn ${viewMode === 'list' ? 'project-detail__view-btn--active' : ''}`}
-                onClick={() => setViewMode('list')}
-              >
-                <ListIcon />
-              </button>
-            </div>
-
-            <Button variant="secondary" size="sm" onClick={exportCSV}>
-              <DownloadIcon />
-              Export
-            </Button>
-          </div>
+          )}
 
           {/* Loading / Error */}
           {loading && (
