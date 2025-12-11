@@ -104,15 +104,18 @@ export function ProjectCard({ project, onSelect, onReview, onArchive, onUnarchiv
   useEffect(() => {
     let cancelled = false;
     
-    fetchProjectCost(project.id)
-      .then((data) => {
-        if (!cancelled) {
-          setCost(data.total_cost);
-        }
-      })
-      .catch(() => {
-        // Ignore errors - cost display is optional
-      });
+    // Skip legacy/imported projects that don't exist in the API
+    if (!project.id.startsWith('legacy_')) {
+      fetchProjectCost(project.id)
+        .then((data) => {
+          if (!cancelled) {
+            setCost(data.total_cost);
+          }
+        })
+        .catch(() => {
+          // Ignore errors - cost display is optional
+        });
+    }
     
     return () => {
       cancelled = true;
