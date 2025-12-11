@@ -7,12 +7,10 @@ import type {
   ValueChainSegment,
 } from '../../types';
 import type { ChatArtifacts } from '../../hooks';
+import { getApiBaseUrl, getAuthHeaders } from '../../api';
 import { ChatWizard } from './ChatWizard';
 import { FrameworkStep } from './FrameworkStep';
 import './NewResearchWizard.css';
-
-// API base URL
-const API_BASE = 'http://localhost:8000';
 
 type WizardStep = 'setup' | 'chat' | 'framework';
 
@@ -56,9 +54,9 @@ export function NewResearchWizard({ onComplete, onCancel }: NewResearchWizardPro
   const handleSetupComplete = async () => {
     // Create project in backend first
     try {
-      const response = await fetch(`${API_BASE}/projects`, {
+      const response = await fetch(`${getApiBaseUrl()}/projects`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: getAuthHeaders(),
         body: JSON.stringify({
           client_name: clientName,
           project_name: projectName,
@@ -113,9 +111,9 @@ export function NewResearchWizard({ onComplete, onCancel }: NewResearchWizardPro
     // Start the discovery run via API
     if (projectId) {
       try {
-        const response = await fetch(`${API_BASE}/projects/${projectId}/start-discovery`, {
+        const response = await fetch(`${getApiBaseUrl()}/projects/${projectId}/start-discovery`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: getAuthHeaders(),
           body: JSON.stringify({
             framework: {
               thesis: framework.thesis,
